@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: s2mdalle $
- * $Revision: 1.4 $
- * $Date: 2000/12/26 22:48:12 $
+ * $Author: jgoerzen $
+ * $Revision: 1.5 $
+ * $Date: 2001/01/17 21:16:35 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/GSgopherobj.c,v $
  * $State: Exp $
  *
@@ -15,7 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: GSgopherobj.c,v $
+ * Revision 1.5  2001/01/17 21:16:35  jgoerzen
+ * More psinrtf -> snprintf changes
+ *
  * Revision 1.4  2000/12/26 22:48:12  s2mdalle
+ *
  * Changed GSsendHeader(int, int) => GSsendHeader(int, long) because the
  * second argument is often the file size, and an int may not be
  * sufficient depending on platform.  Most calls use canned values of -1
@@ -622,7 +626,7 @@ GStoNetURL(GopherObj *gs, char *url,  char *ticket)
 
 	  if (ftppath != NULL)
 	  {
-	       sprintf(url, "ftp://%.*s/", ftppath-ftphost, ftphost);
+	       sprintf(url, "ftp://%.*s/", (int) (ftppath - ftphost), ftphost);
 	       
 	       ftppath++;
 
@@ -824,9 +828,9 @@ GSaddView(GopherObj *gs, char *view, char *language, int estsize)
      VIewobj *temp;
 
      if (estsize > 960)
-	  sprintf(tmpstr, "%dk", (estsize + 512)/1024);
+	  snprintf(tmpstr, sizeof(tmpstr), "%dk", (estsize + 512)/1024);
      else
-      	  sprintf(tmpstr, ".%dk", ((estsize+64)*10)/1024);
+      	  snprintf(tmpstr, sizeof(tmpstr), ".%dk", ((estsize+64)*10)/1024);
 
      temp = VInew();
 
@@ -891,12 +895,14 @@ GStoNet(GopherObj *gs, int sockfd, GSformat fmt, char *ticket)
 	       if (strcasecmp(BLgetName(bl), "ONLYHTML")==0)
 		    return;
 	  }
-	  sprintf(buf + 1, "%s\t%s%s\t%s\t%d",
-		  GSgetTitle(gs) ? GSgetTitle(gs) : nullword,
-		  ticket         ? ticket : nullword,
-		  GSgetPath(gs)  ? GSgetPath(gs) : nullword,
-		  GSgetHost(gs)  ? GSgetHost(gs) : nullword,
-		  GSgetPort(gs));
+	  snprintf(buf + 1, 
+		   sizeof(buf) - 1,
+		   "%s\t%s%s\t%s\t%d",
+		   GSgetTitle(gs) ? GSgetTitle(gs) : nullword,
+		   ticket         ? ticket : nullword,
+		   GSgetPath(gs)  ? GSgetPath(gs) : nullword,
+		   GSgetHost(gs)  ? GSgetHost(gs) : nullword,
+		   GSgetPort(gs));
 	  
 	  if (GSisAsk(gs))
 	       strcat(buf, "\t?\r\n");
@@ -931,7 +937,8 @@ GStoNet(GopherObj *gs, int sockfd, GSformat fmt, char *ticket)
 	  GStoNetURL(gs, url, ticket);
 	  if (url[0] == '\0')
 	       return;
-	  sprintf(buf, "<A HREF=\"%s\">%s</A>\r\n", url, GSgetTitle(gs));
+	  snprintf(buf, sizeof(buf),
+		   "<A HREF=\"%s\">%s</A>\r\n", url, GSgetTitle(gs));
 	  writestring(sockfd, buf);
 
 	  if (GSgplusInited(gs)) {
@@ -946,7 +953,8 @@ GStoNet(GopherObj *gs, int sockfd, GSformat fmt, char *ticket)
 	  }
 
 	  if (GSgetWeight(gs) != 0) {
-	       sprintf(buf, "<DD>Score: %d\r\n", GSgetWeight(gs));
+	       snprintf(buf, sizeof(buf),
+			"<DD>Score: %d\r\n", GSgetWeight(gs));
 	       writestring(sockfd, buf);
 	  }
      }
@@ -1013,7 +1021,7 @@ GSplustoNet(GopherObj *gs, int sockfd, char **filter, char *ticket)
 	       writestring(sockfd, GSgetModDate(gs));
 	       if (GSgetTTL(gs) > -1) {
 		    writestring(sockfd, "\r\n TTL: ");
-		    sprintf(tmpstr, "%d", GSgetTTL(gs));
+		    snprintf(tmpstr, sizeof(tmpstr), "%d", GSgetTTL(gs));
 		    writestring(sockfd, tmpstr);
 	       }
 	       writestring(sockfd, "\r\n");
@@ -1537,7 +1545,7 @@ GSsendHeader(int sockfd, long size)
 {
      char sizestr[64];
 
-     sprintf(sizestr, "+%ld\r\n", size);
+     snprintf(sizestr, sizeof(sizestr), "+%ld\r\n", size);
      writestring(sockfd, sizestr);
 }
 
@@ -1548,7 +1556,7 @@ GSsendErrorHeader(GopherObj *gs, int sockfd, int errortype, char *errormsg)
 {
      char tmpstr[512];
 
-     sprintf(tmpstr, "-%d %s\r\n", errortype, errormsg);
+     snprintf(tmpstr, sizeof(tmpstr), "-%d %s\r\n", errortype, errormsg);
      writestring(sockfd, tmpstr);
 }
 
@@ -1893,7 +1901,7 @@ GSfromURL(GopherObj *gs, char *urltxt, char *host, int port, int doneflags)
 	  }
 
 	  if (! (doneflags & G_PATH)) {
-	       sprintf(tempbuf, "GET /%s", URLgetPath(url));
+	       snprintf(tempbuf, sizeof(tempbuf), "GET /%s", URLgetPath(url));
 	       GSsetPath(gs, tempbuf);
 	  } 
 	  doneflags |= G_PATH;
@@ -1965,10 +1973,12 @@ GSfromURL(GopherObj *gs, char *urltxt, char *host, int port, int doneflags)
      if (serviceType == ftp) {
 	  if (!(doneflags & G_PATH)) {
 	       if (URLgetPath(url) != NULL && *URLgetPath(url) != '\0')
-		    sprintf(tempbuf, "ftp:%s@/%s", URLgetHost(url),
-			    URLgetPath(url));
+		    snprintf(tempbuf, sizeof(tempbuf), 
+			     "ftp:%s@/%s", URLgetHost(url),
+			     URLgetPath(url));
 	       else
-		    sprintf(tempbuf, "ftp:%s@/", URLgetHost(url));
+		    snprintf(tempbuf, sizeof(tempbuf), 
+			     "ftp:%s@/", URLgetHost(url));
 
 	       GSsetPath(gs, tempbuf);
 	       doneflags |= G_PATH;
@@ -2027,7 +2037,7 @@ GStoLink(GopherObj *gs, int fd, BOOLEAN AddInfo)
      writestring(fd, "\nHost=");
      writestring(fd, GSgetHost(gs));
      writestring(fd, "\nPort=");
-     sprintf(portnum, "%d", GSgetPort(gs));
+     snprintf(portnum, sizeof(portnum), "%d", GSgetPort(gs));
      writestring(fd, portnum);
      writestring(fd, "\n");
      if (GSisGplus(gs) && GSgplusInited(gs) && AddInfo) {

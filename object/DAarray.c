@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2001/01/17 21:16:35 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/DAarray.c,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: DAarray.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2001/01/17 21:16:35  jgoerzen
+ * More psinrtf -> snprintf changes
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.4  1996/01/04  18:24:01  lindner
  * Updates for autoconf
@@ -242,7 +245,7 @@ void main()
      DApush(test, "iggy\n");
      
      for (i= 10; i >0; i--) {
-	  sprintf(tempstr, "Moocow #%d\n", i);
+	  snprintf(tempstr, sizeof(tempstr), "Moocow #%d\n", i);
 	  printf(tempstr);
 	  DApush(test, tempstr);
      }

@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2001/01/17 21:16:35 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/compatible.c,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: compatible.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2001/01/17 21:16:35  jgoerzen
+ * More psinrtf -> snprintf changes
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.19  1996/01/04  18:25:48  lindner
  * Updates for autoconf
@@ -160,7 +163,8 @@ char *tempnam(char *dir, char *pfx)
 		pfx = "gopher.$";
 	}
 
-	sprintf(space, "%s%s%d%d", dir, pfx, getpid(), cnt);
+	snprintf(space, sizeof(space),
+		 "%s%s%d%d", dir, pfx, getpid(), cnt);
 #else
 	if (dir == NULL) {
 		dir = "/usr/tmp";
@@ -172,7 +176,8 @@ char *tempnam(char *dir, char *pfx)
 		pfx = "";
 	}
 
-	sprintf(space, "%s/%s%d.%d", dir, pfx, getpid(), cnt);
+	snprintf(space, sizeof(space),
+		 "%s/%s%d.%d", dir, pfx, getpid(), cnt);
 #endif
 	cnt++;
 	

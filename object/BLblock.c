@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2000/12/20 01:19:20 $
+ * $Revision: 1.3 $
+ * $Date: 2001/01/17 21:16:35 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/BLblock.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: BLblock.c,v $
+ * Revision 1.3  2001/01/17 21:16:35  jgoerzen
+ * More psinrtf -> snprintf changes
+ *
  * Revision 1.2  2000/12/20 01:19:20  jgoerzen
  * Added patches from David Allen <s2mdalle@titan.vcu.edu>
  *
@@ -305,7 +308,7 @@ BLtoNet(Blockobj *bl, int fd, boolean showheader)
      /** Switch on data type **/
 
      if (showheader) {
-	  sprintf(outputline, "+%s:", BLgetName(bl));
+	  snprintf(outputline, sizeof(outputline), "+%s:", BLgetName(bl));
 	  writestring(fd, outputline);
      }
 

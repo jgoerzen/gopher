@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2000/12/20 01:19:20 $
+ * $Revision: 1.3 $
+ * $Date: 2001/01/17 21:16:35 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/url.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: url.c,v $
+ * Revision 1.3  2001/01/17 21:16:35  jgoerzen
+ * More psinrtf -> snprintf changes
+ *
  * Revision 1.2  2000/12/20 01:19:20  jgoerzen
  * Added patches from David Allen <s2mdalle@titan.vcu.edu>
  *
@@ -141,7 +144,9 @@ URLfromGS(Url *url, GopherObj *gs, char *ticket)
 	       *(cp++) = '@';
 	       Tohexstr(path, cp);
 	  }
-	  sprintf(u + strlen(u), ":%d", GSgetPort(gs));
+	  snprintf(u + strlen(u), 
+		   sizeof(u) - strlen(u) - 1,
+		   ":%d", GSgetPort(gs));
      }
      else if (path != NULL)
      {
@@ -149,7 +154,9 @@ URLfromGS(Url *url, GopherObj *gs, char *ticket)
 	       /* http://[host]:[port][path without "GET "] */
 	       strcpy(u, "http://");
 	       Tohexstr(GSgetHost(gs), u+7);
-	       sprintf(u + strlen(u), ":%d", GSgetPort(gs));
+	       snprintf(u + strlen(u), 
+			sizeof(u) - strlen(u) - 1,
+			":%d", GSgetPort(gs));
 	       Tohexstr(path + 4, u + strlen(u));
 	  } else if (strncmp(path, "ftp:", 4) == 0) {
 	       /** ftp://[host]/[pathname]; **/
@@ -167,7 +174,9 @@ URLfromGS(Url *url, GopherObj *gs, char *ticket)
 	       /* gopher://[host]:[port]/[type][path] */
 	       strcpy(u, "gopher://");
 	       Tohexstr(GSgetHost(gs), u + 9);
-	       sprintf(u + strlen(u), ":%d/%c", GSgetPort(gs), GSgetType(gs));
+	       snprintf(u + strlen(u),
+			sizeof(u) - strlen(u) - 1,
+			":%d/%c", GSgetPort(gs), GSgetType(gs));
 	       if (ticket != NULL && strlen(ticket) > 0)
 		    Tohexstr(ticket, u+strlen(u));
 	       Tohexstr(path, u + strlen(u));

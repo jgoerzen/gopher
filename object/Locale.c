@@ -1,5 +1,5 @@
 /**********************************************************************
- * $Id: Locale.c,v 1.1 2000/08/19 00:28:56 jgoerzen Exp $
+ * $Id: Locale.c,v 1.2 2001/01/17 21:16:35 jgoerzen Exp $
  *
  * Paul Lindner, University of Minnesota DCS
  *
@@ -13,8 +13,11 @@
  * (VMS etc..)
  **********************************************************************
  * $Log: Locale.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2001/01/17 21:16:35  jgoerzen
+ * More psinrtf -> snprintf changes
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.9  1994/12/05  22:44:42  lindner
  * Added VMS code from F. Macrides for specifying the default language
@@ -127,7 +130,8 @@ Gtxtopen (catname, flags)
      if (strchr(catname,'/') != NULL) { /* file path name */
 	  fio = FIOopenUFS(catname, O_RDONLY, 0);
      } else if ( (msgLocale != NULL) && (STRlen(msgLocale) > 0) ) {
-	  sprintf(inputline, "%s/%s.msg", LOCALEDIR, STRget(msgLocale));
+	  snprintf(inputline, sizeof(inputline),
+		   "%s/%s.msg", LOCALEDIR, STRget(msgLocale));
 	  fio = FIOopenUFS(inputline, O_RDONLY, 0);
      }
 
@@ -409,7 +413,8 @@ setlocale(char *x, char *y)
         strcpy(fname, GOPHERMSGS_DEV);
 	sprintf(cp=strchr(fname, ':'), ":gopher_msg_%s.exe", iso_language);
     } else {
-        sprintf(fname, "GopherP_Dir:gopher_msg_%s.exe", iso_language);
+        snprintf(fname, sizeof(fname),
+		 "GopherP_Dir:gopher_msg_%s.exe", iso_language);
     }
 
     /*	Scan for fname; on a hit, activate the image and get menu message */
