@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.15 $
- * $Date: 2001/01/17 17:19:07 $
+ * $Revision: 1.17 $
+ * $Date: 2001/01/17 18:14:59 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,12 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.17  2001/01/17 18:14:59  jgoerzen
+ * Tweaking to log messages.
+ *
+ * Revision 1.16  2001/01/17 18:13:21  jgoerzen
+ * Added mp3 MIME type.  Add logging of chroot and setuid/setgid status.
+ *
  * Revision 1.15  2001/01/17 17:19:07  jgoerzen
  * Oops.
  *
@@ -1011,7 +1017,16 @@ main(int argc, char *argv[], char *envp[])
      if (Gdefusername && (getuid() == 0)) {
          setregid(Ggid, Ggid);
          setreuid(Guid, Guid);
+	 LOGGopher("Server running setuid/setgid to %d:%d", Guid, Ggid);
      }
+
+     if (didchroot) {
+	LOGGopher("STARTUP: Server running chroot to %s", Data_Dir);
+     } else {
+	LOGGopher("STARTUP: Server running in non-chroot mode in %s", Data_Dir);
+     }
+
+     
 
      numready = 0; 
 

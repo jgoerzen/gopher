@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2000/12/20 01:19:20 $
+ * $Revision: 1.4 $
+ * $Date: 2001/01/17 18:17:16 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/serverutil.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,12 @@
  *********************************************************************
  * Revision History:
  * $Log: serverutil.c,v $
+ * Revision 1.4  2001/01/17 18:17:16  jgoerzen
+ * More vsprintf fixes.
+ *
+ * Revision 1.3  2001/01/17 18:13:21  jgoerzen
+ * Added mp3 MIME type.  Add logging of chroot and setuid/setgid status.
+ *
  * Revision 1.2  2000/12/20 01:19:20  jgoerzen
  * Added patches from David Allen <s2mdalle@titan.vcu.edu>
  *
@@ -232,7 +238,7 @@ void LOGGopher(int sockfd, const char *fmt, ...)
 
      va_start(args, fmt);
      
-     (void) vsprintf(message, fmt, args);
+     (void) vsnprintf(message, sizeof(message), fmt, args);
 
      if (LOGFileDesc == -1) {
 	  return;
@@ -264,13 +270,13 @@ void LOGGopher(int sockfd, const char *fmt, ...)
 
      userandhost[0] = '\0';
      if (CurrentUser != NULL) {
-	  strcpy(userandhost, CurrentUser);
-	  strcat(userandhost, "@");
-	  strcat(userandhost, CurrentPeerName);
+         snprintf(userandhost, sizeof(userandhost), "%s@%s", CurrentUser,
+		  CurrentPeerName);
      } else
-	  strcpy(userandhost, CurrentPeerName);
+          snprintf(userandhost, sizeof(userandhost), "%s", CurrentPeerName);
 
-     sprintf(buf, "%s %d %s : %s\n", cp, getpid(), userandhost, message);
+     snprintf(buf, sizeof(buf),
+	      "%s %d %s : %s\n", cp, getpid(), userandhost, message);
      write(LOGFileDesc, buf, strlen(buf));
      
      /* unlock the file */
@@ -381,7 +387,7 @@ Die(int sockfd, int errorlevel, char *fmt, ...)
      
      va_start(args, fmt);
 
-     vsprintf(message, fmt, args);
+     vsnprintf(message, sizeof(message), fmt, args);
      GplusError(sockfd, 1, message, NULL);
      gopherd_exit(-1);
 }
@@ -394,7 +400,7 @@ Warn(int sockfd, int errorlevel, char *fmt, ...)
      
      va_start(args, fmt);
 
-     vsprintf(message, fmt, args);
+     vsnprintf(message, sizeof(message), fmt, args);
      GplusError(sockfd, 1, message, NULL);
 }
 
@@ -718,7 +724,7 @@ ServerSetArgv(const char *fmt, ...)
      Argv[1] = NULL;
 
      va_start(args, fmt);
-     (void) vsprintf(buf, fmt, args);
+     (void) vsnprintf(buf, sizeof(buf), fmt, args);
      
      va_end(args);
      
