@@ -1,3 +1,9 @@
+gopher (2.3.1-7) unstable; urgency=low
+
+  * A new debian rev to fix the access: problem in the gopherdlocal.conf.
+
+ -- John Goerzen <jgoerzen@complete.org>  Tue, 19 Dec 2000 23:40:09 -0500
+
 gopher (2.3.1-6) unstable; urgency=low
 
   * Added many excellent code patches and cleanups from
