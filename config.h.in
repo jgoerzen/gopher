@@ -115,6 +115,12 @@
 /* Define if you have the re_comp function.  */
 #undef HAVE_RE_COMP
 
+/* Define if you have the regcomp function.  */
+#undef HAVE_REGCOMP
+
+/* Define if you have the regfree function.  */
+#undef HAVE_REGFREE
+
 /* Define if you have the select function.  */
 #undef HAVE_SELECT
 

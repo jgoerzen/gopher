@@ -211,7 +211,7 @@ AC_FUNC_STRCOLL
 AC_FUNC_VFORK
 AC_FUNC_VPRINTF
 AC_FUNC_GETLOADAVG
-AC_CHECK_FUNCS(bzero gethostname fgetpwent get_current_dir_name getcwd getwd madvise mkdir mktime putenv re_comp select seteuid setsid socket strcasecmp strcspn strdup strerror strftime strspn strstr strtol sysconf tempnam tzset wait3 waitpid strcasestr)
+AC_CHECK_FUNCS(bzero gethostname fgetpwent get_current_dir_name getcwd getwd madvise mkdir mktime putenv re_comp select seteuid setsid socket strcasecmp strcspn strdup strerror strftime strspn strstr strtol sysconf tempnam tzset wait3 waitpid strcasestr regcomp regfree)
 AC_TRY_LINK("unistd.h", [getdtablesize();])
 
 

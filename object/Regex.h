@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.15 $
- * $Date: 2002/03/19 20:07:16 $
+ * $Revision: 1.16 $
+ * $Date: 2002/03/19 20:37:28 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/Regex.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,10 @@
  *********************************************************************
  * Revision History:
  * $Log: Regex.h,v $
+ * Revision 1.16  2002/03/19 20:37:28  jgoerzen
+ * Updated configure stuff with regcomp and regfree checks.
+ * Made Regex.h more robust with regcomp stuff.
+ *
  * Revision 1.15  2002/03/19 20:07:16  jgoerzen
  * GSgopherobj.c: Moved Regex.h include up.
  *
@@ -137,7 +141,7 @@
 #include <regex.h>
 #endif
 
-#ifdef REG_EXTENDED
+#if defined(HAVE_REGCOMP) && defined(HAVE_REGFREE)
 #define REGEX_POSIX
 #endif
 
@@ -145,6 +149,24 @@
  OK, handle the POSIX case. */
 
 #ifdef REGEX_POSIX
+
+/* Try including files until we get REG_EXTENDED. */
+
+#ifndef REG_EXTENDED
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+#endif
+
+#ifndef REG_EXTENDED
+#ifdef HAVE_REGEXP_H
+#include <regexp.h>
+#endif
+#endif
+
+#ifndef REG_EXTENDED
+#warn "REGEX_POSIX defined but REG_EXTENDED not found."
+#endif
 
 /* These are named posix_re_comp and then #defined to the original names
 because MacOS X is nice enough to typedef re_comp and re_exec differently
