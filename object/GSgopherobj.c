@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: jgoerzen $
- * $Revision: 1.3 $
- * $Date: 2000/12/20 01:19:20 $
+ * $Author: s2mdalle $
+ * $Revision: 1.4 $
+ * $Date: 2000/12/26 22:48:12 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/GSgopherobj.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,12 @@
  *********************************************************************
  * Revision History:
  * $Log: GSgopherobj.c,v $
+ * Revision 1.4  2000/12/26 22:48:12  s2mdalle
+ * Changed GSsendHeader(int, int) => GSsendHeader(int, long) because the
+ * second argument is often the file size, and an int may not be
+ * sufficient depending on platform.  Most calls use canned values of -1
+ * and -2 anyway.
+ *
  * Revision 1.3  2000/12/20 01:19:20  jgoerzen
  * Added patches from David Allen <s2mdalle@titan.vcu.edu>
  *
@@ -1527,11 +1533,11 @@ GStransmit(GopherObj *gs, int sockfd, char *search, char *command, char *view)
  *
  */
 void
-GSsendHeader(int sockfd, int size)
+GSsendHeader(int sockfd, long size)
 {
      char sizestr[64];
 
-     sprintf(sizestr, "+%d\r\n", size);
+     sprintf(sizestr, "+%ld\r\n", size);
      writestring(sockfd, sizestr);
 }
 

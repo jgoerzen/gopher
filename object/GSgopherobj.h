@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Author: s2mdalle $
+ * $Revision: 1.2 $
+ * $Date: 2000/12/26 22:48:54 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/GSgopherobj.h,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: GSgopherobj.h,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/12/26 22:48:54  s2mdalle
+ * Changed prototype for GSsendHeader(int, int) => GSsendHeader(int, long)
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.25  1995/11/03  18:01:08  lindner
  * Coen: changes
@@ -307,7 +310,7 @@ int       GSfromURL(GopherObj *gs, char *urltxt, char *host, int port, int donef
 /****** Protocol transmission functions *******/
 int  GSconnect(GopherObj*);
 void GStransmit(GopherObj *gs, int sockfd, char *search, char *, char *);
-void GSsendHeader(int, int);
+void GSsendHeader(int, long);
 void GSsendErrorHeader(GopherObj *gs, int sockfd, int errortype, char *);
 int  GSrecvHeader(GopherObj *gs, int sockfd);
 void GStransmit();
