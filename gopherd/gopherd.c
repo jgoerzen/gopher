@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: jgoerzen $
- * $Revision: 1.5 $
- * $Date: 2000/12/20 01:19:20 $
+ * $Author: s2mdalle $
+ * $Revision: 1.6 $
+ * $Date: 2000/12/20 18:31:14 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.6  2000/12/20 18:31:14  s2mdalle
+ * Just a test-commit.  The only change was in code formatting.
+ *
  * Revision 1.5  2000/12/20 01:19:20  jgoerzen
  * Added patches from David Allen <s2mdalle@titan.vcu.edu>
  *
@@ -632,13 +635,13 @@ gopherd_usage(char *progname)
      fprintf(stderr, "   -o  override the default options file '%s'\n", CONF_FILE);
      fprintf(stderr, "   -l  specifies the name of a logfile\n");
      fprintf(stderr, "   -L  specifies maximum load to run at\n");
-}
+} /* End gopherd_usage */
 
 void
 gopherd_exit(int val)
 {
      exit(val);
-}
+} /* End gopherd_exit */
 
 /*
  * This is for when we dump core..  Make an attempt to clean up..
@@ -648,7 +651,7 @@ RETSIGTYPE
 sigabnormalexit(void)
 {
      gopherd_exit(-1);
-}
+} /* End sigabnormalexit */
 
 int
 main(int argc, char *argv[], char *envp[])
@@ -739,7 +742,7 @@ main(int argc, char *argv[], char *envp[])
 #endif /* HAVE_GETCWD */
 		    strcat(tmpstr, "/");
 		    strcat(tmpstr, optarg);
-		    
+                    
 		    GDCsetLogfile(Config, tmpstr);
 	       }
 	       break;
@@ -1039,7 +1042,7 @@ SetInitialScriptEnvironment(void)
      SetEnvironmentVariable("SERVER_PORT", tmpstr);
      SetEnvironmentVariable("SERVER_PROTOCOL", "gopher/1.0");
      SetEnvironmentVariable("GATEWAY_INTERFACE", "CGI/1.0");
-}
+} /* End SetInitialScriptEnvironment */
 
 static void
 SetScriptEnvironment(CMDobj *cmd, char *view)
@@ -1071,7 +1074,7 @@ SetScriptEnvironment(CMDobj *cmd, char *view)
      SetEnvironmentVariable("REMOTE_ADDR", CurrentPeerIP);
      
      SetEnvironmentVariable("REMOTE_USER", CMDgetUser(cmd));
-}
+} /* End SetScriptEnvironment */
 
 void
 OkHTTPresponse(int sockfd)
@@ -1080,7 +1083,7 @@ OkHTTPresponse(int sockfd)
      writestring(sockfd, "MIME-Version: 1.0\r\n");
      writestring(sockfd, "Server: GopherWEB/2.1.4\r\n");
      writestring(sockfd, "Content-Type: text/html\r\n\r\n");
-}
+} /* End OkHTTPresponse */
 
 
 #ifndef NO_AUTHENTICATION
@@ -1105,7 +1108,7 @@ OutputAuthForm(int sockfd, char *pathname, char *host, int port, CMDprotocol p)
 
      writestring(sockfd, "</FORM></BODY></HTML>\r\n");
 
-}
+} /* End OutputAuthForm */
 #endif
 
 void
@@ -1170,7 +1173,7 @@ HandleHTTPpost(CMDobj *cmd)
 	  }
 	  fclose(retrfile);
      }
-}
+} /* End HandleHTTPpost */
 
 static int
 do_command(int sockfd)
@@ -1847,7 +1850,7 @@ do_command(int sockfd)
      CMDdestroy(cmd);
 
      return(0);
-}
+} /* End do_command */
 
 /*
  * Look for <TITLE> tags...
@@ -1863,10 +1866,10 @@ GSfindHTMLtitle(GopherObj *gs, char *filename)
      if ((fd = ropen(filename, O_RDONLY,0)) < 0)
 	  return;
 
-
      if (read(fd, buf, sizeof(buf)) <0) {
 	  return;
      }
+
      close(fd);
 
      if ((titlep = strcasestr(buf, "<TITLE>")) != NULL) {
@@ -1886,8 +1889,7 @@ GSfindHTMLtitle(GopherObj *gs, char *filename)
 	       GSsetTitle(gs, titlep);
 	  }
      }
-
-}
+} /* End GSfindHTMLtitle */
 
 
 /*
@@ -1973,7 +1975,7 @@ Getfiletypes(char *newpath, char *filename, GopherObj *gs)
 
      }
      GSsetPath(gs, Selstr);
-}
+} /* End Getfiletypes */
 
 /*
  * Add a default view if none exists..
@@ -2050,7 +2052,7 @@ AddDefaultView(GopherObj *gs, int size, char *dirname)
 	  GSaddView(gs, "application/pdf", lang, size);
 	  break;
      }
-}
+} /* End AddDefaultView */
 
 /*
  * Fix a default view
@@ -2108,8 +2110,7 @@ ModifyDefaultView(GopherObj *gs, int viewnum)
 	  VIsetType(viewobj, "application/pdf");
 	  break;
      }
-}
-
+} /* End ModifyDefaultView */
 
 static void
 GSaddDateNsize(GopherObj *gs, struct stat statbuf)
@@ -2145,7 +2146,7 @@ GSaddDateNsize(GopherObj *gs, struct stat statbuf)
      }
 #endif /* ADD_DATE_AND_TIME */
      ;
-}     
+} /* End GSaddDateNsize */
 
 
 
@@ -2175,7 +2176,7 @@ GStitlefromDL(GopherObj *gs, char *filename)
      }
 #endif
      ;
-}
+} /* End GStitlefromDL */
 
 
 static void
@@ -2196,7 +2197,7 @@ GSfromCapfile(GopherObj *gs, char *filename)
      }
 #endif
      ;
-}
+} /* End GSfromCapfile */
 
 /*
  * Run scripts that generate blocks...
@@ -2236,9 +2237,7 @@ GSrunScripts(GopherObj *gs, char *filename)
 	       FIOclose(fio);
 	  }
      }
-}
-
-
+} /* End GSrunScripts */
 
 static void
 GSsetDefaults(GopherObj *gs)
@@ -2248,7 +2247,7 @@ GSsetDefaults(GopherObj *gs)
      GSsetPort(gs, GopherPort);
      GSsetGplus(gs, TRUE);
      GSsetType(gs, '\0');
-}
+} /* End GSsetDefaults */
 
 /*
  * Load up a gopher directory from the file system given a directory
@@ -2591,11 +2590,9 @@ GDfromUFS(char *pathname, int sockfd, boolean isGplus)
 
      return(gd);
      
-}
+} /* End GDfromUFS */
 
-
-
-/* Misleading title - its actually loading a GD from the parent of cmd*/
+/* Misleading title - its actually loading a GD from the parent of cmd */
 
 static GopherDirObj *
 GDfromSelstr(CMDobj *cmd, int sockfd)
@@ -2626,7 +2623,7 @@ GDfromSelstr(CMDobj *cmd, int sockfd)
      gd = GDfromUFS(directory, sockfd, TRUE); /** Returns NULL if error **/
      
      return(gd);
-}
+} /* End GDfromSelstr */
 
 
 
@@ -2850,7 +2847,7 @@ item_info(CMDobj *cmd, int sockfd)
 	  GDdestroy(gd);
 
      writestring(sockfd, ".\r\n");
-}
+} /* End item_info */
 
 static void
 GDhtmlfooter(int sockfd)
@@ -2863,7 +2860,7 @@ GDhtmlfooter(int sockfd)
 	  send_binary(sockfd, localfooter, 0);
      else if (rstat(globalfooter, &statbuf)==0)
 	  send_binary(sockfd, globalfooter, 0);
-}
+} /* End GDhtmlfooter */
 
 /** Output a header.. **/
 
