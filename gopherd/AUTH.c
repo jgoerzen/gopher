@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.3 $
- * $Date: 2001/01/17 19:30:25 $
+ * $Revision: 1.4 $
+ * $Date: 2002/01/08 18:03:25 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/AUTH.c,v $
  *
  * Paul Lindner, University of Minnesota DCS.
@@ -14,6 +14,9 @@
  *********************************************************************
  * Revision History:
  * $Log: AUTH.c,v $
+ * Revision 1.4  2002/01/08 18:03:25  jgoerzen
+ * AUTH.c: add missing include of GGroup.h
+ *
  * Revision 1.3  2001/01/17 19:30:25  jgoerzen
  * Change many sprintf -> snprintf
  *
@@ -88,6 +91,7 @@
 #include "String.h"		/* strchr and friends */
 
 #include "Debug.h"
+#include "GGroup.h"
 #include <stdio.h>
 
 #ifndef VMS

@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: s2mdalle $
- * $Revision: 1.3 $
- * $Date: 2001/01/03 22:27:44 $
+ * $Author: jgoerzen $
+ * $Revision: 1.4 $
+ * $Date: 2002/01/08 18:05:33 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/download.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: download.c,v $
+ * Revision 1.4  2002/01/08 18:05:33  jgoerzen
+ *   * download.c: Added cast to long for some *printf's
+ *
  * Revision 1.3  2001/01/03 22:27:44  s2mdalle
  * Several compiler warning fixes.
  *
@@ -287,9 +290,11 @@ Download_file(GopherObj *gs)
      CURexit(CursesScreen);
 
      printf(Gtxt(" Downloading %d bytes",233), (int)buf.st_size);
-     printf(Gtxt("    1200bps: %ld minutes\n",234), buf.st_size/(120*60));
-     printf(Gtxt("    2400bps: %ld minutes\n",235), buf.st_size/(240*60));
-     printf(Gtxt("   14400bps: %ld minutes\n\n",236), buf.st_size/(1440*60));
+     printf(Gtxt("    1200bps: %ld minutes\n",234),
+            (long) (buf.st_size/(120*60)));
+     printf(Gtxt("    2400bps: %ld minutes\n",235), (long) (buf.st_size/(240*60)));
+     printf(Gtxt("   14400bps: %ld minutes\n\n",236),
+            (long) (buf.st_size/(1440*60)));
 
      if (choice == 5) {
 	  printf(Gtxt("Start your capture now...\n\n",171));

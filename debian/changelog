@@ -19,6 +19,14 @@ gopher (2.3.1-15) NOTVALIDFORBUILDING
     "Regex.h" that has proper regex determining logic
   * object/Regex.h: Moved regex.h include to here.  Make it conditional
     based on configure test.  Add conditional re_comp.h include.
+  * gopherd/gopherd.c: Add init of view and filter after setjmp
+    to eliminate clobbering due to longjmp and a warning.  Cast
+    parameters to *printf to long as appropriate.
+  * AUTH.h: Add missing AUTHITEMSprocessLine prototype
+  * AUTH.h: Add a check to prevent including twice.
+  * gopherdconf.c: Add a missing prototype.
+  * AUTH.c: add missing include of GGroup.h
+  * download.c: Added cast to long for some *printf's
 
  -- John Goerzen <jgoerzen@complete.org>
 
