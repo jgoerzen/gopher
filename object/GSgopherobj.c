@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.7 $
- * $Date: 2002/01/08 17:36:14 $
+ * $Revision: 1.8 $
+ * $Date: 2002/03/19 20:07:16 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/GSgopherobj.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: GSgopherobj.c,v $
+ * Revision 1.8  2002/03/19 20:07:16  jgoerzen
+ * GSgopherobj.c: Moved Regex.h include up.
+ *
+ * Regex.c, Regex.h: continuing full rewrites.
+ *
  * Revision 1.7  2002/01/08 17:36:14  jgoerzen
  * Finally builds!
  *
@@ -352,6 +357,7 @@
 
 #include "String.h"
 #include "STRstring.h"
+#include "Regex.h"
 #include <stdio.h>
 #include "compatible.h"
 #include <errno.h>
@@ -361,7 +367,6 @@
 #include "Debug.h"
 #include "fileio.h"
 #include <time.h>
-#include "Regex.h"
 
 #ifdef pyr
 unsigned long errno;

@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.14 $
- * $Date: 2002/03/19 19:58:12 $
+ * $Revision: 1.15 $
+ * $Date: 2002/03/19 20:07:16 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/Regex.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: Regex.h,v $
+ * Revision 1.15  2002/03/19 20:07:16  jgoerzen
+ * GSgopherobj.c: Moved Regex.h include up.
+ *
+ * Regex.c, Regex.h: continuing full rewrites.
+ *
  * Revision 1.14  2002/03/19 19:58:12  jgoerzen
  * More updates.  This is part of a major rewrite.
  *
@@ -140,8 +145,15 @@
  OK, handle the POSIX case. */
 
 #ifdef REGEX_POSIX
-char *re_comp(char *regex);
-int re_exec(char *string);
+
+/* These are named posix_re_comp and then #defined to the original names
+because MacOS X is nice enough to typedef re_comp and re_exec differently
+in unistd.h.  Eww. */
+
+char *posix_re_comp(char *regex);
+int posix_re_exec(char *string);
+#define re_comp(a) (posix_re_comp(a))
+#define re_exec(a) (posix_re_exec(a))
 #else
 
 /* ********** Try to figure out what else they have. */

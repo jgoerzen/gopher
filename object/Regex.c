@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.4 $
- * $Date: 2002/03/19 19:53:31 $
+ * $Revision: 1.5 $
+ * $Date: 2002/03/19 20:07:16 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/Regex.c,v $
  * $Status: $
  *
@@ -15,6 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: Regex.c,v $
+ * Revision 1.5  2002/03/19 20:07:16  jgoerzen
+ * GSgopherobj.c: Moved Regex.h include up.
+ *
+ * Regex.c, Regex.h: continuing full rewrites.
+ *
  * Revision 1.4  2002/03/19 19:53:31  jgoerzen
  * *** empty log message ***
  *
@@ -57,7 +62,7 @@
 regex_t preg;
 int pregallocated = 0;
 
-char *re_comp(char *regex) {
+char *posix_re_comp(char *regex) {
   if (pregallocated) {
     regfree(&preg);
   }
@@ -66,7 +71,7 @@ char *re_comp(char *regex) {
   return regcomp(&preg, regex, REG_NOSUB) ? "regcomp error" : NULL;
 }
 
-int re_exec(char *string) {
+int posix_re_exec(char *string) {
   return ! regexec(&preg, string, 0, NULL, 0);
 }
   
