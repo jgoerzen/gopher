@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: s2mdalle $
- * $Revision: 1.12 $
- * $Date: 2000/12/31 20:02:28 $
+ * $Revision: 1.13 $
+ * $Date: 2001/01/08 08:19:15 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.13  2001/01/08 08:19:15  s2mdalle
+ * Fixed spelling error on one error message, code cleanup, removal of
+ * old useless #if 0'd code.  FIXME: writing ASK data to a file named by
+ * tempnam() is broken and has been for quite some time.
+ *
  * Revision 1.12  2000/12/31 20:02:28  s2mdalle
  * Fixed filesize misreporting bug in send_binary (where it would report
  * the size of foo.txt.gz to the client, then run it through a decoder
@@ -1244,26 +1249,9 @@ do_command(int sockfd)
 
      cmd = CMDnew();
 
-#if 0  /* Old pre-chroot logging - open each time */
-     /*** Reopen the log file ***/
-     cp = GDCgetLogfile(Config);
-
-     if (cp != NULL && *cp != '\0') {
-	  if (strcasecmp(GDCgetLogfile(Config), "syslog")==0) {
-	       LOGFileDesc = -2;  /** log file is syslog **/
-	  } else if (LOGFileDesc < 0) {
-	       LOGFileDesc = uopen(GDCgetLogfile(Config), 
-				   O_WRONLY|O_APPEND|O_CREAT, 0644);
-	  }
-	  if (LOGFileDesc == -1) {
-	       printf("Can't open the logfile: %s\n", GDCgetLogfile(Config));
-	       gopherd_exit(-1);
-	  }
-     }
-#endif
-
      if(LoadTooHigh())
-	  Die(sockfd, 503, "System is too busy right now. Please try again later.");
+	  Die(sockfd, 
+              503, "System is too busy right now. Please try again later.");
 
      (void) signal(SIGALRM,read_timeout);
      (void) alarm(READTIMEOUT);
@@ -1290,7 +1278,6 @@ do_command(int sockfd)
 
      GDCevalDir(Config, CMDgetFile(cmd));
      IsGplus = CMDisGplus(cmd);  /* need for error output.. */
-
 
 #ifndef NO_AUTHENTICATION
 
@@ -1350,7 +1337,7 @@ do_command(int sockfd)
 
 	  /** Only look at the ask block if it's there... **/
 	  if ((CMDgetCommand(cmd) != NULL && *CMDgetCommand(cmd) != '!') ||
-	      ((ishtml = (strncmp(CMDgetSelstr(cmd), "halidate ", 9)) == 0)))  {
+	      ((ishtml = (strncmp(CMDgetSelstr(cmd), "halidate ", 9)) == 0))) {
 	       char *extra_args;
 	       char *authuser=NULL, *authpw=NULL;
 
@@ -1366,10 +1353,13 @@ do_command(int sockfd)
 	       if (ishtml) {
 		    if (CMDgetSearch(cmd) == NULL) {
 			 /** No username/pw submitted, return a blank form.. */
-			 OutputAuthForm(sockfd, selstr, Zehostname, GopherPort, CMDgetProtocol(cmd));
+			 OutputAuthForm(sockfd, selstr, 
+                                        Zehostname, GopherPort, 
+                                        CMDgetProtocol(cmd));
 			 return(0);
 		    } else {
-			 /** Username and password are encoded in search string **/
+			 /** Username and password are encoded in
+                          *  search string **/
 			 char *cp;
 			 char *urlenc = strdup(CMDgetSearch(cmd));
 			 
@@ -1388,8 +1378,7 @@ do_command(int sockfd)
 
 			 if (authpw == NULL || authuser == NULL)
 			      Die(sockfd, 411, "Missing Username or password");
-		    }
-			 
+		    } /* End else */
 	       } else {
 		    authuser = CMDgetAskline(cmd, 0);
 		    authpw   = CMDgetAskline(cmd, 1);
@@ -1421,25 +1410,34 @@ do_command(int sockfd)
 
 	       case AUTHRES_BADPW:
 		    if (strlen(authpw) == 0)  {
-			 GplusError(sockfd, 1, "Please enter a valid password", NULL);
+			 GplusError(sockfd, 1, 
+                                    "Please enter a valid password", NULL);
 			 return(0);
 		    } else {
-			 GplusError(sockfd, 1, "Your password is incorrect, try again", NULL);
+			 GplusError(sockfd, 1, 
+                                    "Your password is incorrect, try again", 
+                                    NULL);
 			 return(0);
-		    }
+		    } /* End else */
+
 		    break;
 
 	       case AUTHRES_SYSERR:
-		    GplusError(sockfd, 1, "Authentication system failue, please contact administrator", NULL);
+		    GplusError(sockfd, 1, 
+                               "Authentication system failure, please contact administrator", 
+                               NULL);
 		    return(0);
 		    break;
 		    
 	       case AUTHRES_NOGROUP:
-		    GplusError(sockfd, 1, "Your group does not have access to this item", NULL);
+		    GplusError(sockfd, 1, 
+                               "Your group does not have access to this item",
+                               NULL);
 		    return(0);
 		    break;
 	       default:
-		    GplusError(sockfd, 1, "Your username is incorrect, try again", NULL);
+		    GplusError(sockfd, 1, 
+                               "Your username is incorrect, try again", NULL);
 		    return(0);
 		    break;
 	       }
@@ -1452,23 +1450,25 @@ do_command(int sockfd)
 	  if (auth != NULL) {
 	       /** Need to redirect **/
 	       if (CMDgetProtocol(cmd) == HTTP1_0) {
-		    writestring(sockfd, "HTTP/1.0 401 Please Authenticate\r\n");
-		    writestring(sockfd, "WWW-Authenticate: Basic realm=\"this server\"\r\n");
+		    writestring(sockfd, 
+                                "HTTP/1.0 401 Please Authenticate\r\n");
+		    writestring(sockfd, 
+                                "WWW-Authenticate: Basic realm=\"this server\"\r\n");
 		    writestring(sockfd, "Content-Type: text/html\r\n\r\n");
-		    writestring(sockfd, "You need a client that can use authentication\r\n");
-	       }
+		    writestring(sockfd, 
+                                "You need a client that can use authentication\r\n");
+	       } /* End if */
 	       Die(sockfd, 411, "Sorry, no access to this item");
-	  }
-	  
-     }
-#endif
+	  } /* End if */
+     } /* End else */
+#endif /* not defined NO_AUTHENTICATION */
 
      /** At this point there won't be any more data coming in, so shutdown
          the incoming data for the socket
       **/
      shutdown(sockfd, 0);
 
-     /** Change our root directory **/
+     /** Change our root directory if it wasn't done before. **/
      if ( dochroot && didchroot == FALSE) {
 	  if (chroot(Data_Dir))
 	       Die(sockfd, 500, "Data_Dir dissappeared!");
@@ -1478,6 +1478,7 @@ do_command(int sockfd)
      }
 
      if (getuid() == 0) {
+          /* Drop permissions so we don't end up doing anything nasty... */
 	  setgid(Ggid);
 	  setuid(Guid);
      }
@@ -1492,6 +1493,7 @@ do_command(int sockfd)
 
 	  /** Write the stuff out to a file, here, as gopherd user
 	      so we can remove file later on.. **/
+          /* FIXME: tempnam() is dangerous and silly */
           ASKfile = tempnam(NULL, "gdata");
           Debug("Ask data is in %s\n", ASKfile);
           retrfile = ufopen(ASKfile, "w");
@@ -1518,7 +1520,7 @@ do_command(int sockfd)
 	       if (strncmp(CMDgetSelstr(cmd), "exec+", 5) == 0) {
  		/* dgg patch for exec+: -- need to translate this 
 		     exec+:params:/go/path/prog<tab>! 
-		   into calling program as this
+                     into calling program as this
 		     /root/go/path/prog -v application/gopher+-menu" param
  		*/
 		    filter = command + 1;
@@ -1533,7 +1535,7 @@ do_command(int sockfd)
 			 filter = command + 1;
 		    return(0);
 	       }
-	  }
+	  } /* End else if */
 	  else if (*command == '$') {
 	       if (*(command+1) != '\0')
 		    filter = command + 1;
@@ -1546,7 +1548,7 @@ do_command(int sockfd)
 	  }
 	  else
 	       Die(sockfd, 500, "Malformed command"); /*** Error ***/
-     }
+     } /* End if */
      
      if (strncmp(CMDgetSelstr(cmd), "waisdocid:",10)==0)
 	  view = "Text/plain";
@@ -3566,11 +3568,26 @@ send_binary(int sockfd, char *filename, boolean isGplus)
 	  gotbytes = fread(in, 1, BUFSIZE, sndfile);
 	  
 	  if (gotbytes == 0) { 
+               if(ftell(sndfile) == -1 && feof(sndfile)) { 
+                    /* Highly likely that the server is misconfigured and we're
+                     * actually trying to run a script that isn't working 
+                     * because we chroot()'d to a location where utilities
+                     * referenced in the script aren't present.
+                     * Example: chroot("/var/gopher") and then try to execute
+                     * this script: 
+                     * #!/bin/sh
+                     * echo "oops"
+                     * yields these conditions.
+                     */
+                    ;
+               }
+
                if(ferror(sndfile)) {
                     /* This won't happen if it's just regular EOF */
                     LOGGopher(sockfd, "send_binary(%s): error reading data",
                               filename);
                } /* End if */
+               
 	       break;       /*** end of file or error... ***/
           }
 
