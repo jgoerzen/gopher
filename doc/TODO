@@ -19,6 +19,8 @@ Finish ANSI printing options
 
 
 --server
+Try to eliminate more lookups.
+
 Make SIGHUP reread the gopherd.conf file.
 
 Fix problems with .cap for -t para files.
