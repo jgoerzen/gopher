@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.8 $
- * $Date: 2001/04/06 20:44:55 $
+ * $Revision: 1.9 $
+ * $Date: 2001/04/27 02:53:20 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/serverutil.c,v $
  * $State: Exp $
  *
@@ -15,14 +15,8 @@
  *********************************************************************
  * Revision History:
  * $Log: serverutil.c,v $
- * Revision 1.8  2001/04/06 20:44:55  jgoerzen
- * Gopher's config doesn't have the HAVE_STAT_H, etc. macros.  Removed that
- * test and inserted include of unistd.  Doesn't compile otherwise.
- *
- * Revision 1.7  2001/01/19 00:32:10  s2mdalle
- * Added mktmpdir() - returns a character array with the name of a
- * created directory (0700) and NULL on error.  This has not yet been
- * integrated but is intended to be used with tempnam() calls elsewhere.
+ * Revision 1.9  2001/04/27 02:53:20  jgoerzen
+ * Backed out the 1.7 change to serverutil.c (it caused bugs)
  *
  * Revision 1.6  2001/01/17 21:48:05  jgoerzen
  * Many fixes and tune-ups.  Now compiles cleanly with -Wall -Werror!
@@ -235,50 +229,7 @@
 #endif
 
 #include <grp.h>
-
 #include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-                     
-                     
-/* Makes a temporary directory in /tmp and returns the name of the created 
- * directory.  (Character array, not allocated memory) 
- * On error, returns NULL.  
- */
-char *mktmpdir(void) {
-     char tmpdirname[128];
-     int prog_pid = getpid();
-     int orig_pid = prog_pid;
-     struct stat statbuf;
-     int CHKDIR_LOOP_LIMIT = 50;   /* Check this many possible directory names.
-                                    * if we can't find one in this many tries,
-                                    * return failure
-                                    */
-     
-     sprintf(tmpdirname, "/tmp/gopherd.%d", getpid());
-     
-     while(!rstat(tmpdirname, statbuf)) { 
-          if((orig_pid + CHKDIR_LOOP_LIMIT) < prog_pid)
-               break;
-
-          prog_pid++;
-
-          /* Add an underscore - not really necessary, just to signify that
-           * the number is not a pid, but a number chosen to avoid conflict
-           * with an existing file
-           */
-          sprintf(tmpdirname, "/tmp/gopherd._%d", prog_pid);
-     } /* End while */
-
-     if(!mkdir(tmpdirname, 0700)) 
-          return &tmpdirname[0];
-     else { 
-          /* What happened? */
-          LOGGopher(-1, "Couldn't create directory at \"%s\": %d", 
-                    tmpdirname, errno);
-          return((char *)NULL);
-     }
-} /* End mktmpdir() */
 
 /*
  * This finds the current peer and the time and  jams it into the
