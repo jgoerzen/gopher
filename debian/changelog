@@ -1,8 +1,10 @@
 gopher (3.0.1) unstable; urgency=low
 
   * Installation routines modified -- pass -d to install to create
-    config dirs.
+    config dirs.  This should fix installation problems.
   * Use sysconfigdir rather that $(DESTDIR)/etc for config files.
+
+ -- John Goerzen <jgoerzen@complete.org>  Wed,  9 Jan 2002 19:30:00 -0500
 
 gopher (3.0.0-1) unstable; urgency=low
 
