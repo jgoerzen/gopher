@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Author: s2mdalle $
+ * $Revision: 1.2 $
+ * $Date: 2000/12/27 21:23:31 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/download.c,v $
  * $State: Exp $
  *
@@ -15,8 +15,12 @@
  *********************************************************************
  * Revision History:
  * $Log: download.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/12/27 21:23:31  s2mdalle
+ * Added a few #include's for compilation warnings, and changed a few
+ * long args within sprintf's %d => %ld
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.26  1995/11/03  21:18:16  lindner
  * ANSIfication
@@ -120,9 +124,11 @@
 
 
 #include "gopher.h"
-
 #include "Stat.h"
 
+#ifdef HAVE_TIME_H
+#  include <time.h>
+#endif /* HAVE_TIME_H */
 
 #include "fileio.h"		/* For FIOsystem() */
 
@@ -267,9 +273,9 @@ Download_file(GopherObj *gs)
      CURexit(CursesScreen);
 
      printf(Gtxt(" Downloading %d bytes",233), (int)buf.st_size);
-     printf(Gtxt("    1200bps: %d minutes\n",234), buf.st_size/(120*60));
-     printf(Gtxt("    2400bps: %d minutes\n",235), buf.st_size/(240*60));
-     printf(Gtxt("   14400bps: %d minutes\n\n",236), buf.st_size/(1440*60));
+     printf(Gtxt("    1200bps: %ld minutes\n",234), buf.st_size/(120*60));
+     printf(Gtxt("    2400bps: %ld minutes\n",235), buf.st_size/(240*60));
+     printf(Gtxt("   14400bps: %ld minutes\n\n",236), buf.st_size/(1440*60));
 
      if (choice == 5) {
 	  printf(Gtxt("Start your capture now...\n\n",171));

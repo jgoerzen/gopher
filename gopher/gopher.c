@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2000/08/19 01:18:16 $
+ * $Author: s2mdalle $
+ * $Revision: 1.3 $
+ * $Date: 2000/12/27 21:22:46 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/gopher.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,10 @@
  *********************************************************************
  * Revision History:
  * $Log: gopher.c,v $
+ * Revision 1.3  2000/12/27 21:22:46  s2mdalle
+ * Added a few #include's to get at prototypes for implicitly defined
+ * functions
+ *
  * Revision 1.2  2000/08/19 01:18:16  jgoerzen
  * fix sys_errlist
  *
@@ -453,6 +457,10 @@ static	CursesObj	*LangScreen = NULL;
 #include "fileio.h"
 #include "Malloc.h"
 #include "patchlevel.h"
+
+#ifdef HAVE_TIME_H
+#  include <time.h>
+#endif /* HAVE_TIME_H */
 
 void describe_gopher(char *banner, GopherStruct *ZeGopher, FILE *gripefile);
 extern int  twirl(void);

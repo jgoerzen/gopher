@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Author: s2mdalle $
+ * $Revision: 1.2 $
+ * $Date: 2000/12/27 21:26:22 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/manager.c,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: manager.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/12/27 21:26:22  s2mdalle
+ * Added #include for CUR* functions
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.31  1995/11/03  21:18:20  lindner
  * ANSIfication
@@ -135,6 +138,7 @@
  *
  *********************************************************************/
 
+#include "CURcurses.h"
 #include "gopher.h"
 #include "patchlevel.h"
 #include "Debug.h"

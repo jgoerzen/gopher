@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Author: s2mdalle $
+ * $Revision: 1.2 $
+ * $Date: 2000/12/27 21:24:04 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/CURcurses.h,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: CURcurses.h,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/12/27 21:24:04  s2mdalle
+ * Added many function prototypes from CURcurses.c
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.24  1996/01/04  18:28:52  lindner
  * Updates for autoconf
@@ -285,5 +288,13 @@ int       CURGetOneOption(CursesObj *cur, char *Title, char *OptionName,
 void      CURBeep(CursesObj *cur);
 void      CURwenter(CursesObj *cur, WINDOW *win);
 void      CURsetGraphicsChars(CursesObj *cur, char *termtype);
+int       CUROldGetOneOption(CursesObj *cur, char *OptionName, char *Response);
+int       CURwgetch(CursesObj *cur, WINDOW *window);
+int       CURrequester(CursesObj *cur, char *Wintitle, Requestitem **items);
+int       CURDialog(CursesObj *cur, char *Wintitle, char **Message);
+void      CURgetYesorNo(CursesObj *cur, char *OptionName, char *Response);
+int       CURRequest(CursesObj *cur, char *Wintitle, char **Prompts, 
+                     char **Stowages);
+
 
 #endif  /* CURCURSES_H */

@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Author: s2mdalle $
+ * $Revision: 1.2 $
+ * $Date: 2000/12/27 21:25:01 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/CURcurses.c,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: CURcurses.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/12/27 21:25:01  s2mdalle
+ * Added #include "gopher.h"
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.61  1996/01/04  18:28:51  lindner
  * Updates for autoconf
@@ -282,6 +285,7 @@
  *********************************************************************/
 
 #include "CURcurses.h"
+#include "gopher.h"
 #include "Malloc.h"
 
 #include <signal.h>
@@ -1199,7 +1203,6 @@ CURDialog(CursesObj *cur, char *Wintitle, char **Message)
 	  return(0);
      }
 }
-
 
 int
 CURRequest(CursesObj *cur, char *Wintitle, char **Prompts, char **Stowages)

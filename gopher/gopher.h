@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Author: s2mdalle $
+ * $Revision: 1.2 $
+ * $Date: 2000/12/27 21:25:59 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/gopher.h,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: gopher.h,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/12/27 21:25:59  s2mdalle
+ * Added CleanupandExit prototype and an include for CUR* functions
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.5  1995/02/27  17:09:51  lindner
  * Add Pacbell NOBANNER patch
@@ -105,7 +108,11 @@
 #  define TITLEPOS 2
 #endif
 
+/* Prototypes */
+RETSIGTYPE CleanupandExit(int exitval);
+
 /** Get the configuration variables **/
 
 #include "globals.h"
 
+#include "CURcurses.h"
