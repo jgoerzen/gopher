@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.17 $
- * $Date: 2001/01/17 18:14:59 $
+ * $Revision: 1.18 $
+ * $Date: 2001/01/17 18:38:40 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.18  2001/01/17 18:38:40  jgoerzen
+ * Oops, called LOGGopher wrongly.
+ *
  * Revision 1.17  2001/01/17 18:14:59  jgoerzen
  * Tweaking to log messages.
  *
@@ -1017,13 +1020,13 @@ main(int argc, char *argv[], char *envp[])
      if (Gdefusername && (getuid() == 0)) {
          setregid(Ggid, Ggid);
          setreuid(Guid, Guid);
-	 LOGGopher("Server running setuid/setgid to %d:%d", Guid, Ggid);
+	 LOGGopher(0, "Server running setuid/setgid to %d:%d", Guid, Ggid);
      }
 
      if (didchroot) {
-	LOGGopher("STARTUP: Server running chroot to %s", Data_Dir);
+	LOGGopher(0, "STARTUP: Server running chroot to %s", Data_Dir);
      } else {
-	LOGGopher("STARTUP: Server running in non-chroot mode in %s", Data_Dir);
+	LOGGopher(0, "STARTUP: Server running in non-chroot mode in %s", Data_Dir);
      }
 
      
