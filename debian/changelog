@@ -1,3 +1,9 @@
+gopher (2.3.1-16) unstable; urgency=low
+
+  * 
+
+ -- John Goerzen <jgoerzen@complete.org>  Tue,  8 Jan 2002 15:31:00 -0500
+
 gopher (2.3.1-15) unstable; urgency=low
 
   * NetBSD port effort began.

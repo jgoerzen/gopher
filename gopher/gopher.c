@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.4 $
- * $Date: 2002/01/08 17:36:14 $
+ * $Revision: 1.5 $
+ * $Date: 2002/01/08 20:30:35 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/gopher.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: gopher.c,v $
+ * Revision 1.5  2002/01/08 20:30:35  jgoerzen
+ *     * gopher.c: Modified to use HAVE_STRERROR
+ *
  * Revision 1.4  2002/01/08 17:36:14  jgoerzen
  * Finally builds!
  *
@@ -1221,7 +1224,10 @@ popgopher(GopherDirObj **ZeDir)
 #include <perror.h>
 #else
 extern int h_errno;
+#ifndef HAVE_STRERROR
 extern int sys_nerr;
+extern char *sys_errlist[];
+#endif
 extern int  errno;
 #endif
 
@@ -1253,11 +1259,13 @@ void check_sock(int sockfd, char *host, int port)
 #else
 #  ifdef __DECC
 	       if (errno > 0 && errno <= 65) {
+#  ifdef defined(HAVE_STRERROR)
+               if (1) {
 #  else
 	       if (errno > 0 && errno <= sys_nerr) {
 #  endif
 		    sprintf(DispString2, Gtxt("Connection failed: %s.",78),
-#ifdef VMS
+#if defined(VMS) || defined(HAVE_STRERROR)
 			    strerror(errno));
 #else
 		    sys_errlist[errno]);
