@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2002/01/28 03:38:58 $
+ * $Revision: 1.5 $
+ * $Date: 2002/02/12 21:24:21 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/util.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,15 @@
  *********************************************************************
  * Revision History:
  * $Log: util.h,v $
+ * Revision 1.5  2002/02/12 21:24:21  jgoerzen
+ * Removed __USE_GNU -- it conflicted
+ *
+ * Revision 1.4  2002/02/12 21:22:56  jgoerzen
+ * Added __USE_GNU def
+ *
+ * Revision 1.3  2002/02/12 21:20:14  jgoerzen
+ * Made files using strcasecmp() include util.h
+ *
  * Revision 1.2  2002/01/28 03:38:58  jgoerzen
  * Patches for FreeBSD:
  *  * Test in configure for stdlib.h
@@ -49,8 +58,11 @@
  *
  *********************************************************************/
 
-#include "config.h"
+#ifndef __GOPHER_UTIL_H__
+#define __GOPHER_UTIL_H__
 
+#include <string.h>
+#include "config.h"
 
 /*
  * Definitions of stuff in util.c
@@ -87,3 +99,4 @@ int     interruptable_read(int fd, char *ptr, int nbytes);
 int	primeControlc();
 void	reprimeControlc();
 
+#endif /* __GOPHER_UTIL_H__ */

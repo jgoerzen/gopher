@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.4 $
- * $Date: 2001/01/17 19:30:25 $
+ * $Revision: 1.5 $
+ * $Date: 2002/02/12 21:20:14 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/ftp.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: ftp.c,v $
+ * Revision 1.5  2002/02/12 21:20:14  jgoerzen
+ * Made files using strcasecmp() include util.h
+ *
  * Revision 1.4  2001/01/17 19:30:25  jgoerzen
  * Change many sprintf -> snprintf
  *
@@ -224,6 +227,7 @@
 #include "gopherd.h"
 #include "ftp.h"
 #include "url.h"
+#include "util.h"
 #include <signal.h>
 
 #include <stdio.h>

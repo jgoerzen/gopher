@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.25 $
- * $Date: 2002/01/08 21:35:49 $
+ * $Revision: 1.26 $
+ * $Date: 2002/02/12 21:20:14 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.26  2002/02/12 21:20:14  jgoerzen
+ * Made files using strcasecmp() include util.h
+ *
  * Revision 1.25  2002/01/08 21:35:49  jgoerzen
  * Many changes:
  *  Revved the version number
@@ -657,6 +660,7 @@
 #include "Malloc.h"
 #include "Debug.h"
 #include "fileio.h"
+#include "util.h"
 
 #ifdef _AUX_SOURCE
 #  include <compat.h>

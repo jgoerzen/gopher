@@ -1,4 +1,4 @@
-$Id: PLATFORMS,v 1.7 2002/02/12 20:50:21 jgoerzen Exp $
+$Id: PLATFORMS,v 1.9 2002/02/12 21:30:03 jgoerzen Exp $
 
 These are the platforms on which gopher is known to work.
 
@@ -20,19 +20,20 @@ FreeBSD/i386 ?.?             3.0.1  requires gmake
 
 FreeBSD/i386 4.4             3.0.1  OK -- Kevin Griffin <vertov@artstar.com>
 
-Linux/alpha 2.2 (Debian sid) 3.0.2  verified for each release by jgoerzen
+Linux/alpha 2.2 (Debian sid) 3.0.3  verified for each release by jgoerzen
 
-Linux/i386 2.2 (Debian sid)  3.0.1  OK -- John Goerzen <jgoerzen@complete.org>
+Linux/i386 2.2 (Debian sid)  3.0.3  OK -- John Goerzen <jgoerzen@complete.org>
 
-Linux/ppc 2.4 (Debian sid)   3.0.1  OK -- John Goerzen <jgoerzen@complete.org>
+Linux/ppc 2.4 (Debian sid)   3.0.3  OK -- John Goerzen <jgoerzen@complete.org>
 
 Linux/i386 ?.? (Slackware)   3.0.1  
 
 MacOSX/ppc 10.1 (Darwin)     3.0.3  use gnumake instead of gmake
                                     Build on UFS partition
+                                    SEE NOTES BELOW
                                     OK -- John Goerzen <jgoerzen@complete.org>
 
-NetBSD/i386 1.5ZA (-current) 3.0.2  verified for each release by jgoerzen
+NetBSD/i386 1.5ZA (-current) 3.0.3  verified for each release by jgoerzen
                                     requires gmake  
 
 Solaris/i386 2.              3.0.2  OK -- Don Fike <fike@cs.utk.edu>
@@ -43,3 +44,16 @@ If you want to use gopher on older platforms (VMS, Ultrix, etc), please
 check out the UMN gopher 2.3.1 distribution.  Gopher 3 is not currently
 supporting VMS, though we have not removed the VMS support from the tree. 
 (VMS hackers: help us out!)
+
+ ** Special notes for Mac OS X / Darwin:
+
+Darwin appears to have some compatibility problems.  Note that you must have
+the developer pack installed to build gopher.  You must also use gnumake
+instead of make.
+
+Now here's the kicker -- If you are building on a HFS+ partition rather than
+a UFS one, the case-insensitivity in the operating system can cause
+problems.  Build instead on a UFS partition.  You can try this by using the
+Disk Copy tool to create a UFS playground within your HFS partition.  I have
+not had reports of whether or not this works; I can only confirm that it
+works to build from a UFS-only setup.  -- jgoerzen, 2/12/2002

@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: s2mdalle $
- * $Revision: 1.3 $
- * $Date: 2001/01/03 22:30:43 $
+ * $Author: jgoerzen $
+ * $Revision: 1.4 $
+ * $Date: 2002/02/12 21:20:14 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/manager.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: manager.c,v $
+ * Revision 1.4  2002/02/12 21:20:14  jgoerzen
+ * Made files using strcasecmp() include util.h
+ *
  * Revision 1.3  2001/01/03 22:30:43  s2mdalle
  * Inclusion of new header file for this module.
  *
@@ -146,6 +149,7 @@
 #include "patchlevel.h"
 #include "Debug.h"
 #include "manager.h"
+#include "util.h"
 
 #ifdef NOBANNER
 #  define MENULINE(x)   (x)+1

@@ -1,4 +1,9 @@
 gopher (3.0.3) unstable; urgency=low
+  * Patches for FreeBSD:
+    * Test in configure for stdlib.h
+    * Include stdlib.h if it's available in Malloc.h
+    * Don't include malloc.h if it's missing in Malloc.h
+    * Don't include strcasestr if it's present in util.c and util.h
   * Actually use our configure.in test for malloc.h in object/* files.
   * New configure.in tests for regexp.h and libgen.h
   * Regex.c: define __GOPHER_REGEX_C__ for extern support in Regex.h

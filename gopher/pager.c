@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.3 $
- * $Date: 2001/01/17 21:48:05 $
+ * $Revision: 1.4 $
+ * $Date: 2002/02/12 21:20:14 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/pager.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: pager.c,v $
+ * Revision 1.4  2002/02/12 21:20:14  jgoerzen
+ * Made files using strcasecmp() include util.h
+ *
  * Revision 1.3  2001/01/17 21:48:05  jgoerzen
  * Many fixes and tune-ups.  Now compiles cleanly with -Wall -Werror!
  *
@@ -91,6 +94,7 @@
 #include "fileio.h"
 #include "Malloc.h"
 #include "pager.h"
+#include "util.h"
 
 #ifdef VMS
 #include <stat.h>
