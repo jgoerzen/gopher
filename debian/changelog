@@ -11,6 +11,10 @@ gopher (3.0.3) unstable; urgency=low
     __APPLE__.
   * STRstring.h: Include malloc.h only if actually here.
   * Ditto for Stdlib.h.
+  * Added /etc/logrotate.d/gopherd to gopherd.conffiles.
+    Closes: #132804.
+
+ -- John Goerzen <jgoerzen@complete.org>  Tue, 12 Feb 2002 07:45:00 -0500
 
 gopher (3.0.2) unstable; urgency=low
 

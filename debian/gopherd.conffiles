@@ -2,3 +2,4 @@
 /etc/gopherd/gopherdlocal.conf
 /etc/init.d/gopherd
 /etc/gopherd/startopts
+/etc/logrotate.d/gopherd
