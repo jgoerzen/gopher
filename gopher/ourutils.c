@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.4 $
- * $Date: 2002/01/08 17:36:14 $
+ * $Revision: 1.5 $
+ * $Date: 2002/01/10 17:23:11 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/ourutils.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,13 @@
  *********************************************************************
  * Revision History:
  * $Log: ourutils.c,v $
+ * Revision 1.5  2002/01/10 17:23:11  jgoerzen
+ *   * gopher: Removed processing of . at end of text files.  It would stop
+ *     downloading when it would see ".\n" in a file.  Will need to modify
+ *     gopher/ourutils.c:937 area to deal with this properly -- ignore
+ *     .\n if it's at the end of the file, otherwise preserve it.
+ *     Reported by Ashok Aiyar <aiyar@ebv.mimnet.nwu.edu>
+ *
  * Revision 1.4  2002/01/08 17:36:14  jgoerzen
  * Finally builds!
  *
@@ -934,9 +941,10 @@ GStoFile(GopherObj *gs, FILE *f, char *view, int (*twirlfn) (/* ??? */))
 	  while (readline(sockfd, buf, sizeof(buf)) > 0 && !ControlCpressed) {
 	       ZapCRLF(buf);
 	       line ++;
+	       /*
 	       if (*buf == '.' && *(buf+1) == '\0')
 		    break;
-
+	       */
 
 
 	       if (GSgetType(gs) == A_CSO) {

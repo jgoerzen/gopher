@@ -1,3 +1,11 @@
+gopher (3.0.2) unstable; urgency=low
+
+  * gopher: Removed processing of . at end of text files.  It would stop
+    downloading when it would see ".\n" in a file.  Will need to modify
+    gopher/ourutils.c:937 area to deal with this properly -- ignore
+    .\n if it's at the end of the file, otherwise preserve it.
+    Reported by Ashok Aiyar <aiyar@ebv.mimnet.nwu.edu>
+
 gopher (3.0.1) unstable; urgency=low
 
   * Installation routines modified -- pass -d to install to create
