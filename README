@@ -1,11 +1,11 @@
-$Id: README,v 1.3 2002/01/18 15:33:48 lindner Exp $
+$Id: README,v 1.4 2002/01/28 03:32:35 jgoerzen Exp $
 
 This is the Gopher+ distribution based on the University of
 Minnesota's Internet Gopher+ distribution for UNIX machines.
 University of Minnesota actively developed this software until 1995.
 In 2000, they released it to the public under the GNU General Public
 License.  This represents the latest version of their tree, as adopted
-by a group of programmders.  A client for VMS is included but is not
+by a group of programmers.  A client for VMS is included but is not
 currently supported.  Here's a breakdown by directory:
 
 announcements: Release notes, public announcements about Gopher, etc.
