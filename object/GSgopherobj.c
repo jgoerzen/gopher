@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.5 $
- * $Date: 2001/01/17 21:16:35 $
+ * $Revision: 1.6 $
+ * $Date: 2001/01/17 21:48:05 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/GSgopherobj.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: GSgopherobj.c,v $
+ * Revision 1.6  2001/01/17 21:48:05  jgoerzen
+ * Many fixes and tune-ups.  Now compiles cleanly with -Wall -Werror!
+ *
  * Revision 1.5  2001/01/17 21:16:35  jgoerzen
  * More psinrtf -> snprintf changes
  *
@@ -332,6 +335,11 @@
 #include "Debug.h"
 #include "fileio.h"
 #include <time.h>
+
+/* This define tells glibc to pull in the headers for BSD compatibility regex
+   support. */
+#define _REGEX_RE_COMP
+#include <regex.h>
 
 #ifdef pyr
 unsigned long errno;

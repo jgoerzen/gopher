@@ -1,7 +1,7 @@
 /**********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2001/01/17 21:48:05 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/RBTree.c,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: RBTree.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2001/01/17 21:48:05  jgoerzen
+ * Many fixes and tune-ups.  Now compiles cleanly with -Wall -Werror!
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.3  1995/10/31  16:48:21  lindner
  * Better readability, fix bugs..
@@ -128,37 +131,41 @@ RBTbalance(RBTree      *thetree,
 {
 
      
-     if (grandparent != NULL) /* must have tree nodes to need rebalance*/
-	  if (RBTgetDirection(parent) == LEFT) {
-	       if (RBTgetRBleft(parent) == RED)
-		    if (RBTgetDirection(grandparent) == LEFT) {
-			 if (RBTgetRBleft(grandparent) == RED) {
-			      RBTleft_left(thetree, parent, grandparent,
-					   great_grandparent);
-			      return(TRUE);
-			 }
-		    }
-		    else if (RBTgetRBright(grandparent) == RED) {
-			 RBTright_left(thetree, child, parent,
-				       grandparent, great_grandparent);
-			 return(TRUE);
-		    }
-	  }
-	  else if (RBTgetRBright(parent) == RED)
-	       if (RBTgetDirection(grandparent) == LEFT) {
+    if (grandparent != NULL) { /* must have tree nodes to need rebalance*/
+	if (RBTgetDirection(parent) == LEFT) {
+	    if (RBTgetRBleft(parent) == RED) {
+		if (RBTgetDirection(grandparent) == LEFT) {
 		    if (RBTgetRBleft(grandparent) == RED) {
-			 RBTleft_right(thetree, child, parent, grandparent,
-				       great_grandparent);
-			 return(TRUE);
+			RBTleft_left(thetree, parent, grandparent,
+				     great_grandparent);
+			return(TRUE);
 		    }
-	       }
-	       else if (RBTgetRBright(grandparent) == RED) {
+		} else {
+		    if (RBTgetRBright(grandparent) == RED) {
+			RBTright_left(thetree, child, parent,
+				      grandparent, great_grandparent);
+			return(TRUE);
+		    }
+		}
+	    }
+	} else if (RBTgetRBright(parent) == RED) {
+	    if (RBTgetDirection(grandparent) == LEFT) {
+		if (RBTgetRBleft(grandparent) == RED) {
+		    RBTleft_right(thetree, child, parent, grandparent,
+				  great_grandparent);
+		    return(TRUE);
+		}
+	    } else {
+		if (RBTgetRBright(grandparent) == RED) {
 		    RBTright_right(thetree, parent, grandparent, 
 				   great_grandparent);
 		    return(TRUE);
-	       }
-
-     return(FALSE);
+		}
+	    }
+	}
+    }
+    
+    return(FALSE);
 }
 
 /**********************************************************************/

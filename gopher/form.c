@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: s2mdalle $
- * $Revision: 1.2 $
- * $Date: 2001/01/03 22:28:24 $
+ * $Author: jgoerzen $
+ * $Revision: 1.3 $
+ * $Date: 2001/01/17 21:48:05 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/form.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: form.c,v $
+ * Revision 1.3  2001/01/17 21:48:05  jgoerzen
+ * Many fixes and tune-ups.  Now compiles cleanly with -Wall -Werror!
+ *
  * Revision 1.2  2001/01/03 22:28:24  s2mdalle
  * Code cleanups, compiler warning fixes
  *
@@ -306,7 +309,7 @@ FORMaddLabel(FORM *form, char *label)
      ITEMsetType(item, ITEM_LABEL);
      ITEMsetLabel(item, label);
      
-     FORMpush(form, item);
+     FORMpush(form, (char *) item);
 
      ITEMdestroy(item);
 
@@ -331,7 +334,7 @@ FORMaddPrompt(FORM *form, char *prompt, char *defval)
      else 
 	  ITEMsetResponse(item, "");
 
-     FORMpush(form, item);
+     FORMpush(form, (char *)item);
 
      ITEMdestroy(item);
 
@@ -661,6 +664,7 @@ CURform(CursesObj *cur, char *Wintitle, FORM *form)
 	       } /* End switch */
 	  } /* End while */
      } /* End while */
+     return 0;
 } /* End CURform */
 
 

@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.5 $
- * $Date: 2001/01/17 19:30:25 $
+ * $Revision: 1.6 $
+ * $Date: 2001/01/17 21:48:05 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/serverutil.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: serverutil.c,v $
+ * Revision 1.6  2001/01/17 21:48:05  jgoerzen
+ * Many fixes and tune-ups.  Now compiles cleanly with -Wall -Werror!
+ *
  * Revision 1.5  2001/01/17 19:30:25  jgoerzen
  * Change many sprintf -> snprintf
  *
@@ -221,6 +224,9 @@
 #ifdef USE_FLOCK
 #include <sys/file.h>
 #endif
+
+#include <grp.h>
+#include <sys/types.h>
 
 /*
  * This finds the current peer and the time and  jams it into the

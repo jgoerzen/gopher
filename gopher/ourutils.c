@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: s2mdalle $
- * $Revision: 1.2 $
- * $Date: 2001/01/03 22:31:08 $
+ * $Author: jgoerzen $
+ * $Revision: 1.3 $
+ * $Date: 2001/01/17 21:48:05 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/ourutils.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: ourutils.c,v $
+ * Revision 1.3  2001/01/17 21:48:05  jgoerzen
+ * Many fixes and tune-ups.  Now compiles cleanly with -Wall -Werror!
+ *
  * Revision 1.2  2001/01/03 22:31:08  s2mdalle
  * Inclusion of new header file.
  *
@@ -310,11 +313,13 @@ char *getenv();
 #include "Locale.h"
 #include "String.h"
 #include "ourutils.h"
+#include <curses.h>
+#include <term.h>
 
 void GSprompter(GopherObj *gs, char *view, char *command);
 
 int 
-outchar(char c)
+outchar(int c)
 {
         /** output the given character.  From tputs... **/
         /** Note: this CANNOT be a macro!              **/

@@ -14,7 +14,7 @@
 #endif /* DOWNLOAD_H */
 
 void UNIXfile(char *fname);
-int outchar(char c);
+int outchar(int c);
 int twirl(void);
 void GSmail(GopherObj *gs);
 char *Choose_View(GopherObj *gs);

@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2001/01/17 21:48:05 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/gopherrc.c,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherrc.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2001/01/17 21:48:05  jgoerzen
+ * Many fixes and tune-ups.  Now compiles cleanly with -Wall -Werror!
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.38  1995/11/03  21:18:19  lindner
  * ANSIfication
@@ -573,7 +576,7 @@ RCfromENV(RCobj *rc)
 	       strcpy(Printer, PRINTER_COMMAND);
 
 	  if(RCprintCommand(GlobalRC,"Text/plain","",PrinterP)) {
-	       if (PrinterP[strlen(PrinterP)-1] = ' ')
+	       if (PrinterP[strlen(PrinterP)-1] == ' ')
 	            PrinterP[strlen(PrinterP)-1] = '\0';
 	  }
 	  else

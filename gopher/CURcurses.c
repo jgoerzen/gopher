@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: s2mdalle $
- * $Revision: 1.3 $
- * $Date: 2001/01/03 22:25:57 $
+ * $Author: jgoerzen $
+ * $Revision: 1.4 $
+ * $Date: 2001/01/17 21:48:05 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/CURcurses.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: CURcurses.c,v $
+ * Revision 1.4  2001/01/17 21:48:05  jgoerzen
+ * Many fixes and tune-ups.  Now compiles cleanly with -Wall -Werror!
+ *
  * Revision 1.3  2001/01/03 22:25:57  s2mdalle
  * Code cleanups, fixes for copious compiler warnings.
  *
@@ -315,6 +318,8 @@ int spawn_DCLprocess();
 unsigned int DCLspawn_exception();
 #endif /* VMS */
 
+#include <curses.h>
+#include <term.h>
 
 #ifdef CTRLCPROMPTS
 #  define DIALOGCANCELSTR "Cancel - ^C"
@@ -615,7 +620,7 @@ CURexit(CursesObj *cur)
  */
 
 int
-CURoutchar(char c)
+CURoutchar(int c)
 {
      /** output the given character.  From tputs... **/
      /** Note: this CANNOT be a macro!              **/

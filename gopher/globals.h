@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2000/08/19 00:43:59 $
+ * $Revision: 1.3 $
+ * $Date: 2001/01/17 21:48:05 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/globals.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: globals.h,v $
+ * Revision 1.3  2001/01/17 21:48:05  jgoerzen
+ * Many fixes and tune-ups.  Now compiles cleanly with -Wall -Werror!
+ *
  * Revision 1.2  2000/08/19 00:43:59  jgoerzen
  * Fix to use linux standard sys_errlist
  *
@@ -159,7 +162,7 @@ int DCLsystem(/* char* */);
 /*** Ourutils.c ***/
 void display_file(/* char *Filename */);
 void ZapCRLF(char *);
-int  outchar(char c);        
+int  outchar(int c);        
 void CursesErrorMsg(char *Message);
 void GetOneOption(/* char*, char* */);
 

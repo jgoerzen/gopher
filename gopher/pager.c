@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: s2mdalle $
- * $Revision: 1.2 $
- * $Date: 2001/01/03 22:31:38 $
+ * $Author: jgoerzen $
+ * $Revision: 1.3 $
+ * $Date: 2001/01/17 21:48:05 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/pager.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: pager.c,v $
+ * Revision 1.3  2001/01/17 21:48:05  jgoerzen
+ * Many fixes and tune-ups.  Now compiles cleanly with -Wall -Werror!
+ *
  * Revision 1.2  2001/01/03 22:31:38  s2mdalle
  * Inclusion of new header file
  *
@@ -401,7 +404,6 @@ PagerNextPage(CursesObj *cur, FILE *thefile, char *theline, int *bytecount, int 
 
      /* Display a screen of text */
      for (i=0; i<LINES-4; i++) {
-     read_again:
 	  cp = fgets(theline, COLS+1, thefile);
 	  if (cp == NULL)
 	       break;
@@ -470,7 +472,6 @@ PagerSearch(FILE *thefile, char *theline, int *bytecount, char *search)
 	      return(FALSE);
 	    }
 	  for (i=0; i<LINES-4; i++) {
-	  search_again:
 	       cp = fgets(theline, COLS+1, thefile);
 	       if (cp == NULL)
 		    break;

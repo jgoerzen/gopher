@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: s2mdalle $
- * $Revision: 1.3 $
- * $Date: 2001/01/03 22:26:27 $
+ * $Author: jgoerzen $
+ * $Revision: 1.4 $
+ * $Date: 2001/01/17 21:48:05 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/CURcurses.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: CURcurses.h,v $
+ * Revision 1.4  2001/01/17 21:48:05  jgoerzen
+ * Many fixes and tune-ups.  Now compiles cleanly with -Wall -Werror!
+ *
  * Revision 1.3  2001/01/03 22:26:27  s2mdalle
  * Code cleanups, addition of a few prototypes from CURcurses.c
  *
@@ -285,7 +288,7 @@ void      CURexit(CursesObj *cur);
 int       CURgetstr();
 int       CURgetch(CursesObj *cur);
 void      CURresize(CursesObj *cur);
-int       CURoutchar(char c);
+int       CURoutchar(int c);
 int       CURGetOneOption(CursesObj *cur, char *Title, char *OptionName,
 			  char *Response);
 void      CURBeep(CursesObj *cur);

@@ -1,12 +1,5 @@
 /* config.h.in.  Generated automatically from configure.in by autoheader.  */
 
-/* Define if on AIX 3.
-   System headers sometimes define this.
-   We just want to avoid a redefinition error message.  */
-#ifndef _ALL_SOURCE
-#undef _ALL_SOURCE
-#endif
-
 /* Define to empty if the keyword does not work.  */
 #undef const
 
@@ -89,8 +82,14 @@
 /* Define if you have the fgetpwent function.  */
 #undef HAVE_FGETPWENT
 
+/* Define if you have the getcwd function.  */
+#undef HAVE_GETCWD
+
 /* Define if you have the gethostname function.  */
 #undef HAVE_GETHOSTNAME
+
+/* Define if you have the getloadavg function.  */
+#undef HAVE_GETLOADAVG
 
 /* Define if you have the getpagesize function.  */
 #undef HAVE_GETPAGESIZE
@@ -158,14 +157,14 @@
 /* Define if you have the tzset function.  */
 #undef HAVE_TZSET
 
-/* Define if you have the valloc function.  */
-#undef HAVE_VALLOC
-
 /* Define if you have the wait3 function.  */
 #undef HAVE_WAIT3
 
 /* Define if you have the waitpid function.  */
 #undef HAVE_WAITPID
+
+/* Define if you have the <ctype.h> header file.  */
+#undef HAVE_CTYPE_H
 
 /* Define if you have the <dirent.h> header file.  */
 #undef HAVE_DIRENT_H
@@ -205,6 +204,9 @@
 
 /* Define if you have the <syslog.h> header file.  */
 #undef HAVE_SYSLOG_H
+
+/* Define if you have the <time.h> header file.  */
+#undef HAVE_TIME_H
 
 /* Define if you have the <unistd.h> header file.  */
 #undef HAVE_UNISTD_H

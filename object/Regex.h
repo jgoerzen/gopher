@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2000/12/20 01:19:20 $
+ * $Revision: 1.3 $
+ * $Date: 2001/01/17 21:48:05 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/Regex.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: Regex.h,v $
+ * Revision 1.3  2001/01/17 21:48:05  jgoerzen
+ * Many fixes and tune-ups.  Now compiles cleanly with -Wall -Werror!
+ *
  * Revision 1.2  2000/12/20 01:19:20  jgoerzen
  * Added patches from David Allen <s2mdalle@titan.vcu.edu>
  *
@@ -60,6 +63,7 @@
 #  define REGEX_POSIX
 
 #endif /* REGEX_POSIX */
+#define _REGEX_RE_COMP
 
 #if defined(USG) || defined(__svr4__) || defined(_AUX_SOURCE) || defined(hpux) || defined(irix) || defined(M_XENIX) || defined(SYSVREGEX)
 
@@ -84,8 +88,9 @@
 
 #else
   /** BSD regex.. **/
-#  ifdef NeXT
+/* #  ifdef NeXT */
 #    include <regex.h>
-#  endif
+/* #  endif */
+#include <regex.h>
 
 #endif /* defined(....) */

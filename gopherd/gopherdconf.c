@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2001/01/17 19:30:25 $
+ * $Revision: 1.3 $
+ * $Date: 2001/01/17 21:48:05 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherdconf.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherdconf.c,v $
+ * Revision 1.3  2001/01/17 21:48:05  jgoerzen
+ * Many fixes and tune-ups.  Now compiles cleanly with -Wall -Werror!
+ *
  * Revision 1.2  2001/01/17 19:30:25  jgoerzen
  * Change many sprintf -> snprintf
  *
@@ -173,6 +176,7 @@
 #include "util.h"
 #include "Debug.h"
 #include "conf.h"
+#include "Regex.h"
 
 /*********************************************/
 

@@ -45,7 +45,7 @@ clean:
 	-rm -f config.status
 	-rm -f `find . -name "config.log"`
 	-rm -f Makefile.config gopher/Makefile gopher/locales/Makefile \
-		Makefile config.h configure doc/Makefile gopherd/Makefile \
+		Makefile config.h doc/Makefile gopherd/Makefile \
 		gophfilt/Makefile object/Makefile
 
 	dh_clean
