@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Author: s2mdalle $
+ * $Revision: 1.2 $
+ * $Date: 2001/01/03 22:31:08 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/ourutils.c,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: ourutils.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2001/01/03 22:31:08  s2mdalle
+ * Inclusion of new header file.
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.77  1995/11/03  21:18:21  lindner
  * ANSIfication
@@ -290,7 +293,6 @@
  *
  *********************************************************************/
 
-
 #include "gopher.h"
 #include "Stdlib.h"
 #include "util.h"
@@ -307,6 +309,7 @@ char *getenv();
 #include "Malloc.h"
 #include "Locale.h"
 #include "String.h"
+#include "ourutils.h"
 
 void GSprompter(GopherObj *gs, char *view, char *command);
 

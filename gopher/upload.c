@@ -6,6 +6,9 @@
 #include <sys/stat.h>
 #endif
 
+#ifdef HAVE_TIME_H
+#  include <time.h>
+#endif /* HAVE_TIME_H */
 
 static char *DLnames[] = {
      "Zmodem",

@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Author: s2mdalle $
+ * $Revision: 1.2 $
+ * $Date: 2001/01/03 22:29:00 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/form.h,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: form.h,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2001/01/03 22:29:00  s2mdalle
+ * Compiler warning fixes, includes, etc.
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.3  1995/11/03  21:18:17  lindner
  * ANSIfication
@@ -34,6 +37,7 @@
 #include "DAarray.h"
 #include "STAarray.h"
 #include "boolean.h"
+#include "CURcurses.h"
 
 /*
  * An ITEM is a single UI control type thing..  Examples include labels,
@@ -95,9 +99,13 @@ typedef DynArray FORM;
 #define FORMdestroy(a)    (DAdestroy(a))
 #define FORMcpy(a,b)      (DAcpy(a,b))
 
+int CURform(CursesObj *cur, char *Wintitle, FORM *form);
+
 boolean FORMaddLabel(FORM *form, char *label);
 boolean FORMaddPrompt(FORM *form, char *prompt, char *defval);
 boolean FORMaddPasswd(FORM *form, char *prompt, char *defval);
+boolean FORMaddFilechoice(FORM *form, char *prompt, char *defval);
+boolean FORMaddLong(FORM *form, char *prompt, char *defval);
 boolean FORMaddChoice(FORM *form, char *prompt, char **choices, int defval);
 boolean FORMaddSelect(FORM *form, char *prompt, int defval);
 char    **FORMdoAskBlock();

@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: s2mdalle $
- * $Revision: 1.2 $
- * $Date: 2000/12/27 21:24:04 $
+ * $Revision: 1.3 $
+ * $Date: 2001/01/03 22:26:27 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/CURcurses.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: CURcurses.h,v $
+ * Revision 1.3  2001/01/03 22:26:27  s2mdalle
+ * Code cleanups, addition of a few prototypes from CURcurses.c
+ *
  * Revision 1.2  2000/12/27 21:24:04  s2mdalle
  * Added many function prototypes from CURcurses.c
  *
@@ -296,5 +299,11 @@ void      CURgetYesorNo(CursesObj *cur, char *OptionName, char *Response);
 int       CURRequest(CursesObj *cur, char *Wintitle, char **Prompts, 
                      char **Stowages);
 
-
+int       CURChoice(CursesObj *cur, char *WinTitle, char **Choices, 
+                    char *Prompt, int DefaultChoice);
+void      CURbutton(CursesObj *cur, WINDOW *win, char *Label, boolean bright);
+void      CURbox(CursesObj *cur, WINDOW *win, int height, int width);
+int       CURwgetstr(CursesObj *cur, WINDOW *win, char *inputline, 
+                     int maxlength, boolean hidden);
 #endif  /* CURCURSES_H */
+

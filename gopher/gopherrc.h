@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Author: s2mdalle $
+ * $Revision: 1.2 $
+ * $Date: 2001/01/03 22:30:11 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/gopherrc.h,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherrc.h,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2001/01/03 22:30:11  s2mdalle
+ * Just a pile of function prototypes
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.8  1995/11/03  21:18:19  lindner
  * ANSIfication
@@ -56,8 +59,6 @@
 #include "DAarray.h"
 #include "GSgopherobj.h"
 #include "GDgopherdir.h"
-
-
 
 /*
  * stuff to map from a gopher+ view attribute to a command
@@ -140,3 +141,25 @@ void    RCtoFile(RCobj *rc);
 boolean RCisGlobalNew(void);
 
 #endif
+
+/* Prototypes */
+RCMapObj *RCMnew(void);
+void RCMdestroy(RCMapObj *rcm);
+void RCMinit(RCMapObj *rcm);
+void RCMcpy(RCMapObj *dest, RCMapObj *orig);
+void RCMdisplayCommand(RCMapObj *rcm, char *filename, char *line);
+void RCMprintCommand(RCMapObj *rcm, char *filename, char *line);
+int RCMAviewSearch(RCMAarray *rcma, char *view);
+boolean RCMAfromLine(RCMAarray *rcma, char *line);
+void RCMAtoFile(RCMAarray *rcma, FileIO *fio);
+RCobj *RCnew(void);
+void RCfromFile(RCobj *rc, FileIO *rcfio);
+void RCfromENV(RCobj *rc);
+void RCfromUser(RCobj *rc);
+void RCreadGlobalRC(RCobj *rc);
+void RCsetdefs(RCobj *rc);
+void RCtoFile(RCobj *rc);
+boolean RCdisplayCommand(RCobj *rc, char *view, char *filename, char *line);
+boolean RCprintCommand(RCobj *rc, char *view, char *filename, char *line);
+boolean RCisGlobalNew(void);
+

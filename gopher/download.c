@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: s2mdalle $
- * $Revision: 1.2 $
- * $Date: 2000/12/27 21:23:31 $
+ * $Revision: 1.3 $
+ * $Date: 2001/01/03 22:27:44 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/download.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: download.c,v $
+ * Revision 1.3  2001/01/03 22:27:44  s2mdalle
+ * Several compiler warning fixes.
+ *
  * Revision 1.2  2000/12/27 21:23:31  s2mdalle
  * Added a few #include's for compilation warnings, and changed a few
  * long args within sprintf's %d => %ld
@@ -125,10 +128,15 @@
 
 #include "gopher.h"
 #include "Stat.h"
+#include "download.h"
 
 #ifdef HAVE_TIME_H
 #  include <time.h>
 #endif /* HAVE_TIME_H */
+
+#ifdef HAVE_UNISTD_H
+#  include <unistd.h>
+#endif /* HAVE_UNISTD_H */
 
 #include "fileio.h"		/* For FIOsystem() */
 
@@ -176,7 +184,8 @@ Download_file(GopherObj *gs)
      int    choice;
      char   tmpfilename[512], *cp;
      char   command[512];
-     char   curcwd[512];
+     int    curcwd_len = 512;
+     char   curcwd[curcwd_len];
      int    start, end;
      struct stat buf;
 
@@ -229,7 +238,12 @@ Download_file(GopherObj *gs)
 	  }
      }
 
+#ifdef HAVE_GETCWD
+     getcwd(curcwd, curcwd_len);
+#else
      getwd(curcwd);
+#endif /* HAVE_GETCWD */
+
 #ifdef VMS
      if (chdir("SYS$SCRATCH")!=0) {
 	  CursesErrorMsg(Gtxt("Can't write to SYS$SCRATCH!",69));

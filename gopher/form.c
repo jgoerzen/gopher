@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Author: s2mdalle $
+ * $Revision: 1.2 $
+ * $Date: 2001/01/03 22:28:24 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/form.c,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: form.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2001/01/03 22:28:24  s2mdalle
+ * Code cleanups, compiler warning fixes
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.9  1995/11/03  21:18:17  lindner
  * ANSIfication
@@ -153,9 +156,11 @@ FORMfromASK(GopherObj *gs)
      Blockobj *bl;
      char askline[256];
      char *defaultval;
+#if 0
      int i;
      char ** responses = NULL;
      ITEM *item;
+#endif /* 0 */
      FORM *form;
 
      GSgetginfo(gs, TRUE);
@@ -277,6 +282,9 @@ FORMgetAskdata(GopherObj *gs, FORM *form, int Asknum)
 	       case ITEM_PROMPT:
 	       case ITEM_PASSWD:
 		    responses[respnum++] = strdup(ITEMgetResponse(item));
+               case ITEM_UNINIT: /* Unhandled cases... */
+               case ITEM_LABEL:
+               case ITEM_FILENAME:
 	       }
 	  }
 	  responses[respnum++] = NULL;
@@ -523,8 +531,8 @@ CURform(CursesObj *cur, char *Wintitle, FORM *form)
 			 waddch(tempwin, ' ');
 		    }
 		    wstandend(tempwin);
-	       }
-	  }
+	       } /* End switch */
+	  } /* End for */
 	  
 	  /** Add the labels, centered **/
 	  wmove(tempwin, 3 + numprompts, (COLS-63)/2);
@@ -591,7 +599,7 @@ CURform(CursesObj *cur, char *Wintitle, FORM *form)
 			 waddstr(tempwin, ITEMgetChoiceNum(item,choice));
 			 ITEMsetChoice(item, choice);
 			 wrefresh(tempwin);
-		    }
+		    } /* End while */
 		    wmove(tempwin, 4+numprompts, (COLS-22)/2);
 		    waddstr(tempwin, "                       ");
 		    
@@ -608,7 +616,7 @@ CURform(CursesObj *cur, char *Wintitle, FORM *form)
 				    maxlength, hidden);
 
 		    ITEMsetResponse(item, tmpbuffer);
-	       }
+	       } /* End else */
 
 	       switch (ch) {
 		    
@@ -650,13 +658,10 @@ CURform(CursesObj *cur, char *Wintitle, FORM *form)
 			 thisformdone = TRUE;
 		    }
 		    break;
-	       }
-
-	  }
-
-     }
-
-}
+	       } /* End switch */
+	  } /* End while */
+     } /* End while */
+} /* End CURform */
 
 
 

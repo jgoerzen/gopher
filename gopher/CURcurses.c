@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: s2mdalle $
- * $Revision: 1.2 $
- * $Date: 2000/12/27 21:25:01 $
+ * $Revision: 1.3 $
+ * $Date: 2001/01/03 22:25:57 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/CURcurses.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: CURcurses.c,v $
+ * Revision 1.3  2001/01/03 22:25:57  s2mdalle
+ * Code cleanups, fixes for copious compiler warnings.
+ *
  * Revision 1.2  2000/12/27 21:25:01  s2mdalle
  * Added #include "gopher.h"
  *
@@ -2097,10 +2100,7 @@ resetterm()
  
 /* The following simulates tputs, but does not support padding */
 int
-tputs(cp, affcnt, outc)
-     register char *cp;
-     int affcnt;
-     int (*outc)();
+tputs(register char *cp, int affcnt, int (*outc)())
 {
      while (*cp)
           outc(*(cp++));

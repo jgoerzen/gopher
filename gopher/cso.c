@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Author: s2mdalle $
+ * $Revision: 1.2 $
+ * $Date: 2001/01/03 22:27:10 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/cso.c,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: cso.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2001/01/03 22:27:10  s2mdalle
+ * Inclusion of the new header cso.h that holds prototypes for this module.
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.14  1995/11/03  21:18:16  lindner
  * ANSIfication
@@ -80,6 +83,7 @@
 #include "gopher.h"
 #include "fileio.h"
 #include "Malloc.h"
+#include "cso.h"
 
 void 
 do_cso(GopherStruct *ZeGopher)

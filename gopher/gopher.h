@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: s2mdalle $
- * $Revision: 1.2 $
- * $Date: 2000/12/27 21:25:59 $
+ * $Revision: 1.3 $
+ * $Date: 2001/01/03 22:29:33 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/gopher.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: gopher.h,v $
+ * Revision 1.3  2001/01/03 22:29:33  s2mdalle
+ * Added a bunch of includes, prototypes, compiler warning fixes.
+ *
  * Revision 1.2  2000/12/27 21:25:59  s2mdalle
  * Added CleanupandExit prototype and an include for CUR* functions
  *
@@ -110,9 +113,14 @@
 
 /* Prototypes */
 RETSIGTYPE CleanupandExit(int exitval);
+void showfile(GopherObj *ZeGopher);
 
 /** Get the configuration variables **/
 
 #include "globals.h"
-
+#include "gopherrc.h"
+#include "ourutils.h"
+#include "manager.h"
+#include "cso.h"
+#include "html2.h"
 #include "CURcurses.h"
