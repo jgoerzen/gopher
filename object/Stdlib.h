@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2000/08/23 00:03:59 $
+ * $Revision: 1.3 $
+ * $Date: 2002/02/12 19:54:18 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/Stdlib.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: Stdlib.h,v $
+ * Revision 1.3  2002/02/12 19:54:18  jgoerzen
+ * Updated with regex fixes
+ *
  * Revision 1.2  2000/08/23 00:03:59  jgoerzen
  * Updates
  *
@@ -67,7 +70,12 @@
 
 #if !defined(VMS)
 #  include <sys/types.h>
+#ifdef HAVE_STDLIB_H
+#include <stdlib.h>
+#endif
+#ifdef HAVE_MALLOC_H
 #include <malloc.h>
+#endif
 #include <string.h>
 #endif
 

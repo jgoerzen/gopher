@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.4 $
- * $Date: 2000/08/23 00:11:36 $
+ * $Revision: 1.5 $
+ * $Date: 2002/02/12 19:54:18 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/STRstring.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: STRstring.h,v $
+ * Revision 1.5  2002/02/12 19:54:18  jgoerzen
+ * Updated with regex fixes
+ *
  * Revision 1.4  2000/08/23 00:11:36  jgoerzen
  * Fixed bug in macro.
  *
@@ -59,7 +62,13 @@
 #define STRstring_H
 
 #include <string.h>
+#ifdef HAVE_STDLIB_H
+#include <stdlib.h>
+#endif
+#ifdef HAVE_MALLOC_H
 #include <malloc.h>
+#endif
+
 
 struct string_struct {
      int  len;

@@ -1,4 +1,4 @@
-/* config.h.in.  Generated automatically from configure.in by autoheader.  */
+/* config.h.in.  Generated automatically from configure.in by autoheader 2.13.  */
 
 /* Define to empty if the keyword does not work.  */
 #undef const
@@ -181,6 +181,9 @@
 /* Define if you have the <fcntl.h> header file.  */
 #undef HAVE_FCNTL_H
 
+/* Define if you have the <libgen.h> header file.  */
+#undef HAVE_LIBGEN_H
+
 /* Define if you have the <limits.h> header file.  */
 #undef HAVE_LIMITS_H
 
@@ -201,6 +204,9 @@
 
 /* Define if you have the <regex.h> header file.  */
 #undef HAVE_REGEX_H
+
+/* Define if you have the <regexp.h> header file.  */
+#undef HAVE_REGEXP_H
 
 /* Define if you have the <stdlib.h> header file.  */
 #undef HAVE_STDLIB_H

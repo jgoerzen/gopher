@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.8 $
- * $Date: 2002/01/10 18:48:31 $
+ * $Revision: 1.9 $
+ * $Date: 2002/02/12 19:54:18 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/Regex.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: Regex.h,v $
+ * Revision 1.9  2002/02/12 19:54:18  jgoerzen
+ * Updated with regex fixes
+ *
  * Revision 1.8  2002/01/10 18:48:31  jgoerzen
  * Fix for Linux
  *
@@ -114,11 +117,15 @@
 
 /*
  * Posix Regular expressions routines
+ *
+ * Also used on Darwin
  */
 
-#if defined(REGEX_POSIX)
+#if defined(REGEX_POSIX) || defined(__APPLE__)
 #  include "Malloc.h"
+#ifdef HAVE_LIBGEN_H
 #  include <libgen.h>
+#endif
 
 #  define re_comp(a) REGEX_param=regcomp(a,NULL)
 #  define re_exec(a) regex(REGEX_param,a)

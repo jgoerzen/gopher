@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2002/02/12 19:54:18 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/Regex.c,v $
  * $Status: $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: Regex.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2002/02/12 19:54:18  jgoerzen
+ * Updated with regex fixes
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.2  1994/07/25  13:56:53  lindner
  * First crack at POSIX regular expressions
@@ -37,6 +40,10 @@
 
 #ifdef REGEX_POSIX
 char *REGEX_param = NULL;
+#endif
+
+#ifdef __APPLE__
+regexp *REGEX_param = NULL;
 #endif
 
 #ifdef REGEX_SYSV

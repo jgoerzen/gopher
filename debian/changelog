@@ -1,3 +1,6 @@
+gopher (3.0.3) unstable; urgency=low
+  * Actually use our configure.in test for malloc.h in object/* files.
+
 gopher (3.0.2) unstable; urgency=low
 
   * gopher: Removed processing of . at end of text files.  It would stop
