@@ -11,14 +11,22 @@ jgoerzen@complete.org
 
 Platform                     Gopher Notes
 ---------------------------  ------ -----------------------------------
-NetBSD 1.5ZA (-current)      3.0.1  verified for each build by jgoerzen
+FreeBSD/i386 ?.?             3.0.1  requires gmake
+
+FreeBSD/i386 4.4             3.0.1  OK -- Kevin Griffin <vertov@artstar.com>
+
+NetBSD 1.5ZA (-current)      3.0.1  verified for each release by jgoerzen
                                     requires gmake  
-Linux/alpha 2.2 (Debian sid) 3.0.1  verified for each build by jgoerzen
-Linux/i386 2.2 (Debian sid)  3.0.1
-Linux/ppc 2.4 (Debian sid)   3.0.1
-Linux/i386 ?.? (Slackware)   3.0.1
-FreeBSD/i386 ?.?             3.0.1 requires gmake
-Solaris 2.6                  3.0.1 3.0.1 won't build, try CVS version
+
+Linux/alpha 2.2 (Debian sid) 3.0.1  verified for each release by jgoerzen
+
+Linux/i386 2.2 (Debian sid)  3.0.1  OK -- John Goerzen <jgoerzen@complete.org>
+
+Linux/ppc 2.4 (Debian sid)   3.0.1  OK -- John Goerzen <jgoerzen@complete.org>
+
+Linux/i386 ?.? (Slackware)   3.0.1  
+
+Solaris 2.6                  3.0.1  3.0.1 won't build, try CVS version
 
 -----------
 
