@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2000/12/20 01:19:20 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.h,v $
  * $State: Exp $
  *
@@ -15,8 +15,15 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.h,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/12/20 01:19:20  jgoerzen
+ * Added patches from David Allen <s2mdalle@titan.vcu.edu>
+ *
+ * Revision 1.1.1.2  2000/11/18 23:21:50 mdallen
+ * Prototyped all non-static functions from gopherd.c 
+ * at the bottom of the file, added more relevant header #includes.
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.10  1994/09/29  19:58:50  lindner
  * Fix for including Locale.h
@@ -125,6 +132,38 @@ typedef struct stat STATSTR;
 #  endif
 #endif
 
+#include "daemon.h"
+#include "error.h"
+#include "kernutils.h"
+#include "ftp.h"
+#include "gopherdconf.h"
+#include "command.h"
+#include "ext.h"
+#include "serverutil.h"
+#include "index.h"
 
 /*** This one must be last ***/
 #include "globals.h"
+
+/* Prototypes */
+RETSIGTYPE read_timeout                        (int sig);
+void gopherd_exit                              (int val);
+RETSIGTYPE sigabnormalexit                     (void);
+void OkHTTPresponse                            (int sockfd);
+
+#ifndef NO_AUTHENTICATION
+void OutputAuthForm                            (int sockfd, char *pathname, 
+                                                char *host, int port, 
+                                                CMDprotocol p);
+#endif /* NO_AUTHENTICATION */
+
+void HandleHTTPpost                            (CMDobj *cmd);
+void AddDefaultView                            (GopherObj *gs, int size, 
+                                                char *dirname);
+void GSrunScripts                              (GopherObj *gs, char *filename);
+GopherDirObj *GDfromUFS                        (char *pathname, int sockfd, 
+                                                boolean isGplus);
+void GSicontoNet                               (GopherObj *gs, int  sockfd);
+int Process_Side                               (FILE *sidefile, 
+                                                GopherObj *Gopherp);
+boolean IsAskfile                              (char *pathname);

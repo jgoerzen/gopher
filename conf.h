@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2000/12/20 01:19:15 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/conf.h,v $
  * $State: Exp $
  *
@@ -15,8 +15,14 @@
  *********************************************************************
  * Revision History:
  * $Log: conf.h,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/12/20 01:19:15  jgoerzen
+ * Added patches from David Allen <s2mdalle@titan.vcu.edu>
+ *
+ * Revision 1.1.1.2  2000/12/18 11:05:07  mdallen
+ * Removed ~50 instances of nested comments for commented out #define's
+ * 
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.23  1995/02/25  06:45:33  lindner
  * Add write time out
@@ -163,21 +169,21 @@
  * (This is a gopher+ language code - see object/VIews.c for more examples)
  */
 #define DEFAULT_LANG	"En_US"	    /* English (US) */
-/* #define DEFAULT_LANG	"Da_DK"	    /* Danish */
-/* #define DEFAULT_LANG	"De_DE"	    /* German */
-/* #define DEFAULT_LANG	"En_GB"	    /* English (UK) */
-/* #define DEFAULT_LANG	"Es_ES"	    /* Spanish */
-/* #define DEFAULT_LANG	"Fr_FR"	    /* French */
-/* #define DEFAULT_LANG "It_IT"	    /* Italian */
-/* #define DEFAULT_LANG	"Jp_JP"	    /* Japanese */
-/* #define DEFAULT_LANG "No_NO"	    /* Norwegian */
-/* #define DEFAULT_LANG	"Sv_SE"	    /* Swedish */
+/* #define DEFAULT_LANG	"Da_DK"	    Danish */
+/* #define DEFAULT_LANG	"De_DE"	    German */
+/* #define DEFAULT_LANG	"En_GB"	    English (UK) */
+/* #define DEFAULT_LANG	"Es_ES"	    Spanish */
+/* #define DEFAULT_LANG	"Fr_FR"	    French */
+/* #define DEFAULT_LANG "It_IT"	    Italian */
+/* #define DEFAULT_LANG	"Jp_JP"	    Japanese */
+/* #define DEFAULT_LANG "No_NO"	    Norwegian */
+/* #define DEFAULT_LANG	"Sv_SE"	    Swedish */
 
 
 /*
  * Define this if you want the 'd'elete command restricted to bookmarks
  */
-/* #define DELETE_BOOKMARKS_ONLY /* */
+/* #define DELETE_BOOKMARKS_ONLY */
 
 
 /*
@@ -185,19 +191,19 @@
  * the client is invoked in SecureMode or NoShellMode (bookmarks in the
  * user account's gopherrc will still be read.
  */
-/* #define SECURE_MAPS_GLOBALRC_ONLY /* */
+/* #define SECURE_MAPS_GLOBALRC_ONLY */
 
 /*
  * Define this if you want the spawn to shell command disabled regardless
  * of whether SecureMode or NoShellMode are set.
  */
-/* #define NEVERSPAWN /* */
+/* #define NEVERSPAWN */
 
 /*
  * Define this if you want to disable access to the Options menus under all
  * circumstances.
  */
-/* #define NEVERSETOPTIONS /* */
+/* #define NEVERSETOPTIONS */
 
 /*
  * Define this if you want the link's tuple and URL decription (as created
@@ -211,12 +217,12 @@
  * address included for the gripe command.  If included, the user can
  * modify it to have the gripe sent to a different address.
  */
-/* #define MODIFIABLE_GRIPE_TO /* */
+/* #define MODIFIABLE_GRIPE_TO */
 
 /*
  * Define this if you want gripes disabled in SecureMode and NoShellMode
  */
-/* #define NOGRIPE_SECURE /* */
+/* #define NOGRIPE_SECURE */
 
 /* Define LOCAL_GRIPE_ADMINISTRATOR and use your site's Gopher Administrator
  * address if you want gripes sent there for Gopher0 servers (or Gopher+
@@ -228,9 +234,9 @@
  * screen message that the link's administrator is unknown (unless
  * MODIFIABLE_GRIPE_TO is on, in which case the address field is set to "").
  */
-/* #define LOCAL_GRIPE_ADMINISTRATOR "<GopherAdmin@host.domain>" /* */
-/* #define DOMAIN_FOR_LOCAL_GRIPES   "host.domain" /* */
-/* #define DOMAIN_FOR_LOCAL_GRIPES   CLIENT1_HOST  /* */
+/* #define LOCAL_GRIPE_ADMINISTRATOR "<GopherAdmin@host.domain>" */
+/* #define DOMAIN_FOR_LOCAL_GRIPES   "host.domain" */
+/* #define DOMAIN_FOR_LOCAL_GRIPES   CLIENT1_HOST  */
 
 /*
  * Override some defaults for various platforms
@@ -268,7 +274,7 @@
  * Define this if you have an old version of VAXC/OpenVMS
  * which lacks the mktime() function.
  */
-/* #define NO_MKTIME /* */
+/* #define NO_MKTIME */
 
 /*
  * The "builtin" pager is the default VMS utility for displaying text.
@@ -279,8 +285,8 @@
  * and +s switches.
  */
 #define PAGER_COMMAND "builtin" /* */
-/* #define PAGER_COMMAND "TPU/NOINI/COM=GopherP_Dir:GOPHER.TPU %s" /* */
-/* #define PAGER_COMMAND "most -n +s %s" /* */
+/* #define PAGER_COMMAND "TPU/NOINI/COM=GopherP_Dir:GOPHER.TPU %s" */
+/* #define PAGER_COMMAND "most -n +s %s" */
 
 /*
  * MAIL_COMMAND is the program logical for the mail verb. 
@@ -298,10 +304,10 @@
  */
 #define MAIL_COMMAND "mail"
 #define MAIL_ADRS "%s" /* */
-/* #define MAIL_ADRS "\"IN%%\"\"%s\"\"\""   /* */
-/* #define MAIL_ADRS "\"MX%%\"\"%s\"\"\""   /* */
-/* #define MAIL_ADRS "\"WINS%%\"\"%s\"\"\"" /* */
-/* #define MAIL_ADRS "\"SMTP%%\"\"%s\"\"\"" /* */
+/* #define MAIL_ADRS "\"IN%%\"\"%s\"\"\""    */
+/* #define MAIL_ADRS "\"MX%%\"\"%s\"\"\""    */
+/* #define MAIL_ADRS "\"WINS%%\"\"%s\"\"\""  */
+/* #define MAIL_ADRS "\"SMTP%%\"\"%s\"\"\""  */
 
 /*
  * Use MultiNet's command verb for telnet and tn3270, so that it can
@@ -328,7 +334,7 @@
  * and then define the Printer Command appropriately
  */
 #define PRINTER_COMMAND "print %s" /* */
-/* #define PRINTER_COMMAND "@GopherP_Dir:GOPHERPRINT %s" /* */
+/* #define PRINTER_COMMAND "@GopherP_Dir:GOPHERPRINT %s" */
 
 /*
  * Sounds are not implemented on VMS.
@@ -342,7 +348,7 @@
  * and images can only be 's'aved or 'D'ownloaded.
  */
 #define IMAGE_COMMAND "xv %s" /* */
-/* #define IMAGE_COMMAND "- none -" /* */
+/* #define IMAGE_COMMAND "- none -" */
 
 /*
  * The builtin HTML browser is not yet functional.
@@ -356,8 +362,8 @@
  */
 
 #define HTML_COMMAND "- none -"     
-/* #define HTML_COMMAND "lynx -force_html %s" /* lynx 2.2 or greater */
-/* #define HTML_COMMAND "www"                 /* WWW Line-Mode client */
+/* #define HTML_COMMAND "lynx -force_html %s" lynx 2.2 or greater */
+/* #define HTML_COMMAND "www"                 WWW Line-Mode client */
 
 /*
  * Point these to the default configuration files for view command maps:
@@ -402,14 +408,14 @@
  * See [.GOPHER.LOCALES]README.VMS for more information.
  */
 #define GOPHERMSGS_DEFAULT "EN_US"	 /* English_US	*/
-/* #define GOPHERMSGS_DEFAULT "DE_DE"	 /* German_DE	*/ 
-/* #define GOPHERMSGS_DEFAULT "DK"	 /* Danish	*/
-/* #define GOPHERMSGS_DEFAULT "ES_ES"	 /* Spanish_ES	*/
-/* #define GOPHERMSGS_DEFAULT "ES_MX"	 /* Spanish_MX	*/
-/* #define GOPHERMSGS_DEFAULT "IT"	 /* Italian	*/
-/* #define GOPHERMSGS_DEFAULT "FR"	 /* French	*/
-/* #define GOPHERMSGS_DEFAULT "PIGLATIN" /* Oy-vay	*/
-/* #define GOPHERMSGS_DEFAULT "SV"	 /* Swedish	*/
+/* #define GOPHERMSGS_DEFAULT "DE_DE"	 German_DE	*/ 
+/* #define GOPHERMSGS_DEFAULT "DK"	 Danish	*/
+/* #define GOPHERMSGS_DEFAULT "ES_ES"	 Spanish_ES	*/
+/* #define GOPHERMSGS_DEFAULT "ES_MX"	 Spanish_MX	*/
+/* #define GOPHERMSGS_DEFAULT "IT"	 Italian	*/
+/* #define GOPHERMSGS_DEFAULT "FR"	 French	*/
+/* #define GOPHERMSGS_DEFAULT "PIGLATIN" Oy-vay	*/
+/* #define GOPHERMSGS_DEFAULT "SV"	 Swedish	*/
 
 /*
  * Point this to the on-line Gopher+ help file.  It will be used if
@@ -426,14 +432,14 @@
  * edit those, and make sure each message number 224 (226 for Unix) points to
  * the correct help file location and name, so that it will be used instead.
  */
-/* #define GOPHERHELP_SECURE "GopherP_Dir:gopher.hlp_secure" /* */
+/* #define GOPHERHELP_SECURE "GopherP_Dir:gopher.hlp_secure" */
 
 /*
  * Define this if you want to disable mailing of documents in SecurMode (-s)
  * and NoShellMode (-S).  Printing and saving to disk are always disabled for
  * those ("remote user") modes.
  */
-/* #define NOMAIL /* */
+/* #define NOMAIL */
 
 /*
  * Client logging via syslog() code has been ported to VMS systems
@@ -444,8 +450,8 @@
  * Define CLIENT_LOGGER to log client requests issued to servers.
  * Define TELNET_TRACE to trace and log telnet connections by the client.
  */
-/* #define CLIENT_LOGGER /* */
-/* #define TELNET_TRACE  /* */
+/* #define CLIENT_LOGGER */
+/* #define TELNET_TRACE  */
 
 #endif /* VMS (Have you noticed how verbose VMSers tend to be?!?!?) */
 
@@ -490,8 +496,8 @@
 #ifndef HTML_COMMAND
 /*** See the VMS HTML section for info on obtaining lynx or www ***/
 #define HTML_COMMAND "- none -"		      /* */
-/* #define HTML_COMMAND "lynx -force_html %s" /* lynx 2.1 or greater */
-/* #define HTML_COMMAND "www"                 /* WWW Line-Mode client */
+/* #define HTML_COMMAND "lynx -force_html %s" lynx 2.1 or greater */
+/* #define HTML_COMMAND "www"                 WWW Line-Mode client */
 #endif
 
 #ifndef REMOTERC

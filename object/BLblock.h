@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2000/12/20 01:19:20 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/BLblock.h,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: BLblock.h,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/12/20 01:19:20  jgoerzen
+ * Added patches from David Allen <s2mdalle@titan.vcu.edu>
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.5  1995/09/26  05:16:30  lindner
  * more fixes...
@@ -46,7 +49,7 @@
 #include "STRstring.h"
 #include "STAarray.h"
 #include "boolean.h"
-
+#include "util.h"
 
 /** Return Values for *fromNet() functions **/
 #define SOFTERROR -1

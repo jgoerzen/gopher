@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.4 $
- * $Date: 2000/08/23 01:48:40 $
+ * $Revision: 1.5 $
+ * $Date: 2000/12/20 01:19:20 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,14 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.5  2000/12/20 01:19:20  jgoerzen
+ * Added patches from David Allen <s2mdalle@titan.vcu.edu>
+ *
+ * Revision 1.4.1 2000/12/18 23:06:00 mdallen
+ * Included relevant headers, changed return type of main from void->int,
+ * fixed getwd to getcwd.  HandleHTTPpost changed to void return type since
+ * it doesn't return anything and nobody uses its return value.
+ * 
  * Revision 1.4  2000/08/23 01:48:40  jgoerzen
  * Cross fingers: final mods
  *
@@ -637,21 +645,25 @@ gopherd_exit(int val)
  */
 
 RETSIGTYPE
-sigabnormalexit()
+sigabnormalexit(void)
 {
      gopherd_exit(-1);
 }
 
-void
+int
 main(int argc, char *argv[], char *envp[])
 {
      int                childpid;
-     int                sockfd, gophersockfd = -1, httpsockfd = -1, newsockfd;
-     int                clilen;
+     int                sockfd       = -1, 
+                        gophersockfd = -1, 
+                        httpsockfd   = -1, 
+                        newsockfd    = -1;
+     int                clilen = 0;
      struct sockaddr_in cli_addr;
      boolean            OptionsRead = FALSE;
-     int                i=0;
-     char               tmpstr[256];
+     int                i = 0;
+     int                tmpstrlen = 256;
+     char               tmpstr[tmpstrlen];
      int                numready;
      
      fd_set             socketfds;
@@ -720,7 +732,11 @@ main(int argc, char *argv[], char *envp[])
 	       if (*optarg == '/' || strcasecmp(optarg, "syslog") == 0)
 		    GDCsetLogfile(Config, optarg);
 	       else {
-		    getwd(tmpstr);
+#ifdef HAVE_GETCWD
+		    getcwd(tmpstr, tmpstrlen);
+#else
+                    getwd(tmpstr);
+#endif /* HAVE_GETCWD */
 		    strcat(tmpstr, "/");
 		    strcat(tmpstr, optarg);
 		    
@@ -732,7 +748,11 @@ main(int argc, char *argv[], char *envp[])
 	       if (*optarg == '/')
 		    GDCfromFile(Config, optarg);
 	       else {
-		    getwd(tmpstr);
+#ifdef HAVE_GETCWD
+		    getcwd(tmpstr, tmpstrlen);
+#else
+                    getwd(tmpstr);
+#endif /* HAVE_GETCWD */
 		    strcat(tmpstr, "/");
 		    strcat(tmpstr, optarg);
 		    GDCfromFile(Config, tmpstr);
@@ -996,16 +1016,14 @@ main(int argc, char *argv[], char *envp[])
 	       Connections++;
 	  }
      }
-}
 
-
-
+     return(0);
+} /* End main() */
 
 int EXECflag;
 
-
 static void
-SetInitialScriptEnvironment()
+SetInitialScriptEnvironment(void)
 {
      /* Stuff that doesn't change over the life of the server... */
      char tmpstr[256];
@@ -1022,7 +1040,6 @@ SetInitialScriptEnvironment()
      SetEnvironmentVariable("SERVER_PROTOCOL", "gopher/1.0");
      SetEnvironmentVariable("GATEWAY_INTERFACE", "CGI/1.0");
 }
-
 
 static void
 SetScriptEnvironment(CMDobj *cmd, char *view)
@@ -1091,7 +1108,7 @@ OutputAuthForm(int sockfd, char *pathname, char *host, int port, CMDprotocol p)
 }
 #endif
 
-int
+void
 HandleHTTPpost(CMDobj *cmd)
 {
      int doneCONTENT_TYPE;
@@ -1240,7 +1257,12 @@ do_command(int sockfd)
 	       case AUTHRES_NOGROUP:
 		    GplusError(sockfd, 1, "Your group does not have access to this item", NULL);
 		    return(0);
-		    
+                    /* Unhandled possible cases from the returned enum */
+               case AUTHRES_OK:
+               case AUTHRES_BADPW:
+               case AUTHRES_EXPIRED:
+               case AUTHRES_NOUSER:
+               case AUTHRES_SYSERR:
 	       }
 
 	       Setuid_username(user);
@@ -1268,7 +1290,7 @@ do_command(int sockfd)
 	  if ((CMDgetCommand(cmd) != NULL && *CMDgetCommand(cmd) != '!') ||
 	      ((ishtml = (strncmp(CMDgetSelstr(cmd), "halidate ", 9)) == 0)))  {
 	       char *extra_args;
-	       char *authuser, *authpw;
+	       char *authuser=NULL, *authpw=NULL;
 
 	       selstr = CMDgetSelstr(cmd) + 9;
 
@@ -1868,9 +1890,6 @@ GSfindHTMLtitle(GopherObj *gs, char *filename)
 }
 
 
-
-
-
 /*
  * This function tries to find out what type of file a pathname is.
  */
@@ -2387,7 +2406,6 @@ GDfromUFS(char *pathname, int sockfd, boolean isGplus)
 
 	       if (GDCViewExtension(Config, filename, &ext)) {
 		    char *Prefix;
-		    int   num;
 		    char  Pathp[512];
 		    
 		    Prefix = EXgetPrefix(ext);
@@ -2615,7 +2633,7 @@ GDfromSelstr(CMDobj *cmd, int sockfd)
 /*
  * Send item information to client
  */
-void
+static void
 item_info(CMDobj *cmd, int sockfd)
 {
      GopherDirObj *gd = NULL;
@@ -2705,7 +2723,7 @@ item_info(CMDobj *cmd, int sockfd)
 	       char *started = ctime(&ServerStarted);
 	       
 	       *(started+24) = '\0';
-	       sprintf(tmpstr, "+STATISTICS:\r\n Total Connections: %d\r\n Server Started: %s\r\n Connections per Hour: %d\r\n Concurrent Sessions: %d\r\n", 
+	       sprintf(tmpstr, "+STATISTICS:\r\n Total Connections: %ld\r\n Server Started: %s\r\n Connections per Hour: %d\r\n Concurrent Sessions: %d\r\n", 
 		       Connections, started, connperhour, ActiveSessions);
 	       writestring(sockfd, tmpstr);
 	       
@@ -2743,7 +2761,7 @@ item_info(CMDobj *cmd, int sockfd)
 	  writestring(sockfd, "\r\n+VIEWS:\r\n");
 	  if (GDCgetCaching(Config)) {
 	       if (rstat("/.cache", &statbuf) == 0) {
-		    sprintf(tmpstr, " application/gopher-menu %s: <%dk>\r\n",
+		    sprintf(tmpstr, " application/gopher-menu %s: <%ldk>\r\n",
 			    GDCgetLang(Config), (statbuf.st_size + 512)/1024);
 		    writestring(sockfd, tmpstr);
 	       } else {
@@ -2751,7 +2769,7 @@ item_info(CMDobj *cmd, int sockfd)
 	       }
 
 	       if (rstat("/.cache+", &statbuf) == 0) {
-		    sprintf(tmpstr, " application/gopher+-menu %s: <%dk>\r\n",
+		    sprintf(tmpstr, " application/gopher+-menu %s: <%ldk>\r\n",
 			    GDCgetLang(Config), (statbuf.st_size + 512)/1024);
 		    writestring(sockfd, tmpstr);
 	       } else {

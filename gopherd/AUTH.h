@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2000/08/19 01:25:26 $
+ * $Revision: 1.3 $
+ * $Date: 2000/12/20 01:19:20 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/AUTH.h,v $
  *
  * Paul Lindner, University of Minnesota DCS.
@@ -14,6 +14,9 @@
  *********************************************************************
  * Revision History:
  * $Log: AUTH.h,v $
+ * Revision 1.3  2000/12/20 01:19:20  jgoerzen
+ * Added patches from David Allen <s2mdalle@titan.vcu.edu>
+ *
  * Revision 1.2  2000/08/19 01:25:26  jgoerzen
  * Now includes crypt.h
  *
@@ -148,6 +151,7 @@ typedef struct AUTHITEMS_struct AUTHITEMS;
    AUTH      *AUTHITEMSfindAUTH(AUTHITEMS *ai, AUTHarray *aa, char *fname);
    char      *AUTHITEMSfindType(AUTHITEMS *ai, char *fname);
    char      *AUTHITEMSfindExtraArgs(AUTHITEMS *ai, char *fname);
+   boolean   AUTHAprocessLine(AUTHarray *autharr, char *inputline);
 #else
 #  define AUTHAvalidate(a,b,c,d,e,f) (AUTHRES_OK)
 #  define AUTHITEMSdestroy(a) 
@@ -158,4 +162,3 @@ typedef struct AUTHITEMS_struct AUTHITEMS;
 #  define AUTHITEMSnew(a) (NULL)
 #  define AUTHITEMSfindAUTH(a,b,c) (NULL)
 #endif
-

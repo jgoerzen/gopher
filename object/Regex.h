@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2000/12/20 01:19:20 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/Regex.h,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: Regex.h,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/12/20 01:19:20  jgoerzen
+ * Added patches from David Allen <s2mdalle@titan.vcu.edu>
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.7  1994/07/25  13:56:54  lindner
  * First crack at POSIX regular expressions
@@ -56,7 +59,7 @@
 #  undef  REGEX_POSIX
 #  define REGEX_POSIX
 
-#endif
+#endif /* REGEX_POSIX */
 
 #if defined(USG) || defined(__svr4__) || defined(_AUX_SOURCE) || defined(hpux) || defined(irix) || defined(M_XENIX) || defined(SYSVREGEX)
 
@@ -73,7 +76,8 @@
 #     include <regexp.h>
 #     define REGEX_SYSV
 
-#  endif
+#  endif /* REGEX_CODEIT */
+
   /*** BSDize the puppy ***/
   char *re_comp();
   int  re_exec();
@@ -84,4 +88,4 @@
 #    include <regex.h>
 #  endif
 
-#endif
+#endif /* defined(....) */

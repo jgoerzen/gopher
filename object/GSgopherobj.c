@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2000/08/23 00:18:41 $
+ * $Revision: 1.3 $
+ * $Date: 2000/12/20 01:19:20 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/GSgopherobj.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: GSgopherobj.c,v $
+ * Revision 1.3  2000/12/20 01:19:20  jgoerzen
+ * Added patches from David Allen <s2mdalle@titan.vcu.edu>
+ *
  * Revision 1.2  2000/08/23 00:18:41  jgoerzen
  * Various bugfixes
  *
@@ -1180,6 +1183,7 @@ GSplusfromNet(GopherObj *gs, int fd)
 extern int readfield();
 extern int readline();
 
+#if 0
 static void
 GSprocessObject(GopherObj *gs)
 {
@@ -1192,7 +1196,7 @@ GSprocessObject(GopherObj *gs)
      }
 #endif
 }
-
+#endif /* 0 */
 
 
 
@@ -1393,9 +1397,9 @@ GSmerge(GopherObj *gs, GopherObj *overlay)
 	      && GSgetType(gs) != A_FILE) {
 	       char *vs, vsize[64], *vc, vcomments[256];
 	       VIewobj *temp;
-	       if (vs = VIgetSize(GSgetView(gs, 0)))
+	       if ((vs = VIgetSize(GSgetView(gs, 0))))
 		    strcpy(vsize, vs);
-	       if (vc = VIgetComments(GSgetView(gs, 0)))
+	       if ((vc = VIgetComments(GSgetView(gs, 0))))
 		    strcpy(vcomments, vc);
 	       VIAdestroy(gs->gplus->Views);
 	       gs->gplus->Views    = VIAnew(10);
@@ -1417,6 +1421,7 @@ GSmerge(GopherObj *gs, GopherObj *overlay)
 
 /** Compare two GopherObjs ***/
 
+#if 0 /* unused */
 static int
 GScmp(GopherObj *gs1, GopherObj *gs2)
 {
@@ -1427,7 +1432,7 @@ GScmp(GopherObj *gs1, GopherObj *gs2)
 
      return(strcmp(GSgetTitle(gs1), GSgetTitle(gs2)));
 }
-
+#endif /* 0 */
 
 /*********** The following functions implement the gopher/gopher+
   protocol, mostly
@@ -1609,7 +1614,7 @@ GSgetginfo(GopherObj *gs, boolean   savename)
      int    sockfd, bytes;
      char   inputline[256];
      String *tempname = NULL;
-     char   temptype;
+     char   temptype='\0';
 
      if (!GSisGplus(gs))
 	  return;
@@ -1942,6 +1947,13 @@ GSfromURL(GopherObj *gs, char *urltxt, char *host, int port, int doneflags)
 	       GSsetPath(gs, "");
 	  doneflags |= G_PATH;
 	  break;
+/* Unhandled cases... */
+     case gopher:
+     case http:
+     case ftp:
+     case news:
+     case unset:
+     case unknown:
      }
 
      if (serviceType == ftp) {

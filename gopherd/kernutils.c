@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2000/12/20 01:19:20 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/kernutils.c,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: kernutils.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/12/20 01:19:20  jgoerzen
+ * Added patches from David Allen <s2mdalle@titan.vcu.edu>
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.10  1995/09/25  22:10:57  lindner
  * blobbo..
@@ -83,7 +86,7 @@ double maxload;
 double sysload = 0.0;
 
 int 
-LoadTooHigh()
+LoadTooHigh(void)
 {
      int status;
      
@@ -103,7 +106,7 @@ LoadTooHigh()
 
 extern volatile in noshare vaxc$errno_stv;
 
-int getload()
+int getload(void)
 {
      double sysload = 0.0;
     /* In VMS with Multinet, we'll assign a channel to $$VMS_LOAD_AVERAGE,

@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2000/12/20 01:19:20 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherdconf.h,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherdconf.h,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/12/20 01:19:20  jgoerzen
+ * Added patches from David Allen <s2mdalle@titan.vcu.edu>
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.25  1995/09/26  04:59:46  lindner
  * Fix abort routines, change to Die/Warn hash over access routines..
@@ -277,6 +280,14 @@ void         GDCdestroy(GDCobj *gdc);
 
 boolean      GDCignore(GDCobj *, char *);
 
+/* mdallen: added extra prototypes */
+
+boolean      GDCignore(GDCobj *gdc, char *fname);
+boolean      GDCViewExtension(GDCobj *gdc, char *fext, Extobj **extin);
+boolean      GDCBlockExtension(GDCobj *gdc, char *fext, Extobj *ext);
+void         GDCaddFileSep(GDCobj *gdc, char *expr);
+void         GDCintegrityCheck(GDCobj *gdc);
+void         GDCfromFile(GDCobj *gdc, char *filename);
 
 #ifndef NO_AUTHENTICATION
 
@@ -287,6 +298,7 @@ boolean      GDCignore(GDCobj *, char *);
   AUTHresult       GDCvalidate(GDCobj*, char*, char*, char*, char*, char*,
 				char*);
   char           **GDCauthAsk(GDCobj*, char*);
+
 #else
 #  define GDCCanRead(a,b,c,d)   (SITE_OK)
 #  define GDCCanBrowse(a,b,c,d) (SITE_OK)
@@ -301,4 +313,5 @@ boolean      GDCignore(GDCobj *, char *);
 void         GDCpushOtherGDC(GDCobj *, char *, char*);
 void         GDCaddFileSep(GDCobj *, char*);
 void         GDCpushBlockScript(GDCobj *, char*, char*);
+boolean      GDCevalDir(GDCobj *gdc,  char *dir);
 #endif /* GOPHERDCONF_H */

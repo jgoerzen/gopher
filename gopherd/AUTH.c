@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2000/12/20 01:19:20 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/AUTH.c,v $
  *
  * Paul Lindner, University of Minnesota DCS.
@@ -14,8 +14,11 @@
  *********************************************************************
  * Revision History:
  * $Log: AUTH.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/12/20 01:19:20  jgoerzen
+ * Added patches from David Allen <s2mdalle@titan.vcu.edu>
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.17  1995/10/31  16:54:28  lindner
  * Fix for checking for a group
@@ -75,7 +78,7 @@
 
 #include "AUTH.h"
 #include "compatible.h"
-
+#include "Regex.h"
 #include "Malloc.h"
 
 #include "fileio.h"		/* For running scripts */

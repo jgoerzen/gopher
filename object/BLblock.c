@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2000/12/20 01:19:20 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/BLblock.c,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: BLblock.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/12/20 01:19:20  jgoerzen
+ * Added patches from David Allen <s2mdalle@titan.vcu.edu>
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.14  1995/09/25  22:07:15  lindner
  * Ansification
@@ -111,6 +114,7 @@ BLinit(Blockobj *bl)
      case BDATA_TEXT:
 	  STAinit(bl->data.text);
 	  break;
+     case BDATA_NONE:
      }
 }
 
@@ -133,6 +137,7 @@ BLdatadestroy(Blockobj *bl)
      case BDATA_GREF:
 	  GSdestroy(bl->data.gs);
 	  break;
+     case BDATA_NONE:
      }
 }
 
@@ -165,6 +170,7 @@ BLcpy(Blockobj *dest, Blockobj *orig)
      case BDATA_TEXT:
 	  BLsetText(dest, orig->data.text);
 	  break;
+     case BDATA_NONE:
      }
 }
 
@@ -197,6 +203,9 @@ BLgetLine(Blockobj *bl, int lineno)
      switch (BLgetDatatype(bl)) {
      case BDATA_TEXT:
 	  return(STRget(STAgetEntry(bl->data.text, lineno)));
+     case BDATA_NONE:
+     case BDATA_FILE:
+     case BDATA_GREF:
      }
      return(NULL);
 }
@@ -330,6 +339,7 @@ BLtoNet(Blockobj *bl, int fd, boolean showheader)
 	  }
 	  fclose(infile);
 	  break;
+     case BDATA_NONE:
      }
 }
 

@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2000/12/20 01:19:20 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/ftp.c,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: ftp.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/12/20 01:19:20  jgoerzen
+ * Added patches from David Allen <s2mdalle@titan.vcu.edu>
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.52  1995/11/03  18:13:58  lindner
  * Coen: ftp gw fixes..
@@ -1264,12 +1267,12 @@ int
 ParseUnixList(FTP *ftp, char *bufptr, char *IntName, char *theName,
 	      int cols, GopherObj *gs, char *ftpuser, char **ftppass)
 {
-     int i, end;
-     int gap, objsize;
+     int i=0, end=0;
+     int gap=0, objsize=0;
      char *dirname, *alias, *group=NULL, *size=NULL, *month=NULL, 
           *novellsize=NULL;
      char tmpstr[64], sizestr[16], datestr[32];
-     char *cp1;
+     char *cp1=NULL;
 
      end = strlen(bufptr);
      while (isspace(bufptr[end-1]))
@@ -1365,6 +1368,18 @@ ParseUnixList(FTP *ftp, char *bufptr, char *IntName, char *theName,
 	  month = group;
 	  size = novellsize;
 	  break;
+          /* Extra unused cases added to clarify assumptions and so the 
+           * compiler won't complain.
+           */
+     case FTP_UNKNOWN:
+     case FTP_VMS:
+     case FTP_UNIX:
+     case FTP_MTS:
+     case FTP_WINNT:
+     case FTP_VM:
+     case FTP_UNIX_L8:
+     case FTP_MICRO_VAX:
+     case FTP_OS2:
      }
 
  try_size_again:
@@ -1493,7 +1508,7 @@ ParseUnixList(FTP *ftp, char *bufptr, char *IntName, char *theName,
 	  GSsetType(gs, A_DIRECTORY);
 	  sprintf (tmpstr, "%s [%s]", IntName, datestr);
 	  GSsetTitle(gs, tmpstr);
- 	  if (cp1 = strchr(IntName, '/'))
+ 	  if ((cp1 = strchr(IntName, '/')))
 	       for ( ; *cp1; cp1++ ) {
 		    if (*cp1 == '/')
 			 *cp1 = '*';

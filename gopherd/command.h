@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2000/12/20 01:19:20 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/command.h,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: command.h,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/12/20 01:19:20  jgoerzen
+ * Added patches from David Allen <s2mdalle@titan.vcu.edu>
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.11  1995/09/25  05:02:31  lindner
  * Convert to ANSI C
@@ -58,9 +61,14 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
+#ifdef HAVE_CTYPE_H
+#include "ctype.h"
+#endif /* HAVE_CTYPE_H */
+
 #include "STRstring.h"
 #include "STAarray.h"
 #include "boolean.h"
+#include "serverutil.h"
 
 typedef enum {UnknownProtocol, Gopher0, GopherPlus, HTTP0_9, HTTP1_0} CMDprotocol;
 typedef enum {UnknownHTTPcmd, POST, GET} HTTPcmd;

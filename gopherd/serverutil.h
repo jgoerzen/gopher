@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2000/12/20 01:19:20 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/serverutil.h,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: serverutil.h,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/12/20 01:19:20  jgoerzen
+ * Added patches from David Allen <s2mdalle@titan.vcu.edu>
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.7  1995/10/04  21:05:20  lindner
  * NO_AUTH mod
@@ -78,5 +81,24 @@ FILE*     Gpopen(int sockfd, char *cmd, char *rw);
 #else
    void      CheckAccess(int sockfd, Accesslevel);
 #endif
+
+/* prototypes */
+void LOGGopher               (int sockfd, const char *fmt, ...);
+void GplusError              (int sockfd, int errclass, 
+                              char *text, char **moretext);
+void Abortoutput             (int sockfd, char *errmsg);
+void Die                     (int sockfd, int errorlevel, char *fmt, ...);
+void Warn                    (int sockfd, int errorlevel, char *fmt, ...);
+boolean Setuid_username      (char *username);
+int is_mail_from_line        (char *line);
+Splittype is_multipartfile   (char *line);
+void process_mailfile        (int sockfd, char *Mailfname);
+char *mtm_basename           (char *string);
+boolean Cachetimedout        (char *cache, int secs, char *dir);
+boolean isadir               (char *path);
+void ServerSetArgv           (const char *fmt, ...);
+FILE* Gpopen                 (int sockfd, char *cmd, char *rw);
+void SetEnvironmentVariable  (char *variable, char *value);
+
 
 #endif

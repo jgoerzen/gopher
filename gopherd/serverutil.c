@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2000/12/20 01:19:20 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/serverutil.c,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: serverutil.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/12/20 01:19:20  jgoerzen
+ * Added patches from David Allen <s2mdalle@titan.vcu.edu>
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.52  1996/01/04  18:30:14  lindner
  * Fix for Ustat on Linux, autoconf changes
@@ -190,6 +193,7 @@
 #include "Debug.h"
 #include "Dirent.h"		/* For S_ISADIR */
 #include "gopherdconf.h"	/* For GDCaccess */
+#include "Regex.h"
 
 #if defined(HAVE_SYSLOG_H)
 #include <syslog.h>
@@ -307,7 +311,7 @@ GplusError(int sockfd, int errclass, char *text, char **moretext)
 
 	  tempstr = strdup(text);
 	  nl = tempstr;
-	  while (nl = strchr(nl, '\n')) {
+	  while ((nl = strchr(nl, '\n'))) {
 	       *nl = '\0';
 	       nl++;
 	       
@@ -589,7 +593,7 @@ process_mailfile(int sockfd, char *Mailfname)
 	       foundtitle = FALSE;
 
 	       if (Endbyte != 0) {
-		    sprintf(outputline, "0%s\tR%d-%d-%s\t%s\t%d\r\n", 
+		    sprintf(outputline, "0%s\tR%ld-%ld-%s\t%s\t%d\r\n", 
 			    Title, Startbyte, Bytecount, Mailfname,
 			    Zehostname, GopherPort);
 		    if (writestring(sockfd, outputline) < 0)
@@ -603,7 +607,7 @@ process_mailfile(int sockfd, char *Mailfname)
      }
 
      if (*Title != '\0') {
-	  sprintf(outputline, "0%s\tR%d-%d-%s\t%s\t%d\r\n", 
+	  sprintf(outputline, "0%s\tR%ld-%ld-%s\t%s\t%d\r\n", 
 		  Title, Startbyte, Bytecount, Mailfname, 
 		  Zehostname, GopherPort);
 	  if (writestring(sockfd, outputline)<0)

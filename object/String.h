@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2000/08/19 01:36:18 $
+ * $Revision: 1.3 $
+ * $Date: 2000/12/20 01:19:20 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/String.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,12 @@
  *********************************************************************
  * Revision History:
  * $Log: String.h,v $
+ * Revision 1.3  2000/12/20 01:19:20  jgoerzen
+ * Added patches from David Allen <s2mdalle@titan.vcu.edu>
+ *
+ * Revision 1.2.1 2000/12/18 23:04:29 mdallen
+ * removed nested comments from unused include
+ *
  * Revision 1.2  2000/08/19 01:36:18  jgoerzen
  * include more relevant header files.
  *
@@ -61,7 +67,9 @@ Though your milage may vary...
 
 */
 
-/*#include "compatible.h"		/* For strdup, etal */
+#if 0
+#include "compatible.h"		/* For strdup, etal */
+#endif /* 0 */
 
 #ifdef __convex__
 #  include <stdarg.h>

@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2000/12/20 01:19:20 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/ftp.h,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: ftp.h,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/12/20 01:19:20  jgoerzen
+ * Added patches from David Allen <s2mdalle@titan.vcu.edu>
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.9  1995/09/25  05:02:34  lindner
  * Convert to ANSI C
@@ -50,6 +53,7 @@
 #define GOPHER_FTP_H
 
 #include "boolean.h"
+#include "command.h"
 
 typedef enum {FTP_UNKNOWN, FTP_VMS, FTP_NOVELL, FTP_UNIX, FTP_MTS, FTP_WINNT,
               FTP_MACOS, FTP_VM, FTP_UNIX_L8, FTP_MICRO_VAX, FTP_OS2
@@ -96,6 +100,27 @@ void FTPopenData(FTP *ftp, char *command, char *file, int errorlevel);
 boolean IsBinaryType(char *);
 void FTPabort(FTP *);
 
+/* mdallen: more prototypes.... */
+int FTPerrorMessage(FTP *ftp, char *message);
+boolean FTPsend(FTP  *ftp, char *command);
+int FTPgetReply(FTP  *ftp, int  errorlevel, char *message, int  maxlen);
+int FTPgetReplyline(FTP  *ftp, char *message, int  maxlen);
+int FTPinfoMessage(FTP *ftp, char *message);
 
+#ifndef NO_FTP
+int GopherFTPgw(int sockfd, char *ftpstr, CMDobj *cmd);
+int GopherList(FTP *ftp, char *bufptr, char *theName, GopherObj *gs,  
+               char *ftpuser, char *ftppass);
+int ParseUnixList(FTP *ftp, char *bufptr, char *IntName, char *theName,
+                  int cols, GopherObj *gs, char *ftpuser, char **ftppass);
+int ParseVMSList(FTP  *ftp, char *bufptr, char *IntName, char *theName,
+                 GopherObj *gs, char *ftpuser, char *ftppass);         
+int ParseOS2List(FTP *ftp, char *bufptr, char *IntName, char *theName,
+                 GopherObj *gs, char *ftpuser, char *ftppass);        
+int GopherType(FTP  *ftp, char *bufptr, char *theName);
+int GopherFile(FTP  *ftp, char *buf, char *theName);
+#endif /* NO_FTP */
 
 #endif /* GOPHER_FTP_H */
+
+

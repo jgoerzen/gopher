@@ -42,6 +42,7 @@ clean:
 	-$(MAKE) distclean
 	-$(MAKE) clean
 	-rm -f `find . -name "config.cache"`
+	-rm -f config.status
 	-rm -f `find . -name "config.log"`
 	-rm -f Makefile.config gopher/Makefile gopher/locales/Makefile \
 		Makefile config.h configure doc/Makefile gopherd/Makefile \

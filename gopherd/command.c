@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2000/12/20 01:19:20 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/command.c,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: command.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/12/20 01:19:20  jgoerzen
+ * Added patches from David Allen <s2mdalle@titan.vcu.edu>
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.37  1995/11/03  17:09:36  lindner
  * coen: add '4' and '5' to valid prefixes.
@@ -246,7 +249,14 @@ CMDfromNet(CMDobj *cmd, int sockfd)
 
      if (length <= 0) {
 	  close(sockfd);
-	  LOGGopher("getcommand: readline error");
+          /* FIXME: I (mdallen) changed this from 
+           * LOGGopher("getcommand: readline error") to this.
+           *
+           * There doesn't seem to be a point in specifying a sockfd arg
+           * except to make the compiler happy - LOGGopher doesn't use it.
+           */
+          /* 1 == stdout */
+	  LOGGopher(1, "getcommand: readline error");
 	  exit(-1);
      }
 
@@ -511,7 +521,6 @@ CMDgetXtra(CMDobj *cmd, int fd, int extradata)
           }
      } else if ((extradata & (4|8))) {
 	  /*** HTTP headers and POST lines ***/
-	  boolean emptyLastLine= 0;
 	  int postsize = 0;
 
 	  Debug("HTTP and/or POST data\n",0);

@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2000/08/19 01:33:42 $
+ * $Revision: 1.3 $
+ * $Date: 2000/12/20 01:19:20 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/error.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: error.c,v $
+ * Revision 1.3  2000/12/20 01:19:20  jgoerzen
+ * Added patches from David Allen <s2mdalle@titan.vcu.edu>
+ *
  * Revision 1.2  2000/08/19 01:33:42  jgoerzen
  * errlist fix
  *
@@ -89,7 +92,7 @@
  * If neither are defined, we assume SERVER.
  */
 
-void my_perror();
+void my_perror(void);
 
 #ifndef NULL
 #define NULL ((void *) 0)
@@ -133,7 +136,7 @@ char emesgstr[255] = {0};  /* used by all server routines */
  */
 
 void
-err_init()
+err_init(void)
 {
 	/* have to be able to reopen, since daemon_start keeps closing us */
 	closelog();	/* in case we've been closed by daemon_start */
@@ -249,7 +252,7 @@ void err_dump(char *va_alist, ...)
  * We just append it the the end of the emesgstr[] array.
  */
 
-void my_perror()
+void my_perror(void)
 {
 	int len;
 	char *sys_err_str();
@@ -286,7 +289,7 @@ char *t_errlist[1];
  */
 
 char *
-sys_err_str()
+sys_err_str(void)
 {
      static char msgstr[200];
 
@@ -315,5 +318,6 @@ sys_err_str()
      
      return(msgstr);
 }
+
 
 

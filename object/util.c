@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2000/12/20 01:19:20 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/util.c,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: util.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/12/20 01:19:20  jgoerzen
+ * Added patches from David Allen <s2mdalle@titan.vcu.edu>
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.25  1996/01/04  18:24:24  lindner
  * Updates for autoconf
@@ -128,7 +131,6 @@
 #include "String.h"
 #include "Debug.h"
 #include "fileio.h"
-
 
 #if defined(VMS) && (defined(UCX) || defined(CMUIP) || defined(NETLIB))
 #include <errno.h>
@@ -494,6 +496,7 @@ from_hex(char c)
  * return a hex encoding of the char,
  */
 
+#if 0 /* unused */
 static char *
 to_hex(char c)
 {
@@ -508,6 +511,7 @@ to_hex(char c)
 
      return(out);
 }
+#endif /* 0 */
      
 /*
  * Replace hex escape sequences with the proper codes...

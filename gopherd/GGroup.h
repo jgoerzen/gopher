@@ -3,7 +3,6 @@
 #include "RBTree.h"
 #include "AUTH.h"
 
-
 struct GGroup_struct {
      String *groupname;
      RBTree *users;
