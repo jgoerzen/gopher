@@ -1,0 +1,28 @@
+These are the platforms on which gopher is known to work.
+
+Gopher should also work on any Unix/Posix platform (Solaris, SunOS, *BSD,
+Linux, MacOS X, etc).  Please let us know if you have troubles compiling or
+running gopher on your platform by e-mailing gopher@complete.org.
+
+Thanks!
+
+jgoerzen@complete.org
+
+
+Platform                     Gopher Notes
+---------------------------  ------ -----------------------------------
+NetBSD 1.5ZA (-current)      3.0.1  verified for each build by jgoerzen
+                                    requires gmake  
+Linux/alpha 2.2 (Debian sid) 3.0.1  verified for each build by jgoerzen
+Linux/i386 2.2 (Debian sid)  3.0.1
+Linux/ppc 2.4 (Debian sid)   3.0.1
+Linux/i386 ?.? (Slackware)   3.0.1
+FreeBSD/i386 ?.?             3.0.1 requires gmake
+Solaris 2.6                  3.0.1 3.0.1 won't build, try CVS version
+
+-----------
+
+If you want to use gopher on older platforms (VMS, Ultrix, etc), please
+check out the UMN gopher 2.3.1 distribution.  Gopher 3 is not currently
+supporting VMS, though we have not removed the VMS support from the tree. 
+(VMS hackers: help us out!)

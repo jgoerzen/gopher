@@ -16,6 +16,7 @@ gopher (3.0.2) unstable; urgency=low
       Define the SYSVREGEX stuff only if HAVE_RE_COMP_H is not defined
     * object/String.h: Include string.h and strings.h based on configure
       test.
+  * Added doc/platforms and updated debian/docs
 
 gopher (3.0.1) unstable; urgency=low
 
