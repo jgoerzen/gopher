@@ -1,0 +1,249 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Gopher Turns 10 / Gopher 3.0 (Furry Terror) Released</title>
+  </head>
+
+  <body>
+    <h1>Gopher Turns 10 / Gopher 3.0 (Furry Terror) Released</h1>
+    
+    January 8, 2002
+    <P>
+    The Internet Gopher Server and Curses Client is 10 years old!*
+    Since its <A HREF="http://groups.google.com/groups?selm=1991Sep10.020238.4751%40cs.umn.edu">announcement</A> in late 1991, Gopher quickly sprang up to be
+    one of the most innovative technologies of its time.  Gopher today
+      still provides features not found on Web servers -- namely,
+      its idea that the entire planet is just one big filesystem.
+      Modern browsers such as Konqueror and Mozilla show it to us that
+      way, even with drag-and-drop integration with the desktop.
+      <P>
+      Today we release the Internet Gopher Server and Client version
+      3.0.
+      <P>
+      After having been totally unmodified for five years, the
+      Internet Gopher has kicked back to life.  The University of
+      Minnesota placed the code under the GNU General Public License
+      and an interested group of hackers set to work on it.  A year
+      later, we have this release.
+      <H1>About Gopher</H1>
+    To learn about Gopher, please visit The Gopher Project
+    [<a
+	href="gopher://gopherproject.org/1/Software/Gopher/">gopher</A>/<a href="http://gopherproject.org/">web</a>], A Brief Introduction to Gopherspace
+    [<a
+	href="gopher://gopher.floodgap.com/0/gopher/welcome">gopher</A>/<a href="http://quux.org/hurg/hurg?selector=%2Fgopher%2Fwelcome&port=70&type=0&host=gopher.floodgap.com&username=A+Brief+Introduction+to+Gopherspace">web</a>], or
+    The Gopher Manifesto
+    [<a
+	href="gopher://gopher.quux.org/0/Software/Gopher/whygopher/gopher-manifesto.txt">gopher</a>/<a href="http://quux.org/hurg/hurg?selector=0%2FSoftware%2FGopher%2Fwhygopher%2Fgopher-manifesto.txt&port=70&type=0&host=gopher.quux.org&username=Gopher+Manifesto">web</a>].
+    <H1>Obtaining Gopher/Gopherd 3.0</H1>
+    Debian sid users may run "apt-get install gopher gopherd" beginning on
+    approximately January 11.
+    <P>
+    The source distribution may be downloaded from:
+    <UL>
+      <LI><A
+	     href="gopher://gopher.quux.org/1/devel/gopher">gopher://gopher.quux.org/1/devel/gopher</A>
+      <LI><A
+	     HREF="http://quux.org/hurg/hurg?selector=1%2Fdevel%2Fgopher&port=70&type=1&host=gopher.quux.org&username=Gopher">Quux.Org's Web-To-Gopher Interface to the Above</A>
+      <LI><A
+	     HREF="http://www.quux.org/give-me-gopher/">http://www.quux.org/give-me-gopher/</A> for people that want a more conventional HTTP presentation.
+    </UL>
+
+    <H1>Release Notes</H1>
+    <UL>
+      <LI>You are encouraged to use ./configure --disable-auth to
+	build.
+      <LI>BSD users should use "gmake" to build.
+    </UL>
+
+    <H1>Changes since UMN Gopher release 2.3.1</H1>
+    In Brief:
+    <UL>
+      <LI>Many security and buffer overrun fixes
+      <LI>New security features in gopherd
+      <LI>Improved handling of MIME types
+      <LI>Modified to work on modern operating systems.  Verified to
+	work in Linux for multiple platforms and NetBSD/i386.  Should
+	also work for HURD.
+      <LI>Many other modifications, see below.
+    </UL>
+    A more detailed listing is below -- but it is still abbreviated.
+    The most current is available from CVS.
+    <PRE>
+gopher (3.0.0-1) unstable; urgency=low
+
+  * Patched to work with Hurd.  Closes: #115511.  Uses
+    suggestions from James Morrison <ja2morri@student.math.uwaterloo.ca>
+    but not his patch.
+    * gopher.c, gopherd/error.c, gopher/download.c:
+      Modified to use HAVE_STRERROR
+    * configure.in: Modified with checks for sys/param.h, HURD header files,
+      get_current_dir_name, etc.
+    * configure.h.in, configure: rebuilt.
+  * Moved the current UMN Copyright notice in "COPYING" into "copyright"
+  * Updated copyright files, etc. with current info.
+  * Updated the locales with semi-current copyright stuff.
+  * Updated greeting in gopher and gopherd.
+  * This is Gopher 3.0.0, the Furry Terror release.  
+
+ -- John Goerzen <jgoerzen@complete.org>  Tue,  8 Jan 2002 15:31:00 -0500
+
+gopher (2.3.1-15) unstable; urgency=low
+
+  * NetBSD port effort began.
+  * Added crypt.h to configure.in's list of headers to look for.
+    Reran autoconf/autoheader.
+  * Modified gopherd/AUTH.h to include crypt.h only if it's available
+    and to include unistd.h if it's available.  (NetBSD)
+  * Integrated patches from David Allen <s2mdalle@titan.vcu.edu>
+    (may have been done earlier anyway)
+  * config.h.in: rebuilt by autoheader
+  * configure: rebuilt by autoconf
+  * configure.in:
+    * Added REGEXLIBS test for NetBSD -- look for re_comp in -lcompat
+    * Added checkes for term.h, re_comp.h, regex.h
+  * gopher/ourutils.c, gopher/CURcurses.c: Use term.h check
+  * gopher/Makefile.in, gopherd/Makefile.in, gophfilt/Makefile.in:
+    * Use REGEXLIBS
+  * gopher/globals.h, gopher/gopher.c: Remove sys_errlist
+  * object/GSgopherobj.c: Removed <regex.h> #include, now use
+    "Regex.h" that has proper regex determining logic
+  * object/Regex.h: Moved regex.h include to here.  Make it conditional
+    based on configure test.  Add conditional re_comp.h include.
+  * gopherd/gopherd.c: Add init of view and filter after setjmp
+    to eliminate clobbering due to longjmp and a warning.  Cast
+    parameters to *printf to long as appropriate.
+  * AUTH.h: Add missing AUTHITEMSprocessLine prototype
+  * AUTH.h: Add a check to prevent including twice.
+  * gopherdconf.c: Add a missing prototype.
+  * AUTH.c: add missing include of GGroup.h
+  * download.c: Added cast to long for some *printf's
+  * Now compiles with only one warning on NetBSD.
+  * This is Gopher 20020108-01.cvs
+  * object/Regex.h: now conditionally includes sys/types.h for regex.h
+  * This is Gopher 20020108-02.cvs
+
+ -- John Goerzen <jgoerzen@complete.org>  Tue,  8 Jan 2002 13:11:00 -0500
+
+gopher (2.3.1-14) unstable; urgency=low
+
+  * Added build-depends on autoconf.  Closes: #113255.
+
+ -- John Goerzen <jgoerzen@complete.org>  Thu,  1 Nov 2001 12:49:00 -0500
+
+gopher (2.3.1-13) unstable; urgency=low
+
+  * Added Build-Depends.  Closes: #94237.
+
+ -- John Goerzen <jgoerzen@complete.org>  Mon, 23 Apr 2001 11:00:04 -0500
+
+gopher (2.3.1-12) unstable; urgency=low
+
+  * Only chown /var/gopher if it's just created.  Closes: #89557.
+
+ -- John Goerzen <jgoerzen@complete.org>  Fri,  6 Apr 2001 15:35:16 -0500
+
+gopher (2.3.1-11) unstable; urgency=low
+
+  * Many sprintf -> snprintf changes.
+
+ -- John Goerzen <jgoerzen@complete.org>  Wed, 17 Jan 2001 15:22:09 -0500
+
+gopher (2.3.1-10) unstable; urgency=low
+
+  * Added mp3 MIME type.  Closes: #81529.
+  * Now logs about chroot status on server startup.
+
+ -- John Goerzen <jgoerzen@complete.org>  Wed, 17 Jan 2001 13:11:25 -0500
+
+gopher (2.3.1-9) unstable; urgency=low
+
+  * Fixed potential buffer overflows.  Closes: #82602.
+
+ -- John Goerzen <jgoerzen@complete.org>  Wed, 17 Jan 2001 12:12:51 -0500
+
+gopher (2.3.1-8) unstable; urgency=low
+
+  * Update to latest code in CVS, much from
+    David Allen <s2mdalle@titan.vcu.edu>
+  * Fixed dh_testversion to 2.0.103.  Closes: #79883.
+
+ -- John Goerzen <jgoerzen@complete.org>  Sat,  6 Jan 2001 20:06:01 -0500
+
+gopher (2.3.1-7) unstable; urgency=low
+
+  * A new debian rev to fix the access: problem in the gopherdlocal.conf.
+
+ -- John Goerzen <jgoerzen@complete.org>  Tue, 19 Dec 2000 23:40:09 -0500
+
+gopher (2.3.1-6) unstable; urgency=low
+
+  * Added many excellent code patches and cleanups from
+    David Allen <s2mdalle at titan.vcu.edu>.
+
+ -- John Goerzen <jgoerzen@complete.org>  Tue, 19 Dec 2000 20:18:09 -0500
+
+gopher (2.3.1-5) unstable; urgency=low
+
+  * Additional code modifications and fixes.
+
+ -- John Goerzen <jgoerzen@complete.org>  Mon, 18 Dec 2000 17:03:56 -0500
+
+gopher (2.3.1-4) unstable; urgency=low
+
+  * Disable authentication for the moment due to security concerns.
+
+ -- John Goerzen <jgoerzen@complete.org>  Tue, 17 Oct 2000 23:49:20 -0500
+
+gopher (2.3.1-3) unstable; urgency=low
+
+  * Added startopts as a gopherd conffile.
+
+ -- John Goerzen <jgoerzen@complete.org>  Tue, 22 Aug 2000 22:25:25 -0500
+
+gopher (2.3.1-2) unstable; urgency=low
+
+  * Modify postinst to be easier for people to use if they already have
+    a gopher user.
+  * Fixed a bug in the restart option for the init script.
+  * Made debian/copyright more verbose.
+
+ -- John Goerzen <jgoerzen@complete.org>  Tue, 22 Aug 2000 21:57:26 -0500
+
+gopher (2.3.1-1) unstable; urgency=low
+
+  * Initial re-release.  Package had been yanked after 1995 due to licensing.
+  * UMN has just GPL'd gopher.
+  * This package contains the security fix from bugtraq.
+  * I have patched it to chroot() and setuid() earlier for better
+    security.
+    SIDE EFFECT: logging will not work if chroot() is used.
+  * The extension chopping code was buggy, so I have removed it.
+  * Made many fixes to eliminate compiler warnings and errors.
+  * Removed redefinitions of sys_errlist
+  * Included more header files to bring in relevant prototypes
+  * Modified to use Debian paths
+  * Modified configure.in to look for -lcrypt
+  * Modified Makefile.config.in to use -Wall
+  * Removed -DSETPROCTITLE from configure.in to make start-stop-daemon
+    work better.
+  * Added logrotate
+  * Wrote Debian support from scratch.
+  * AUTH.h includes crypt.h
+  * gopherd/Makefile.in uses separate conffile dir (Debian path)
+  * STRstring.h had a paren problem; gcc on alpha brought it out.  Fixed.
+  * String.h was missing some header files.
+  * Other fixes.
+
+ -- John Goerzen <jgoerzen@complete.org>  Thu, 17 Aug 2000 15:16:07 -0500
+</PRE>      
+
+* The exact date of version 1.0 of UMN gopher's release is not logged,
+    but this is about the right time.
+
+    <hr>
+    <address><a href="mailto:jgoerzen@complete.org"></a></address>
+<!-- Created: Tue Jan  8 16:46:51 EST 2002 -->
+$Id: 3.0.0.html,v 1.4 2002/01/08 22:14:44 jgoerzen Exp $
+  </body>
+</html>
+
