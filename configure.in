@@ -191,7 +191,7 @@ AC_SUBST(GLIB_LIBS)
 AM_PATH_GLIB(1.2.0)
 if test ${no_glib}x = yesx
 then
-  AC_MSG_ERROR([Cannot find glib.  Check config.log and see doc/PLATFORMS])
+  AC_MSG_ERROR([Cannot find glib.  Check config.log and see doc/INSTALL
 fi
 
 

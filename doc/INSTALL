@@ -1,10 +1,23 @@
-$Id: INSTALL,v 1.2 2002/03/20 02:50:51 jgoerzen Exp $
+$Id: INSTALL,v 1.3 2002/03/20 18:10:45 jgoerzen Exp $
 
 Installation Instructions for Unix Gopher.
 ------------------------------------------
 
 PLEASE NOTE:  If you have any problems, please read the PLATFORMS file!  In
 fact, you should read it for hints BEFORE reading this file.
+
+PREREQUISITES
+=============
+
+Gopher now uses glib.  You may find the library from the Gopher distribution
+site at:
+
+http://www.quux.org/give-me-gopher/libs/
+
+Many distributions include glib already.  If that is the case, you don't
+need to do anything.
+
+=============
 
 Almost all configuration is now done using the 'configure' shell
 script at the top level of the distribution.  To get a list of options
