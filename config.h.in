@@ -175,6 +175,18 @@
 /* Define if you have the waitpid function.  */
 #undef HAVE_WAITPID
 
+/* Define if you have the wattroff function.  */
+#undef HAVE_WATTROFF
+
+/* Define if you have the wattron function.  */
+#undef HAVE_WATTRON
+
+/* Define if you have the wstandend function.  */
+#undef HAVE_WSTANDEND
+
+/* Define if you have the wstandout function.  */
+#undef HAVE_WSTANDOUT
+
 /* Define if you have the <crypt.h> header file.  */
 #undef HAVE_CRYPT_H
 
@@ -259,6 +271,9 @@
 /* Define if you have the <unistd.h> header file.  */
 #undef HAVE_UNISTD_H
 
+/* Define if you have the curses library (-lcurses).  */
+#undef HAVE_LIBCURSES
+
 /* Define if you have the dgc library (-ldgc).  */
 #undef HAVE_LIBDGC
 
@@ -279,3 +294,6 @@
 
 /* Define if you have the socket library (-lsocket).  */
 #undef HAVE_LIBSOCKET
+
+/* Define if you have the termcap library (-ltermcap).  */
+#undef HAVE_LIBTERMCAP

@@ -1,7 +1,7 @@
 #********************************************************************
 # $Author: jgoerzen $
-# $Revision: 1.11 $
-# $Date: 2002/03/20 20:47:29 $
+# $Revision: 1.12 $
+# $Date: 2002/03/21 15:21:33 $
 # $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/Makefile.in,v $
 # $State: Exp $
 #
@@ -45,7 +45,7 @@ CCFLAGS	= $(OPT) -DDATA_DIRECTORY=\"$(SERVERDATA)\" $(DEBUGGING) \
 	-DGOPHER_PORT=$(SERVERPORT) \
 	-DGDCDIR=\"$(SERVERDIR)\" @SEARCH@ \
 	$(SEARCH) $(WAISTYPE) $(SERVEROPTS) $(INTLOPTS) -I..\
-	-I@top_srcdir@ -I@top_srcdir@/object
+	-I@top_srcdir@ -I@top_srcdir@/object $(GLIB_CFLAGS)
 
 OBJS	= error.o globals.o gopherd.o daemon.o special.o \
 	dedot.o openers.o index.o Waisindex.o serverutil.o ftp.o \
@@ -58,7 +58,7 @@ gopherd.conf: gopherd.conf.in
 	sed 's,@sysconfdir\@,$(SYSCONFDIR),g' $< > $@
 
 all: $(OBJS) @NEXTOBJS@ gopherd.conf
-	$(CC) @LDFLAGS@ -o $(TARGET) $(OBJS) $(DLOBJS) ../object/libgopher.a  @NEXTOBJS@ @GOPHERDLIBS@ @REGEXLIBS@ @LIBS@
+	$(CC) @LDFLAGS@ -o $(TARGET) $(OBJS) $(DLOBJS) ../object/libgopher.a  @NEXTOBJS@ @GOPHERDLIBS@ @REGEXLIBS@ @GLIB_LIBS@ @LIBS@ 
 
 #
 # Special rule for NeXT text indexing, can't use gcc (yet...)

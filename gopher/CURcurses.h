@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.4 $
- * $Date: 2001/01/17 21:48:05 $
+ * $Revision: 1.5 $
+ * $Date: 2002/03/21 15:23:58 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/CURcurses.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,13 @@
  *********************************************************************
  * Revision History:
  * $Log: CURcurses.h,v $
+ * Revision 1.5  2002/03/21 15:23:58  jgoerzen
+ * Fixed a Solaris curses bug -- apparently, Solaris REALLY doesn't like
+ * wattron(), so we add a test for standout and standend to configure and
+ * prefer that whenever possible in CURcurses.h.
+ *
+ * Also, fix a bug with unistd.h in configure.in's AC_TRY_LINK.
+ *
  * Revision 1.4  2001/01/17 21:48:05  jgoerzen
  * Many fixes and tune-ups.  Now compiles cleanly with -Wall -Werror!
  *
@@ -257,12 +264,12 @@ typedef struct Requestitem_struct Requestitem;
 #define CURsetSIGTSTP(a,b) ((a)->sigtstp=(b))
 #define CURsetSIGWINCH(a,b) ((a)->sigwinch=(b))
 
-#if defined(SYSVCURSES) || defined(A_BOLD)
-#define wboldout(win)       (wattron(win, A_BOLD))
-#define wboldend(win)       (wattroff(win, A_BOLD))
-#else
+#ifdef HAVE_WSTANDOUT
 #define wboldout(win)       (wstandout(win))
 #define wboldend(win)       (wstandend(win))
+#else
+#define wboldout(win)       (wattron(win, A_BOLD))
+#define wboldend(win)       (wattroff(win, A_BOLD))
 #endif
 
 #define CURgetBox_ul(a)  ((a)->Box_ul)
