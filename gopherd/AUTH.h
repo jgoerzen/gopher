@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.4 $
- * $Date: 2002/01/08 16:38:38 $
+ * $Revision: 1.6 $
+ * $Date: 2002/01/08 17:50:35 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/AUTH.h,v $
  *
  * Paul Lindner, University of Minnesota DCS.
@@ -14,6 +14,13 @@
  *********************************************************************
  * Revision History:
  * $Log: AUTH.h,v $
+ * Revision 1.6  2002/01/08 17:50:35  jgoerzen
+ *   * AUTH.h: Add a check to prevent including twice.
+ *   * gopherdconf.c: Add a missing prototype.
+ *
+ * Revision 1.5  2002/01/08 17:48:31  jgoerzen
+ *   * AUTH.h: Add missing AUTHITEMSprocessLine prototype
+ *
  * Revision 1.4  2002/01/08 16:38:38  jgoerzen
  * Modified to:
  *   Have configure.in look for crypt.h
@@ -59,6 +66,9 @@
  *
  *
  *********************************************************************/
+
+#ifndef __SEEN_GOPHERD_AUTH_H__
+#define __SEEN_GOPHERD_AUTH_H__
 
 /*
  * Platform independent authentication routines go here...
@@ -164,6 +174,7 @@ typedef struct AUTHITEMS_struct AUTHITEMS;
    char      *AUTHITEMSfindType(AUTHITEMS *ai, char *fname);
    char      *AUTHITEMSfindExtraArgs(AUTHITEMS *ai, char *fname);
    boolean   AUTHAprocessLine(AUTHarray *autharr, char *inputline);
+   boolean   AUTHITEMSprocessLine(AUTHITEMS *ai, char *inputline);
 #else
 #  define AUTHAvalidate(a,b,c,d,e,f) (AUTHRES_OK)
 #  define AUTHITEMSdestroy(a) 
@@ -174,3 +185,5 @@ typedef struct AUTHITEMS_struct AUTHITEMS;
 #  define AUTHITEMSnew(a) (NULL)
 #  define AUTHITEMSfindAUTH(a,b,c) (NULL)
 #endif
+
+#endif      /* __SEEN_GOPHERD_AUTH_H__ */

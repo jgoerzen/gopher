@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: s2mdalle $
- * $Revision: 1.23 $
- * $Date: 2001/07/20 17:31:57 $
+ * $Author: jgoerzen $
+ * $Revision: 1.24 $
+ * $Date: 2002/01/08 17:45:25 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.24  2002/01/08 17:45:25  jgoerzen
+ *   * gopherd/gopherd.c: Add init of view and filter after setjmp
+ *     to eliminate clobbering due to longjmp and a warning.  Cast
+ *     parameters to *printf to long as appropriate.
+ *
  * Revision 1.23  2001/07/20 17:31:57  s2mdalle
  * Fixed bug in printfile(): on each line of the file, gopherd stripped
  * CRLF and put in a new CRLF.  That is a problem when the original
@@ -1307,6 +1312,9 @@ do_command(int sockfd)
 	  LOGGopher(sockfd,"readline: Timed out!");
 	  gopherd_exit(-1);
      }
+     
+     view = NULL;
+     filter = NULL;
 
      ServerSetArgv("Looking up address");
 
@@ -2887,7 +2895,8 @@ item_info(CMDobj *cmd, int sockfd)
 	       if (rstat("/.cache", &statbuf) == 0) {
 		    snprintf(tmpstr, sizeof(tmpstr),
 			     " application/gopher-menu %s: <%ldk>\r\n",
-			    GDCgetLang(Config), (statbuf.st_size + 512)/1024);
+			    GDCgetLang(Config), 
+			    (long) ((statbuf.st_size + 512)/1024));
 		    writestring(sockfd, tmpstr);
 	       } else {
 		    writestring(sockfd, " application/gopher-menu: <0k>\r\n");
@@ -2896,7 +2905,8 @@ item_info(CMDobj *cmd, int sockfd)
 	       if (rstat("/.cache+", &statbuf) == 0) {
 		    snprintf(tmpstr, sizeof(tmpstr),
 			     " application/gopher+-menu %s: <%ldk>\r\n",
-			    GDCgetLang(Config), (statbuf.st_size + 512)/1024);
+			    GDCgetLang(Config), 
+			    (long) ((statbuf.st_size + 512)/1024));
 		    writestring(sockfd, tmpstr);
 	       } else {
 		    writestring(sockfd, " application/gopher+-menu: <0k>\r\n");

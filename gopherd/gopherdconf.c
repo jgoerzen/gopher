@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.3 $
- * $Date: 2001/01/17 21:48:05 $
+ * $Revision: 1.4 $
+ * $Date: 2002/01/08 17:50:35 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherdconf.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,10 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherdconf.c,v $
+ * Revision 1.4  2002/01/08 17:50:35  jgoerzen
+ *   * AUTH.h: Add a check to prevent including twice.
+ *   * gopherdconf.c: Add a missing prototype.
+ *
  * Revision 1.3  2001/01/17 21:48:05  jgoerzen
  * Many fixes and tune-ups.  Now compiles cleanly with -Wall -Werror!
  *
@@ -177,6 +181,7 @@
 #include "Debug.h"
 #include "conf.h"
 #include "Regex.h"
+#include "GGroup.h"
 
 /*********************************************/
 
