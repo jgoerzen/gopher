@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.8 $
- * $Date: 2002/01/10 14:44:03 $
+ * $Revision: 1.9 $
+ * $Date: 2002/01/11 04:29:30 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/gopher.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: gopher.c,v $
+ * Revision 1.9  2002/01/11 04:29:30  jgoerzen
+ * Another attempt at the strerror fix -- maybe #elsif isn't so hot an idea...
+ *
  * Revision 1.8  2002/01/10 14:44:03  jgoerzen
  * Updated
  *
@@ -1269,13 +1272,15 @@ void check_sock(int sockfd, char *host, int port)
 	       sprintf(DispString2, "%.78s.", vms_errno_string());
 	       DispStrings[2] = DispString2;
 #else
-#  ifdef __DECC
+#ifdef __DECC
 	       if (errno > 0 && errno <= 65) {
-#  elsif defined(HAVE_STRERROR)
+#else
+#ifdef HAVE_STRERROR
                if (1) {
-#  else
+#else
 	       if (errno > 0 && errno <= sys_nerr) {
-#  endif
+#endif
+#endif
 		    sprintf(DispString2, Gtxt("Connection failed: %s.",78),
 #if defined(VMS) || defined(HAVE_STRERROR)
 			    strerror(errno));
@@ -1287,7 +1292,7 @@ void check_sock(int sockfd, char *host, int port)
 		    DispStrings[2] = 
 			 Gtxt("Connection to remote host failed.",79);
 #endif
-	       break;
+
 	  default:
 	       DispStrings[2] = Gtxt("Unknown error.",177);
 	  }
