@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2000/08/22 23:52:44 $
+ * $Revision: 1.4 $
+ * $Date: 2000/08/23 00:11:36 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/STRstring.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,12 @@
  *********************************************************************
  * Revision History:
  * $Log: STRstring.h,v $
+ * Revision 1.4  2000/08/23 00:11:36  jgoerzen
+ * Fixed bug in macro.
+ *
+ * Revision 1.3  2000/08/23 00:09:59  jgoerzen
+ * Trying to fix NULL problem still
+ *
  * Revision 1.2  2000/08/22 23:52:44  jgoerzen
  * fooblah
  *
@@ -53,6 +59,7 @@
 #define STRstring_H
 
 #include <string.h>
+#include <malloc.h>
 
 struct string_struct {
      int  len;
@@ -75,7 +82,7 @@ String *STRcpy(String*, String*);
 void    STRinit(String*);
 void    STRset(String*, char*);
 void    STRdestroy(String*);
-#define STRget(s)  ((char *)((s)->len<0) ? NULL : (s)->data)
+#define STRget(s)  ((char *)(((s)->len<0) ? NULL : (s)->data))
 #define STRlen(s)  (((s)->len > 0) ? (s)->len : 0)
 #define STRsize(s) ((s)->len)
 String* STRcat(String *, char*);
