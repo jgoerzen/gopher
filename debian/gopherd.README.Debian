@@ -1,0 +1,8 @@
+gopherd for Debian
+----------------------
+
+To get started with your gopher server, just place files and directories
+under /var/gopher.  See the gopherd(8) manpage for details on creating
+links, ASK blocks, and the like.  Enjoy!
+
+ -- John Goerzen <jgoerzen@complete.org>, Thu, 17 Aug 2000 15:16:07 -0500
