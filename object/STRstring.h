@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2000/08/22 23:52:44 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/STRstring.h,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: STRstring.h,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/08/22 23:52:44  jgoerzen
+ * fooblah
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.7  1995/09/25  22:07:20  lindner
  * Ansification
@@ -49,6 +52,7 @@
 #ifndef STRstring_H
 #define STRstring_H
 
+#include <string.h>
 
 struct string_struct {
      int  len;
@@ -71,7 +75,7 @@ String *STRcpy(String*, String*);
 void    STRinit(String*);
 void    STRset(String*, char*);
 void    STRdestroy(String*);
-#define STRget(s)  ((char*)((s)->len<0) ? NULL : (s)->data)
+#define STRget(s)  ((char *)((s)->len<0) ? NULL : (s)->data)
 #define STRlen(s)  (((s)->len > 0) ? (s)->len : 0)
 #define STRsize(s) ((s)->len)
 String* STRcat(String *, char*);

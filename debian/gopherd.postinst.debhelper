@@ -1,7 +1,0 @@
-# Automatically added by dh_installdocs
-if [ "$1" = "configure" ]; then
-	if [ -d /usr/doc -a ! -e /usr/doc/gopherd -a -d /usr/share/doc/gopherd ]; then
-		ln -sf ../share/doc/gopherd /usr/doc/gopherd
-	fi
-fi
-# End automatically added section
