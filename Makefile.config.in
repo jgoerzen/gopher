@@ -5,8 +5,8 @@
 
 #********************************************************************
 # $Author: jgoerzen $
-# $Revision: 1.8 $
-# $Date: 2002/03/19 20:42:48 $
+# $Revision: 1.9 $
+# $Date: 2002/03/20 17:18:46 $
 # $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/Makefile.config.in,v $
 # $State: Exp $
 #
@@ -20,6 +20,9 @@
 #*********************************************************************
 # Revision History:
 # $Log: Makefile.config.in,v $
+# Revision 1.9  2002/03/20 17:18:46  jgoerzen
+# Added beginnings of glib support.
+#
 # Revision 1.8  2002/03/19 20:42:48  jgoerzen
 #   * Removed the DOMAIN configure support, DOMAIN_NAME in gopherd,
 #     backupdomain in Socket.c, etc.  This should prevent the no.domain.name
@@ -306,3 +309,5 @@ INCLUDES	= -I@top_srcdir@ -I@top_srcdir@/object
 
 LDFLAGS		= -L../object
 SHELL		= /bin/sh
+GLIB_CFLAGS	= @GLIB_CFLAGS@
+GLIB_LIBS	= @GLIB_LIBS@

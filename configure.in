@@ -180,9 +180,20 @@ fi
 AC_CHECK_LIB(malloc, main)
 
 AC_SUBST(CLIENTLIBS)
-AC_CHECK_LIB(curses, main, CLIENTLIBS="$CLIENTLIBS -lcurses")
+AC_CHECK_LIB(curses, main, CLIENTLIBS="$CLIENTLIBS -lcurses",
+  AC_MSG_ERROR(Cannot find curses.))
 AC_CHECK_LIB(termcap, main, CLIENTLIBS="$CLIENTLIBS -ltermcap")
 AC_CHECK_LIB(crypt, crypt, GOPHERDLIBS="$GOPHERDLIBS -lcrypt")
+
+AC_SUBST(GLIB_CFLAGS)
+AC_SUBST(GLIB_LIBS)
+
+AM_PATH_GLIB(1.2.0)
+if test ${no_glib}x = yesx
+then
+  AC_MSG_ERROR([Cannot find glib.  Check config.log and see doc/PLATFORMS])
+fi
+
 
 dnl Checks for header files.
 AC_HEADER_DIRENT
