@@ -68,4 +68,4 @@ los elementos
 
 El equipo de gopher espera que este programa le sea util.
 Si usted piensa que a encontrado un error, por favor reportarlo a nosotros
-utilisando el e-mail a "gopher@boombox.micro.umn.edu".
+utilisando el e-mail a "gopher@complete.org".

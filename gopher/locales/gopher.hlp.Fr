@@ -68,5 +68,5 @@ Extensions
 L'équipe de développement de Gopher espère que vous trouverez une
 utilité à ce logiciel. Si vous croyez avoir identifié un bogue,
 s'il-vous-plaît, veuillez envoyer vos remarques par courrier
-électronique à "gopher@boombox.micro.umn.edu".
+électronique à "gopher@complete.org".
 

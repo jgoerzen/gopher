@@ -6,6 +6,9 @@ gopher (3.0.2) unstable; urgency=low
     .\n if it's at the end of the file, otherwise preserve it.
     Reported by Ashok Aiyar <aiyar@ebv.mimnet.nwu.edu>
   * Did the modification as described above.
+  * Updated README.
+  * Global change gopher@boombox.micro.umn.edu -> gopher@complete.org
+  * Removed ./GPL.  This info is now in the file COPYING.
 
 gopher (3.0.1) unstable; urgency=low
 

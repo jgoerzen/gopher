@@ -1,8 +1,21 @@
-$Id: README,v 1.1 2000/08/19 00:28:56 jgoerzen Exp $
+$Id: README,v 1.2 2002/01/10 17:52:56 jgoerzen Exp $
 
-This is the University of Minnesota's Internet Gopher+ distribution
-for UNIX machines.  A client for VMS is also included.  Here's a
-breakdown by directory:
+This is the Gopher+ distribution based on the University of
+Minnesota's Internet Gopher+ distribution for UNIX machines.
+University of Minnesota actively developed this software until 1995.
+In 2000, they released it to the public under the GNU General Public
+License.  This represents the latest version of their tree, as adopted
+by a group of programmders.  A client for VMS is included but is not
+currently supported.  Here's a breakdown by directory:
+
+announcements: Release notes, public announcements about Gopher, etc.
+               Preserved here for posterity.
+
+coders:       Files of note to Gopher developers.
+
+debian:       Files to build gopher on Debian.  Also,
+              debian/changelog is the place to look for all recent
+              changes.
 
 doc:          The documentation for all parts of the distribution.
               Look here *first*.  Important files:
@@ -22,12 +35,13 @@ Please look in the directory "doc" for more information about installing
 the various portions of the Internet Gopher.  Specifically refer to
 the file INSTALL.
 
-This software is Copyright 1991/96 by the Regents of the University of
-Minnesota.  Please refer to the file "Copyright" for more information
-on restrictions of use.  Bug reports, patches and comments may be sent
-to gopher@boombox.micro.umn.edu.
+This software is Copyright 1991-2000 by the Regents of the University
+of Minnesota.  This software is Copyright (C) 2000-2002 by John
+Goerzen and the gopher developers.  Please refer to the file
+"Copyright" for more information on restrictions of use.  Bug reports,
+patches and comments may be sent to gopher@complete.org.
 
-We recognize the help and code from the following people:
+The UMN team wishes recognize the help and code from the following people:
 
    UNIX network Programming   W. Richard Stevens
                               (For socket functions and error
@@ -44,3 +58,4 @@ and all of our users for their great suggestions and patches!
 
 See the files doc/*.changes for a long list of people who have
 submitted patches and code.
+
