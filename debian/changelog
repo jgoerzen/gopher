@@ -5,6 +5,7 @@ gopher (3.0.2) unstable; urgency=low
     gopher/ourutils.c:937 area to deal with this properly -- ignore
     .\n if it's at the end of the file, otherwise preserve it.
     Reported by Ashok Aiyar <aiyar@ebv.mimnet.nwu.edu>
+  * Did the modification as described above.
 
 gopher (3.0.1) unstable; urgency=low
 

@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.5 $
- * $Date: 2002/01/10 17:23:11 $
+ * $Revision: 1.6 $
+ * $Date: 2002/01/10 17:41:40 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/ourutils.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: ourutils.c,v $
+ * Revision 1.6  2002/01/10 17:41:40  jgoerzen
+ * Made the text file handling better.
+ *
  * Revision 1.5  2002/01/10 17:23:11  jgoerzen
  *   * gopher: Removed processing of . at end of text files.  It would stop
  *     downloading when it would see ".\n" in a file.  Will need to modify
@@ -908,7 +911,7 @@ boolean
 GStoFile(GopherObj *gs, FILE *f, char *view, int (*twirlfn) (/* ??? */))
 {
      int numread, sockfd;
-     char buf[1024];
+     char buf[1024], newbuf[1024];
      int bytemethod;
      int line = 0, i;
 
@@ -938,15 +941,20 @@ GStoFile(GopherObj *gs, FILE *f, char *view, int (*twirlfn) (/* ??? */))
      if (GSisText(gs, view)) {
 	  char cso_click = '\0';
 
-	  while (readline(sockfd, buf, sizeof(buf)) > 0 && !ControlCpressed) {
-	       ZapCRLF(buf);
-	       line ++;
-	       /*
-	       if (*buf == '.' && *(buf+1) == '\0')
-		    break;
-	       */
-
-
+	  while (readline(sockfd, newbuf, sizeof(newbuf)) > 0 && 
+		 !ControlCpressed) {
+	      ZapCRLF(newbuf);
+	       if (line && !(GSgetType(gs) == A_CSO)) {
+  		   /* Print out the line from last time through the loop */
+		   fputs(buf, f);
+		   /* fprintf(f, "%d %s", line, buf); */
+		   /** Don't cut long lines... **/
+		   if (strlen(buf) < sizeof(buf))  
+		       putc('\n', f);
+	       }
+	       line++;
+	       
+	       strcpy(buf, newbuf);
 	       if (GSgetType(gs) == A_CSO) {
 		    if (*buf == '2')
 			 break;
@@ -975,12 +983,6 @@ GStoFile(GopherObj *gs, FILE *f, char *view, int (*twirlfn) (/* ??? */))
 			 }
 		    }
 	       } /* CSO */
-	       else {
-		    fputs(buf, f);
-		    /** Don't cut long lines... **/
-		    if (strlen(buf) < sizeof(buf))  
-			 putc('\n', f);
-	       }
 	       if ((line % 25) == 0)
 		    twirlfn();
 	  } /*** readline ***/
@@ -988,6 +990,16 @@ GStoFile(GopherObj *gs, FILE *f, char *view, int (*twirlfn) (/* ??? */))
 	       CursesErrorMsg("Interrupted by User");
 	       ControlCpressed = FALSE;
 	  }
+	  if (line && !(GSgetType(gs) == A_CSO) && 
+	      !(*buf == '.' && *(buf+1) == '\0')) {
+	      /* Print out the line from last time through the loop */
+	      fputs(buf, f);
+	      /* fprintf(f, "EOF %d: '%s'", line, buf); */
+	      /** Don't cut long lines... **/
+	      if (strlen(buf) < sizeof(buf))  
+		  putc('\n', f);
+	  }
+	      
      }
      else {
 	       
