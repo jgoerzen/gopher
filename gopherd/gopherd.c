@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: s2mdalle $
- * $Revision: 1.8 $
- * $Date: 2000/12/27 07:08:59 $
+ * $Revision: 1.9 $
+ * $Date: 2000/12/27 07:21:23 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,7 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.9  2000/12/27 07:21:23  s2mdalle
+ * Fixed silly tyop which broke compilation.
+ *
  * Revision 1.8  2000/12/27 07:08:59  s2mdalle
+ *
  * Mostly changes in print_file.  Changed header reporting to report the
  * actual size of the file.  Changed period doubling to blanking.
  * (i.e. previously when sending text, the server turned "\r\n.\r\n" into
@@ -3373,7 +3377,7 @@ printfile(int sockfd, char *pathname, int startbyte, int endbyte, boolean Gplus)
                GSsendHeader(sockfd, (long)(startbyte - endbyte));
           } else if(endbyte > 0) {
                /* Hmm...this is odd... */
-               GSsendHeaer(sockfd, -1);
+               GSsendHeader(sockfd, -1);
           } else {
                GSsendHeader(sockfd, filesize);
           } /* End else */
