@@ -1,4 +1,4 @@
-$Id: PLATFORMS,v 1.12 2002/03/19 21:00:41 jgoerzen Exp $
+$Id: PLATFORMS,v 1.13 2002/03/20 02:44:51 jgoerzen Exp $
 
 These are the platforms on which gopher is known to work.
 
@@ -33,7 +33,7 @@ MacOSX/ppc 10.1 (Darwin)     3.0.4  use gnumake instead of gmake
                                     SEE NOTES BELOW
                                     OK -- John Goerzen <jgoerzen@complete.org>
 
-NetBSD/i386 1.5ZA (-current) 3.0.3  verified for each release by jgoerzen
+NetBSD/i386 1.5ZA (-current) 3.0.4  verified for each release by jgoerzen
                                     requires gmake  
 
 Solaris/i386 2.              3.0.2  OK -- Don Fike <fike@cs.utk.edu>
