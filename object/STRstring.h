@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.5 $
- * $Date: 2002/02/12 19:54:18 $
+ * $Revision: 1.6 $
+ * $Date: 2002/03/19 20:22:42 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/STRstring.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,10 @@
  *********************************************************************
  * Revision History:
  * $Log: STRstring.h,v $
+ * Revision 1.6  2002/03/19 20:22:42  jgoerzen
+ * Logged regex changes.
+ * Include STRstring.h and strcasestr proto.
+ *
  * Revision 1.5  2002/02/12 19:54:18  jgoerzen
  * Updated with regex fixes
  *
@@ -61,6 +65,9 @@
 #ifndef STRstring_H
 #define STRstring_H
 
+
+/* Define __USE_GNU for string.h so strcasestr gets included. */
+#define __USE_GNU
 #include <string.h>
 #ifdef HAVE_STDLIB_H
 #include <stdlib.h>

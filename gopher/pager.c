@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.4 $
- * $Date: 2002/02/12 21:20:14 $
+ * $Revision: 1.5 $
+ * $Date: 2002/03/19 20:22:42 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/pager.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,10 @@
  *********************************************************************
  * Revision History:
  * $Log: pager.c,v $
+ * Revision 1.5  2002/03/19 20:22:42  jgoerzen
+ * Logged regex changes.
+ * Include STRstring.h and strcasestr proto.
+ *
  * Revision 1.4  2002/02/12 21:20:14  jgoerzen
  * Made files using strcasecmp() include util.h
  *
@@ -91,6 +95,7 @@
 
 #include "gopher.h"
 #include "CURcurses.h"
+#include "STRstring.h"
 #include "fileio.h"
 #include "Malloc.h"
 #include "pager.h"

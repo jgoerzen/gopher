@@ -1,4 +1,6 @@
 gopher (3.0.4) unstable; urgency=low
+  * MAJOR rewrite of regex support.  This should make gopher
+    compile and work better on several platforms.
   * Added line for .png to gopherd.conf.in
   * Added note about UFS builds on MacOS X to doc/PLATFORMS
   * Added FAQ and modified debian/docs
