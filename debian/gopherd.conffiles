@@ -1,2 +1,3 @@
 /etc/gopherd/gopherd.conf
 /etc/gopherd/gopherdlocal.conf
+/etc/init.d/gopherd

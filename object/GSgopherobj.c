@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2000/08/23 00:18:41 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/GSgopherobj.c,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: GSgopherobj.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/08/23 00:18:41  jgoerzen
+ * Various bugfixes
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.85  1995/11/10  22:26:26  lindner
  * Fix for wierd relative gopher URLs
@@ -1813,7 +1816,7 @@ GSfromLink(
 	       }
 
 	       /** Check for domain using regexps **/
-	       if (re_comp(host) != NULL)
+	       if (re_comp(host))
 		    break;
 	       if (re_exec(peer) == 1)
 		    BadDomain = TestResult;

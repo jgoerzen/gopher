@@ -64,6 +64,10 @@ install: build
 	chmod -R a-x debian/tmp/etc
 
 	dh_movefiles
+	cp debian/startopts debian/gopherd/etc/gopherd/startopts
+	chmod u+x debian/tmp/etc/gopher debian/tmp/etc \
+		debian/gopherd/etc/gopherd
+	rmdir debian/tmp/etc/gopherd
 
 # Build architecture-independent files here.
 # Pass -i to all debhelper commands in this target to reduce clutter.
@@ -81,7 +85,7 @@ binary-indep: build install
 #	dh_installpam
 	dh_installinit
 	dh_installcron
-	dh_installmanpages
+#	dh_installmanpages
 	dh_installinfo
 #	dh_undocumented
 	dh_installchangelogs 
@@ -112,7 +116,7 @@ binary-arch: build install
 #	dh_installpam
 	dh_installinit
 	dh_installcron
-	dh_installmanpages
+#	dh_installmanpages
 	dh_installinfo
 #	dh_undocumented
 	dh_installchangelogs 
