@@ -1,5 +1,7 @@
   * Added line for .png to gopherd.conf.in
   * Added note about UFS builds on MacOS X to doc/PLATFORMS
+  * Added FAQ and modified debian/docs
+  * Updated gopherd.8 with information about type 'i'
 
 gopher (3.0.3) unstable; urgency=low
   * Patches for FreeBSD:
