@@ -1,3 +1,9 @@
+gopher (2.3.1-12) unstable; urgency=low
+
+  * Only chown /var/gopher if it's just created.  Closes: #89557.
+
+ -- John Goerzen <jgoerzen@complete.org>  Fri,  6 Apr 2001 15:35:16 -0500
+
 gopher (2.3.1-11) unstable; urgency=low
 
   * Many sprintf -> snprintf changes.
