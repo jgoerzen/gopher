@@ -14,7 +14,7 @@ OBJS	= STRstring.o GDgopherdir.o GSgopherobj.o \
 	  fileio.o    Locale.o      RBTree.o
 
 
-TARGET	= libgopher.a libgopher.so.0.1
+TARGET	= libgophmime.a libgophmime.so.0.1
 
 all: shared $(TARGET)
 
