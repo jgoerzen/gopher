@@ -8,14 +8,19 @@ Package: gopher
 Provides: gopher-client
 Architecture: any
 Depends: ${shlibs:Depends}
-Description: Gopher: Distributed Hypertext Client
+Description: Distributed Hypertext Client, Gopher protocol
  This package contains the client for the distributed global directory
  and hypertext system known as gopher.  This is a text-based (ncurses)
- client from the University of Minnesota.
+ client from the University of Minnesota.  It also supports the gopher+
+ protocol, as well as links to ftp, http, and other external viewers.
 
 Package: gopherd
 Architecture: any
 Provides: gopher-server
-Depends: ${shlibs:Depends}
+Depends: ${shlibs:Depends}, logrotate
+Suggests: gopher
 Description: Gopher server
- The UMN gopher server
+ The UMN gopher server.  This server is a robust and full-featured
+ gopher and gopher+ server with a HTTP mode as well.  It features
+ support for indexing, ASK blocks, .Links files, .names files, .cap support,
+ and pretty much any gopher feature you could imagine.

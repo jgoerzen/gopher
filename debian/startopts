@@ -15,9 +15,18 @@ USEUID="-u gopher"
 
 OPTIONFILE="-o /etc/gopherd/gopherd.conf"
 
+# Logging.
+
+#LOGGING=""
+LOGGING="-l /var/log/gopherd.log"
+
 # The home for gopher.
 
 GOPHERHOME="/var/gopher"
+
+# Gopher's port.
+
+GOPHERPORT="70"
 
 # Any other options to pass along.
 

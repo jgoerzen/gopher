@@ -1,8 +1,56 @@
 gopher (2.3.1-1) unstable; urgency=low
 
-  * Initial Release.
+  * Initial re-release.  Package had been yanked after 1995 due to licensing.
+  * UMN has just GPL'd gopher.
+  * This package contains the security fix from bugtraq.
+  * I have patched it to chroot() and setuid() earlier for better
+    security.
+  * The extension chopping code was buggy, so I have removed it.
+  * Made many fixes to eliminate compiler warnings and errors.
+  * Removed redefinitions of sys_errlist
+  * Included more header files to bring in relevant prototypes
+  * Modified to use Debian paths
+  * Modified configure.in to look for -lcrypt
+  * Modified Makefile.config.in to use -Wall
+  * Removed -DSETPROCTITLE from configure.in to make start-stop-daemon
+    work better.
+  * Added logrotate
+  * Wrote Debian support from scratch.
+  * AUTH.h includes crypt.h
+  * gopherd/Makefile.in uses separate conffile dir (Debian path)
+  * STRstring.h had a paren problem; gcc on alpha brought it out.  Fixed.
+  * String.h was missing some header files.
+  * Other fixes.
 
  -- John Goerzen <jgoerzen@complete.org>  Thu, 17 Aug 2000 15:16:07 -0500
+
+Thu Feb  9 21:32:43 1995  Ted Hajek  <tedhajek@all-blues.micro.umn.edu>
+
+	* gopherd/Makefile (install): Fixed syntax error in the
+	installation of gopherdlocal.conf.
+
+	* gopher/CURcurses.h: Changed inclusion of curses.h to inclusion
+	of "ncurses/curses.h".  Hopefully this will solve strange problems
+	with terminal features.
+
+Wed Jul 31 17:31:11 MET DST 1996 Michael Meskes <meskes@debian.org>
+
+	* Renamed function ustat in g_ustat to get gopherd compile with ELF
+	libc
+
+	* Corrected version number (Bugs #1718, #1851, #3965)
+
+	* Added Architecture, Priority and Section field (Bug#3933)
+
+	* Changed debian.rules file for new naming scheme
+
+	* Removed 'RECOMMENDS: freeWAIS' line (Bug #1717)
+
+	* Corrected extended description (Bug #3668, #3683)
+
+	* Changed weekly cron script (Bug #3262)
+
+	* Compress manpages
 
 Local variables:
 mode: debian-changelog

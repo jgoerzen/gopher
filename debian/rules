@@ -85,6 +85,7 @@ binary-indep: build install
 #	dh_installpam
 	dh_installinit
 	dh_installcron
+	dh_installlogrotate
 #	dh_installmanpages
 	dh_installinfo
 #	dh_undocumented
@@ -115,6 +116,7 @@ binary-arch: build install
 #	dh_installemacsen
 #	dh_installpam
 	dh_installinit
+	dh_installlogrotate
 	dh_installcron
 #	dh_installmanpages
 	dh_installinfo

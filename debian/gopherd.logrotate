@@ -1,0 +1,11 @@
+/var/log/gopherd.log {
+	create 0640 gopher adm
+	missingok
+	weekly
+	rotate 7
+	compress
+	postrotate
+		/etc/init.d/gopherd restart >/dev/null
+	endscript
+}
+

@@ -18,7 +18,7 @@ DESC="Gopher server"
 
 . /etc/gopherd/startopts
 
-DAEMONOPTS="$DONTCHROOT $USEUID $OPTIONFILE $OTHEROPTS $GOPHERHOME"
+DAEMONOPTS="$DONTCHROOT $USEUID $OPTIONFILE $OTHEROPTS $LOGGING $GOPHERHOME $GOPHERPORT"
 
 test -f $DAEMON || exit 0
 
@@ -26,7 +26,7 @@ set -e
 
 case "$1" in
   start)
-	echo -n "Starting $DESC $DAEMONOPTS: "
+	echo -n "Starting $DESC: "
 	start-stop-daemon --start --quiet --pidfile /var/run/$NAME.pid \
 		--exec $DAEMON -- $DAEMONOPTS
 	echo "$NAME."

@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.3 $
- * $Date: 2000/08/23 01:19:26 $
+ * $Revision: 1.4 $
+ * $Date: 2000/08/23 01:48:40 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.4  2000/08/23 01:48:40  jgoerzen
+ * Cross fingers: final mods
+ *
  * Revision 1.3  2000/08/23 01:19:26  jgoerzen
  * Fix chroot patch.
  *
@@ -998,43 +1001,6 @@ main(int argc, char *argv[], char *envp[])
 
 
 
-
-/*
- * Given a specific view, add the filename extension that
- * we stripped off for the multiple views stuff
- */
-
-char *
-AddExtension(CMDobj *cmd, char *view)
-{
-     char *filename = CMDgetFile(cmd);
-     char *newselstr;
-     int  flen=0, newlen=0;
-     char *newfile;
-
-     if (filename == NULL)
-	  return(CMDgetSelstr(cmd));
-
-     newfile = EXAfindFile(Config->Extensions, filename, view);
-     if (newfile == NULL)
-		 return(CMDgetSelstr(cmd));
-     
-     flen = strlen(filename);
-     newlen = strlen(newfile);
-
-     if (newlen > flen) {
-	  /*** Add the found extensions... ***/
-	  newselstr = (char *)malloc(MAXPATHLEN);
-	  
-	  strcpy(newselstr, CMDgetSelstr(cmd));
-	  strcat(newselstr, newfile+flen);
-	  Debug("New long file is %s", newselstr);
-	  return(newselstr);
-     }
-     return(CMDgetSelstr(cmd));
-}
-
-
 int EXECflag;
 
 
@@ -1607,11 +1573,7 @@ do_command(int sockfd)
      SetScriptEnvironment(cmd, view);
 
 
-     /** Decide whether to add extensions of not .. **/
-     if (view != NULL )
-	  Selstr = AddExtension(cmd, view);
-     else
-	  Selstr = CMDgetSelstr(cmd);
+     Selstr = CMDgetSelstr(cmd);
 
 
 
@@ -2415,8 +2377,9 @@ GDfromUFS(char *pathname, int sockfd, boolean isGplus)
 	  
 	       if (EXAcasedSearch(Config->Extensions, ext, filename, 
 				  EXT_DECODER)) {
-
-		    newpath[strlen(newpath) - strlen(EXgetExt(ext))] = '\0';
+  		    /* Disabled because it's a buggy thing.  The filename[]
+		       line was commented out upstream already.
+		       newpath[strlen(newpath) - strlen(EXgetExt(ext))] = '\0'; */
 /*		    filename[strlen(filename) - strlen(EXgetExt(ext))] = '\0';*/
 	       }
 
@@ -2432,22 +2395,17 @@ GDfromUFS(char *pathname, int sockfd, boolean isGplus)
 		    strcpy(Pathp, Prefix);
 		    strcpy(Pathp+strlen(Prefix), newpath);
 		    
-		    /*** Strip extension off of pathname***/
-		    Pathp[strlen(Prefix)+strlen(newpath)-strlen(EXgetExt(ext))]= '\0';
-
 
 		    /*** search for existing entry to add view to **/
-		    num = GDSearch(gd, Pathp);
+		    /*		    num = GDSearch(gd, Pathp);
 		    if (num != -1) {
 			 gs = GDgetEntry(gd, num);
 			 AddItem = FALSE;
-		    } else {
-			 GSsetDefaults(gs);
-		    }
+			 } else { JPG */
+		    GSsetDefaults(gs);
+			 /*		    } */
 			 
-		    if (GSgetPath(gs) == NULL)
-			 GSsetPath(gs, Pathp);
-
+		    GSsetPath(gs, Pathp);
 
 		    if (GSgetType(gs) == '\0')
 			 GSsetType(gs, EXgetObjtype(ext));
