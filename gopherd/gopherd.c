@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: s2mdalle $
- * $Revision: 1.21 $
- * $Date: 2001/01/19 00:31:12 $
+ * $Revision: 1.22 $
+ * $Date: 2001/02/19 23:29:56 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,10 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.22  2001/02/19 23:29:56  s2mdalle
+ * Slight changes to comments to avoid misleading people, and switching
+ * logic change in printfile on when a Gopher+ size header is sent.
+ *
  * Revision 1.21  2001/01/19 00:31:12  s2mdalle
  * Fixed possible (albeit unlikely) buffer overflow potential problem
  *
@@ -3421,7 +3425,7 @@ printfile(int sockfd, char *pathname, int startbyte, int endbyte, boolean Gplus)
       * doesn't know how much data it's going to send, so it's a good default.
       * -2 is the same as -1 but that the data may contain "\r\n.\r\n" which
       * would suck if the client didn't know about it.  But since we take 
-      * pains below to double '.' chars on lines by themselves, we dont' have
+      * pains below to remove '.' chars on lines by themselves, we dont' have
       * to worry about that.
       */
      long filesize = -1;
@@ -3466,6 +3470,7 @@ printfile(int sockfd, char *pathname, int startbyte, int endbyte, boolean Gplus)
      if ((pp = Specialfile(sockfd, ZeFile, pathname))!=NULL) {
 	  fclose(ZeFile);
 	  Debugmsg("This is a special file\n");
+
           /* This may be a pipe or something, we don't know how much data
            * is going to come of it, so make sure we tell the client so.
            */
@@ -3623,15 +3628,15 @@ send_binary(int sockfd, char *filename, boolean isGplus)
       * about all client implementations on whether or not they will stop 
       * reading, but it's better to nip this out.
       */
-     if (((isGplus) && strcmp(filename, "-") == 0) || isSpecial) 
-	  GSsendHeader(sockfd, -2);
-     else if (isGplus && isSpecial) 
-          GSsendHeader(sockfd, -2);
-     else if (isGplus) {
-	  rstat(filename, &buf);
-	  size = buf.st_size;
-	  GSsendHeader(sockfd, size);
-     }
+     if(isGplus) {
+          if ((strcmp(filename, "-") == 0) || isSpecial) 
+               GSsendHeader(sockfd, -2);
+          else {
+               rstat(filename, &buf);
+               size = buf.st_size;
+               GSsendHeader(sockfd, size);
+          } /* End else */
+     } /* End if */
 
      while(1) {
 	  gotbytes = fread(in, 1, BUFSIZE, sndfile);
