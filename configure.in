@@ -73,10 +73,6 @@ GOPHER_PORT=70
 AC_ARG_ENABLE(port, [  --enable-port=portnum   enable custom port (70)], GOPHER_PORT="$enableval", GOPHER_PORT=70)
 
 ######################################################################
-AC_SUBST(DOMAIN)
-AC_ARG_ENABLE(domain,    [  --enable-domain=name    use specific domain extension (none)], DOMAIN="$enableval", DOMAIN="no.domain.name")
-
-######################################################################
 AC_SUBST(SERVEROPTS)
 SERVEROPTS="-DCAPFILES"
 AC_ARG_ENABLE(ftp,       [  --disable-ftp           Don't compile FTP gateway], SERVEROPTS="$SERVEROPTS -DNO_FTP")

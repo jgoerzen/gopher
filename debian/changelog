@@ -3,6 +3,9 @@ gopher (3.0.4) unstable; urgency=low
     compile and work better on several platforms.
   * Added regcomp and regree func checks to configure.in and
     regenerated configure and config.h
+  * Removed the DOMAIN configure support, DOMAIN_NAME in gopherd,
+    backupdomain in Socket.c, etc.  This should prevent the no.domain.name
+    problem that people have been seeing.  Regenerated configure stuff.
   * Added line for .png to gopherd.conf.in
   * Added note about UFS builds on MacOS X to doc/PLATFORMS
   * Added FAQ and modified debian/docs

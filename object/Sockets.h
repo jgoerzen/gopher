@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2002/03/19 20:42:48 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/Sockets.h,v $
  * $State: Exp $
  *
@@ -15,8 +15,13 @@
  *********************************************************************
  * Revision History:
  * $Log: Sockets.h,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2002/03/19 20:42:48  jgoerzen
+ *   * Removed the DOMAIN configure support, DOMAIN_NAME in gopherd,
+ *     backupdomain in Socket.c, etc.  This should prevent the no.domain.name
+ *     problem that people have been seeing.  Regenerated configure stuff.
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.7  1995/09/25  22:07:21  lindner
  * Ansification
@@ -89,7 +94,7 @@ int  SOCKconnect(char *hostname, int port);
 int  SOCKlisten(struct sockaddr_in * We);
 int  SOCKaccept(int s, struct sockaddr_in we);
 void SOCKnetnames(int  sockfd, char *host_name, char *ipnum);
-char *SOCKgetDNSname(char *backupdomain, char *gdchost);
+char *SOCKgetDNSname(char *gdchost);
 int  SOCKgetPort(int fd);
 
 #define ErrSocketGetService 	-1

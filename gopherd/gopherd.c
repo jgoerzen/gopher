@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.28 $
- * $Date: 2002/03/19 19:12:27 $
+ * $Revision: 1.29 $
+ * $Date: 2002/03/19 20:42:48 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.29  2002/03/19 20:42:48  jgoerzen
+ *   * Removed the DOMAIN configure support, DOMAIN_NAME in gopherd,
+ *     backupdomain in Socket.c, etc.  This should prevent the no.domain.name
+ *     problem that people have been seeing.  Regenerated configure stuff.
+ *
  * Revision 1.28  2002/03/19 19:12:27  jgoerzen
  * Fixed select bug
  *
@@ -978,7 +983,7 @@ main(int argc, char *argv[], char *envp[])
      err_init();
 
      /** Ask the system what host we're running on **/
-     Zehostname = SOCKgetDNSname(DOMAIN_NAME, GDCgetHostname(Config));
+     Zehostname = SOCKgetDNSname(GDCgetHostname(Config));
      Debug("I think your hostname is %s\n", Zehostname);
 
      SetInitialScriptEnvironment();

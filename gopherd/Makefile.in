@@ -1,7 +1,7 @@
 #********************************************************************
 # $Author: jgoerzen $
-# $Revision: 1.8 $
-# $Date: 2002/01/11 15:55:59 $
+# $Revision: 1.9 $
+# $Date: 2002/03/19 20:42:48 $
 # $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/Makefile.in,v $
 # $State: Exp $
 #
@@ -15,6 +15,11 @@
 #*********************************************************************
 # Revision History:
 # $Log: Makefile.in,v $
+# Revision 1.9  2002/03/19 20:42:48  jgoerzen
+#   * Removed the DOMAIN configure support, DOMAIN_NAME in gopherd,
+#     backupdomain in Socket.c, etc.  This should prevent the no.domain.name
+#     problem that people have been seeing.  Regenerated configure stuff.
+#
 # Revision 1.8  2002/01/11 15:55:59  jgoerzen
 #   * Using $(INSTALL) from subdirectories broke on systems
 #     where install-sh was used because $(INSTALL) would always
@@ -201,7 +206,7 @@ SFWAISOBJ      = ../ir/libwais.a ../ui/source.o ../regexp/libregexp.a
 
 
 CCFLAGS	= $(OPT) -DDATA_DIRECTORY=\"$(SERVERDATA)\" $(DEBUGGING) \
-	-DDOMAIN_NAME=\"$(DOMAIN)\" -DGOPHER_PORT=$(SERVERPORT) \
+	-DGOPHER_PORT=$(SERVERPORT) \
 	-DGDCDIR=\"$(SERVERDIR)\" @SEARCH@ \
 	$(SEARCH) $(WAISTYPE) $(SERVEROPTS) $(INTLOPTS) -I..\
 	-I@top_srcdir@ -I@top_srcdir@/object

@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2002/03/19 20:42:48 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/Sockets.c,v $
  * $State: Exp $
  *
@@ -15,8 +15,13 @@
  *********************************************************************
  * Revision History:
  * $Log: Sockets.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2002/03/19 20:42:48  jgoerzen
+ *   * Removed the DOMAIN configure support, DOMAIN_NAME in gopherd,
+ *     backupdomain in Socket.c, etc.  This should prevent the no.domain.name
+ *     problem that people have been seeing.  Regenerated configure stuff.
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.22  1995/09/25  22:07:20  lindner
  * Ansification
@@ -170,7 +175,7 @@ SOCKbind_to_port(int port)
  */
 
 char *
-SOCKgetDNSname(char *backupdomain, char *gdchost)
+SOCKgetDNSname(char *gdchost)
 {
      static char DNSname[MAXHOSTNAMELEN];
      struct hostent *hp;
@@ -195,8 +200,6 @@ SOCKgetDNSname(char *backupdomain, char *gdchost)
       */
      if ( hp!=NULL && strlen(hp->h_name) > strlen(DNSname) ) 
 	  strncpy( DNSname, hp->h_name, MAXHOSTNAMELEN );
-     else
-	  strcat(DNSname, backupdomain);
 
      return(DNSname);
 }
