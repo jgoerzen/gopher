@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2000/08/19 01:25:26 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/AUTH.h,v $
  *
  * Paul Lindner, University of Minnesota DCS.
@@ -14,8 +14,11 @@
  *********************************************************************
  * Revision History:
  * $Log: AUTH.h,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/08/19 01:25:26  jgoerzen
+ * Now includes crypt.h
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.9  1995/09/26  05:16:22  lindner
  * more fixes...
@@ -56,6 +59,7 @@
  * AUTHITEM object --> contains directory, authtype, link to dns sites
  */
 
+#include <crypt.h>
 #include "boolean.h"
 #include "STAarray.h"
 

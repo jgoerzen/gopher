@@ -180,6 +180,7 @@ AC_CHECK_LIB(malloc, main)
 AC_SUBST(CLIENTLIBS)
 AC_CHECK_LIB(curses, main, CLIENTLIBS="$CLIENTLIBS -lcurses")
 AC_CHECK_LIB(termcap, main, CLIENTLIBS="$CLIENTLIBS -ltermcap")
+AC_CHECK_LIB(crypt, crypt, GOPHERDLIBS="$GOPHERDLIBS -lcrypt")
 
 dnl Checks for header files.
 AC_HEADER_DIRENT
