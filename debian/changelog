@@ -1,4 +1,4 @@
-gopher (2.3.1-16) unstable; urgency=low
+gopher (3.0.0-1) unstable; urgency=low
 
   * Patched to work with Hurd.  Closes: #115511.  Uses
     suggestions from James Morrison <ja2morri@student.math.uwaterloo.ca>
