@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.6 $
- * $Date: 2002/01/08 18:28:02 $
+ * $Revision: 1.8 $
+ * $Date: 2002/01/10 18:48:31 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/Regex.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,18 @@
  *********************************************************************
  * Revision History:
  * $Log: Regex.h,v $
+ * Revision 1.8  2002/01/10 18:48:31  jgoerzen
+ * Fix for Linux
+ *
+ * Revision 1.7  2002/01/10 18:43:18  jgoerzen
+ *   * Changes to work with Solaris:
+ *     * configure.in: Now looks for strings.h and string.h
+ *     * object/Regex.h: Now include re_comp.h if available.
+ *       Include regex.h only if re_comp.h is unavailable.
+ *       Define the SYSVREGEX stuff only if HAVE_RE_COMP_H is not defined
+ *     * object/String.h: Include string.h and strings.h based on configure
+ *       test.
+ *
  * Revision 1.6  2002/01/08 18:28:02  jgoerzen
  *   * object/Regex.h: now conditionally includes sys/types.h for regex.h
  *
@@ -87,14 +99,17 @@
 #include <sys/types.h>
 #endif
 
-#ifdef HAVE_REGEX_H
 /* The following define tells glibc in Linux to pull in headers
    for BSD compatibility regex support. */
 #define _REGEX_RE_COMP
-#include <regex.h>
-#endif
+
+
 #ifdef HAVE_RE_COMP_H
 #include <re_comp.h>
+#else
+#ifdef HAVE_REGEX_H
+#include <regex.h>
+#endif
 #endif
 
 /*
@@ -115,6 +130,7 @@
 #define _REGEX_RE_COMP
 
 #if defined(USG) || defined(__svr4__) || defined(_AUX_SOURCE) || defined(hpux) || defined(irix) || defined(M_XENIX) || defined(SYSVREGEX)
+#ifndef HAVE_RE_COMP_H
 
 #  include "Malloc.h"  /** For NULL **/
 
@@ -140,3 +156,4 @@
   /* Or Linux... taken care of in the headers. */
 
 #endif /* defined(....) */
+#endif

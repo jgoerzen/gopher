@@ -9,6 +9,13 @@ gopher (3.0.2) unstable; urgency=low
   * Updated README.
   * Global change gopher@boombox.micro.umn.edu -> gopher@complete.org
   * Removed ./GPL.  This info is now in the file COPYING.
+  * Changes to work with Solaris:
+    * configure.in: Now looks for strings.h and string.h
+    * object/Regex.h: Now include re_comp.h if available.
+      Include regex.h only if re_comp.h is unavailable.
+      Define the SYSVREGEX stuff only if HAVE_RE_COMP_H is not defined
+    * object/String.h: Include string.h and strings.h based on configure
+      test.
 
 gopher (3.0.1) unstable; urgency=low
 

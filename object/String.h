@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.3 $
- * $Date: 2000/12/20 01:19:20 $
+ * $Revision: 1.4 $
+ * $Date: 2002/01/10 18:43:18 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/String.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,15 @@
  *********************************************************************
  * Revision History:
  * $Log: String.h,v $
+ * Revision 1.4  2002/01/10 18:43:18  jgoerzen
+ *   * Changes to work with Solaris:
+ *     * configure.in: Now looks for strings.h and string.h
+ *     * object/Regex.h: Now include re_comp.h if available.
+ *       Include regex.h only if re_comp.h is unavailable.
+ *       Define the SYSVREGEX stuff only if HAVE_RE_COMP_H is not defined
+ *     * object/String.h: Include string.h and strings.h based on configure
+ *       test.
+ *
  * Revision 1.3  2000/12/20 01:19:20  jgoerzen
  * Added patches from David Allen <s2mdalle@titan.vcu.edu>
  *
@@ -75,9 +84,11 @@ Though your milage may vary...
 #  include <stdarg.h>
 #endif
 
-#if defined(USG) || defined(hpux) || defined(__svr4__) || defined(VMS) || defined(pyr) || defined(apollo) || defined(_XOPEN_SOURCE) || defined(_POSIX_SOURCE) || defined(sun)
+#ifdef HAVE_STRING_H
 #include <string.h>
-#else
+#endif
+
+#ifdef HAVE_STRINGS_H
 #include <strings.h>
 #endif
 
