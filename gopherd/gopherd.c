@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: s2mdalle $
- * $Revision: 1.7 $
- * $Date: 2000/12/21 05:33:20 $
+ * $Revision: 1.8 $
+ * $Date: 2000/12/27 07:08:59 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,7 +15,18 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.8  2000/12/27 07:08:59  s2mdalle
+ * Mostly changes in print_file.  Changed header reporting to report the
+ * actual size of the file.  Changed period doubling to blanking.
+ * (i.e. previously when sending text, the server turned "\r\n.\r\n" into
+ * "\r\n..\r\n" and instead it is now "\r\n \r\n".  This allows us to get
+ * around the gopher protocol no-no of sending "\r\n.\r\n" before we're
+ * done transmitting and at the same time stay true to the number of
+ * bytes we report to the client that we're sending.
+ *
  * Revision 1.7  2000/12/21 05:33:20  s2mdalle
+ *
+ *
  * Miscellaneous code cleanups
  *
  * Revision 1.6  2000/12/20 18:31:14  s2mdalle
@@ -3276,6 +3287,9 @@ IsAskfile(char *pathname)
 **
 */
 
+/* This function represents from start to finish what gopherd sends out on the
+ * wire when the client requests a regular (text) file
+ */
 static void
 printfile(int sockfd, char *pathname, int startbyte, int endbyte, boolean Gplus)
 {
@@ -3285,8 +3299,21 @@ printfile(int sockfd, char *pathname, int startbyte, int endbyte, boolean Gplus)
      static char *writebuf = NULL;
      static char *bufptr   = NULL;
      int          len;
+     /* If dontbuffer is false, data is sent line by line, otherwise in
+      * large chunks
+      */
      boolean      dontbuffer = FALSE;
+     struct stat  buf;
 
+     /* Protocol note:  this will be sent to the client as the reported 
+      * length of the data we are sending them.  -1 means that the server 
+      * doesn't know how much data it's going to send, so it's a good default.
+      * -2 is the same as -1 but that the data may contain "\r\n.\r\n" which
+      * would suck if the client didn't know about it.  But since we take 
+      * pains below to double '.' chars on lines by themselves, we dont' have
+      * to worry about that.
+      */
+     long filesize = -1;
      /*** Check and see if the peer has permissions to read files ***/
 
      CheckAccess(sockfd, ACC_READ);
@@ -3313,8 +3340,7 @@ printfile(int sockfd, char *pathname, int startbyte, int endbyte, boolean Gplus)
 
 	  Die(sockfd, 404, "'%s' does not exist!!", pathname);
 
-     }
-
+     } 
 
      if (writebuf == NULL) {
 	  writebuf = (char *) malloc(4096 * sizeof(char));
@@ -3324,24 +3350,55 @@ printfile(int sockfd, char *pathname, int startbyte, int endbyte, boolean Gplus)
      if (startbyte != 0)
 	  fseek(ZeFile, startbyte, 0);
      
+     /* CHANGEME:  Isn't reopening this file a bit silly? */
      if ((pp = Specialfile(sockfd, ZeFile, pathname))!=NULL) {
 	  fclose(ZeFile);
+          /* This may be a pipe or something, we don't know how much data
+           * is going to come of it, so make sure we tell the client so.
+           */
+          filesize = -1;
 	  ZeFile = pp;
 	  dontbuffer = TRUE;
-     }
+     } else {
+          /* It isn't a special file.  Figure out how large it is. */
+	  rstat(pathname, &buf);
+	  filesize = buf.st_size;
+     } /* End else */
 
-     if (Gplus)
-	  GSsendHeader(sockfd, -1);
+     if (Gplus) { 
+          /* This reports to the client how many bytes we are going to send
+           * it.  (filesize bytes if filesize > 0)
+           */
+          if (endbyte > 0 && (startbyte - endbyte) > 0) { 
+               GSsendHeader(sockfd, (long)(startbyte - endbyte));
+          } else if(endbyte > 0) {
+               /* Hmm...this is odd... */
+               GSsendHeaer(sockfd, -1);
+          } else {
+               GSsendHeader(sockfd, filesize);
+          } /* End else */
+     } /* End if */
 
      while (fgets(inputline, MAXPATHLEN, ZeFile) != NULL) {
-	  
 	  ZapCRLF(inputline);
 
 	  /** Period on a line by itself, double it.. **/
 	  if (*inputline == '.' && inputline[1] == '\0' && !EXECflag) {
-	       inputline[1] = '.';
+#if 0
+               inputline[1] = '.';
 	       inputline[2] = '\0';
-	  }
+#else
+               /* Don't double the period.  If we're going to make the data
+                * subtly wrong, then we may as well at least keep the file
+                * size the client thinks is coming intact 
+                * and turn the single dot into a space instead of
+                * doubling the dot and screwing up the filesize.
+                *
+                * This is not an optimal solution...but...
+                */
+               inputline[0] = ' ';
+#endif
+	  } /* End if */
 
 	  if ((int)strlen(inputline) < 512)
 	       strcat(inputline, "\r\n");
@@ -3361,13 +3418,16 @@ printfile(int sockfd, char *pathname, int startbyte, int endbyte, boolean Gplus)
 		    (void) alarm(0);
 		    bufptr=writebuf;
 	       }
-
 	       
 	       strcpy(bufptr, inputline);
 	       bufptr += len;
 	       *bufptr = '\0';
 	  }
-	  if (endbyte >0) {
+	  if (endbyte > 0) {
+               /* FIXME:  We may be reading in large chunks, and we may be
+                * reading line by line.  Either way, we are very unlinkely
+                * to send just the write number of bytes
+                */
 	       if (ftell(ZeFile) >= endbyte)
 		    break;
 	  }
@@ -3390,6 +3450,9 @@ printfile(int sockfd, char *pathname, int startbyte, int endbyte, boolean Gplus)
 
 #define BUFSIZE 8192  
 
+/* This function represents from start to finish what gopherd sends out on the
+ * wire when the client requests a binary file.  
+ */
 static void
 send_binary(int sockfd, char *filename, boolean isGplus)
 {
@@ -3398,7 +3461,6 @@ send_binary(int sockfd, char *filename, boolean isGplus)
      register int   j;
      int            gotbytes, size;
      struct stat    buf;
-
 
      Debug("Sending %s, binary way\n", filename);
      /** Don't check decoder/extension if .cache **/
@@ -3436,7 +3498,6 @@ send_binary(int sockfd, char *filename, boolean isGplus)
 	  GSsendHeader(sockfd, size);
      }
 
-
      while(1) {
 	  gotbytes = fread(in, 1, BUFSIZE, sndfile);
 	  
@@ -3451,8 +3512,7 @@ send_binary(int sockfd, char *filename, boolean isGplus)
 	  if (j <= 0)
 	       break;       /*** yep another error condition ***/
 
-     }
+     } /* End while */
+
      Specialclose(sndfile);
-}
-
-
+} /* End send_binary */
