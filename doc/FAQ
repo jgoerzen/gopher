@@ -71,37 +71,8 @@ gopher://gopher.quux.org/1/Archives/Mailing%20Lists/gopher.
 ----------------------------------------------
 [UMN] I'm having trouble compiling gopher(d)
 
-First, read the information in doc/PLATFORMS, this FAQ, etc.
+Where's gopherd?
 
-Then, subscribe to the mailing list and seek assistance.  (See the
-Mailing List topic)
+As of version 3.0.6, gopherd is deprecated.  Please use PyGopherd instead. 
+Information about PyGopherd is at http://quux.org/devel/gopher/pygopherd
 
-----------------------------------------------
-[UMN] How can I create info text on menus like quux.org does?
-
-This depends on which server you are using.  If you are using UMN gopherd,
-you need itemtype 'i' in your menu.  John Goerzen has written a utility
-called gopherweblink to help you make menus of this type.  You can obtain
-gopherweblink at:
-
-gopher://gopher.quux.org/11/devel/gopher/Downloads
-http://quux.org/give-me-gopher/
-
-An example .Links file for for UMN gopherd would be:
-
-Name=Welcome to gopher at quux.org!
-Type=i
-Path=fake
-Numb=1
-
-Name=
-Type=i
-Path=fake
-Numb=2
-
-Name=This server has a lot of information of historic interest,
-Type=i
-Path=fake
-Numb=3
-
-etc.  Note the type i and that the Path is unused.

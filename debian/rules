@@ -67,7 +67,6 @@ install: build
 	chmod -R a-x debian/tmp/etc
 
 	dh_movefiles
-	cp debian/startopts 
 	chmod u+x debian/tmp/etc/gopher debian/tmp/etc 
 
 # Build architecture-independent files here.

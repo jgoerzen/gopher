@@ -1,3 +1,9 @@
+gopher (3.0.6) unstable; urgency=low
+
+  * Deprecated gopherd in favor of PyGopherd.
+
+ -- John Goerzen <jgoerzen@complete.org>  Mon, 18 Aug 2003 12:11:17 -0500
+
 gopher (3.0.5) unstable; urgency=low
 
   * Integrated my patch to 3.0.4 for Solaris compilation.

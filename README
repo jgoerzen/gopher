@@ -27,8 +27,6 @@ doc:          The documentation for all parts of the distribution.
 
 gopher:       The Internet Gopher+ Curses client.
 
-gopherd:      The Internet Gopher+ data/directory/index/sound Server.
-
 gophfilt:     A Gopher "filter" program.
 
 test:         A regression testing package, include sample data.
