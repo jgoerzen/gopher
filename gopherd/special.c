@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2001/01/17 16:59:51 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/special.c,v $
  * $State: Exp $
  *
@@ -15,8 +15,14 @@
  *********************************************************************
  * Revision History:
  * $Log: special.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2001/01/17 16:59:51  jgoerzen
+ * Reduce buffer size on read from network to 200 bytes to help prevent
+ * attacks.
+ *
+ * Increase buffer used in special.c to prevent attacks.
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.22  1995/09/25  22:09:25  lindner
  * Remove static buf..
@@ -129,7 +135,7 @@ FILE *
 Specialfile(int sockfd, FILE *fp, char *pathname)
 {
      FILE *pp;
-     char buf[256];
+     char buf[4096];		/* Bumped up for security.  Let's use asprintf later. */
      char  s[256], *cp;
      long i;
      char *decoder;

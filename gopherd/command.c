@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2000/12/20 01:19:20 $
+ * $Revision: 1.3 $
+ * $Date: 2001/01/17 16:59:51 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/command.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,12 @@
  *********************************************************************
  * Revision History:
  * $Log: command.c,v $
+ * Revision 1.3  2001/01/17 16:59:51  jgoerzen
+ * Reduce buffer size on read from network to 200 bytes to help prevent
+ * attacks.
+ *
+ * Increase buffer used in special.c to prevent attacks.
+ *
  * Revision 1.2  2000/12/20 01:19:20  jgoerzen
  * Added patches from David Allen <s2mdalle@titan.vcu.edu>
  *
@@ -236,12 +242,15 @@ void
 CMDfromNet(CMDobj *cmd, int sockfd)
 {
      char *cp, *selstr;
-     char inputline[512];
+     /* jgoerzen mod for security: some other buffers around here are
+	256 bytes, so I'm knocking this one down to 200 bytes for the moment.
+     */
+     char inputline[200];
      char *field1=NULL, *field2=NULL, *field3 = NULL;
      char *extradata = NULL;
      int length;
      
-     length = readline(sockfd, inputline, sizeof(inputline));
+     length = readline(sockfd, inputline, sizeof(inputline) -1 );
 
      /** Set the alarm signal for about an hour, just in case.. **/
      (void) alarm(60 * 60);
