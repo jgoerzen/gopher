@@ -1,7 +1,10 @@
-$Id: INSTALL,v 1.1 2000/08/19 00:28:56 jgoerzen Exp $
+$Id: INSTALL,v 1.2 2002/03/20 02:50:51 jgoerzen Exp $
 
 Installation Instructions for Unix Gopher.
 ------------------------------------------
+
+PLEASE NOTE:  If you have any problems, please read the PLATFORMS file!  In
+fact, you should read it for hints BEFORE reading this file.
 
 Almost all configuration is now done using the 'configure' shell
 script at the top level of the distribution.  To get a list of options
