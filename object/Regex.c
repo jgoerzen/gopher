@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.3 $
- * $Date: 2002/02/12 20:50:21 $
+ * $Revision: 1.4 $
+ * $Date: 2002/03/19 19:53:31 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/Regex.c,v $
  * $Status: $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: Regex.c,v $
+ * Revision 1.4  2002/03/19 19:53:31  jgoerzen
+ * *** empty log message ***
+ *
  * Revision 1.3  2002/02/12 20:50:21  jgoerzen
  * Beginning of MacOS X (Darwin) support.
  * Many modifications to Regex.[ch], see debian/changelog for details.
@@ -42,15 +45,36 @@
  */
 
 #define  REGEX_CODEIT    /* only include sysv regex code once.. */
+#include "config.h"
 #include "Regex.h"
+#include "Malloc.h"
+
+/**************************************************
+ POSIX
+**************************************************/
 
 #ifdef REGEX_POSIX
-char *REGEX_param = NULL;
-#endif
+regex_t preg;
+int pregallocated = 0;
 
-#ifdef __APPLE__
-regexp *REGEX_param = NULL;
-#endif
+char *re_comp(char *regex) {
+  if (pregallocated) {
+    regfree(&preg);
+  }
+
+  pregallocated = 1;
+  return regcomp(&preg, regex, REG_NOSUB) ? "regcomp error" : NULL;
+}
+
+int re_exec(char *string) {
+  return ! regexec(&preg, string, 0, NULL, 0);
+}
+  
+#endif /* REGEX_POSIX */
+
+/**************************************************
+ SYSV
+**************************************************/
 
 #ifdef REGEX_SYSV
 
@@ -58,8 +82,7 @@ regexp *REGEX_param = NULL;
 static char expbuf[ESIZE];
 
 char *
-re_comp(expr)
-  char *expr;
+re_comp(char *expr)
 {
      char *result;
 
@@ -69,10 +92,9 @@ re_comp(expr)
 }
 
 int
-re_exec(string)
-  char *string;
+re_exec(char *string)
 {
      return(step(string, expbuf));
 }
 
-#endif
+#endif /* REGEX_SYSV */

@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.12 $
- * $Date: 2002/03/19 18:07:42 $
+ * $Revision: 1.14 $
+ * $Date: 2002/03/19 19:58:12 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/Regex.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,12 @@
  *********************************************************************
  * Revision History:
  * $Log: Regex.h,v $
+ * Revision 1.14  2002/03/19 19:58:12  jgoerzen
+ * More updates.  This is part of a major rewrite.
+ *
+ * Revision 1.13  2002/03/19 19:53:31  jgoerzen
+ * *** empty log message ***
+ *
  * Revision 1.12  2002/03/19 18:07:42  jgoerzen
  * Fixed regex stuff for Solaris -- I hope!
  *
@@ -114,79 +120,47 @@
 
 #include "config.h"
 
-/* If it's a SYSV-looking box and they do NOT have re_comp.h, then
-   flag it as SYSV. */
-
-#if defined(USG) || defined(__svr4__) || defined(_AUX_SOURCE) || defined(hpux) || defined(irix) || defined(M_XENIX) || defined(SYSVREGEX)
-#ifndef HAVE_RE_COMP_H
-#define REGEX_SYSV
-#define SYSVREGEX
-#else
-#undef REGEX_SYSV
-#undef SYSVREGEX
-#endif
-#endif
+/*****************
+ Basic POSIX support detection */
 
 #ifdef HAVE_SYS_TYPES_H
-/* regex.h on Linux needs sys/types.h */
+/* POSIX and Linux regex.h implementations want sys/types.h */
 #include <sys/types.h>
 #endif
 
-/* The following define tells glibc in Linux to pull in headers
-   for BSD compatibility regex support. */
-#define _REGEX_RE_COMP
+#ifdef HAVE_REGEX_H
+#include <regex.h>
+#endif
 
+#ifdef REG_EXTENDED
+#define REGEX_POSIX
+#endif
+
+/*************
+ OK, handle the POSIX case. */
+
+#ifdef REGEX_POSIX
+char *re_comp(char *regex);
+int re_exec(char *string);
+#else
+
+/* ********** Try to figure out what else they have. */
+
+#ifdef HAVE_RE_COMP
+/* This generally means that they have re_comp themselves.  Just
+   include it for them and leave it. */
 
 #ifdef HAVE_RE_COMP_H
 #include <re_comp.h>
 #else
-#if defined(HAVE_REGEX_H) && !defined(REGEX_SYSV) && !defined(__APPLE__)
-#include <regex.h>
+#include <unistd.h>
+#endif /* HAVE_RE_COMP_H */
+
 #else
-/*
 #ifdef HAVE_REGEXP_H
-#include <regexp.h>
-#endif */
-#endif
-#endif
-
-/*
- * Posix Regular expressions routines
- */
-
-#if defined(REGEX_POSIX)
-#  include "Malloc.h"
-#ifdef HAVE_LIBGEN_H
-#  include <libgen.h>
-#endif
-
-#  define re_comp(a) (REGEX_param=regcomp(a,NULL))
-#  define re_exec(a) regex(REGEX_param,a)
-
-#ifndef __GOPHER_REGEX_C__
-extern char *REGEX_param;
-#endif
-
-#  undef  REGEX_POSIX
-#  define REGEX_POSIX
-
-#endif /* REGEX_POSIX */
-
-#ifdef __APPLE__
-#include "Malloc.h"
-#include <regexp.h>
-#define re_comp(a) (REGEX_param=regcomp(a))
-#define re_exec(a) regexec(REGEX_param,a)
-#ifndef __GOPHER_REGEX_C__
-extern regexp *REGEX_param;
-#endif
-#endif /* __APPLE__*/
-
-
-#define _REGEX_RE_COMP
-#ifdef REGEX_SYSV
-#ifndef HAVE_RE_COMP_H
-
+/* This means SYSV... */
+#define SYSVREGEX
+#define REGEX_SYSV
 #  include "Malloc.h"  /** For NULL **/
 
 #  ifdef  REGEX_CODEIT
@@ -201,19 +175,17 @@ extern regexp *REGEX_param;
 
 #  endif /* REGEX_CODEIT */
 
-  /*** BSDize the puppy ***/
-  char *re_comp();
-  int  re_exec();
+/* Prototypes for Regex.c */
+  char *re_comp(char *expr);
+  int  re_exec(char *string);
 
 #else
-  /** BSD regex.. **/
-  /* Or Linux... taken care of in the headers. */
 
-#endif /* defined(....) */
-#endif
+#error "Unsupported or no regexp support."
 
-
-
+#endif /* REGEX_SYSV */
+#endif /* HAVE_RE_COMP */
+#endif /* REGEX_POSIX */
 
 #endif /* __GOPHER_REGEX_H__ */
 
