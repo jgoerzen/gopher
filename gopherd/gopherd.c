@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: jgoerzen $
- * $Revision: 1.20 $
- * $Date: 2001/01/17 19:33:59 $
+ * $Author: s2mdalle $
+ * $Revision: 1.21 $
+ * $Date: 2001/01/19 00:31:12 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.21  2001/01/19 00:31:12  s2mdalle
+ * Fixed possible (albeit unlikely) buffer overflow potential problem
+ *
  * Revision 1.20  2001/01/17 19:33:59  jgoerzen
  * Applied patch from Aaron Lehman to fix debugging mode.
  *
@@ -3362,22 +3365,28 @@ Process_Side(FILE *sidefile, GopherObj *Gopherp)
      return(retval);
 }
 
-
 /* dgg++   test if file is ASK script */
 boolean
 IsAskfile(char *pathname)
 {
      struct stat statbuf;
-     char tmpfile[512];
-
+     int retval = 0;
+     /* char tmpfile[512]; */
+     char *tmpfile = (char *) malloc(strlen(pathname) + 5 * 
+                                     sizeof(char *));
+     
+#if 0
      strcpy(tmpfile, pathname);
      strcat(tmpfile, ".ask"); /* hack -- should do fancy lookup in Config */
-
-     if (!rstat( tmpfile, &statbuf))
-	  return TRUE;
-     else 
-	  return FALSE;
-}
+#endif /* 0 */
+     sprintf(tmpfile, "%s.ask", pathname);
+     
+     retval = rstat(tmpfile, &statbuf);
+     free(tmpfile);
+     
+     if(!retval) return TRUE;
+     else        return FALSE;
+} /* End IsAskfile() */
 
 /*
 ** This function opens the specified file, starts a zcat if needed,
