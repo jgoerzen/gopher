@@ -1,3 +1,5 @@
+  * Added line for .png to gopherd.conf.in
+
 gopher (3.0.3) unstable; urgency=low
   * Patches for FreeBSD:
     * Test in configure for stdlib.h
