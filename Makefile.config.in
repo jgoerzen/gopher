@@ -5,8 +5,8 @@
 
 #********************************************************************
 # $Author: jgoerzen $
-# $Revision: 1.1 $
-# $Date: 2000/08/19 00:28:56 $
+# $Revision: 1.2 $
+# $Date: 2000/08/19 01:40:26 $
 # $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/Makefile.config.in,v $
 # $State: Exp $
 #
@@ -20,8 +20,11 @@
 #*********************************************************************
 # Revision History:
 # $Log: Makefile.config.in,v $
-# Revision 1.1  2000/08/19 00:28:56  jgoerzen
-# Initial revision
+# Revision 1.2  2000/08/19 01:40:26  jgoerzen
+# Fix some pathnames
+#
+# Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+# Import from UMN Gopher 2.3.1 after GPLization
 #
 # Revision 3.1  1996/01/04  18:52:31  lindner
 # Updates for autoconf
@@ -148,14 +151,15 @@ INSTALL = @INSTALL@
 #
 PREFIX          = @prefix@
 CLIENTDIR	= $(PREFIX)/bin
-CLIENTLIB       = $(PREFIX)/lib
-SERVERDIR	= $(PREFIX)/etc
+CLIENTLIB       = $(DESTDIR)/etc/gopher
+SERVERDIR	= $(PREFIX)/sbin
+SERVERCONFDIR   = $(DESTDIR)/etc/gopherd
 
 # On SCO manuals are in /usr/man but its easiest to do a 
 # symbolic link from /usr/local/man to /usr/man for this and other packages
-MAN1DIR		= $(PREFIX)/man/man1
-MAN5DIR         = $(PREFIX)/man/man5
-MAN8DIR		= $(PREFIX)/man/man8
+MAN1DIR		= $(PREFIX)/share/man/man1
+MAN5DIR         = $(PREFIX)/share/man/man5
+MAN8DIR		= $(PREFIX)/share/man/man8
 
 
 #-----------------------------------------------------------------

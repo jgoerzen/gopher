@@ -43,6 +43,9 @@ clean:
 	-$(MAKE) clean
 	-rm -f `find . -name "config.cache"`
 	-rm -f `find . -name "config.log"`
+	-rm -f `find . -name Makefile`
+	-rm -f Makefile.config
+	-rm -f configure
 
 	dh_clean
 

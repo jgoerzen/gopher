@@ -1,7 +1,7 @@
 #********************************************************************
 # $Author: jgoerzen $
-# $Revision: 1.1 $
-# $Date: 2000/08/19 00:28:56 $
+# $Revision: 1.2 $
+# $Date: 2000/08/19 01:32:56 $
 # $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/Makefile.in,v $
 # $State: Exp $
 #
@@ -15,8 +15,11 @@
 #*********************************************************************
 # Revision History:
 # $Log: Makefile.in,v $
-# Revision 1.1  2000/08/19 00:28:56  jgoerzen
-# Initial revision
+# Revision 1.2  2000/08/19 01:32:56  jgoerzen
+# Fixed to use separate conf dir
+#
+# Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+# Import from UMN Gopher 2.3.1 after GPLization
 #
 # Revision 3.1  1996/01/04  18:30:50  lindner
 # Updates for autoconf
@@ -179,7 +182,7 @@ Waisindex.o: Waisindex.c
 	$(CC) $(CCFLAGS) -I../wais/ir -c $(srcdir)/Waisindex.c
 
 gopherd.o: gopherd.c $(top_srcdir)/patchlevel.h
-	$(CC) $(CCFLAGS) -DCONF_FILE=\"$(SERVERDIR)/gopherd.conf\" -c \
+	$(CC) $(CCFLAGS) -DCONF_FILE=\"$(SERVERCONFDIR)/gopherd.conf\" -c \
 		$(srcdir)/gopherd.c
 
 .c.o:
@@ -192,7 +195,7 @@ $(OBJS) : $(top_srcdir)/conf.h
 
 install : all
 	-mv $(SERVERDIR)/$(TARGET) $(SERVERDIR)/$(TARGET).old
-	-mv $(SERVERDIR)/gopherd.conf $(SERVERDIR)/gopherd.conf.old
+	-mv $(SERVERCONFDIR)/gopherd.conf $(SERVERCONFDIR)/gopherd.conf.old
 
 	@if [ ! -d $(SERVERDIR) ]; then \
 		echo "Creating $(SERVERDIR)" ;\
@@ -200,17 +203,17 @@ install : all
 	fi
 
 	@INSTALL@  $(TARGET) $(SERVERDIR)
-	@INSTALL@  gopherd.conf $(SERVERDIR)
-	if [ ! -f $(SERVERDIR)/gopherdlocal.conf ]; then \
-		@INSTALL@ gopherdlocal.conf $(SERVERDIR)/gopherdlocal.conf; \
+	@INSTALL@  gopherd.conf $(SERVERCONFDIR)
+	if [ ! -f $(SERVERCONFDIR)/gopherdlocal.conf ]; then \
+		@INSTALL@ gopherdlocal.conf $(SERVERCONFDIR)/gopherdlocal.conf; \
 	fi
 
 	if [ -f gopherindex ]; then \
 		$(INSTALL)  gopherindex $(SERVERDIR); \
 	fi
 	-rm	$(SERVERDIR)/gopherls $(SERVERDIR)/gindexd
-	-@LN_S@ $(SERVERDIR)/$(TARGET) $(SERVERDIR)/gopherls
-	-@LN_S@ $(SERVERDIR)/$(TARGET) $(SERVERDIR)/gindexd
+	-@LN_S@ $(TARGET) $(SERVERDIR)/gopherls
+	-@LN_S@ $(TARGET) $(SERVERDIR)/gindexd
 	(cd scripts; $(MAKE) $(MFLAGS) install)
 	(cd icons; $(MAKE) $(MFLAGS) install)
 

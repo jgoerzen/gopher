@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2000/08/19 01:33:42 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/error.c,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: error.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/08/19 01:33:42  jgoerzen
+ * errlist fix
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.15  1996/01/04  18:30:12  lindner
  * Fix for Ustat on Linux, autoconf changes
@@ -261,7 +264,9 @@ extern int sys_nerr;		/* # of error message strings in sys table */
 #ifdef __NetBSD__
 extern const char *const sys_errlist[];	/* the system error message table */
 #else
+#ifndef linux
 extern char *sys_errlist[];	/* the system error message table */
+#endif
 #endif
 
 #ifdef SYS5

@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2000/08/19 01:36:18 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/String.h,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: String.h,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/08/19 01:36:18  jgoerzen
+ * include more relevant header files.
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.8  1996/01/04  18:23:43  lindner
  * Updates for autoconf
@@ -69,5 +72,8 @@ Though your milage may vary...
 #else
 #include <strings.h>
 #endif
+
+#include <stdio.h>
+#include <errno.h>
 
 #endif /* GSTRINGS_H */
