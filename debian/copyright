@@ -1,15 +1,16 @@
 This package was debianized by John Goerzen <jgoerzen@complete.org> on
 Thu, 17 Aug 2000 15:16:07 -0500.
 
-It was downloaded from ftp://boombox.micro.umn.edu/pub/gopher or the mirror
-gopher://quux.org/
+It was downloaded from gopher://quux.org/1/devel/gopher
 
-Upstream Author(s): University of Minnesota
+Old Upstream Author(s): University of Minnesota
+Current Upstream Authors: John Goerzen and the gopher team
 
 Copyright:
 
 Gopher software distribution for UNIX
 Copyright (C) 1991-2000  University of Minnesota
+Copyright (C) 2000-2002  John Goerzen and the gopher developers
 
 This package (Gopher software distribution for UNIX)
 originally had different copying restrictions.

@@ -1,7 +1,7 @@
 #********************************************************************
 # $Author: jgoerzen $
-# $Revision: 1.3 $
-# $Date: 2002/01/08 16:49:42 $
+# $Revision: 1.5 $
+# $Date: 2002/01/09 00:47:05 $
 # $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/Makefile.in,v $
 # $State: Exp $
 #
@@ -15,6 +15,13 @@
 #*********************************************************************
 # Revision History:
 # $Log: Makefile.in,v $
+# Revision 1.5  2002/01/09 00:47:05  jgoerzen
+# Fixed archive target in Makefile.in
+# MANIFEST updated by make archive
+#
+# Revision 1.4  2002/01/09 00:43:30  jgoerzen
+# Updated
+#
 # Revision 1.3  2002/01/08 16:49:42  jgoerzen
 # Modified distclean to be better behaved.
 #
@@ -169,12 +176,11 @@ spotless: clean
 archive: spotless
 	-rm  -f ir ui bin MANIFEST
 	touch MANIFEST
-	cp Makefile.config.dist Makefile.config
 	HERE=`basename $$PWD`; \
 	echo $$HERE ; \
         cd .. ; \
 	find $$HERE -type f -print |grep -v '.o$$' |grep -v '~$$' |grep -v 'CVS' >$$HERE/MANIFEST ; \
-	/usr/gnu/bin/tar  -T $$HERE/MANIFEST -cZvf $$HERE.tar.Z ;\
+	tar  -T $$HERE/MANIFEST -czvf $$HERE.tar.gz ;\
 	rm -f $$HERE.zip ; \
 	egrep -v '^test' <$$HERE/MANIFEST | zip -@ $$HERE.zip;\
 	@echo "Did you remember to update the patchlevel.h Paul?..."
