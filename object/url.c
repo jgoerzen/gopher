@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.3 $
- * $Date: 2001/01/17 21:16:35 $
+ * $Revision: 1.4 $
+ * $Date: 2002/03/19 16:57:41 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/url.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: url.c,v $
+ * Revision 1.4  2002/03/19 16:57:41  jgoerzen
+ * Fixed type handling.
+ *
  * Revision 1.3  2001/01/17 21:16:35  jgoerzen
  * More psinrtf -> snprintf changes
  *
@@ -290,17 +293,17 @@ URLparse(Url *url)
      } else {
 	  Fromhexstr(cp3, cp3);
 	  URLsetPath(url,cp3);
-	  *cp3 = '\0';
+	  *(cp3++) = '\0';      /* trunc the host part, remove sep slash, now
+                                   cp3 points at the type. */
      }
 
      if (serviceType == gopher) {
 	  if (cp3 != NULL && (int)strlen(cp3) > 1) {
 	       URLsetGophType(url, *(cp3++));
 	       URLsetPath(url,cp3++);
-	  }
-	  else
+	  } else {
 	       URLsetGophType(url, '1');
-	  
+          }
      }
 
 
