@@ -1,3 +1,4 @@
+gopher (3.0.4) unstable; urgency=low
   * Added line for .png to gopherd.conf.in
   * Added note about UFS builds on MacOS X to doc/PLATFORMS
   * Added FAQ and modified debian/docs
@@ -5,6 +6,8 @@
   * Fixed gopher's URL handling -- it was missing the type character.
     Closes: #138337.
   * Another regex change.  Let's hope this fixes things for Solaris.
+
+ -- John Goerzen <jgoerzen@complete.org>  Tue, 19 Mar 2002 13:08:39 -0500
 
 gopher (3.0.3) unstable; urgency=low
   * Patches for FreeBSD:

@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.26 $
- * $Date: 2002/02/12 21:20:14 $
+ * $Revision: 1.27 $
+ * $Date: 2002/03/19 18:13:36 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.27  2002/03/19 18:13:36  jgoerzen
+ * A bit of sanity checking for MacOS X perhaps.
+ *
  * Revision 1.26  2002/02/12 21:20:14  jgoerzen
  * Made files using strcasecmp() include util.h
  *
@@ -3308,7 +3311,10 @@ listdir(int sockfd, char *pathname, boolean isgplus, char *view, char *filter,
      if (!HTMLit)
 	  writestring(sockfd, ".\r\n");
 
-     GDdestroy(gd);
+     if (gd != NULL) {
+          GDdestroy(gd);
+          gd = NULL;
+     }
 }
 
 
