@@ -32,24 +32,24 @@ clean :
 
 
 install_sol2 : install-help
-	$(INSTALL) Fr.cat $(LOCALEDIR)/fr/LC_MESSAGES/gopher.cat
-	$(INSTALL) Es.cat $(LOCALEDIR)/es/LC_MESSAGES/gopher.cat
-	$(INSTALL) sv.cat $(LOCALEDIR)/sv/LC_MESSAGES/gopher.cat
+	@INSTALL@ Fr.cat $(LOCALEDIR)/fr/LC_MESSAGES/gopher.cat
+	@INSTALL@ Es.cat $(LOCALEDIR)/es/LC_MESSAGES/gopher.cat
+	@INSTALL@ sv.cat $(LOCALEDIR)/sv/LC_MESSAGES/gopher.cat
 
 install_osf : install-help
-	$(INSTALL) Fr.cat /usr/lib/nls/msg/fr_FR.iso8859-1/gopher.cat
-	$(INSTALL) Es.cat /usr/lib/nls/msg/es_ES.iso8859-1/gopher.cat
-	$(INSTALL) sv.cat /usr/lib/nls/msg/sv_SE.iso8859-1/gopher.cat
+	@INSTALL@ Fr.cat /usr/lib/nls/msg/fr_FR.iso8859-1/gopher.cat
+	@INSTALL@ Es.cat /usr/lib/nls/msg/es_ES.iso8859-1/gopher.cat
+	@INSTALL@ sv.cat /usr/lib/nls/msg/sv_SE.iso8859-1/gopher.cat
 
 
 # HP/Apollo Domain/OS 10.4 or newer
 install_domain: install-help
-	$(INSTALL) En_US.cat /usr/nlslib/en_US.iso88591/gopher.cat
-	$(INSTALL) Fr.cat /usr/nlslib/fr_FR.iso88591/gopher.cat
-	$(INSTALL) Es_ES.cat /usr/nlslib/es_ES.iso88591/gopher.cat
+	@INSTALL@ En_US.cat /usr/nlslib/en_US.iso88591/gopher.cat
+	@INSTALL@ Fr.cat /usr/nlslib/fr_FR.iso88591/gopher.cat
+	@INSTALL@ Es_ES.cat /usr/nlslib/es_ES.iso88591/gopher.cat
 	-mkdir /usr/nlslib/es_MX.iso88591
-	$(INSTALL) Es_MX.cat /usr/nlslib/es_MX.iso88591/gopher.cat
-	$(INSTALL) Sv.cat /usr/nlslib/sv_SE.iso88591/gopher.cat
+	@INSTALL@ Es_MX.cat /usr/nlslib/es_MX.iso88591/gopher.cat
+	@INSTALL@ Sv.cat /usr/nlslib/sv_SE.iso88591/gopher.cat
 
 #
 # Hacked install for sites that haven't set up locales correctly
@@ -68,4 +68,4 @@ install-msg: install-help
 
 # Everyone keeps localized help files in the same place
 install-help: 
-	$(INSTALL) gopher.hlp.Fr $(CLIENTLIB)
+	@INSTALL@ gopher.hlp.Fr $(CLIENTLIB)

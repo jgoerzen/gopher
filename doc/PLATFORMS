@@ -1,3 +1,5 @@
+$Id: PLATFORMS,v 1.5 2002/01/11 15:55:59 jgoerzen Exp $
+
 These are the platforms on which gopher is known to work.
 
 Gopher should also work on any Unix/Posix platform (Solaris, SunOS, *BSD,

@@ -16,7 +16,23 @@ gopher (3.0.2) unstable; urgency=low
       Define the SYSVREGEX stuff only if HAVE_RE_COMP_H is not defined
     * object/String.h: Include string.h and strings.h based on configure
       test.
-  * Added doc/platforms and updated debian/docs
+    Reports from Don Fike <fike@cs.utk.edu>
+  * Added doc/PLATFORMS and updated debian/docs
+  * gopherd.conf's include of gopherdlocal.conf was hardcoded to /etc.
+    Now use configure's sysconfdir to generate it.  Moved gopherd.conf
+    to gopherd.conf.in, modified Makefile.in to support this, removed
+    gopherd.conf from source tree.  Reported by Kevin Griffin
+    <vertov@artstar.com>
+  * Added lines to gopherd.conf.in for .ogg and .mp2 files.
+    Suggestion from Kevin Griffin <vertov@artstar.com>
+  * Using $(INSTALL) from subdirectories broke on systems
+    where install-sh was used because $(INSTALL) would always
+    resolve to ./install-sh.  Replaced all instances of
+    $(INSTALL) with @INSTALL@ (autoconf would provide the correct
+    path) and removed INSTALL from Makefile.config.  Reported
+    by Don Fike <fike@cs.utk.edu> on Solaris 2.6. 
+  * Updated our copy of install-sh with the one from
+    a current automake.
 
 gopher (3.0.1) unstable; urgency=low
 

@@ -1,7 +1,7 @@
 #********************************************************************
 # $Author: jgoerzen $
-# $Revision: 1.7 $
-# $Date: 2002/01/11 15:00:52 $
+# $Revision: 1.8 $
+# $Date: 2002/01/11 15:55:59 $
 # $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/Makefile.in,v $
 # $State: Exp $
 #
@@ -15,6 +15,16 @@
 #*********************************************************************
 # Revision History:
 # $Log: Makefile.in,v $
+# Revision 1.8  2002/01/11 15:55:59  jgoerzen
+#   * Using $(INSTALL) from subdirectories broke on systems
+#     where install-sh was used because $(INSTALL) would always
+#     resolve to ./install-sh.  Replaced all instances of
+#     $(INSTALL) with @INSTALL@ (autoconf would provide the correct
+#     path) and removed INSTALL from Makefile.config.  Reported
+#     by Don Fike <fike@cs.utk.edu> on Solaris 2.6.
+#   * Updated our copy of install-sh with the one from
+#     a current automake.
+#
 # Revision 1.7  2002/01/11 15:00:52  jgoerzen
 #   * gopherd.conf's include of gopherdlocal.conf was hardcoded to /etc.
 #     Now use configure's sysconfdir to generate it.  Moved gopherd.conf
@@ -253,7 +263,7 @@ install : all
 	fi
 
 	if [ -f gopherindex ]; then \
-		$(INSTALL)  gopherindex $(SERVERDIR); \
+		@INSTALL@  gopherindex $(SERVERDIR); \
 	fi
 	-rm	$(SERVERDIR)/gopherls $(SERVERDIR)/gindexd
 	-@LN_S@ $(TARGET) $(SERVERDIR)/gopherls
