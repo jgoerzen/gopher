@@ -11,8 +11,8 @@ $
 3 "jabbI'ID <Copyright>'e' ngaSbogh De'ghom yIlaD.\n\n"
 4 ""
 
-5 "Copyright 1991,92,93,94 by the Regents of the University of Minnesota\n\n"
-6 "<Internet> <Gopher> De' SuqwI' %s.%s tI'ta'ghach %d.\n"
+5 "Copyright 1991-2000 by the Regents of the University of Minnesota\n\n"
+6 "<Internet> <Gopher> De' SuqwI' %s.%s tI'ta'ghach %d (%s).\n"
 7 "ruchmeH, <RETURN> yI'uy.\n"
 
 $

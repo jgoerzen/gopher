@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.6 $
- * $Date: 2002/01/08 20:57:26 $
+ * $Revision: 1.7 $
+ * $Date: 2002/01/08 21:35:49 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/gopher.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,12 @@
  *********************************************************************
  * Revision History:
  * $Log: gopher.c,v $
+ * Revision 1.7  2002/01/08 21:35:49  jgoerzen
+ * Many changes:
+ *  Revved the version number
+ *  updated greeting
+ *  updated copyright notices
+ *
  * Revision 1.6  2002/01/08 20:57:26  jgoerzen
  * Small logic error fixed
  *
@@ -1789,9 +1795,11 @@ main(int argc, char **argv)
      
      /** Should generalize this to >2 hosts .... Sigh... ***/
      GSsetHost (RootGophers[0], CLIENT1_HOST);
+     GSsetPath (RootGophers[0], CLIENT1_PATH);
      GSsetPort (RootGophers[0], CLIENT1_PORT);
 
      GSsetHost (RootGophers[1], CLIENT2_HOST);
+     GSsetHost (RootGophers[1], CLIENT2_PATH);
      GSsetPort (RootGophers[1], CLIENT2_PORT);
 
      if (CLIENT2_PORT == 0)

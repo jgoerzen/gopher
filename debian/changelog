@@ -8,6 +8,11 @@ gopher (2.3.1-16) unstable; urgency=low
     * configure.in: Modified with checks for sys/param.h, HURD header files,
       get_current_dir_name, etc.
     * configure.h.in, configure: rebuilt.
+  * Moved the current UMN Copyright notice in "COPYING" into "copyright"
+  * Updated copyright files, etc. with current info.
+  * Updated the locales with semi-current copyright stuff.
+  * Updated greeting in gopher and gopherd.
+  * This is Gopher 3.0.0, the Furry Terror release.  
 
  -- John Goerzen <jgoerzen@complete.org>  Tue,  8 Jan 2002 15:31:00 -0500
 

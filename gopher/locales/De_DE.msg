@@ -21,8 +21,8 @@ $ 1 "Willkommen in der wunderbaren Welt des Gopher!\n\n"
 $ 2 "Gopher hat bestimmte Nutzungseinschränkungen und keinerlei\n"
 $ 3 "Garantie. Sehen Sie bitte in der Datei 'Copyright' nach, die \n"
 $ 4 "in der Distribution enthalten ist.\n\n"
-$ 5 "Copyright 1991,92,93,94 by the Regents of the University of Minnesota\n\n"
-$ 6 "Internet Gopher Information Client %s.%s patch%d\n"
+$ 5 "Copyright 1991-2000 by the Regents of the University of Minnesota\n\n"
+$ 6 "Internet Gopher Information Client %s.%s patch%d (%s)\n"
 $ 7 "Zum fortfahren Eingabetaste drücken\n"
 
 $ 

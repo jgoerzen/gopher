@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.24 $
- * $Date: 2002/01/08 17:45:25 $
+ * $Revision: 1.25 $
+ * $Date: 2002/01/08 21:35:49 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,12 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.25  2002/01/08 21:35:49  jgoerzen
+ * Many changes:
+ *  Revved the version number
+ *  updated greeting
+ *  updated copyright notices
+ *
  * Revision 1.24  2002/01/08 17:45:25  jgoerzen
  *   * gopherd/gopherd.c: Add init of view and filter after setjmp
  *     to eliminate clobbering due to longjmp and a warning.  Cast
@@ -911,8 +917,8 @@ main(int argc, char *argv[], char *envp[])
 
      if (!RunFromInetd) {
 	  /* char *cp; */
-	  printf("Internet Gopher Server %s.%s patch %d\n", GOPHER_MAJOR_VERSION, GOPHER_MINOR_VERSION, PATCHLEVEL);
-	  printf("Copyright 1991,92,93 the Regents of the University of Minnesota\n");
+	  printf("Internet Gopher Server %s.%s patch %d (%s)\n", GOPHER_MAJOR_VERSION, GOPHER_MINOR_VERSION, PATCHLEVEL, GOPHER_NICKNAME);
+	  printf("Copyright 1991-2000 the Regents of the University of Minnesota\n");
 	  printf("See the file 'Copyright' for conditions of use\n");
 	  printf("Data directory is %s\n", Data_Dir);
 	  printf("Port is %d\n", GopherPort);

@@ -15,8 +15,8 @@ $quote "
 3 "sans restriction. S.V.P. se référer au fichier 'Copyright'\n"
 4 "inclus dans la distribution.\n\n"
 
-5 "Copyright 1991,92,93,94 by the Regents of the University of Minnesota\n\n"
-6 "Client d'information Gopher pour l'Internet %s.%s révision%d\n"
+5 "Copyright 1991-2000 by the Regents of the University of Minnesota\n\n"
+6 "Client d'information Gopher pour l'Internet %s.%s révision%d (%s)\n"
 7 "Appuyez sur <RETOUR> pour continuer"
 
 $ 

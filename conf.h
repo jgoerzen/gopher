@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2000/12/20 01:19:15 $
+ * $Revision: 1.3 $
+ * $Date: 2002/01/08 21:35:49 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/conf.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,12 @@
  *********************************************************************
  * Revision History:
  * $Log: conf.h,v $
+ * Revision 1.3  2002/01/08 21:35:49  jgoerzen
+ * Many changes:
+ *  Revved the version number
+ *  updated greeting
+ *  updated copyright notices
+ *
  * Revision 1.2  2000/12/20 01:19:15  jgoerzen
  * Added patches from David Allen <s2mdalle@titan.vcu.edu>
  *
@@ -138,12 +144,21 @@
  * Set CLIENT2_PORT to 0 if you only want one root machine
  */
 
-#define CLIENT1_HOST "gopher.tc.umn.edu"
-#define CLIENT2_HOST "gopher2.tc.umn.edu"
-
+#define CLIENT1_HOST "gopherproject.org"
+#define CLIENT1_PATH "/Software/Gopher"
 #define CLIENT1_PORT 70
-#define CLIENT2_PORT  70
 
+#define CLIENT2_HOST "nonexistant"
+#define CLIENT2_PATH "nonexistant"
+#define CLIENT2_PORT 0
+
+/*
+define CLIENT1_HOST "gopher.tc.umn.edu"
+define CLIENT2_HOST "gopher2.tc.umn.edu"
+
+define CLIENT1_PORT 70
+define CLIENT2_PORT  70
+*/
 
 /*
  * Defaults for the client's Gopher server aFTP gateway.

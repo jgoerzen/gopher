@@ -16,8 +16,8 @@ $
 3 "garantizado. Por favor, lea el fichero 'Copyright' incluído\n"
 4 "en el paquete.\n\n"
 
-5 "Copyright 1991,92,93,94 by the Regents of the Universidad of Minnesota\n\n"
-6 "Cliente de Información de Gopher de Internet %s.%s parche%d\n"
+5 "Copyright 1991-2000 by the Regents of the Universidad of Minnesota\n\n"
+6 "Cliente de Información de Gopher de Internet %s.%s parche%d (%s)\n"
 7 "Pulse INTRO para continuar\n"
 
 $ 

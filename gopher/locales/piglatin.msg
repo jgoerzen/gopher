@@ -11,8 +11,8 @@ $
 3 "a arranty-way.  ease-play efer-ray o-tay e-thay ile-fay 'opyright-cay' included\n"
 4 "in-ay e-thay istribution-day.\n\n"
 
-5 "opyright-Cay 1991,92,93,94 y-bay e-thay egents-Ray of-ay e-thay University-ay of-ay innesota-May\n\n"
-6 "Internet-ay opher-Gay Information-ay ient-Clay %s.%s patch%d\n"
+5 "opyright-Cay 1991-2000 y-bay e-thay egents-Ray of-ay e-thay University-ay of-ay innesota-May\n\n"
+6 "Internet-ay opher-Gay Information-ay ient-Clay %s.%s patch%d (%s)\n"
 7 "ess-Pray ETURN-RAY o-tay ontinue-cay\n"
 
 $ 

@@ -11,8 +11,8 @@ $
 3 "a warranty.  Please refer to the file 'Copyright' included\n"
 4 "in the distribution.\n\n"
 
-5 "Copyright 1991,92,93,94 by the Regents of the University of Minnesota\n\n"
-6 "Internet Gopher Information Client %s.%s patch%d\n"
+5 "Copyright 1991-2000 by the Regents of the University of Minnesota\nCopyright (C) 2000-2002 John Goerzen and the gopher developers\n\n"
+6 "Internet Gopher Information Client %s.%s patch%d (%s)\n"
 7 "Press RETURN to continue\n"
 
 $ 

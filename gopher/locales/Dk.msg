@@ -14,8 +14,8 @@ $
 3 "har ingen garanti.  Kig venligst i filen 'Copyright'\n"
 4 "som følger med distributionen.\n\n"
 
-5 "Copyright 1991,92,93,94 by the Regents of the University of Minnesota\n\n"
-6 "Interrnet Gopher Information Client %s.%s patch%d\n"
+5 "Copyright 1991-2000 by the Regents of the University of Minnesota\n\n"
+6 "Interrnet Gopher Information Client %s.%s patch%d (%s)\n"
 7 "Tryk RETURN for at fortsætte\n"
 
 $ 

@@ -31,8 +31,8 @@ $quote "
 3 "viene distribuito privo di garanzie. Pregasi consultare il\n"
 4 "file 'Copyright' incluso nella distribuzione.\n\n"
 
-5 "Copyright 1991,92,93,94 by the Regents of the University of Minnesota\n\n"
-6 "Applicazione Informativa per Internet %s.%s revisione %d\n"
+5 "Copyright 1991-2000 by the Regents of the University of Minnesota\n\n"
+6 "Applicazione Informativa per Internet %s.%s revisione %d (%s)\n"
 7 "Premere RETURN per continuare\n"
 
 $ 

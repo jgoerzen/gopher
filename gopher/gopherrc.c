@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2001/01/17 21:48:05 $
+ * $Revision: 1.3 $
+ * $Date: 2002/01/08 21:35:49 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/gopherrc.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,12 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherrc.c,v $
+ * Revision 1.3  2002/01/08 21:35:49  jgoerzen
+ * Many changes:
+ *  Revved the version number
+ *  updated greeting
+ *  updated copyright notices
+ *
  * Revision 1.2  2001/01/17 21:48:05  jgoerzen
  * Many fixes and tune-ups.  Now compiles cleanly with -Wall -Werror!
  *
@@ -663,9 +669,10 @@ RCfromUser(RCobj *rc)
 	       printf(Gtxt("Gopher has limitations on its use and comes without\n",2));
 	       printf(Gtxt("a warranty.  Please refer to the file 'Copyright' included\n",3));
 	       printf(Gtxt("in the distribution.\n\n",4));
-	       printf(Gtxt("Internet Gopher Information Client %s.%s patch%d\n",6),
-		      GOPHER_MAJOR_VERSION, GOPHER_MINOR_VERSION, PATCHLEVEL);
-	       printf(Gtxt("Copyright 1991,92,93,94 by the Regents of the University of Minnesota\n\n",5));
+	       printf(Gtxt("Internet Gopher Information Client %s.%s patch%d (%s)\n",6),
+		      GOPHER_MAJOR_VERSION, GOPHER_MINOR_VERSION, PATCHLEVEL,
+		      GOPHER_NICKNAME);
+	       printf(Gtxt("Copyright (C) 1991-2000 by the Regents of the University of Minnesota\nCopyright (C) 2000-2002 John Goerzen and the gopher developers\n\n",5));
 	       printf(Gtxt("Press RETURN to continue\n",7));
 	       while ('\n' != getchar())
 		    ;
