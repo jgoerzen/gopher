@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: s2mdalle $
- * $Revision: 1.7 $
- * $Date: 2001/01/19 00:32:10 $
+ * $Author: jgoerzen $
+ * $Revision: 1.8 $
+ * $Date: 2001/04/06 20:44:55 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/serverutil.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,10 @@
  *********************************************************************
  * Revision History:
  * $Log: serverutil.c,v $
+ * Revision 1.8  2001/04/06 20:44:55  jgoerzen
+ * Gopher's config doesn't have the HAVE_STAT_H, etc. macros.  Removed that
+ * test and inserted include of unistd.  Doesn't compile otherwise.
+ *
  * Revision 1.7  2001/01/19 00:32:10  s2mdalle
  * Added mktmpdir() - returns a character array with the name of a
  * created directory (0700) and NULL on error.  This has not yet been
@@ -232,14 +236,11 @@
 
 #include <grp.h>
 
-#ifdef HAVE_SYS_TYPES_H
-#  include <sys/types.h>
-#endif /* HAVE_SYS_TYPES_H */
-
-#ifdef HAVE_SYS_STAT_H
-#  include <sys/stat.h>
-#endif /* HAVE_SYS_STAT_H */
-
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+                     
+                     
 /* Makes a temporary directory in /tmp and returns the name of the created 
  * directory.  (Character array, not allocated memory) 
  * On error, returns NULL.  
