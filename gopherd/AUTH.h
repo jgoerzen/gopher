@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.3 $
- * $Date: 2000/12/20 01:19:20 $
+ * $Revision: 1.4 $
+ * $Date: 2002/01/08 16:38:38 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/AUTH.h,v $
  *
  * Paul Lindner, University of Minnesota DCS.
@@ -14,6 +14,13 @@
  *********************************************************************
  * Revision History:
  * $Log: AUTH.h,v $
+ * Revision 1.4  2002/01/08 16:38:38  jgoerzen
+ * Modified to:
+ *   Have configure.in look for crypt.h
+ *   Reran autoconf and autoheader
+ *   Make Makefile.in do a more thorough cleaning job
+ *   Make AUTH.h include crypt.h and unistd.h only if present
+ *
  * Revision 1.3  2000/12/20 01:19:20  jgoerzen
  * Added patches from David Allen <s2mdalle@titan.vcu.edu>
  *
@@ -62,7 +69,12 @@
  * AUTHITEM object --> contains directory, authtype, link to dns sites
  */
 
+#include "config.h"
+#ifdef HAVE_CRYPT_H
 #include <crypt.h>
+#endif
+#ifdef HAVE_UNISTD_H
+#endif
 #include "boolean.h"
 #include "STAarray.h"
 

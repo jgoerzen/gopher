@@ -1,3 +1,26 @@
+gopher (2.3.1-15) NOTVALIDFORBUILDING
+
+  * Added crypt.h to configure.in's list of headers to look for.
+    Reran autoconf/autoheader.
+  * Modified gopherd/AUTH.h to include crypt.h only if it's available
+    and to include unistd.h if it's available.  (NetBSD)
+  * Integrated patches from David Allen <s2mdalle@titan.vcu.edu>
+    (may have been done earlier anyway)
+
+ -- John Goerzen <jgoerzen@complete.org>
+
+gopher (2.3.1-14) unstable; urgency=low
+
+  * Added build-depends on autoconf.  Closes: #113255.
+
+ -- John Goerzen <jgoerzen@complete.org>  Thu,  1 Nov 2001 12:49:00 -0500
+
+gopher (2.3.1-13) unstable; urgency=low
+
+  * Added Build-Depends.  Closes: #94237.
+
+ -- John Goerzen <jgoerzen@complete.org>  Mon, 23 Apr 2001 11:00:04 -0500
+
 gopher (2.3.1-12) unstable; urgency=low
 
   * Only chown /var/gopher if it's just created.  Closes: #89557.
