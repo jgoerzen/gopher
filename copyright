@@ -1,19 +1,20 @@
-Copyright:
+Gopher software distribution for UNIX
+Copyright (C) 1991-2000  University of Minnesota
 
- The Internet Gopher(tm) software and documentation is copyright (c)
- 1991, 1992, 1993, 1994 by the University of Minnesota.
+This package (Gopher software distribution for UNIX)
+originally had different copying restrictions.
+It is now distributed under the GPL.
 
- Permission to use, copy, modify, and distribute this software and
- documentation for non-commercial purposes and without fee is hereby
- granted, provided that the University of Minnesota copyright notices
- and this permission notice appear in all copies, and that the name
- University of Minnesota not be used in advertising or publicity
- pertaining to this software and documentation without specific,
- written prior permission. The University of Minnesota makes no
- representations about the suitability of this software and
- documentation for any purpose.  It is provided ``as is'' without
- express or implied warranty.  Commercial use of Gopher requires
- specific permission from the University of Minnesota; contact the
- internet gopher development team at <gopher@boombox.micro.umn.edu> for
- further information.
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
 
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
