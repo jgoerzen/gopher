@@ -4,6 +4,7 @@
   * Updated gopherd.8 with information about type 'i'
   * Fixed gopher's URL handling -- it was missing the type character.
     Closes: #138337.
+  * Another regex change.  Let's hope this fixes things for Solaris.
 
 gopher (3.0.3) unstable; urgency=low
   * Patches for FreeBSD:

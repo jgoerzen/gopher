@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.11 $
- * $Date: 2002/02/12 20:57:18 $
+ * $Revision: 1.12 $
+ * $Date: 2002/03/19 18:07:42 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/Regex.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,13 @@
  *********************************************************************
  * Revision History:
  * $Log: Regex.h,v $
+ * Revision 1.12  2002/03/19 18:07:42  jgoerzen
+ * Fixed regex stuff for Solaris -- I hope!
+ *
+ * Updated changelog.
+ *
+ * More notes in Platforms.
+ *
  * Revision 1.11  2002/02/12 20:57:18  jgoerzen
  * Fixed an incorrect comment and added parens
  *
@@ -107,9 +114,17 @@
 
 #include "config.h"
 
+/* If it's a SYSV-looking box and they do NOT have re_comp.h, then
+   flag it as SYSV. */
+
 #if defined(USG) || defined(__svr4__) || defined(_AUX_SOURCE) || defined(hpux) || defined(irix) || defined(M_XENIX) || defined(SYSVREGEX)
+#ifndef HAVE_RE_COMP_H
 #define REGEX_SYSV
 #define SYSVREGEX
+#else
+#undef REGEX_SYSV
+#undef SYSVREGEX
+#endif
 #endif
 
 #ifdef HAVE_SYS_TYPES_H
@@ -183,7 +198,6 @@ extern regexp *REGEX_param;
 #     define ERROR(c)    return("error")
 
 #     include <regexp.h>
-#     define REGEX_SYSV
 
 #  endif /* REGEX_CODEIT */
 
