@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.27 $
- * $Date: 2002/03/19 18:13:36 $
+ * $Revision: 1.28 $
+ * $Date: 2002/03/19 19:12:27 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.28  2002/03/19 19:12:27  jgoerzen
+ * Fixed select bug
+ *
  * Revision 1.27  2002/03/19 18:13:36  jgoerzen
  * A bit of sanity checking for MacOS X perhaps.
  *
@@ -768,7 +771,6 @@ main(int argc, char *argv[], char *envp[])
      int                numready;
      char               *cp=NULL;  /* Logfilename */
      fd_set             socketfds;
-     int                ftablesize = getdtablesize();
 
      /*** for getopt processing ***/
      int c;
@@ -1080,13 +1082,18 @@ main(int argc, char *argv[], char *envp[])
 	   * This is an example of a concurrent server.
 	   */
 	  if (numready <= 0) {
+	       int maxfd = 0;
 	  
 	       FD_ZERO(&socketfds);
 	       FD_SET(gophersockfd, &socketfds);
-	       if (httpsockfd > -1)
+	       maxfd = gophersockfd + 1;
+	       if (httpsockfd > -1) {
 		    FD_SET(httpsockfd, &socketfds);
+		    maxfd = (httpsockfd + 1 > maxfd) ? httpsockfd + 1 : maxfd;
+	       }
 	       
-	       while ((numready = select(ftablesize, &socketfds, NULL, NULL, NULL)) < 0)
+	       while ((numready = 
+		       select(maxfd, &socketfds, NULL, NULL, NULL)) < 0)
 		    ; /** keep trying when we get errors... **/
 
 	  }

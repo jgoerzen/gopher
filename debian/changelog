@@ -6,6 +6,7 @@ gopher (3.0.4) unstable; urgency=low
   * Fixed gopher's URL handling -- it was missing the type character.
     Closes: #138337.
   * Another regex change.  Let's hope this fixes things for Solaris.
+  * Fixed to properly calculated first arg to select in gopherd.c
 
  -- John Goerzen <jgoerzen@complete.org>  Tue, 19 Mar 2002 13:08:39 -0500
 
