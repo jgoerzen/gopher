@@ -144,13 +144,9 @@ config.status: configure
 include Makefile.config
 
 
-server: gopherd/gopherd
 client: gopher/gopher
 gopherfilter: gophfilt/gophfilt
 objects: object/libgopher.a
-
-gopherd/gopherd: object/libgopher.a $(srcdir)/gopherd/*.c $(srcdir)/gopherd/*.h $(srcdir)/conf.h
-	(cd gopherd; $(MAKE) $(MFLAGS) all)
 
 # gopher is dependant on conf.h - (as are other things)
 gopher/gopher: object/libgopher.a conf.h $(srcdir)/gopher/*c $(srcdir)/gopher/*h
@@ -168,13 +164,11 @@ object/libgopher.a: $(srcdir)/object/*c $(srcdir)/object/*h
 install:
 	(cd object;   $(MAKE) $(MFLAGS) install);
 	(cd gopher;   $(MAKE) $(MFLAGS) install);
-	(cd gopherd;  $(MAKE) $(MFLAGS) install);
 	(cd gophfilt; $(MAKE) $(MFLAGS) install);
 	(cd doc;      $(MAKE) $(MFLAGS) install)
 
 clean:
 	(cd gopher; 	$(MAKE) $(MFLAGS) clean)
-	(cd gopherd; 	$(MAKE) $(MFLAGS) clean)
 	(cd object; 	$(MAKE) $(MFLAGS) clean)
 	(cd gophfilt;   $(MAKE) $(MFLAGS) clean)
 	(cd doc; 	$(MAKE) $(MFLAGS) clean)
@@ -185,10 +179,10 @@ distclean: spotless
 
 spotless: clean
 	-rm -f config.log config.cache config.h config.status
-	-rm -f gopherd/Makefile object/Makefile gopher/Makefile
+	-rm -f object/Makefile gopher/Makefile
 	-rm -f gopher/locales/Makefile doc/Makefile gophfilt/Makefile
 	-rm -rf debian/stamp*
-	-rm -rf debian/tmp debian/gopherd
+	-rm -rf debian/tmp
 	-rm -f *~
 
 archive: distclean

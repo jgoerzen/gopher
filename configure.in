@@ -13,7 +13,7 @@ if test "$$1" = "" ; then
 fi])dnl
 
 
-AC_INIT(gopherd/gopherd.c)
+dnl AC_INIT(gopherd/gopherd.c)
 echo "----------------------------------------------------------------------"
 echo "You are about to build the Gopher system for Unix"
 echo "Please read the file doc/INSTALL for full information on"
@@ -73,15 +73,6 @@ GOPHER_PORT=70
 AC_ARG_ENABLE(port, [  --enable-port=portnum   enable custom port (70)], GOPHER_PORT="$enableval", GOPHER_PORT=70)
 
 ######################################################################
-AC_SUBST(SERVEROPTS)
-SERVEROPTS="-DCAPFILES"
-AC_ARG_ENABLE(ftp,       [  --disable-ftp           Don't compile FTP gateway], SERVEROPTS="$SERVEROPTS -DNO_FTP")
-AC_ARG_ENABLE(mindexd,   [  --disable-mindexd       Don't compile mindexd code in server],SERVEROPTS="$SERVEROPTS -DNO_MINDEXD")
-AC_ARG_ENABLE(auth,      [  --disable-auth          Don't compile authentication routines],SERVEROPTS="$SERVEROPTS -DNO_AUTHENTICATION")
-AC_ARG_ENABLE(indexing,  [  --disable-indexing      Don't compile indexing routines],SERVEROPTS="$SERVEROPTS -DNO_INDEXING")
-AC_ARG_ENABLE(dnslookup, [  --disable-dnslookup     Log IP numbers, not hostnames],SERVEROPTS="$SERVEROPTS -DLOG_IP_ONLY")
-
-######################################################################
 AC_SUBST(DLPATH)
 AC_SUBST(DLOBJS)
 AC_ARG_ENABLE(dl,        [  --enable-dl=dlpathname  use Tim Cook's dl databases], DLPATH="$enableval";DLOBJS="$enableval/getdesc.o $enableval/enddesc.o";SERVEROPTS="$SERVEROPTS -DDL",:)
@@ -130,51 +121,13 @@ dnl Check for WAIS
 with_wais=1
 AC_ARG_WITH(wais,[  --without-wais          Don't try using WAIS (default: try)], with_wais=1, with_wais=0)
 
-AC_SUBST(GOPHERDLIBS)
 AC_SUBST(REGEXLIBS)
 AC_SUBST(WAISTYPE)
 AC_SUBST(SEARCH)
 
-AC_MSG_CHECKING("for wais...")
-if test -d wais/ir && test "$with_wais" = "1"; then
- AC_MSG_RESULT("yes")
- OLDLDFLAGS=$LDFLAGS
- LDFLAGS="$LDFLAGS -L$srcdir/wais/ir"
- AC_CHECK_LIB(wais, main, GOPHERDLIBS="$GOPHERDLIBS ../wais/ir/libwais.a ../wais/ui/source.o"; WAISTYPE="-DFREEWAIS_SF"; SEARCH="$SEARCH -DWAISSEARCH")
-
- LDFLAGS="$LDFLAGS -L$srcdir/wais/regexp"
- AC_CHECK_LIB(regexp, main, GOPHERDLIBS="$GOPHERDLIBS ../wais/regexp/libregexp.a")
-
- LDFLAGS="$LDFLAGS -L$srcdir/wais/lib"
- AC_CHECK_LIB(ftw, main, GOPHERDLIBS="$GOPHERDLIBS ../wais/lib/libftw.a")
-
- LDFLAGS=$OLDLDFLAGS
-
- case $LIBS in
-  *-lwais*) ;;
-  *) 
-   unset ac_cv_lib_wais
-   AC_MSG_CHECKING("for older versions of WAIS...")
-
-   LDFLAGS="$LDFLAGS -L$srcdir/wais/bin"
-   AC_CHECK_LIB(wais, main, GOPHERDLIBS="$GOPHERDLIBS ../wais/bin/wais.a ../wais/bin/client.a ../wais/bin/wais.a ../wais/ui/source.o ../bin/libftw.a"; SEARCH="$SEARCH -DWAISSEARCH")
- ;;
- esac
-else
-  AC_MSG_RESULT("no")
-fi
 LDFLAGS=$OLDLDFLAGS
 
 AC_CHECK_LIB(compat, re_comp, REGEXLIBS="$REGEXLIBS -lcompat")
-
-######################################################################
-AC_MSG_CHECKING("for NeXT indexing...");
-if test -f /sdmach; then
-  AC_MSG_RESULT("yes")
-  AC_SUBST(NEXTOBJS)
-  AC_CHECK_LIB(text, main, GOPHERDLIBS="$GOPHERDLIBS -ltext")
-  AC_CHECK_LIB(btree, main,GOPHERDLIBS="$GOPHERDLIBS -lbtree"; SEARCH="$SEARCH -DNEXTSEARCH";NEXTOBJS="NeXTindex.o")
-fi
 
 ######################################################################
 AC_CHECK_LIB(malloc, main)
@@ -182,7 +135,6 @@ AC_CHECK_LIB(malloc, main)
 AC_SUBST(CLIENTLIBS)
 AC_CHECK_LIB(curses, main, CLIENTLIBS="$CLIENTLIBS -lcurses")
 AC_CHECK_LIB(termcap, main, CLIENTLIBS="$CLIENTLIBS -ltermcap")
-AC_CHECK_LIB(crypt, crypt, GOPHERDLIBS="$GOPHERDLIBS -lcrypt")
 
 dnl Checks for header files.
 AC_HEADER_DIRENT
@@ -215,5 +167,5 @@ AC_CHECK_LIB(termcap, main)
 AC_CHECK_FUNCS(bzero gethostname fgetpwent get_current_dir_name getcwd getwd madvise mkdir mktime putenv re_comp select seteuid setsid socket strcasecmp strcspn strdup strerror strftime strspn strstr strtol sysconf tempnam tzset wait3 waitpid strcasestr regcomp regfree wattron wattroff wstandout wstandend)
 
 AC_TRY_LINK([#include <unistd.h>], [getdtablesize();])
-AC_OUTPUT(Makefile Makefile.config gopherd/Makefile object/Makefile gopher/Makefile gopher/locales/Makefile doc/Makefile gophfilt/Makefile)
+AC_OUTPUT(Makefile Makefile.config object/Makefile gopher/Makefile gopher/locales/Makefile doc/Makefile gophfilt/Makefile)
 

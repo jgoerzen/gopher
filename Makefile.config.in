@@ -183,7 +183,6 @@ SYSCONFDIR	= @sysconfdir@
 CLIENTDIR	= $(PREFIX)/bin
 CLIENTLIB       = $(DESTDIR)/$(SYSCONFDIR)/gopher
 SERVERDIR	= $(PREFIX)/sbin
-SERVERCONFDIR   = $(DESTDIR)/$(SYSCONFDIR)/gopherd
 
 # On SCO manuals are in /usr/man but its easiest to do a 
 # symbolic link from /usr/local/man to /usr/man for this and other packages
@@ -281,20 +280,6 @@ INTLOPTS = @GINTERNATIONAL@
 #
 
 #SHAREDLIB = sun
-
-
-#-----------------------------------------------------------------
-# SERVERDIR is the default directory for gopherd.  It can be 
-# overridden on the command line
-#
-# SERVERPORT is the default port for gopherd.  It too can be
-# overridden on the command line.
-# 
-
-SERVERDATA	= @GOPHER_DATA@
-SERVERPORT	= @GOPHER_PORT@
-
-
 
 
 #=================================================================
