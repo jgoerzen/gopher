@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2000/08/23 00:03:59 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/Stdlib.h,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: Stdlib.h,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/08/23 00:03:59  jgoerzen
+ * Updates
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.6  1996/01/04  18:26:50  lindner
  * Updates for autoconf
@@ -64,6 +67,10 @@
 
 #if !defined(VMS)
 #  include <sys/types.h>
+#include <malloc.h>
+#include <string.h>
 #endif
+
+
 
 #endif /* GSTDLIB_H */

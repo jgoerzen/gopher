@@ -1,10 +1,12 @@
-This package was debianized by unknown <jgoerzen@indy.progenylinux.com> on
+This package was debianized by John Goerzen <jgoerzen@complete.org> on
 Thu, 17 Aug 2000 15:16:07 -0500.
 
-It was downloaded from <fill in ftp site>
+It was downloaded from ftp://boombox.micro.umn.edu/pub/gopher or the mirror
+gopher://quux.org/
 
-Upstream Author(s): <put author(s) name and email here>
+Upstream Author(s): University of Minnesota
 
 Copyright:
 
-<Must follow here>
+GNU General Public License.  Debian GNU/Linux users can find this file in
+/usr/doc/copyright/GPL.

@@ -8,7 +8,7 @@
   <!-- SECTION should be 1-8, maybe w/ subsection other parameters are
        allowed: see man(7), man(1). -->
   <!ENTITY dhsection   "<manvolnum>SECTION</manvolnum>">
-  <!ENTITY dhemail     "<email>jgoerzen@indy.progenylinux.com</email>">
+  <!ENTITY dhemail     "<email>jgoerzen@complete.org</email>">
   <!ENTITY dhusername  "unknown">
   <!ENTITY dhucpackage "<refentrytitle>GOPHER</refentrytitle>">
   <!ENTITY dhpackage   "gopher">
