@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: s2mdalle $
- * $Revision: 1.11 $
- * $Date: 2000/12/27 21:39:25 $
+ * $Revision: 1.12 $
+ * $Date: 2000/12/31 20:02:28 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,13 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.12  2000/12/31 20:02:28  s2mdalle
+ * Fixed filesize misreporting bug in send_binary (where it would report
+ * the size of foo.txt.gz to the client, then run it through a decoder
+ * and send foo.txt which is much bigger).  Error checking on rfopen()
+ * calls, and logging for error condition failed writes to the client and
+ * reads from disk.
+ *
  * Revision 1.11  2000/12/27 21:39:25  s2mdalle
  * Added logging for info requests.
  * (i.e. client sends "locator     !")
@@ -3496,6 +3503,9 @@ send_binary(int sockfd, char *filename, boolean isGplus)
      register int   j;
      int            gotbytes, size;
      struct stat    buf;
+     int            isSpecial = 0;  /* Whether or not file is special or opened
+                                     * via popen() 
+                                     */
 
      Debug("Sending %s, binary way\n", filename);
      /** Don't check decoder/extension if .cache **/
@@ -3505,9 +3515,12 @@ send_binary(int sockfd, char *filename, boolean isGplus)
 	  if (strcmp(filename, "-") == 0) {
 	       /*** Do some live digitization!! **/
 	       sndfile = popen("record -", "r");
+               isSpecial = 1;
 	  }
-	  else
+	  else {
 	       sndfile = rfopen(filename, "r");
+               isSpecial = 0;
+          }
 	  
 	  if (!sndfile) {
 	       /*
@@ -3520,13 +3533,29 @@ send_binary(int sockfd, char *filename, boolean isGplus)
 	  if ((pp = Specialfile(sockfd, sndfile, filename)) != NULL) {
 	       fclose(sndfile);
 	       sndfile = pp;
+               isSpecial = 1;
 	  }
-     } else
+     } else {
 	  sndfile = rfopen(filename, "r");
 
+	  if (!sndfile)
+	       Die(sockfd, 404, "'%s' does not exist!!", filename);
 
-     if ((isGplus) && strcmp(filename, "-") == 0) 
+          isSpecial = 0;
+     } /* End else */
+
+     /* We have to send -2 as the filesize if it's a special file.  This gets
+      * around an extremely annoying bug where a file gets run through a 
+      * decoder, (say, zcat for foobar.txt.gz) and even though 
+      * we report foobar.txt.gz as 20134 bytes in length, we send the actual
+      * uncompressed file.  (foobar.txt, which is much bigger).  Not positive
+      * about all client implementations on whether or not they will stop 
+      * reading, but it's better to nip this out.
+      */
+     if (((isGplus) && strcmp(filename, "-") == 0) || isSpecial) 
 	  GSsendHeader(sockfd, -2);
+     else if (isGplus && isSpecial) 
+          GSsendHeader(sockfd, -2);
      else if (isGplus) {
 	  rstat(filename, &buf);
 	  size = buf.st_size;
@@ -3536,16 +3565,25 @@ send_binary(int sockfd, char *filename, boolean isGplus)
      while(1) {
 	  gotbytes = fread(in, 1, BUFSIZE, sndfile);
 	  
-	  if (gotbytes == 0)
+	  if (gotbytes == 0) { 
+               if(ferror(sndfile)) {
+                    /* This won't happen if it's just regular EOF */
+                    LOGGopher(sockfd, "send_binary(%s): error reading data",
+                              filename);
+               } /* End if */
 	       break;       /*** end of file or error... ***/
+          }
 
 	  (void) alarm(WRITETIMEOUT);  /** In case client is hung.. **/
           j = writen(sockfd, in, gotbytes);
 	  (void) alarm(0);
 
 	  Debug("Wrote %d binary bytes\n",j);
-	  if (j <= 0)
+	  if (j <= 0) {
+               LOGGopher(sockfd, "send_binary(%s): short byte count on write",
+                         filename);
 	       break;       /*** yep another error condition ***/
+          }
 
      } /* End while */
 
