@@ -1,6 +1,6 @@
 ----------------------------------------------
 Gopher/Gopherd FAQ
-$Id: FAQ,v 1.4 2002/03/19 16:26:11 jgoerzen Exp $
+$Id: FAQ,v 1.5 2002/03/19 17:51:18 jgoerzen Exp $
 
 This is the FAQ for gopher and UMN gopher.
 
@@ -54,7 +54,30 @@ gopher://gopher.quux.org/11/devel/gopher/Downloads
 http://quux.org/give-me-gopher/
 
 ----------------------------------------------
-How can I create info text on menus like quux.org does?
+Is there a mailing list?
+
+Yes.
+
+See gopher://gopher.quux.org/00/devel/gopher/Mailing%20List.txt for details. 
+Or:
+
+To subscribe, send the text "Subscribe" in the subject of a mail to
+gopher-request@complete.org.  To post, send the message to
+gopher@complete.org.
+
+Archives are at http://www.complete.org/mailinglist/archives/ and at
+gopher://gopher.quux.org/1/Archives/Mailing%20Lists/gopher.
+
+----------------------------------------------
+[UMN] I'm having trouble compiling gopher(d)
+
+First, read the information in doc/PLATFORMS, this FAQ, etc.
+
+Then, subscribe to the mailing list and seek assistance.  (See the
+Mailing List topic)
+
+----------------------------------------------
+[UMN] How can I create info text on menus like quux.org does?
 
 This depends on which server you are using.  If you are using UMN gopherd,
 you need itemtype 'i' in your menu.  John Goerzen has written a utility
