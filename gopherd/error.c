@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.5 $
- * $Date: 2002/01/08 17:27:39 $
+ * $Revision: 1.6 $
+ * $Date: 2002/01/08 20:56:46 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/error.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: error.c,v $
+ * Revision 1.6  2002/01/08 20:56:46  jgoerzen
+ * Modified to use HAVE_STRERROR
+ *
  * Revision 1.5  2002/01/08 17:27:39  jgoerzen
  * Removed sys_errlist definition; it seems to be prevalent in modern OSs.
  *
@@ -271,7 +274,10 @@ void my_perror(void)
 
 
 extern int errno;		/* UNIX error number */
+#ifndef HAVE_STRERROR
 extern int sys_nerr;		/* # of error message strings in sys table */
+extern char *sys_errlist[];     /* the system error message table */
+#endif
 
 #ifdef SYS5
 int t_errno;
@@ -295,10 +301,14 @@ sys_err_str(void)
      static char msgstr[200];
 
      if (errno != 0) {
+#ifndef HAVE_STRERROR
 	  if (errno >0 && errno < sys_nerr)
 	       snprintf(msgstr, sizeof(msgstr), "(%s)", sys_errlist[errno]);
 	  else
 	       snprintf(msgstr, sizeof(msgstr), "(errno = %d)", errno);
+#else
+	  snprintf(msgstr, sizeof(msgstr), "(%s)", strerror(errno));
+#endif
      } else {
 	  msgstr[0] = '\0';
      }

@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.4 $
- * $Date: 2002/01/08 18:05:33 $
+ * $Revision: 1.5 $
+ * $Date: 2002/01/08 20:57:49 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/download.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: download.c,v $
+ * Revision 1.5  2002/01/08 20:57:49  jgoerzen
+ * Modified to use HAVE_STRERROR
+ *
  * Revision 1.4  2002/01/08 18:05:33  jgoerzen
  *   * download.c: Added cast to long for some *printf's
  *
@@ -141,6 +144,10 @@
 #  include <unistd.h>
 #endif /* HAVE_UNISTD_H */
 
+#ifdef HAVE_SYS_PARAM_H
+#  include <sys/param.h>
+#endif
+
 #include "fileio.h"		/* For FIOsystem() */
 
 static char *DLnames[] = {
@@ -187,10 +194,17 @@ Download_file(GopherObj *gs)
      int    choice;
      char   tmpfilename[512], *cp;
      char   command[512];
-     int    curcwd_len = 512;
-     char   curcwd[curcwd_len];
+     char   *curcwd;
      int    start, end;
      struct stat buf;
+
+#ifndef HAVE_GET_CURRENT_DIR_NAME
+     curcwd = (char *) malloc(MAXPATHLEN + 2);
+     if (!curcwd) {
+         CursesErrorMsg("Out of memory.");
+         return;
+     }
+#endif
 
      switch (GSgetType(gs)) {
      case A_DIRECTORY:
@@ -241,11 +255,15 @@ Download_file(GopherObj *gs)
 	  }
      }
 
+#ifdef HAVE_GET_CURRENT_DIR_NAME
+       curcwd = get_current_dir_name();
+#else
 #ifdef HAVE_GETCWD
-     getcwd(curcwd, curcwd_len);
+     getcwd(curcwd, MAXPATHLEN);
 #else
      getwd(curcwd);
 #endif /* HAVE_GETCWD */
+#endif
 
 #ifdef VMS
      if (chdir("SYS$SCRATCH")!=0) {
@@ -325,6 +343,9 @@ Download_file(GopherObj *gs)
      fflush(stdout);
      getchar();
      CURenter(CursesScreen);
+#ifndef HAVE_GET_CURRENT_DIR_NAME
+     free(curcwd);
+#endif
      
 }
 
@@ -339,8 +360,17 @@ BuiltinDownload(char *dirname)
      struct dirent *entry = NULL;
      struct stat buf;
      int fcount=0, choice;
-     char tmppath[256];
+     char *tmppath;
      GopherObj *gs;
+
+
+#ifndef HAVE_GET_CURRENT_DIR_NAME
+    tmppath = (char*)malloc(MAXPATHLEN + 2);
+    if ( !tmppath ) {
+      CursesErrorMsg("Cannot allocate memory");
+      return;
+      }
+#endif
 
      thedir = opendir(dirname);
      chdir(dirname);
@@ -371,7 +401,22 @@ BuiltinDownload(char *dirname)
 
      GSsetPath(gs, names[choice]);
      
-     strcat((char*)getwd(tmppath), "/");
+#ifdef HAVE_GET_CURRENT_DIR_NAME
+     tmppath = get_current_dir_name();
+     if ( sizeof(tmppath) <= (strlen(tmppath) + strlen(names[choice]) + 1) )
+       tmppath = realloc(tmppath,sizeof(tmppath) + strlen(names[choice] + 1));
+     if ( !tmppath ) {
+         CursesErrorMsg("Out of memory");
+	 return;
+     }
+#else
+#ifdef HAVE_GETCWD
+     getcwd(tmppath,MAXPATHLEN);
+#else
+     getwd(tmppath);
+#endif
+#endif      
+     strcat(tmppath, "/");
      strcat(tmppath, names[choice]);
 
      GSsetLocalFile(gs, tmppath);

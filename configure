@@ -2337,7 +2337,7 @@ EOF
 
 fi
 
-for ac_hdr in term.h re_comp.h regex.h crypt.h fcntl.h time.h ctype.h limits.h locale.h sys/types.h sys/stat.h sys/file.h sys/ioctl.h sys/time.h syslog.h unistd.h malloc.h
+for ac_hdr in sys/param.h term.h re_comp.h regex.h crypt.h fcntl.h time.h ctype.h limits.h locale.h sys/types.h sys/stat.h sys/file.h sys/ioctl.h sys/time.h syslog.h unistd.h malloc.h
 do
 ac_safe=`echo "$ac_hdr" | sed 'y%./+-%__p_%'`
 echo $ac_n "checking for $ac_hdr""... $ac_c" 1>&6
@@ -3921,7 +3921,7 @@ echo "$ac_t""$ac_cv_group_kmem" 1>&6
   KMEM_GROUP=$ac_cv_group_kmem
 fi
 
-for ac_func in bzero gethostname fgetpwent getcwd getwd madvise mkdir mktime putenv re_comp select seteuid setsid socket strcasecmp strcspn strdup strerror strftime strspn strstr strtol sysconf tempnam tzset wait3 waitpid
+for ac_func in bzero gethostname fgetpwent get_current_dir_name getcwd getwd madvise mkdir mktime putenv re_comp select seteuid setsid socket strcasecmp strcspn strdup strerror strftime strspn strstr strtol sysconf tempnam tzset wait3 waitpid
 do
 echo $ac_n "checking for $ac_func""... $ac_c" 1>&6
 echo "configure:3928: checking for $ac_func" >&5

@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.5 $
- * $Date: 2002/01/08 20:30:35 $
+ * $Revision: 1.6 $
+ * $Date: 2002/01/08 20:57:26 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/gopher.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: gopher.c,v $
+ * Revision 1.6  2002/01/08 20:57:26  jgoerzen
+ * Small logic error fixed
+ *
  * Revision 1.5  2002/01/08 20:30:35  jgoerzen
  *     * gopher.c: Modified to use HAVE_STRERROR
  *
@@ -1259,7 +1262,7 @@ void check_sock(int sockfd, char *host, int port)
 #else
 #  ifdef __DECC
 	       if (errno > 0 && errno <= 65) {
-#  ifdef defined(HAVE_STRERROR)
+#  elsif defined(HAVE_STRERROR)
                if (1) {
 #  else
 	       if (errno > 0 && errno <= sys_nerr) {

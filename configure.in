@@ -192,7 +192,7 @@ dnl Checks for header files.
 AC_HEADER_DIRENT
 AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
-AC_CHECK_HEADERS(term.h re_comp.h regex.h crypt.h fcntl.h time.h ctype.h limits.h locale.h sys/types.h sys/stat.h sys/file.h sys/ioctl.h sys/time.h syslog.h unistd.h malloc.h)
+AC_CHECK_HEADERS(sys/param.h term.h re_comp.h regex.h crypt.h fcntl.h time.h ctype.h limits.h locale.h sys/types.h sys/stat.h sys/file.h sys/ioctl.h sys/time.h syslog.h unistd.h malloc.h)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -211,7 +211,7 @@ AC_FUNC_STRCOLL
 AC_FUNC_VFORK
 AC_FUNC_VPRINTF
 AC_FUNC_GETLOADAVG
-AC_CHECK_FUNCS(bzero gethostname fgetpwent getcwd getwd madvise mkdir mktime putenv re_comp select seteuid setsid socket strcasecmp strcspn strdup strerror strftime strspn strstr strtol sysconf tempnam tzset wait3 waitpid)
+AC_CHECK_FUNCS(bzero gethostname fgetpwent get_current_dir_name getcwd getwd madvise mkdir mktime putenv re_comp select seteuid setsid socket strcasecmp strcspn strdup strerror strftime strspn strstr strtol sysconf tempnam tzset wait3 waitpid)
 AC_TRY_LINK("unistd.h", [getdtablesize();])
 
 

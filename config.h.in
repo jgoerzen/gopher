@@ -82,6 +82,9 @@
 /* Define if you have the fgetpwent function.  */
 #undef HAVE_FGETPWENT
 
+/* Define if you have the get_current_dir_name function.  */
+#undef HAVE_GET_CURRENT_DIR_NAME
+
 /* Define if you have the getcwd function.  */
 #undef HAVE_GETCWD
 
@@ -207,6 +210,9 @@
 
 /* Define if you have the <sys/ndir.h> header file.  */
 #undef HAVE_SYS_NDIR_H
+
+/* Define if you have the <sys/param.h> header file.  */
+#undef HAVE_SYS_PARAM_H
 
 /* Define if you have the <sys/stat.h> header file.  */
 #undef HAVE_SYS_STAT_H

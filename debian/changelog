@@ -1,6 +1,13 @@
 gopher (2.3.1-16) unstable; urgency=low
 
-  * 
+  * Patched to work with Hurd.  Closes: #115511.  Uses
+    suggestions from James Morrison <ja2morri@student.math.uwaterloo.ca>
+    but not his patch.
+    * gopher.c, gopherd/error.c, gopher/download.c:
+      Modified to use HAVE_STRERROR
+    * configure.in: Modified with checks for sys/param.h, HURD header files,
+      get_current_dir_name, etc.
+    * configure.h.in, configure: rebuilt.
 
  -- John Goerzen <jgoerzen@complete.org>  Tue,  8 Jan 2002 15:31:00 -0500
 
