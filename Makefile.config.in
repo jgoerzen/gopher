@@ -5,8 +5,8 @@
 
 #********************************************************************
 # $Author: jgoerzen $
-# $Revision: 1.9 $
-# $Date: 2002/03/20 17:18:46 $
+# $Revision: 1.10 $
+# $Date: 2002/04/26 13:33:33 $
 # $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/Makefile.config.in,v $
 # $State: Exp $
 #
@@ -20,8 +20,8 @@
 #*********************************************************************
 # Revision History:
 # $Log: Makefile.config.in,v $
-# Revision 1.9  2002/03/20 17:18:46  jgoerzen
-# Added beginnings of glib support.
+# Revision 1.10  2002/04/26 13:33:33  jgoerzen
+# Removed glib MIME stuff.  We'll move to Pygopherd first.
 #
 # Revision 1.8  2002/03/19 20:42:48  jgoerzen
 #   * Removed the DOMAIN configure support, DOMAIN_NAME in gopherd,
@@ -309,5 +309,3 @@ INCLUDES	= -I@top_srcdir@ -I@top_srcdir@/object
 
 LDFLAGS		= -L../object
 SHELL		= /bin/sh
-GLIB_CFLAGS	= @GLIB_CFLAGS@
-GLIB_LIBS	= @GLIB_LIBS@

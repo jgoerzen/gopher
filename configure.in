@@ -180,20 +180,9 @@ fi
 AC_CHECK_LIB(malloc, main)
 
 AC_SUBST(CLIENTLIBS)
-AC_CHECK_LIB(curses, main, CLIENTLIBS="$CLIENTLIBS -lcurses",
-  AC_MSG_ERROR(Cannot find curses.))
+AC_CHECK_LIB(curses, main, CLIENTLIBS="$CLIENTLIBS -lcurses")
 AC_CHECK_LIB(termcap, main, CLIENTLIBS="$CLIENTLIBS -ltermcap")
 AC_CHECK_LIB(crypt, crypt, GOPHERDLIBS="$GOPHERDLIBS -lcrypt")
-
-AC_SUBST(GLIB_CFLAGS)
-AC_SUBST(GLIB_LIBS)
-
-AM_PATH_GLIB(1.2.0)
-if test ${no_glib}x = yesx
-then
-  AC_MSG_ERROR([Cannot find glib.  Check config.log and see doc/INSTALL])
-fi
-
 
 dnl Checks for header files.
 AC_HEADER_DIRENT
@@ -220,16 +209,11 @@ AC_FUNC_VPRINTF
 AC_FUNC_GETLOADAVG
 
 dnl Do this again so the AC_CHECK_FUNCS works.
-dnl By adding it to CLIENTLIBS, it doesn't get added to LIBS, so
-dnl AC_CHECK_FUNCS doesn't find it.
 
 AC_CHECK_LIB(curses, main)
 AC_CHECK_LIB(termcap, main)
-
 AC_CHECK_FUNCS(bzero gethostname fgetpwent get_current_dir_name getcwd getwd madvise mkdir mktime putenv re_comp select seteuid setsid socket strcasecmp strcspn strdup strerror strftime strspn strstr strtol sysconf tempnam tzset wait3 waitpid strcasestr regcomp regfree wattron wattroff wstandout wstandend)
+
 AC_TRY_LINK([#include <unistd.h>], [getdtablesize();])
-
-
-
-AC_OUTPUT(Makefile Makefile.config gopherd/Makefile mime/Makefile object/Makefile gopher/Makefile gopher/locales/Makefile doc/Makefile gophfilt/Makefile)
+AC_OUTPUT(Makefile Makefile.config gopherd/Makefile object/Makefile gopher/Makefile gopher/locales/Makefile doc/Makefile gophfilt/Makefile)
 

@@ -1,20 +1,106 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.3 $
- * $Date: 2002/03/25 14:19:46 $
+ * $Revision: 1.4 $
+ * $Date: 2002/04/26 13:33:33 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/ext.c,v $
  * $State: Exp $
  *
- * Originally by: Paul Lindner, University of Minnesota CIS.
+ * Paul Lindner, University of Minnesota CIS.
  *
- * COPYRIGHT
  * Copyright 1991, 1992 by the Regents of the University of Minnesota
- * Copyright (C) 2000-2002 John Goerzen and other developers
  * see the file "Copyright" in the distribution for conditions of use.
- * COPYRIGHT 
  *********************************************************************
  * MODULE: ext.c
  * These fns define mapping of file extensions to gopher objects.
+ *********************************************************************
+ * Revision History:
+ * $Log: ext.c,v $
+ * Revision 1.4  2002/04/26 13:33:33  jgoerzen
+ * Removed glib MIME stuff.  We'll move to Pygopherd first.
+ *
+ * Revision 1.2  2000/12/20 01:19:20  jgoerzen
+ * Added patches from David Allen <s2mdalle@titan.vcu.edu>
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
+ *
+ * Revision 3.20  1995/09/25  05:02:32  lindner
+ * Convert to ANSI C
+ *
+ * Revision 3.19  1994/09/29  19:57:45  lindner
+ * Less picky language and view comparisions
+ *
+ * Revision 3.18  1994/07/21  15:46:22  lindner
+ * Brian Coen Patch
+ *
+ * Revision 3.17  1994/07/19  20:27:35  lindner
+ * Use local Locale.h
+ *
+ * Revision 3.16  1994/05/02  07:41:11  lindner
+ * Mods to use setlocale()
+ *
+ * Revision 3.15  1994/04/26  22:43:57  lindner
+ * Fix for Debugmsg
+ *
+ * Revision 3.14  1994/04/25  20:49:04  lindner
+ * Fix for debug code
+ *
+ * Revision 3.13  1994/01/20  06:39:18  lindner
+ * When trying to match an extension to a file type, the server prefers
+ * exact matches of type & language, but will now fall back to matching
+ * the type in any language (acf).
+ *
+ * Revision 3.12  1993/10/27  20:35:24  lindner
+ * Plug memory leak
+ *
+ * Revision 3.11  1993/10/20  03:17:25  lindner
+ * Fixed erratic problems with extension adding.  Note that the problems
+ * with directories not working with Gopher0 clients is due to a missing
+ * parameter in a strncasecmp() call..  Makes one wish ANSI C was more
+ * widespread...
+ *
+ * Also added regular expression code for ignore_patt:
+ *
+ * Revision 3.10  1993/10/04  06:39:31  lindner
+ * Fix for forward declarations
+ *
+ * Revision 3.9  1993/09/21  02:35:04  lindner
+ * Server now adds extensions in a case insensitive manner
+ *
+ * Revision 3.8  1993/09/18  03:30:11  lindner
+ * Remove memory leak
+ *
+ * Revision 3.7  1993/09/18  02:22:35  lindner
+ * More debugging...
+ *
+ * Revision 3.6  1993/08/19  20:25:46  lindner
+ * Mitra's Debug patch
+ *
+ * Revision 3.5  1993/08/03  06:03:08  lindner
+ * Ignored files are now ignored again
+ *
+ * Revision 3.4  1993/07/31  00:15:37  lindner
+ * Fixed weird extension problem
+ *
+ * Revision 3.3  1993/07/27  20:15:29  lindner
+ * Fixed bug where filename was less than extension
+ *
+ * Revision 3.2  1993/07/23  03:18:46  lindner
+ * Mods for using decoder:'s
+ *
+ * Revision 3.1.1.1  1993/02/11  18:02:51  lindner
+ * Gopher+1.2beta release
+ *
+ * Revision 1.3  1993/02/09  22:13:19  lindner
+ * many additions for multilingual gopher
+ *
+ * Revision 1.2  1993/01/30  23:56:55  lindner
+ * Lots of new code for gopher+ stuff..  Change everything to start with EX
+ *
+ * Revision 1.1  1992/12/10  23:13:27  lindner
+ * gopher 1.1 release
+ *
+ *
  *********************************************************************/
 
 #include <stdio.h>

@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.5 $
- * $Date: 2002/03/21 15:23:58 $
+ * $Revision: 1.6 $
+ * $Date: 2002/04/26 13:33:33 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/CURcurses.h,v $
  * $State: Exp $
  *
@@ -15,12 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: CURcurses.h,v $
- * Revision 1.5  2002/03/21 15:23:58  jgoerzen
- * Fixed a Solaris curses bug -- apparently, Solaris REALLY doesn't like
- * wattron(), so we add a test for standout and standend to configure and
- * prefer that whenever possible in CURcurses.h.
+ * Revision 1.6  2002/04/26 13:33:33  jgoerzen
+ * Removed glib MIME stuff.  We'll move to Pygopherd first.
  *
- * Also, fix a bug with unistd.h in configure.in's AC_TRY_LINK.
+ * Revision 1.4.2.1  2002/03/21 15:24:56  jgoerzen
+ * Fixes for Solaris.  Also commited on main branch.
  *
  * Revision 1.4  2001/01/17 21:48:05  jgoerzen
  * Many fixes and tune-ups.  Now compiles cleanly with -Wall -Werror!

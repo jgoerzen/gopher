@@ -1,22 +1,664 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.33 $
- * $Date: 2002/03/25 14:12:51 $
+ * $Revision: 1.34 $
+ * $Date: 2002/04/26 13:33:33 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
- * Originally by: Paul Lindner, University of Minnesota CIS.
+ * Paul Lindner, University of Minnesota CIS.
  *
-
- * COPYRIGHT
  * Copyright 1991, 1992 by the Regents of the University of Minnesota
- * Copyright (C) 2000-2002 John Goerzen and other developers
  * see the file "Copyright" in the distribution for conditions of use.
- * COPYRIGHT 
  *********************************************************************
  * MODULE: gopherd.c
  * Routines to implement the gopher server.
  *********************************************************************
+ * Revision History:
+ * $Log: gopherd.c,v $
+ * Revision 1.34  2002/04/26 13:33:33  jgoerzen
+ * Removed glib MIME stuff.  We'll move to Pygopherd first.
+ *
+ * Revision 1.30  2002/03/20 03:10:12  jgoerzen
+ * Updated copyright notice
+ *
+ * Revision 1.29  2002/03/19 20:42:48  jgoerzen
+ *   * Removed the DOMAIN configure support, DOMAIN_NAME in gopherd,
+ *     backupdomain in Socket.c, etc.  This should prevent the no.domain.name
+ *     problem that people have been seeing.  Regenerated configure stuff.
+ *
+ * Revision 1.28  2002/03/19 19:12:27  jgoerzen
+ * Fixed select bug
+ *
+ * Revision 1.27  2002/03/19 18:13:36  jgoerzen
+ * A bit of sanity checking for MacOS X perhaps.
+ *
+ * Revision 1.26  2002/02/12 21:20:14  jgoerzen
+ * Made files using strcasecmp() include util.h
+ *
+ * Revision 1.25  2002/01/08 21:35:49  jgoerzen
+ * Many changes:
+ *  Revved the version number
+ *  updated greeting
+ *  updated copyright notices
+ *
+ * Revision 1.24  2002/01/08 17:45:25  jgoerzen
+ *   * gopherd/gopherd.c: Add init of view and filter after setjmp
+ *     to eliminate clobbering due to longjmp and a warning.  Cast
+ *     parameters to *printf to long as appropriate.
+ *
+ * Revision 1.23  2001/07/20 17:31:57  s2mdalle
+ * Fixed bug in printfile(): on each line of the file, gopherd stripped
+ * CRLF and put in a new CRLF.  That is a problem when the original
+ * didn't contain a CR, since it increases the byte size of each line by
+ * one byte, making the content length sent out through a gopher+ request
+ * wrong.
+ *
+ * Revision 1.22  2001/02/19 23:29:56  s2mdalle
+ * Slight changes to comments to avoid misleading people, and switching
+ * logic change in printfile on when a Gopher+ size header is sent.
+ *
+ * Revision 1.21  2001/01/19 00:31:12  s2mdalle
+ * Fixed possible (albeit unlikely) buffer overflow potential problem
+ *
+ * Revision 1.20  2001/01/17 19:33:59  jgoerzen
+ * Applied patch from Aaron Lehman to fix debugging mode.
+ *
+ * Revision 1.19  2001/01/17 19:30:25  jgoerzen
+ * Change many sprintf -> snprintf
+ *
+ * Revision 1.18  2001/01/17 18:38:40  jgoerzen
+ * Oops, called LOGGopher wrongly.
+ *
+ * Revision 1.17  2001/01/17 18:14:59  jgoerzen
+ * Tweaking to log messages.
+ *
+ * Revision 1.16  2001/01/17 18:13:21  jgoerzen
+ * Added mp3 MIME type.  Add logging of chroot and setuid/setgid status.
+ *
+ * Revision 1.15  2001/01/17 17:19:07  jgoerzen
+ * Oops.
+ *
+ * Revision 1.14  2001/01/17 17:12:52  jgoerzen
+ * More buffer size fixes.
+ *
+ * Revision 1.13  2001/01/08 08:19:15  s2mdalle
+ * Fixed spelling error on one error message, code cleanup, removal of
+ * old useless #if 0'd code.  FIXME: writing ASK data to a file named by
+ * tempnam() is broken and has been for quite some time.
+ *
+ * Revision 1.12  2000/12/31 20:02:28  s2mdalle
+ * Fixed filesize misreporting bug in send_binary (where it would report
+ * the size of foo.txt.gz to the client, then run it through a decoder
+ * and send foo.txt which is much bigger).  Error checking on rfopen()
+ * calls, and logging for error condition failed writes to the client and
+ * reads from disk.
+ *
+ * Revision 1.11  2000/12/27 21:39:25  s2mdalle
+ * Added logging for info requests.
+ * (i.e. client sends "locator     !")
+ *
+ * Revision 1.10  2000/12/27 21:07:06  s2mdalle
+ * Fixed logging.  Previously the daemon tried to open the log file each
+ * time a request came through (inside do_command()).  It now opens the
+ * log file inside of main() right before going into the chroot jail, so
+ * logging should work whether or not chroot is used.  #if 0'd out the
+ * old opening spot.
+ *
+ * Revision 1.9  2000/12/27 07:21:23  s2mdalle
+ * Fixed silly tyop which broke compilation.
+ *
+ * Revision 1.8  2000/12/27 07:08:59  s2mdalle
+ *
+ * Mostly changes in print_file.  Changed header reporting to report the
+ * actual size of the file.  Changed period doubling to blanking.
+ * (i.e. previously when sending text, the server turned "\r\n.\r\n" into
+ * "\r\n..\r\n" and instead it is now "\r\n \r\n".  This allows us to get
+ * around the gopher protocol no-no of sending "\r\n.\r\n" before we're
+ * done transmitting and at the same time stay true to the number of
+ * bytes we report to the client that we're sending.
+ *
+ * Revision 1.7  2000/12/21 05:33:20  s2mdalle
+ *
+ *
+ * Miscellaneous code cleanups
+ *
+ * Revision 1.6  2000/12/20 18:31:14  s2mdalle
+ *
+ *
+ * Just a test-commit.  The only change was in code formatting.
+ *
+ * Revision 1.5  2000/12/20 01:19:20  jgoerzen
+ * Added patches from David Allen <s2mdalle@titan.vcu.edu>
+ *
+ * Revision 1.4.1 2000/12/18 23:06:00 mdallen
+ * Included relevant headers, changed return type of main from void->int,
+ * fixed getwd to getcwd.  HandleHTTPpost changed to void return type since
+ * it doesn't return anything and nobody uses its return value.
+ * 
+ * Revision 1.4  2000/08/23 01:48:40  jgoerzen
+ * Cross fingers: final mods
+ *
+ * Revision 1.3  2000/08/23 01:19:26  jgoerzen
+ * Fix chroot patch.
+ *
+ * Revision 1.2  2000/08/23 01:14:33  jgoerzen
+ * Fixed chroot and setuid change position.
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
+ *
+ * Revision 3.171  1996/01/04  18:30:12  lindner
+ * Fix for Ustat on Linux, autoconf changes
+ *
+ * Revision 3.170  1995/11/03  18:02:50  lindner
+ * COEN: misc fixes...
+ *
+ * Revision 3.169  1995/11/02  17:53:08  lindner
+ * Better validate forms..
+ *
+ * Revision 3.168  1995/10/31  19:19:04  lindner
+ * Fix for errant period in html pages
+ *
+ * Revision 3.167  1995/10/09  03:57:07  lindner
+ * Fix for ignoring <TITLE> blocks
+ *
+ * Revision 3.166  1995/10/08  03:49:10  lindner
+ * Fix small prob with <TITLE>
+ *
+ * Revision 3.165  1995/10/08  03:40:59  lindner
+ * Automatically set title from HTML TITLE tag
+ *
+ * Revision 3.164  1995/10/05  19:30:20  lindner
+ * Misspelling
+ *
+ * Revision 3.163  1995/10/05  03:54:45  lindner
+ * Add defs for HTML footers and HTML headers
+ *
+ * Revision 3.162  1995/10/05  03:28:52  lindner
+ * Add script proto
+ *
+ * Revision 3.161  1995/10/05  02:50:08  lindner
+ * Fix for relative URL problems on a gopher server...
+ *
+ * Revision 3.160  1995/10/04  21:03:43  lindner
+ * Fix CheckAccess call
+ *
+ * Revision 3.159  1995/10/04  19:10:58  lindner
+ * Fix for gopherd item
+ *
+ * Revision 3.158  1995/09/28  22:58:52  lindner
+ * Minor fixes
+ *
+ * Revision 3.157  1995/09/28  21:11:30  lindner
+ * More fixes...
+ *
+ * Revision 3.156  1995/09/26  04:59:45  lindner
+ * Fix abort routines, change to Die/Warn hash over access routines..
+ *
+ * Revision 3.155  1995/09/25  22:14:48  lindner
+ * Blobbo
+ *
+ * Revision 3.154  1995/09/25  22:06:58  lindner
+ * Ansification bugs
+ *
+ * Revision 3.153  1995/09/25  05:02:35  lindner
+ * Convert to ANSI C
+ *
+ * Revision 3.152  1995/09/09  03:21:17  lindner
+ * Don't overwrite envp on DEC osf..
+ *
+ * Revision 3.151  1995/08/30  19:28:12  lindner
+ * Remove some tests..
+ *
+ * Revision 3.150  1995/08/29  07:11:22  lindner
+ * Allow validation to work with http
+ *
+ * Revision 3.149  1995/07/06  20:12:34  lindner
+ * More mods for HTTP serving
+ *
+ * Revision 3.148  1995/06/12  15:31:52  lindner
+ * Fix inline stuff with images
+ *
+ * Revision 3.147  1995/06/09  04:49:33  lindner
+ * IMG default for text browsers, other Gilbert code
+ *
+ * Revision 3.146  1995/06/06  17:50:47  lindner
+ * Fix interrupted system call problem with select
+ *
+ * Revision 3.145  1995/06/02  17:24:38  lindner
+ * Add the ability to specify alternate password files for unixfile auth.
+ *
+ * Revision 3.144  1995/05/01  05:42:13  lindner
+ * compatibility fixes
+ *
+ * Revision 3.143  1995/04/15  07:11:49  lindner
+ * Add HTTP processing
+ *
+ * Revision 3.142  1995/02/25  20:49:03  lindner
+ * More timeouts..
+ *
+ * Revision 3.141  1995/02/25  06:42:55  lindner
+ * Add write timeouts
+ *
+ * Revision 3.140  1995/02/17  18:32:35  lindner
+ * Fix for mindex
+ *
+ * Revision 3.139  1995/02/16  22:34:01  lindner
+ * Fix for no defined Maxsessions, A/UX signal handling
+ *
+ * Revision 3.138  1995/02/16  22:32:38  lindner
+ * HTML icon support
+ *
+ * Revision 3.137  1995/02/13  19:07:57  lindner
+ * Add MaxConnection limit for total server
+ *
+ * Revision 3.136  1995/02/11  06:22:25  lindner
+ * Mods to use new statistics and concurrent session tracking
+ *
+ * Revision 3.135  1995/02/07  08:37:36  lindner
+ * Rewrite of mailfile/multifile parsing
+ *
+ * Revision 3.134  1995/02/07  07:12:33  lindner
+ * oops!
+ *
+ * Revision 3.133  1995/02/07  07:04:05  lindner
+ * performance fixes
+ *
+ * Revision 3.132  1995/02/06  22:27:55  lindner
+ * Use dynamic space for Data_Dir, remove RunLS
+ *
+ * Revision 3.131  1995/02/06  21:26:15  lindner
+ * Misc performance fixes
+ *
+ * Revision 3.130  1995/02/02  17:13:53  lindner
+ * Fix memory leaks
+ *
+ * Revision 3.129  1995/02/01  21:41:26  lindner
+ * Fix for loco symbolic links
+ *
+ * Revision 3.128  1995/01/26  18:50:21  lindner
+ * More efficient, more understandable, less buggy directory parser..
+ *
+ * Revision 3.127  1995/01/04  17:37:27  lindner
+ * Make shell scripts line buffered...
+ *
+ * Revision 3.126  1994/12/20  17:20:15  lindner
+ * Rewritten directory parser
+ *
+ * Revision 3.125  1994/12/15  17:47:49  lindner
+ * Add script running capability
+ *
+ * Revision 3.124  1994/12/12  21:46:25  lindner
+ * bonehead
+ *
+ * Revision 3.123  1994/12/12  21:03:50  lindner
+ * Start towards CGI compliance
+ *
+ * Revision 3.122  1994/12/12  17:41:52  lindner
+ * Hack around AIX
+ *
+ * Revision 3.121  1994/12/12  16:58:01  lindner
+ * Add new AUTHresult code, AUTHRES_SYSERR
+ *
+ * Revision 3.120  1994/12/11  18:42:19  lindner
+ * Fix for authenticated ask blocks
+ *
+ * Revision 3.119  1994/12/10  08:24:22  lindner
+ * Bracket out the moddate setting code
+ *
+ * Revision 3.118  1994/12/10  06:13:22  lindner
+ * Add error message for writing ask data
+ *
+ * Revision 3.117  1994/12/02  00:38:37  lindner
+ * Fix for odd GUSER malloc
+ *
+ * Revision 3.116  1994/11/30  23:01:09  lindner
+ * Allow username to be passed to the environment
+ *
+ * Revision 3.115  1994/11/30  22:26:33  lindner
+ * Error fix
+ *
+ * Revision 3.114  1994/11/30  22:25:47  lindner
+ * Error fix
+ *
+ * Revision 3.113  1994/11/30  21:53:25  lindner
+ * Fix for one last Gticket problem
+ *
+ * Revision 3.112  1994/11/30  21:26:57  lindner
+ * Fix for one last Gticket problem
+ *
+ * Revision 3.111  1994/11/08  19:48:50  lindner
+ * Fix bug in mailfile processing
+ *
+ * Revision 3.110  1994/10/24  22:17:08  lindner
+ * Add PDF type
+ *
+ * Revision 3.109  1994/10/21  01:45:53  lindner
+ * refix linger problem
+ *
+ * Revision 3.108  1994/10/19  17:21:56  lindner
+ * Fix for dreaded Malformed command dialog
+ *
+ * Revision 3.105  1994/10/13  05:17:48  lindner
+ * Compiler complaint fixes
+ *
+ * Revision 3.104  1994/10/10  18:38:55  lindner
+ * change in linger behavior
+ *
+ * Revision 3.103  1994/09/29  19:59:31  lindner
+ * Force people to update their gopherd.conf files
+ *
+ * Revision 3.102  1994/08/18  22:28:28  lindner
+ * Abstract for top level and malloc casts
+ *
+ * Revision 3.101  1994/08/01  21:56:01  lindner
+ * Add proto
+ *
+ * Revision 3.100  1994/07/31  05:08:52  lindner
+ * Add pid header file...
+ *
+ * Revision 3.99  1994/07/22  16:36:45  lindner
+ * Fix bug in item_info for top level
+ *
+ * Revision 3.98  1994/07/22  15:02:32  lindner
+ * Fix bugs..
+ *
+ * Revision 3.97  1994/07/21  22:07:21  lindner
+ * Remove ifdef for NeXT
+ *
+ * Revision 3.96  1994/07/21  17:23:55  lindner
+ * FTP gopher+ gw, and file separator code
+ *
+ * Revision 3.95  1994/07/19  20:25:42  lindner
+ * Sizes for gopher directories from .cache files
+ *
+ * Revision 3.94  1994/06/29  05:42:43  lindner
+ * Add authentication capabilities
+ *
+ * Revision 3.93  1994/06/03  06:25:37  lindner
+ * Another fix for Hgopher method of alt views
+ *
+ * Revision 3.92  1994/05/18  04:00:40  lindner
+ * Add port# to waiting for connection message
+ *
+ * Revision 3.91  1994/05/14  04:19:33  lindner
+ * Fix for text files with really long lines
+ *
+ * Revision 3.90  1994/05/02  07:41:12  lindner
+ * Mods to use setlocale()
+ *
+ * Revision 3.89  1994/04/25  20:49:07  lindner
+ * Fix for debug code
+ *
+ * Revision 3.88  1994/04/21  21:24:21  lindner
+ * FIOclose fix
+ *
+ * Revision 3.87  1994/04/21  21:15:12  lindner
+ * Add looking up address item
+ *
+ * Revision 3.86  1994/04/19  14:30:17  lindner
+ * Fix for gopher+ shell scripts
+ *
+ * Revision 3.85  1994/04/13  04:17:57  lindner
+ * Fix for abnormal exits
+ *
+ * Revision 3.84  1994/04/08  21:09:21  lindner
+ * fix for shutdown calls and compiler goofiness
+ *
+ * Revision 3.83  1994/04/07  17:28:39  lindner
+ * putenv stuff
+ *
+ * Revision 3.82  1994/04/01  05:03:35  lindner
+ * Move putenv() later
+ *
+ * Revision 3.81  1994/03/31  22:47:36  lindner
+ * Fix for date and time for multiple view items and Type 1 ask forms
+ *
+ * Revision 3.80  1994/03/31  21:25:37  lindner
+ * Shutdown inetd sockets, simplify some code
+ *
+ * Revision 3.79  1994/03/30  21:36:35  lindner
+ * Fix for binary ask data from Don Gilbert
+ *
+ * Revision 3.78  1994/03/17  21:18:08  lindner
+ * Massive reworking of access limits
+ *
+ * Revision 3.77  1994/03/17  04:30:11  lindner
+ * VMS fixes gopherd.h
+ *
+ * Revision 3.76  1994/03/15  17:59:05  lindner
+ * Some code moved to Sockets.c, some reorg. Fixes for SCO compiler
+ *
+ * Revision 3.75  1994/03/08  17:11:16  lindner
+ * One more fix for listdir
+ *
+ * Revision 3.74  1994/03/08  16:45:30  lindner
+ * Fix things broken by fixing recursive dirs
+ *
+ * Revision 3.73  1994/03/08  15:55:41  lindner
+ * gcc -Wall fixes
+ *
+ * Revision 3.72  1994/03/08  15:02:04  lindner
+ * Fix for unset variable i in main() Causes crash on NextStep486
+ *
+ * Revision 3.71  1994/03/08  06:15:57  lindner
+ * Fix for recursive directory traversal
+ *
+ * Revision 3.70  1994/03/04  23:26:08  lindner
+ * Fix for changes in strstring.h
+ *
+ * Revision 3.69  1994/02/20  21:41:31  lindner
+ * Allow use of -u if the uid specified matches the current uid
+ *
+ * Revision 3.68  1994/02/20  16:53:17  lindner
+ * Add buffered text writes to server, shutdown inbound part of socket after reading
+ *
+ * Revision 3.67  1994/01/25  05:25:25  lindner
+ * Many HTML and URL related fixes
+ *
+ * Revision 3.66  1994/01/06  05:42:41  lindner
+ * Fix for bad clients that don't bind right
+ *
+ * Revision 3.65  1993/12/30  04:15:20  lindner
+ * removed extra fclose in Side_File, fixes certain Linux distributions
+ *
+ * Revision 3.64  1993/12/27  16:34:50  lindner
+ * Now Add dots to the end of the DNS name
+ *
+ * Revision 3.63  1993/12/09  20:47:47  lindner
+ * Remove error destroying data, add boot up message with pid to log file
+ *
+ * Revision 3.62  1993/11/03  03:35:25  lindner
+ * Add headlines to the top level HTML page
+ *
+ * Revision 3.61  1993/11/02  06:08:11  lindner
+ * Strip extensions off of files with multiple views
+ *
+ * Revision 3.60  1993/11/02  05:58:12  lindner
+ * WAIS index speedups, mondo HTML mods
+ *
+ * Revision 3.59  1993/10/28  22:08:17  lindner
+ * memory leak fixes, fix for -u problem
+ *
+ * Revision 3.58  1993/10/20  03:22:59  lindner
+ * none
+ *
+ * Revision 3.57  1993/10/20  03:19:31  lindner
+ * Better error messages..
+ *
+ * Revision 3.56  1993/10/11  04:40:52  lindner
+ * Changes to allow logging via daemon.info syslogd facility
+ *
+ * Revision 3.55  1993/10/04  06:47:16  lindner
+ * Eliminate bogus warning messages
+ * Remove gindexd crap
+ * Mods to allow for new command structure for ASKfile
+ * Auxconf support..
+ *
+ * Revision 3.54  1993/09/30  16:57:02  lindner
+ * Fix for WAIS and $ requests
+ *
+ * Revision 3.53  1993/09/22  04:27:35  lindner
+ * Add ignore options to sidefile processing
+ *
+ * Revision 3.52  1993/09/22  00:29:40  lindner
+ * Speedups for gopher0 and big directories
+ *
+ * Revision 3.51  1993/09/21  07:00:03  lindner
+ * Fix for sites that don't do _POSIX_SAVED_IDS
+ *
+ * Revision 3.50  1993/09/21  04:16:45  lindner
+ * Move cache settings into gopherd.conf
+ *
+ * Revision 3.49  1993/09/21  02:35:07  lindner
+ * Server now adds extensions in a case insensitive manner
+ *
+ * Revision 3.48  1993/09/20  16:56:12  lindner
+ * Mods for moved code
+ *
+ * Revision 3.47  1993/09/18  03:27:19  lindner
+ * slight mod for ftp gateway
+ *
+ * Revision 3.46  1993/09/11  05:06:22  lindner
+ * Mod for ignoring files, and more efficient binary transfers
+ *
+ * Revision 3.45  1993/09/11  04:40:41  lindner
+ * Don't fork for localhost mindex databases
+ *
+ * Revision 3.44  1993/08/24  20:58:58  lindner
+ * fixed typo in add_title code
+ *
+ * Revision 3.43  1993/08/23  20:10:39  lindner
+ * Additional colon, gopher+ error fix
+ *
+ * Revision 3.42  1993/08/23  19:38:23  lindner
+ * Yet another fix for mindexd troubles..
+ *
+ * Revision 3.41  1993/08/23  18:46:11  lindner
+ * Crude addition of a veronica top-level block
+ *
+ * Revision 3.40  1993/08/23  02:34:30  lindner
+ * Optional date and time
+ *
+ * Revision 3.39  1993/08/20  18:03:00  lindner
+ * Mods to allow gopherd.conf files control ftp gateway access
+ *
+ * Revision 3.38  1993/08/19  20:52:25  lindner
+ * Mitra comments
+ *
+ * Revision 3.37  1993/08/19  20:25:50  lindner
+ * Mitra's Debug patch
+ *
+ * Revision 3.36  1993/08/12  06:27:35  lindner
+ * Get rid of errant message when using inetd
+ *
+ * Revision 3.35  1993/08/11  22:47:44  lindner
+ * Fix for gopher0 clients on gopher+ server
+ *
+ * Revision 3.34  1993/08/11  21:34:05  lindner
+ * Remove extensions from titles for files with multiple views.
+ * Move CMDfromNet() to *after* the chroot() and setuid()
+ *
+ * Revision 3.33  1993/08/11  14:39:24  lindner
+ * Fix for send_binary bug
+ *
+ * Revision 3.32  1993/08/11  02:27:40  lindner
+ * Fix for wais gateway and Unix client
+ *
+ * Revision 3.31  1993/08/10  20:26:57  lindner
+ * Fixed bogus reading of .cache+ files
+ *
+ * Revision 3.30  1993/08/06  14:42:49  lindner
+ * fix for mindex
+ *
+ * Revision 3.29  1993/08/06  14:30:40  lindner
+ * Fixes for better security logging
+ *
+ * Revision 3.28  1993/08/05  20:47:16  lindner
+ * Log execution of programs
+ *
+ * Revision 3.27  1993/08/02  17:59:26  lindner
+ * Fix for Debug syntax error when using DL
+ *
+ * Revision 3.26  1993/07/29  20:49:25  lindner
+ * removed dead vars, test for non-existant binary files, Dump_Core thing..
+ *
+ * Revision 3.25  1993/07/27  20:16:03  lindner
+ * Fixed bug logging directory transactions
+ *
+ * Revision 3.24  1993/07/27  06:13:40  lindner
+ * Bug fixes for redeffed .cache stuff
+ *
+ * Revision 3.23  1993/07/27  05:27:46  lindner
+ * Mondo Debug overhaul from Mitra
+ *
+ * Revision 3.22  1993/07/27  01:52:59  lindner
+ * More comments, don't let server die if fork error..
+ *
+ * Revision 3.21  1993/07/26  20:33:02  lindner
+ * Fix from guyton, cachefd can be zero
+ *
+ * Revision 3.20  1993/07/26  17:24:02  lindner
+ * Faster .cache output
+ *
+ * Revision 3.19  1993/07/26  15:32:26  lindner
+ * mods for application/gopher-menu and faster .cache sending
+ *
+ * Revision 3.18  1993/07/23  03:24:22  lindner
+ * fix for ppoen and NeXTs with overwritten envp
+ * mucho mods for looking up filenames,
+ * enhanced item info for waissrc: and others.
+ * update for Text/plain & other MIME types.
+ *
+ * Revision 3.17  1993/07/20  23:53:51  lindner
+ * LOGGOpher changes, Argv mucking, and Version Number enhancements
+ *
+ * Revision 3.16  1993/07/13  03:57:29  lindner
+ * Fix for gopherls, improved mailfile handling, iteminfo on 3b2
+ *
+ * Revision 3.15  1993/07/10  04:22:36  lindner
+ * fix for gopherls
+ *
+ * Revision 3.14  1993/07/08  17:54:40  lindner
+ * fix for .src files that already end with .src
+ *
+ * Revision 3.13  1993/07/07  19:33:00  lindner
+ * Sockets.c update, fix for compressed binarys, exec: fixes
+ *
+ * Revision 3.12  1993/06/11  16:59:57  lindner
+ * gzip support, less lookups, etc.
+ *
+ * Revision 3.11  1993/04/15  22:20:08  lindner
+ * CAPFILES mods
+ *
+ * Revision 3.10  1993/04/15  04:48:07  lindner
+ * Debug code from Mitra
+ *
+ * Revision 3.9  1993/04/10  06:06:11  lindner
+ * Admit1 Fixes for combined public/authed server
+ *
+ * Revision 3.8  1993/04/07  05:54:39  lindner
+ * Fixed dreaded .mindex addition problem
+ *
+ * Revision 3.7  1993/03/26  19:47:50  lindner
+ * Hacks to support wais gateway and gplus indexing
+ *
+ * Revision 3.6  1993/03/25  21:36:30  lindner
+ * Mods for directory/recursive etal
+ *
+ * Revision 3.5  1993/03/24  22:08:59  lindner
+ * Removed unused variable
+ *
+ * Revision 3.4  1993/03/24  20:23:17  lindner
+ * Lots of bug fixes, compressed file support, linger fixes, etc.
+ *
+ * Revision 3.3  1993/03/01  02:22:40  lindner
+ * Mucho additions for admit1 stuff..
+ *
+ * Revision 3.2  1993/02/19  21:21:11  lindner
+ * Fixed problems with signals, problems with gethostbyaddr() and
+ * inconsisent behavior that depended on the order of files in a directory.
+ *
  * Revision 3.1.1.1  1993/02/11  18:02:55  lindner
  * Gopher+1.2beta release
  *
@@ -2908,6 +3550,37 @@ printfile(int sockfd, char *pathname, int startbyte, int endbyte, boolean Gplus)
      } /* End if */
 
      while (fgets(inputline, MAXPATHLEN, ZeFile) != NULL) {
+#if 0     /* Don't strip carriage returns and linefeeds.  This causes the 
+           * content-length as reported through Gopher+ to be wrong.
+           */
+	  ZapCRLF(inputline);
+#endif /* 0 */
+
+	  /** Period on a line by itself, double it.. **/
+	  if (*inputline == '.' && inputline[1] == '\0' && !EXECflag) {
+#if 0
+               inputline[1] = '.';
+	       inputline[2] = '\0';
+#else
+               /* Don't double the period.  If we're going to make the data
+                * subtly wrong, then we may as well at least keep the file
+                * size the client thinks is coming intact 
+                * and turn the single dot into a space instead of
+                * doubling the dot and screwing up the filesize.
+                *
+                * This is not an optimal solution...but...
+                */
+               inputline[0] = ' ';
+#endif
+	  } /* End if */
+
+#if 0     /* Don't add carriage returns and linefeeds.  This causes the 
+           * content-length as reported through Gopher+ to be wrong.
+           */
+	  if ((int)strlen(inputline) < 512)
+	       strcat(inputline, "\r\n");
+#endif /* 0 */
+
 	  len = strlen(inputline);
 
 	  if (dontbuffer) {
@@ -2947,6 +3620,9 @@ printfile(int sockfd, char *pathname, int startbyte, int endbyte, boolean Gplus)
 	  writestring(sockfd, writebuf);
 	  alarm(0);
      }
+
+     if (writestring(sockfd, ".\r\n")<0)
+	  LOGGopher(sockfd, "Client went away"), gopherd_exit(-1);
 }
 
 

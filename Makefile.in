@@ -1,7 +1,7 @@
 #********************************************************************
 # $Author: jgoerzen $
-# $Revision: 1.9 $
-# $Date: 2002/03/20 20:45:28 $
+# $Revision: 1.10 $
+# $Date: 2002/04/26 13:33:33 $
 # $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/Makefile.in,v $
 # $State: Exp $
 #
@@ -15,8 +15,8 @@
 #*********************************************************************
 # Revision History:
 # $Log: Makefile.in,v $
-# Revision 1.9  2002/03/20 20:45:28  jgoerzen
-# More MIME work
+# Revision 1.10  2002/04/26 13:33:33  jgoerzen
+# Removed glib MIME stuff.  We'll move to Pygopherd first.
 #
 # Revision 1.8  2002/01/28 03:38:58  jgoerzen
 # Patches for FreeBSD:
@@ -111,7 +111,7 @@
 SHELL = /bin/sh
 @SET_MAKE@
 
-all: objects server client gopherfilter mime
+all: objects server client gopherfilter
 	@echo "Welcome to Gopher"
 
 
@@ -148,7 +148,6 @@ server: gopherd/gopherd
 client: gopher/gopher
 gopherfilter: gophfilt/gophfilt
 objects: object/libgopher.a
-mime: mime/libgophmime.a
 
 gopherd/gopherd: object/libgopher.a $(srcdir)/gopherd/*.c $(srcdir)/gopherd/*.h $(srcdir)/conf.h
 	(cd gopherd; $(MAKE) $(MFLAGS) all)
@@ -166,13 +165,8 @@ object/libgopher.a: $(srcdir)/object/*c $(srcdir)/object/*h
 	@echo "Making Objects"
 	(cd object; $(MAKE) $(MFLAGS) all)
 
-mime/libgophmime.a: $(srcdir)/mime/*c $(srcdir)/mime/*h
-	@echo "Making MIME support"
-	(cd mime; $(MAKE) $(MFLAGS) all)
-
 install:
 	(cd object;   $(MAKE) $(MFLAGS) install);
-	(cd mime;     $(MAKE) $(MFLAGS) install);
 	(cd gopher;   $(MAKE) $(MFLAGS) install);
 	(cd gopherd;  $(MAKE) $(MFLAGS) install);
 	(cd gophfilt; $(MAKE) $(MFLAGS) install);
@@ -182,7 +176,6 @@ clean:
 	(cd gopher; 	$(MAKE) $(MFLAGS) clean)
 	(cd gopherd; 	$(MAKE) $(MFLAGS) clean)
 	(cd object; 	$(MAKE) $(MFLAGS) clean)
-	(cd mime;	$(MAKE) $(MFLAGS) clean)
 	(cd gophfilt;   $(MAKE) $(MFLAGS) clean)
 	(cd doc; 	$(MAKE) $(MFLAGS) clean)
 	-rm -f "examples/Sample Directory/wais-index/index."*
@@ -192,7 +185,7 @@ distclean: spotless
 
 spotless: clean
 	-rm -f config.log config.cache config.h config.status
-	-rm -f gopherd/Makefile mime/Makefile object/Makefile gopher/Makefile
+	-rm -f gopherd/Makefile object/Makefile gopher/Makefile
 	-rm -f gopher/locales/Makefile doc/Makefile gophfilt/Makefile
 	-rm -rf debian/stamp*
 	-rm -rf debian/tmp debian/gopherd
