@@ -1,5 +1,16 @@
 gopher (3.0.3) unstable; urgency=low
   * Actually use our configure.in test for malloc.h in object/* files.
+  * New configure.in tests for regexp.h and libgen.h
+  * Regex.c: define __GOPHER_REGEX_C__ for extern support in Regex.h
+  * Regex.c: For __APPLE__, REGEX_param is regexp *.
+  * Regex.h: Move the lengthy SYSV regex test to top of file
+  * Regex.h: Wrap libgen.h include in HAVE_LIBGEN_H
+  * Regex.h: Enclose REGEX_param=regcomp in parens to avoid warnings
+  * Regex.h: Add extern for REGEX_param.
+  * Regex.h: Darwin is unlike anything else.  Support it with
+    __APPLE__.
+  * STRstring.h: Include malloc.h only if actually here.
+  * Ditto for Stdlib.h.
 
 gopher (3.0.2) unstable; urgency=low
 

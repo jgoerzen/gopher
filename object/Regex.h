@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.10 $
- * $Date: 2002/02/12 20:50:21 $
+ * $Revision: 1.11 $
+ * $Date: 2002/02/12 20:57:18 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/Regex.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: Regex.h,v $
+ * Revision 1.11  2002/02/12 20:57:18  jgoerzen
+ * Fixed an incorrect comment and added parens
+ *
  * Revision 1.10  2002/02/12 20:50:21  jgoerzen
  * Beginning of MacOS X (Darwin) support.
  * Many modifications to Regex.[ch], see debian/changelog for details.
@@ -134,8 +137,6 @@
 
 /*
  * Posix Regular expressions routines
- *
- * Also used on Darwin
  */
 
 #if defined(REGEX_POSIX)
@@ -159,7 +160,7 @@ extern char *REGEX_param;
 #ifdef __APPLE__
 #include "Malloc.h"
 #include <regexp.h>
-#define re_comp(a) REGEX_param=regcomp(a)
+#define re_comp(a) (REGEX_param=regcomp(a))
 #define re_exec(a) regexec(REGEX_param,a)
 #ifndef __GOPHER_REGEX_C__
 extern regexp *REGEX_param;
