@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.7 $
- * $Date: 2002/01/08 21:35:49 $
+ * $Revision: 1.8 $
+ * $Date: 2002/01/10 14:44:03 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/gopher.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: gopher.c,v $
+ * Revision 1.8  2002/01/10 14:44:03  jgoerzen
+ * Updated
+ *
  * Revision 1.7  2002/01/08 21:35:49  jgoerzen
  * Many changes:
  *  Revved the version number
@@ -1900,6 +1903,11 @@ main(int argc, char **argv)
 	  } else {
 	       GSsetPort(RootGophers[0], 70);  /* Just in case the default */
 	       GSsetPort(RootGophers[1], 70);  /* isn't 70 */
+	       
+               /* Restore blank path if a host was specified but -p was not */
+
+	       if (startAtHome)
+	           GSsetPath(RootGophers[0], "");
 
 	       GSsetHost(RootGophers[0], argv[optind]);
 	       GSsetHost(RootGophers[1], "");  /** Nuke the 2nd alternative host **/
