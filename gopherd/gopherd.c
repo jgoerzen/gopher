@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.29 $
- * $Date: 2002/03/19 20:42:48 $
+ * $Revision: 1.30 $
+ * $Date: 2002/03/20 03:10:12 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.30  2002/03/20 03:10:12  jgoerzen
+ * Updated copyright notice
+ *
  * Revision 1.29  2002/03/19 20:42:48  jgoerzen
  *   * Removed the DOMAIN configure support, DOMAIN_NAME in gopherd,
  *     backupdomain in Socket.c, etc.  This should prevent the no.domain.name
@@ -933,6 +936,7 @@ main(int argc, char *argv[], char *envp[])
 	  /* char *cp; */
 	  printf("Internet Gopher Server %s.%s patch %d (%s)\n", GOPHER_MAJOR_VERSION, GOPHER_MINOR_VERSION, PATCHLEVEL, GOPHER_NICKNAME);
 	  printf("Copyright 1991-2000 the Regents of the University of Minnesota\n");
+	  printf("Copyright (C) 2000-2002 John Goerzen and the gopher developers\n");
 	  printf("See the file 'Copyright' for conditions of use\n");
 	  printf("Data directory is %s\n", Data_Dir);
 	  printf("Port is %d\n", GopherPort);
