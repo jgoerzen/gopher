@@ -40,7 +40,7 @@ else
   echo "Gopher account already in place; not modifying."
 fi
 
-if ! grep -q "^${UNAME}:.*${HOMEDIR}" /etc/passwd
+if ! grep -q "^${UNAME}:" /etc/passwd
 then
   echo Failed to create user $UNAME
   exit 1

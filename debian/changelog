@@ -1,3 +1,12 @@
+gopher (2.3.1-2) unstable; urgency=low
+
+  * Modify postinst to be easier for people to use if they already have
+    a gopher user.
+  * Fixed a bug in the restart option for the init script.
+  * Made debian/copyright more verbose.
+
+ -- John Goerzen <jgoerzen@complete.org>  Tue, 22 Aug 2000 21:57:26 -0500
+
 gopher (2.3.1-1) unstable; urgency=low
 
   * Initial re-release.  Package had been yanked after 1995 due to licensing.
@@ -5,6 +14,7 @@ gopher (2.3.1-1) unstable; urgency=low
   * This package contains the security fix from bugtraq.
   * I have patched it to chroot() and setuid() earlier for better
     security.
+    SIDE EFFECT: logging will not work if chroot() is used.
   * The extension chopping code was buggy, so I have removed it.
   * Made many fixes to eliminate compiler warnings and errors.
   * Removed redefinitions of sys_errlist

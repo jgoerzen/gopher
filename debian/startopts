@@ -15,10 +15,10 @@ USEUID="-u gopher"
 
 OPTIONFILE="-o /etc/gopherd/gopherd.conf"
 
-# Logging.
+# Logging.  Note that unless you disable chroot, you can't enable this.
 
-#LOGGING=""
-LOGGING="-l /var/log/gopherd.log"
+LOGGING=""
+#LOGGING="-l /var/log/gopherd.log"
 
 # The home for gopher.
 

@@ -1,7 +1,7 @@
 /var/log/gopherd.log {
 	create 0640 gopher adm
 	missingok
-	weekly
+	daily
 	rotate 7
 	compress
 	postrotate
