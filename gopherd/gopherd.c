@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: s2mdalle $
- * $Revision: 1.22 $
- * $Date: 2001/02/19 23:29:56 $
+ * $Revision: 1.23 $
+ * $Date: 2001/07/20 17:31:57 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,13 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.23  2001/07/20 17:31:57  s2mdalle
+ * Fixed bug in printfile(): on each line of the file, gopherd stripped
+ * CRLF and put in a new CRLF.  That is a problem when the original
+ * didn't contain a CR, since it increases the byte size of each line by
+ * one byte, making the content length sent out through a gopher+ request
+ * wrong.
+ *
  * Revision 1.22  2001/02/19 23:29:56  s2mdalle
  * Slight changes to comments to avoid misleading people, and switching
  * logic change in printfile on when a Gopher+ size header is sent.
@@ -3498,7 +3505,11 @@ printfile(int sockfd, char *pathname, int startbyte, int endbyte, boolean Gplus)
      } /* End if */
 
      while (fgets(inputline, MAXPATHLEN, ZeFile) != NULL) {
+#if 0     /* Don't strip carriage returns and linefeeds.  This causes the 
+           * content-length as reported through Gopher+ to be wrong.
+           */
 	  ZapCRLF(inputline);
+#endif /* 0 */
 
 	  /** Period on a line by itself, double it.. **/
 	  if (*inputline == '.' && inputline[1] == '\0' && !EXECflag) {
@@ -3518,8 +3529,12 @@ printfile(int sockfd, char *pathname, int startbyte, int endbyte, boolean Gplus)
 #endif
 	  } /* End if */
 
+#if 0     /* Don't add carriage returns and linefeeds.  This causes the 
+           * content-length as reported through Gopher+ to be wrong.
+           */
 	  if ((int)strlen(inputline) < 512)
 	       strcat(inputline, "\r\n");
+#endif /* 0 */
 
 	  len = strlen(inputline);
 
