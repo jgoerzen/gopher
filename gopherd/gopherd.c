@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: s2mdalle $
- * $Revision: 1.9 $
- * $Date: 2000/12/27 07:21:23 $
+ * $Revision: 1.10 $
+ * $Date: 2000/12/27 21:07:06 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,13 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.10  2000/12/27 21:07:06  s2mdalle
+ * Fixed logging.  Previously the daemon tried to open the log file each
+ * time a request came through (inside do_command()).  It now opens the
+ * log file inside of main() right before going into the chroot jail, so
+ * logging should work whether or not chroot is used.  #if 0'd out the
+ * old opening spot.
+ *
  * Revision 1.9  2000/12/27 07:21:23  s2mdalle
  * Fixed silly tyop which broke compilation.
  *
@@ -688,7 +695,7 @@ main(int argc, char *argv[], char *envp[])
      int                tmpstrlen = 256;
      char               tmpstr[tmpstrlen];
      int                numready;
-     
+     char               *cp=NULL;  /* Logfilename */
      fd_set             socketfds;
      int                ftablesize = getdtablesize();
 
@@ -845,7 +852,7 @@ main(int argc, char *argv[], char *envp[])
      
 
      if (!RunFromInetd) {
-	  char *cp;
+	  /* char *cp; */
 	  printf("Internet Gopher Server %s.%s patch %d\n", GOPHER_MAJOR_VERSION, GOPHER_MINOR_VERSION, PATCHLEVEL);
 	  printf("Copyright 1991,92,93 the Regents of the University of Minnesota\n");
 	  printf("See the file 'Copyright' for conditions of use\n");
@@ -950,6 +957,25 @@ main(int argc, char *argv[], char *envp[])
 	the server process runs chroot and setuid'd much sooner.  Much
 	more secure that way.  I like it a lot better this way than the
 	other. */
+
+     /* So here is the right place to open the log file for processing log
+      * messages before we go into chroot() jail.
+      */
+
+     cp = GDCgetLogfile(Config);
+     /* The LOGFileDesc variable is used by LOGGopher() to log messages. */
+     if (cp != NULL && *cp != '\0') {
+	  if (strcasecmp(GDCgetLogfile(Config), "syslog")==0) {
+	       LOGFileDesc = -2;  /** log file is syslog **/
+	  } else if (LOGFileDesc < 0) {
+	       LOGFileDesc = uopen(GDCgetLogfile(Config), 
+				   O_WRONLY|O_APPEND|O_CREAT, 0644);
+	  }
+	  if (LOGFileDesc == -1) {
+	       printf("Can't open the logfile: %s\n", GDCgetLogfile(Config));
+	       gopherd_exit(-1);
+	  }
+     }
 
      /** Change our root directory **/
      if ( dochroot && didchroot == FALSE) {
@@ -1203,11 +1229,11 @@ do_command(int sockfd)
      char    *Selstr   = NULL;
      CMDobj  *cmd;
      char    *filter   = NULL;
-     char    *cp;
-
+     /* char    *cp; */
 
      cmd = CMDnew();
 
+#if 0  /* Old pre-chroot logging - open each time */
      /*** Reopen the log file ***/
      cp = GDCgetLogfile(Config);
 
@@ -1216,13 +1242,14 @@ do_command(int sockfd)
 	       LOGFileDesc = -2;  /** log file is syslog **/
 	  } else if (LOGFileDesc < 0) {
 	       LOGFileDesc = uopen(GDCgetLogfile(Config), 
-				   O_WRONLY | O_APPEND |O_CREAT, 0644);
+				   O_WRONLY|O_APPEND|O_CREAT, 0644);
 	  }
 	  if (LOGFileDesc == -1) {
 	       printf("Can't open the logfile: %s\n", GDCgetLogfile(Config));
 	       gopherd_exit(-1);
 	  }
      }
+#endif
 
      if(LoadTooHigh())
 	  Die(sockfd, 503, "System is too busy right now. Please try again later.");
