@@ -1,7 +1,7 @@
 #********************************************************************
 # $Author: jgoerzen $
-# $Revision: 1.2 $
-# $Date: 2002/01/08 16:44:19 $
+# $Revision: 1.3 $
+# $Date: 2002/01/08 16:49:42 $
 # $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/Makefile.in,v $
 # $State: Exp $
 #
@@ -15,6 +15,9 @@
 #*********************************************************************
 # Revision History:
 # $Log: Makefile.in,v $
+# Revision 1.3  2002/01/08 16:49:42  jgoerzen
+# Modified distclean to be better behaved.
+#
 # Revision 1.2  2002/01/08 16:44:19  jgoerzen
 # configure.in: Modified to check for crypt.h
 # Reran autoconf & autoheader
@@ -155,8 +158,10 @@ clean:
 	-rm -f "examples/Sample Directory/wais-index/index."*
 
 distclean: spotless
-	-rm -f config.log config.cache config.h
-	-rm -f */Makefile */*/Makefile Makefile Makefile.config
+	-rm -f config.log config.cache config.h config.status
+	-rm -f gopherd/Makefile object/Makefile gopher/Makefile
+	-rm -f gopher/locales/Makefile doc/Makefile gophfilt/Makefile
+	-rm -f Makefile Makefile.config
 
 spotless: clean
 	-rm -f *~
