@@ -40,16 +40,24 @@ void main(void) {
         while (g_scanner_peek_next_token(scanner) != G_TOKEN_EOF) {
                 GTokenType token = g_scanner_get_next_token(scanner);
                 GTokenValue value;
+                char tmpstr[2];
+
+                value = g_scanner_cur_value(scanner);
                 switch (token) {
                 case G_TOKEN_IDENTIFIER:
-                        value = g_scanner_cur_value(scanner);
                         if (strchr(value.v_identifier, '/')) {
-                                 g_string_assign(curmimetype, 
+                                g_string_assign(curmimetype, 
                                                 value.v_identifier);
                         } else {
                                  safeinsert(table, value.v_identifier,
                                            curmimetype->str);
                         }
+                        break;
+                case G_TOKEN_CHAR:
+                        /* Single-char extensions come in this way. */
+                        tmpstr[0] = value.v_char;
+                        tmpstr[1] = 0;
+                        safeinsert(table, tmpstr, curmimetype->str);
                         break;
                 default:
                         break;
