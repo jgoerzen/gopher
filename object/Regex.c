@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2002/02/12 19:54:18 $
+ * $Revision: 1.3 $
+ * $Date: 2002/02/12 20:50:21 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/Regex.c,v $
  * $Status: $
  *
@@ -15,6 +15,10 @@
  *********************************************************************
  * Revision History:
  * $Log: Regex.c,v $
+ * Revision 1.3  2002/02/12 20:50:21  jgoerzen
+ * Beginning of MacOS X (Darwin) support.
+ * Many modifications to Regex.[ch], see debian/changelog for details.
+ *
  * Revision 1.2  2002/02/12 19:54:18  jgoerzen
  * Updated with regex fixes
  *
@@ -29,6 +33,8 @@
  *
  *
  *********************************************************************/
+
+#define __GOPHER_REGEX_C__
 
 /*
  * If you're using gcc on Solaris you might need to copy /usr/include/regexp.h

@@ -1,4 +1,4 @@
-$Id: PLATFORMS,v 1.6 2002/01/11 16:23:32 jgoerzen Exp $
+$Id: PLATFORMS,v 1.7 2002/02/12 20:50:21 jgoerzen Exp $
 
 These are the platforms on which gopher is known to work.
 
@@ -27,6 +27,10 @@ Linux/i386 2.2 (Debian sid)  3.0.1  OK -- John Goerzen <jgoerzen@complete.org>
 Linux/ppc 2.4 (Debian sid)   3.0.1  OK -- John Goerzen <jgoerzen@complete.org>
 
 Linux/i386 ?.? (Slackware)   3.0.1  
+
+MacOSX/ppc 10.1 (Darwin)     3.0.3  use gnumake instead of gmake
+                                    Build on UFS partition
+                                    OK -- John Goerzen <jgoerzen@complete.org>
 
 NetBSD/i386 1.5ZA (-current) 3.0.2  verified for each release by jgoerzen
                                     requires gmake  

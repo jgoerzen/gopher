@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.9 $
- * $Date: 2002/02/12 19:54:18 $
+ * $Revision: 1.10 $
+ * $Date: 2002/02/12 20:50:21 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/Regex.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,10 @@
  *********************************************************************
  * Revision History:
  * $Log: Regex.h,v $
+ * Revision 1.10  2002/02/12 20:50:21  jgoerzen
+ * Beginning of MacOS X (Darwin) support.
+ * Many modifications to Regex.[ch], see debian/changelog for details.
+ *
  * Revision 1.9  2002/02/12 19:54:18  jgoerzen
  * Updated with regex fixes
  *
@@ -95,7 +99,15 @@
  *
  *********************************************************************/
 
+#ifndef __GOPHER_REGEX_H__
+#define __GOPHER_REGEX_H__
+
 #include "config.h"
+
+#if defined(USG) || defined(__svr4__) || defined(_AUX_SOURCE) || defined(hpux) || defined(irix) || defined(M_XENIX) || defined(SYSVREGEX)
+#define REGEX_SYSV
+#define SYSVREGEX
+#endif
 
 #ifdef HAVE_SYS_TYPES_H
 /* regex.h on Linux needs sys/types.h */
@@ -110,8 +122,13 @@
 #ifdef HAVE_RE_COMP_H
 #include <re_comp.h>
 #else
-#ifdef HAVE_REGEX_H
+#if defined(HAVE_REGEX_H) && !defined(REGEX_SYSV) && !defined(__APPLE__)
 #include <regex.h>
+#else
+/*
+#ifdef HAVE_REGEXP_H
+#include <regexp.h>
+#endif */
 #endif
 #endif
 
@@ -121,22 +138,37 @@
  * Also used on Darwin
  */
 
-#if defined(REGEX_POSIX) || defined(__APPLE__)
+#if defined(REGEX_POSIX)
 #  include "Malloc.h"
 #ifdef HAVE_LIBGEN_H
 #  include <libgen.h>
 #endif
 
-#  define re_comp(a) REGEX_param=regcomp(a,NULL)
+#  define re_comp(a) (REGEX_param=regcomp(a,NULL))
 #  define re_exec(a) regex(REGEX_param,a)
+
+#ifndef __GOPHER_REGEX_C__
+extern char *REGEX_param;
+#endif
 
 #  undef  REGEX_POSIX
 #  define REGEX_POSIX
 
 #endif /* REGEX_POSIX */
-#define _REGEX_RE_COMP
 
-#if defined(USG) || defined(__svr4__) || defined(_AUX_SOURCE) || defined(hpux) || defined(irix) || defined(M_XENIX) || defined(SYSVREGEX)
+#ifdef __APPLE__
+#include "Malloc.h"
+#include <regexp.h>
+#define re_comp(a) REGEX_param=regcomp(a)
+#define re_exec(a) regexec(REGEX_param,a)
+#ifndef __GOPHER_REGEX_C__
+extern regexp *REGEX_param;
+#endif
+#endif /* __APPLE__*/
+
+
+#define _REGEX_RE_COMP
+#ifdef REGEX_SYSV
 #ifndef HAVE_RE_COMP_H
 
 #  include "Malloc.h"  /** For NULL **/
@@ -164,3 +196,9 @@
 
 #endif /* defined(....) */
 #endif
+
+
+
+
+#endif /* __GOPHER_REGEX_H__ */
+
