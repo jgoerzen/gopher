@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: s2mdalle $
- * $Revision: 1.3 $
- * $Date: 2000/12/21 05:33:20 $
+ * $Author: jgoerzen $
+ * $Revision: 1.4 $
+ * $Date: 2001/01/17 19:30:25 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/ftp.c,v $
  * $State: Exp $
  *
@@ -15,7 +15,12 @@
  *********************************************************************
  * Revision History:
  * $Log: ftp.c,v $
+ * Revision 1.4  2001/01/17 19:30:25  jgoerzen
+ * Change many sprintf -> snprintf
+ *
  * Revision 1.3  2000/12/21 05:33:20  s2mdalle
+ *
+ *
  * Miscellaneous code cleanups
  *
  * Revision 1.2  2000/12/20 01:19:20  jgoerzen
@@ -315,8 +320,9 @@ FTPconnect(FTP *ftp, char *host)
 			 GSsendHeader(Gsockfd, -1);
 			 SentGPHeader = TRUE;
 		 }
-		 sprintf (message, "failed to connect to %s %s\n",
-				  host, sys_err_str());
+		 snprintf(message, sizeof(message), 
+			  "failed to connect to %s %s\n",
+			  host, sys_err_str());
 		 FTPerrorMessage(ftp, message);
 		 return(FALSE);
 	 }
@@ -537,7 +543,7 @@ FTPcommand(FTP  *ftp, char *command, char *parameter, int  errorlevel)
      char commandline[512];
      char message[256];
      
-     sprintf(commandline, command, parameter);
+     snprintf(commandline, sizeof(commandline), command, parameter);
      if (FTPsend(ftp, commandline))
 	  return(-1); /** Error condition **/
 
@@ -586,7 +592,8 @@ FTPopenData(FTP *ftp, char *command, char *file, int errorlevel)
      if ((ftp_dataport = SOCKlisten(&we)) < 0)
 	  return;
      
-     sprintf(theline, "PORT %d,%d,%d,%d,%d,%d",
+     snprintf(theline, sizeof(theline),
+	      "PORT %d,%d,%d,%d,%d,%d",
 	     (htonl(we.sin_addr.s_addr) >> 24) & 0xFF,
 	     (htonl(we.sin_addr.s_addr) >> 16) & 0xFF,
 	     (htonl(we.sin_addr.s_addr) >>  8) & 0xFF,
@@ -801,7 +808,8 @@ FTPwalkchdir(FTP  *ftp, char *path)
 			 *cp = '?';
 
  	  if (!notascii && strchr(vmspath, ' ')) {
-	       sprintf (tmppath, "\"%s\"", vmspath);
+	       snprintf(tmppath, sizeof(tmppath),
+			"\"%s\"", vmspath);
 	       FTPchdir(ftp, tmppath);
  	  } else
 	       FTPchdir(ftp, vmspath);
@@ -841,7 +849,7 @@ FTPerrorMessage(FTP *ftp, char *message)
 
      ZapCRLF(message);
 
-     sprintf(errmsg, "3%s\t\terror.host\t1\r\n", message);
+     snprintf(errmsg, sizeof(errmsg), "3%s\t\terror.host\t1\r\n", message);
      if (GFTPplus)
 	  writerr = writestring(Gsockfd, "+INFO: ");
      if (writerr || writestring(Gsockfd, errmsg)) {
@@ -870,9 +878,11 @@ FTPinfoMessage(FTP *ftp, char *message)
 
      if (GETDIR) {
 	  if ((int)strlen(message) > 3 && message[3] == '-')
-	       sprintf(errmsg, "i%s\t\terror.host\t1\r\n", &message[4]);
+	       snprintf(errmsg, sizeof(errmsg),
+			"i%s\t\terror.host\t1\r\n", &message[4]);
 	  else
-	       sprintf(errmsg, "i%s\t\terror.host\t1\r\n", message);
+	       snprintf(errmsg, sizeof(errmsg),
+			"i%s\t\terror.host\t1\r\n", message);
 	  
 	  if (GFTPplus)
 		 writerr = writestring(Gsockfd, "+INFO: ");
@@ -970,7 +980,8 @@ GopherFTPgw(int sockfd, char *ftpstr, CMDobj *cmd)
 
 
      if (*ftppass == '\0') {
-	  sprintf(ftppass, "-gopher@%s", Zehostname);
+	  snprintf(ftppass, sizeof(ftppass), 
+		   "-gopher@%s", Zehostname);
      }
      if (Gopherstow == NULL)
 	  Gopherstow = GSnew();
@@ -992,9 +1003,11 @@ GopherFTPgw(int sockfd, char *ftpstr, CMDobj *cmd)
 	  GSsetHost(gs, Zehostname);
 	  GSsetPort(gs, GopherPort);
 	  if (strcmp(ftpuser, "anonymous") != 0) {
- 	       sprintf(tmpstr, "%s%s", URLget(ftpurl), ftppath);
+ 	       snprintf(tmpstr, sizeof(tmpstr),
+			"%s%s", URLget(ftpurl), ftppath);
 	  } else {
-	       sprintf(tmpstr, "ftp:%s@%s", ftphost, ftppath);
+	       snprintf(tmpstr, sizeof(tmpstr),
+			"ftp:%s@%s", ftphost, ftppath);
 	  }
 	  GSsetPath(gs, tmpstr);
 	  GSsetTitle(gs, tmpstr);
@@ -1056,7 +1069,8 @@ GopherFTPgw(int sockfd, char *ftpstr, CMDobj *cmd)
 			 if (!isascii(*cp))
 			      *cp = '?';
 		    if (strchr(ftppath, ' ')) {
-			 sprintf (ftppass, "\"%s\"", ftppath);
+			 snprintf (ftppass, sizeof(ftppass), 
+				   "\"%s\"", ftppath);
 			 FTPchdir(ftp, ftppass);
 		    } else
 			 FTPchdir(ftp, ftppath);
@@ -1142,7 +1156,7 @@ GopherFTPgw(int sockfd, char *ftpstr, CMDobj *cmd)
 		    if (!isascii(*cp))
 			 *cp = '?';
 	       if (strchr(ftppath, ' ')) {
-		    sprintf (ftppass, "\"%s\"", ftppath);
+		    snprintf (ftppass, sizeof(ftppass), "\"%s\"", ftppath);
 		    fname = ftppass;
 	       } else
 		    fname = ftppath;
@@ -1351,7 +1365,7 @@ ParseUnixList(FTP *ftp, char *bufptr, char *IntName, char *theName,
 	  return (-1);
 
      if (GFTPplus) {
-	  sprintf(tmpstr, "%s <%s>", 
+	  snprintf(tmpstr, sizeof(tmpstr), "%s <%s>", 
 		  GDCgetAdmin(Config), GDCgetAdminEmail(Config));
 	  GSsetAdmin(gs, tmpstr);
      }
@@ -1393,9 +1407,10 @@ ParseUnixList(FTP *ftp, char *bufptr, char *IntName, char *theName,
 	      isalpha(*(month+2)) && isspace(*(month+3))) {
 	       objsize = (int) strtol(size, (char **)NULL, 10);
 	       if (objsize >= 1024)
-		    sprintf(sizestr, "%dk", objsize/1024);
+		    snprintf(sizestr, sizeof(sizestr), "%dk", objsize/1024);
 	       else
-		    sprintf(sizestr, ".%dk", (objsize*10)/1024);
+		    snprintf(sizestr, sizeof(sizestr), 
+			     ".%dk", (objsize*10)/1024);
 	       strncpy (datestr, month, alias-month-1);
 	       datestr[alias-month-1] = '\0';
 	  } else {
@@ -1455,13 +1470,15 @@ ParseUnixList(FTP *ftp, char *bufptr, char *IntName, char *theName,
 	       sprintf(bufptr, "%s/", IntName);
 	       
 	       GSsetType(gs, A_DIRECTORY);
-	       sprintf (tmpstr, "%s [%s]", IntName, datestr);
+	       snprintf (tmpstr, sizeof(tmpstr), "%s [%s]", IntName, datestr);
 	       GSsetTitle(gs, tmpstr);
 
 	       if (strcmp(ftpuser, "anonymous") != 0)
- 		    sprintf(tmpstr, "%s%s/", URLget(ftpurl), IntName);
+ 		    snprintf(tmpstr, sizeof(tmpstr),
+			     "%s%s/", URLget(ftpurl), IntName);
 	       else
-		    sprintf (tmpstr, "ftp:%s@%s/%s/", GSgetHost(gs),
+		    snprintf (tmpstr, sizeof(tmpstr), 
+			      "ftp:%s@%s/%s/", GSgetHost(gs),
 			     GSgetPath(gs), IntName);
 
 	       GSsetPath(gs, tmpstr);
@@ -1475,17 +1492,20 @@ ParseUnixList(FTP *ftp, char *bufptr, char *IntName, char *theName,
 
 	       i = GopherType(ftp, dirname+gap, theName);
 	       strcpy(theName+1, IntName); 
-	       sprintf(tmpstr, "%s@", dirname+gap);
-	       strcat(theName+1, tmpstr);
+	       snprintf(tmpstr, sizeof(tmpstr),
+			"%s@%s", dirname+gap, theName + 1);
 	       strcpy(bufptr, IntName);
 	       GSsetType(gs, theName[0]);
-	       sprintf (tmpstr, "%s (%s) [%s]", IntName, sizestr, datestr);
+	       snprintf(tmpstr, sizeof(tmpstr),
+			"%s (%s) [%s]", IntName, sizestr, datestr);
 	       GSsetTitle(gs, tmpstr);
 	       if (strcmp(ftpuser, "anonymous") != 0)
- 		    sprintf(tmpstr, "%s%s",URLget(ftpurl), theName+1);
+ 		    snprintf(tmpstr, sizeof(tmpstr),
+			     "%s%s",URLget(ftpurl), theName+1);
 	       else
-		    sprintf(tmpstr, "ftp:%s@%s/%s", GSgetHost(gs),
-			    GSgetPath(gs), theName+1);
+		    snprintf(tmpstr, sizeof(tmpstr),
+			     "ftp:%s@%s/%s", GSgetHost(gs),
+			     GSgetPath(gs), theName+1);
 
 	       GSsetPath(gs, tmpstr);
 	       if (GFTPplus) {
@@ -1511,7 +1531,7 @@ ParseUnixList(FTP *ftp, char *bufptr, char *IntName, char *theName,
 	  sprintf(bufptr, "%s/", IntName);
 
 	  GSsetType(gs, A_DIRECTORY);
-	  sprintf (tmpstr, "%s [%s]", IntName, datestr);
+	  snprintf (tmpstr, sizeof(tmpstr), "%s [%s]", IntName, datestr);
 	  GSsetTitle(gs, tmpstr);
  	  if ((cp1 = strchr(IntName, '/')))
 	       for ( ; *cp1; cp1++ ) {
@@ -1520,9 +1540,11 @@ ParseUnixList(FTP *ftp, char *bufptr, char *IntName, char *theName,
 	       }
 	  
 	  if (strcmp(ftpuser, "anonymous") != 0) 
- 	       sprintf (tmpstr, "%s%s/", URLget(ftpurl), IntName);
+ 	       snprintf (tmpstr, sizeof(tmpstr),
+			 "%s%s/", URLget(ftpurl), IntName);
 	  else
-	       sprintf (tmpstr, "ftp:%s@%s/%s/", GSgetHost(gs), GSgetPath(gs), 
+	       snprintf (tmpstr, sizeof(tmpstr),
+			 "ftp:%s@%s/%s/", GSgetHost(gs), GSgetPath(gs), 
 			IntName);
 	  GSsetPath(gs, tmpstr);
 	  if (GFTPplus) {
@@ -1539,12 +1561,15 @@ ParseUnixList(FTP *ftp, char *bufptr, char *IntName, char *theName,
 	  strcpy(bufptr, theName+1);
 	  GopherType(ftp, IntName, theName);
 	  GSsetType(gs, theName[0]);
-	  sprintf (tmpstr, "%s (%s) [%s]", theName+1, sizestr, datestr);
+	  snprintf (tmpstr, sizeof(tmpstr),
+		    "%s (%s) [%s]", theName+1, sizestr, datestr);
 	  GSsetTitle(gs, tmpstr);
 	  if (strcmp(ftpuser, "anonymous") != 0)
- 	       sprintf(tmpstr, "%s%s", URLget(ftpurl), theName+1);
+ 	       snprintf(tmpstr, sizeof(tmpstr),
+			"%s%s", URLget(ftpurl), theName+1);
 	  else
-	       sprintf(tmpstr, "ftp:%s@%s/%s", GSgetHost(gs),
+	       snprintf(tmpstr, sizeof(tmpstr),
+			"ftp:%s@%s/%s", GSgetHost(gs),
 		       GSgetPath(gs), theName+1);
 
 	  GSsetPath(gs, tmpstr);
@@ -1588,14 +1613,14 @@ ParseVMSList(FTP  *ftp, char *bufptr, char *IntName, char *theName,
      GopherType(ftp, IntName, theName);
      GSsetType(gs, theName[0]);
      if (GFTPplus) {
-	  sprintf(tmpstr, "%s <%s>", 
+	  snprintf(tmpstr, sizeof(tmpstr), "%s <%s>", 
 		  GDCgetAdmin(Config), GDCgetAdminEmail(Config));
 	  GSsetAdmin(gs, tmpstr);
      }
      for ( ; bufptr[i] && isspace(bufptr[i]); i++);
      if (isdigit(bufptr[i])) {
 	  objsize = (int) strtol(&bufptr[i], (char **)NULL, 10);
-	  sprintf(sizestr, "%dk", objsize);
+	  snprintf(sizestr, sizeof(sizestr), "%dk", objsize);
      } else if (!strncmp(&bufptr[i], "%RMS-E-PRV", strlen("%RMS-E-PRV")))
 	  return (-1);
      else {
@@ -1616,25 +1641,29 @@ ParseVMSList(FTP  *ftp, char *bufptr, char *IntName, char *theName,
      switch (i = GSgetType(gs)) {
      case A_DIRECTORY:
 	  if (strcmp(ftpuser, "anonymous") != 0)
- 	       sprintf(tmpstr, "%s%s/", URLget(ftpurl), theName+1);
+ 	       snprintf(tmpstr, sizeof(tmpstr),
+			"%s%s/", URLget(ftpurl), theName+1);
 	  else
-	       sprintf(tmpstr, "ftp:%s@%s/%s/", GSgetHost(gs),
+	       snprintf(tmpstr, sizeof(tmpstr), "ftp:%s@%s/%s/", GSgetHost(gs),
 		       GSgetPath(gs), theName+1);
 
 	  GSsetPath(gs, tmpstr);
-	  sprintf (tmpstr, "%s [%s]", theName+1, datestr);
+	  snprintf(tmpstr, sizeof(tmpstr), "%s [%s]", theName+1, datestr);
 	  GSsetTitle(gs, tmpstr);
 	  return(A_DIRECTORY);
 	  break;
      default: 
 	  
 	  if (strcmp(ftpuser, "anonymous") != 0)
- 	       sprintf(tmpstr, "%s%s", URLget(ftpurl), theName+1);
+ 	       snprintf(tmpstr, sizeof(tmpstr),
+			"%s%s", URLget(ftpurl), theName+1);
 	  else
-	       sprintf(tmpstr, "ftp:%s@%s/%s", GSgetHost(gs),
-		       GSgetPath(gs), theName+1);
+	       snprintf(tmpstr, sizeof(tmpstr),
+			"ftp:%s@%s/%s", GSgetHost(gs),
+			GSgetPath(gs), theName+1);
 	  GSsetPath(gs, tmpstr);
-	  sprintf (tmpstr, "%s (%s) [%s]", theName+1, sizestr, datestr);
+	  snprintf (tmpstr, sizeof(tmpstr),
+		    "%s (%s) [%s]", theName+1, sizestr, datestr);
 	  GSsetTitle(gs, tmpstr);
 	  
 	  break;
@@ -1657,9 +1686,9 @@ ParseOS2List(FTP *ftp, char *bufptr, char *IntName, char *theName,
      if (isdigit(bufptr[i])) {
 	  objsize = (int) strtol(&bufptr[i], (char **)NULL, 10);
 	  if (objsize >= 1024)
-	       sprintf(sizestr, "%dk", objsize/1024);
+	       snprintf(sizestr, sizeof(sizestr), "%dk", objsize/1024);
 	  else
-	       sprintf(sizestr, ".%dk", (objsize*10)/1024);
+	       snprintf(sizestr, sizeof(sizestr), ".%dk", (objsize*10)/1024);
      } else {
 	  LOGGopher(Gsockfd, "Couldn't parse %s", bufptr);
 	  return (-1);
@@ -1694,8 +1723,8 @@ ParseOS2List(FTP *ftp, char *bufptr, char *IntName, char *theName,
      if (GFTPplus) {
 	  GSsetModDate(gs, datestr);
 	  AddDefaultView(gs, objsize*1024, NULL);
-	  sprintf(tmpstr, "%s <%s>", 
-		  GDCgetAdmin(Config), GDCgetAdminEmail(Config));
+	  snprintf(tmpstr, sizeof(tmpstr), "%s <%s>", 
+		   GDCgetAdmin(Config), GDCgetAdminEmail(Config));
 	  GSsetAdmin(gs, tmpstr);
      }
      GopherType(ftp, &bufptr[i], theName);
@@ -1703,13 +1732,14 @@ ParseOS2List(FTP *ftp, char *bufptr, char *IntName, char *theName,
      switch (i = GSgetType(gs)) {
      case A_DIRECTORY:
 	  if (strcmp(ftpuser, "anonymous") != 0)
- 	       sprintf(tmpstr, "%s%s/", URLget(ftpurl), theName+1);
+ 	       snprintf(tmpstr, sizeof(tmpstr), 
+			"%s%s/", URLget(ftpurl), theName+1);
 	  else
-	       sprintf(tmpstr, "ftp:%s@%s/%s/", GSgetHost(gs),
-		       GSgetPath(gs), theName+1);
+	       snprintf(tmpstr, sizeof(tmpstr), "ftp:%s@%s/%s/", GSgetHost(gs),
+			GSgetPath(gs), theName+1);
 
 	  GSsetPath(gs, tmpstr);
-	  sprintf (tmpstr, "%s [%s]", theName+1, datestr);
+	  snprintf (tmpstr, sizeof(tmpstr), "%s [%s]", theName+1, datestr);
 	  GSsetTitle(gs, tmpstr);
 	  return(A_DIRECTORY);
 	  break;
@@ -1717,12 +1747,14 @@ ParseOS2List(FTP *ftp, char *bufptr, char *IntName, char *theName,
      default: 
 	  i = GSsetType(gs, theName[0]);
 	  if (strcmp(ftpuser, "anonymous") != 0)
- 	       sprintf(tmpstr, "%s%s", URLget(ftpurl), theName+1);
+ 	       snprintf(tmpstr, sizeof(tmpstr), 
+			"%s%s", URLget(ftpurl), theName+1);
 	  else
-	       sprintf(tmpstr, "ftp:%s@%s/%s", GSgetHost(gs),
-		       GSgetPath(gs), theName+1);
+	       snprintf(tmpstr, sizeof(tmpstr), "ftp:%s@%s/%s", GSgetHost(gs),
+			GSgetPath(gs), theName+1);
 	  GSsetPath(gs, tmpstr);
-	  sprintf (tmpstr, "%s (%s) [%s]", theName+1, sizestr, datestr);
+	  snprintf (tmpstr, sizeof(tmpstr),
+		    "%s (%s) [%s]", theName+1, sizestr, datestr);
 	  GSsetTitle(gs, tmpstr);
 	  break;
      }

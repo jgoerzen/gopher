@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: s2mdalle $
- * $Revision: 1.3 $
- * $Date: 2000/12/21 05:33:20 $
+ * $Author: jgoerzen $
+ * $Revision: 1.4 $
+ * $Date: 2001/01/17 19:30:25 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/mindexd.c,v $
  * $State: Exp $
  *
@@ -15,7 +15,12 @@
  *********************************************************************
  * Revision History:
  * $Log: mindexd.c,v $
+ * Revision 1.4  2001/01/17 19:30:25  jgoerzen
+ * Change many sprintf -> snprintf
+ *
  * Revision 1.3  2000/12/21 05:33:20  s2mdalle
+ *
+ *
  * Miscellaneous code cleanups
  *
  * Revision 1.2  2000/12/20 01:19:20  jgoerzen
@@ -272,7 +277,8 @@ HandleQuery(int sockfd, char *queryline )
                     if (setjmp(env))
                       {
                         LOGGopher(sockfd, "mindexd: unable to connect with %s", slaves[i].host);
-                        sprintf(answerline, "0\t\t\t\n0>>> NOTE: unable to connect with %s\t\t\t\n0\t\t\t\n", slaves[i].host);
+                        snprintf(answerline, sizeof(answerline),
+				 "0\t\t\t\n0>>> NOTE: unable to connect with %s\t\t\t\n0\t\t\t\n", slaves[i].host);
                         writestring(sockfd, answerline);
                         close(slaves[i].sockfd);
                         exit(-1);
@@ -284,7 +290,8 @@ HandleQuery(int sockfd, char *queryline )
 
 		    if (slaves[i].sockfd < 0) {
 			 LOGGopher(sockfd, "mindexd: connection refused by %s",slaves[i].host);
-			 sprintf(answerline, "0\t\t\t\r\n0>>> Error: connection refused by %s\t\t\t\r\n0\t\t\t\r\n", slaves[i].host);
+			 snprintf(answerline, sizeof(answerline),
+				  "0\t\t\t\r\n0>>> Error: connection refused by %s\t\t\t\r\n0\t\t\t\r\n", slaves[i].host);
 			 writestring(sockfd, answerline);
 			 close(slaves[i].sockfd);
 			 exit(-1);
@@ -315,7 +322,8 @@ HandleQuery(int sockfd, char *queryline )
                     if (setjmp(env))
                       {
                       LOGGopher(sockfd, "mindexd: connection to %s timed out", slaves[i].host);
-                      sprintf(answerline, "0\t\t\t\r\n0>>> Error: connection to %s timed out\t\t\t\r\n0\t\t\t\r\n", slaves[i].host);
+                      snprintf(answerline, sizeof(answerline),
+			       "0\t\t\t\r\n0>>> Error: connection to %s timed out\t\t\t\r\n0\t\t\t\r\n", slaves[i].host);
                       writestring(sockfd, answerline);
                       close(slaves[i].sockfd);
                       exit(-1);
@@ -337,7 +345,8 @@ HandleQuery(int sockfd, char *queryline )
                          else
                            {
 			     LOGGopher(sockfd, "mindexd: lost connection with %s", slaves[i].host);
-			     sprintf(answerline, "0\t\t\t\n0Error: lost connection with %s\t\t\t\n0\t\t\t\n", slaves[i].host);
+			     snprintf(answerline, sizeof(answerline),
+				      "0\t\t\t\n0Error: lost connection with %s\t\t\t\n0\t\t\t\n", slaves[i].host);
 			     writestring(sockfd, answerline);
                              close(slaves[i].sockfd);
                              exit(-1);

@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2000/12/20 01:19:20 $
+ * $Revision: 1.3 $
+ * $Date: 2001/01/17 19:30:25 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/waisgopher.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: waisgopher.c,v $
+ * Revision 1.3  2001/01/17 19:30:25  jgoerzen
+ * Change many sprintf -> snprintf
+ *
  * Revision 1.2  2000/12/20 01:19:20  jgoerzen
  * Added patches from David Allen <s2mdalle@titan.vcu.edu>
  *
@@ -387,7 +390,8 @@ char *DocId_to_Gopher(docid, docsize)
           
      /** First lets stick on the size of the document first **/
 
-     sprintf(GopherString, "%d", docsize);
+     snprintf(GopherString, sizeof(GopherString),
+	      "%d", docsize);
      q += strlen(GopherString);
      *q++ = ':';
 
@@ -562,7 +566,8 @@ display_search_response(response, hostname, port, dbname, SourceName,
 
 		    GSsetTitle(gs, info->DocHeaders[k]->Headline);
 		    
-		    sprintf(gopherpath, "waisdocid:%s:%s:%s",
+		    snprintf(gopherpath, sizeof(gopherpath),
+			    "waisdocid:%s:%s:%s",
 			    SourceName,
 			    info->DocHeaders[k]->Types[0], 
 			    DocId_to_Gopher(info->DocHeaders[k]->DocumentID,
@@ -731,7 +736,8 @@ void SearchRemoteWAIS(sockfd, SourceName, cmd, view)
      {
 	  char userInfo[256];
 
-	  sprintf(userInfo, "waisgopher, from host: %s", Zehostname);
+	  snprintf(userInfo, sizeof(userinfo),
+		  "waisgopher, from host: %s", Zehostname);
 
 	  init_connection(request_message, response_message,
 			  MAX_MESSAGE_LEN,
@@ -959,8 +965,9 @@ Fetchdocid(sockfd, cmd)
 	      /*** then call SearchRemoteWAIS(), then delete file ***/
 	      rchdir("/");
 	      mkdir("tmp",0755);
-	      sprintf(tempfile, "/tmp/waissearch.%d", getpid());
-	      tempdotsrc = ropen(tempfile, O_RDWR|O_CREAT,0755);
+	      snprintf(tempfile, sizeof(tempfile),
+		       "/tmp/waissearch.%d", getpid());
+	      tempdotsrc = ropen(tempfile, O_RDWR|O_CREAT|O_EXCL,0755);
 	      if (tempdotsrc < 0) {
 		   writestring(sockfd, "3couldn't make temp file\r\n.\r\n");
 		   return;
@@ -974,7 +981,8 @@ Fetchdocid(sockfd, cmd)
 
 	      MyReadSource(Moo, tempfile);
 
-	      sprintf(searchline, "(%s %s %s)\t%s", Moo->server, Moo->database, Moo->service, searchwords);
+	      snprintf(searchline, sizeof(searchline),
+		       "(%s %s %s)\t%s", Moo->server, Moo->database, Moo->service, searchwords);
 
 	      Debug("waisgopher %s\n", searchline);
 	      rchdir("/");

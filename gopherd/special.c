@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.3 $
- * $Date: 2001/01/17 17:12:52 $
+ * $Revision: 1.5 $
+ * $Date: 2001/01/17 19:33:59 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/special.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,12 @@
  *********************************************************************
  * Revision History:
  * $Log: special.c,v $
+ * Revision 1.5  2001/01/17 19:33:59  jgoerzen
+ * Applied patch from Aaron Lehman to fix debugging mode.
+ *
+ * Revision 1.4  2001/01/17 19:30:25  jgoerzen
+ * Change many sprintf -> snprintf
+ *
  * Revision 1.3  2001/01/17 17:12:52  jgoerzen
  * More buffer size fixes.
  *
@@ -170,6 +176,8 @@ Specialfile(int sockfd, FILE *fp, char *pathname)
 
 	  if (!pp)
 	       return (FILE *)0;
+
+	  Debugmsg("Excecution succeeded\n");
 	  ispipe = 1;
 
 	  /* dgg - wait for some data ! else DEC OSF/1 loses data
@@ -190,9 +198,11 @@ Specialfile(int sockfd, FILE *fp, char *pathname)
 	  dequote1(pathname);
 	  s[strlen(s)-1] = '\0';
 	  if (dochroot)
-	       sprintf(buf, "\"%s\" %s", pathname, (EXECargs == NULL) ? "" : EXECargs);
+	       snprintf(buf, sizeof(buf),
+			"\"%s\" %s", pathname, (EXECargs == NULL) ? "" : EXECargs);
 	  else
-	       sprintf(buf, "\"%s/%s\" %s", Data_Dir, pathname, (EXECargs == NULL) ? "" : EXECargs);
+	       snprintf(buf, sizeof(buf),
+			"\"%s/%s\" %s", Data_Dir, pathname, (EXECargs == NULL) ? "" : EXECargs);
 
 	  if (ASKfile != NULL) {		/* Ick this is a global*/
 	       strcat(buf, " < ");

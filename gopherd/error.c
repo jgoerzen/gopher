@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.3 $
- * $Date: 2000/12/20 01:19:20 $
+ * $Revision: 1.4 $
+ * $Date: 2001/01/17 19:30:25 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/error.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: error.c,v $
+ * Revision 1.4  2001/01/17 19:30:25  jgoerzen
+ * Change many sprintf -> snprintf
+ *
  * Revision 1.3  2000/12/20 01:19:20  jgoerzen
  * Added patches from David Allen <s2mdalle@titan.vcu.edu>
  *
@@ -165,7 +168,7 @@ void err_quit(char *va_alist, ...)
 	fmt = va_alist;
 	va_start(args, va_alist);
 
-	(void) vsprintf(emesgstr, fmt, args);
+	(void) vsnprintf(emesgstr, sizeof(emesgstr), fmt, args);
 	va_end(args);
 
 	syslog(LOG_ERR, emesgstr);
@@ -190,7 +193,7 @@ void err_sys(char *va_alist, ...)
 	fmt = va_alist;
 	va_start(args,va_alist);
 
-	(void) vsprintf(emesgstr, fmt, args);
+	(void) vsnprintf(emesgstr, sizeof(emesgstr), fmt, args);
 	va_end(args);
 
 	my_perror();
@@ -214,7 +217,7 @@ void err_ret(char *va_alist, ...)
 	fmt = va_alist;
 	va_start(args, va_alist);
 
-	(void) vsprintf(emesgstr, fmt, args);
+	(void) vsnprintf(emesgstr, sizeof(emesgstr), fmt, args);
 	va_end(args);
 
 	my_perror();
@@ -237,7 +240,7 @@ void err_dump(char *va_alist, ...)
 	fmt = va_alist;
 	va_start(args, va_alist);
 
-	(void) vsprintf(emesgstr, fmt, args);
+	(void) vsnprintf(emesgstr, sizeof(emesgstr), fmt, args);
 	va_end(args);
 
 	my_perror();
@@ -258,7 +261,9 @@ void my_perror(void)
 	char *sys_err_str();
 
 	len = strlen(emesgstr);
-	sprintf(emesgstr + len, " %s", sys_err_str());
+	snprintf(emesgstr + len, 
+		 sizeof(emesgstr) - len - 1,
+		 " %s", sys_err_str());
 }
 
 
@@ -295,9 +300,9 @@ sys_err_str(void)
 
      if (errno != 0) {
 	  if (errno >0 && errno < sys_nerr)
-	       sprintf(msgstr, "(%s)", sys_errlist[errno]);
+	       snprintf(msgstr, sizeof(msgstr), "(%s)", sys_errlist[errno]);
 	  else
-	       sprintf(msgstr, "(errno = %d)", errno);
+	       snprintf(msgstr, sizeof(msgstr), "(errno = %d)", errno);
      } else {
 	  msgstr[0] = '\0';
      }
@@ -308,9 +313,9 @@ sys_err_str(void)
 	  char tmsgstr[100];
 	  
 	  if (t_errno > 0 && t_errno < sys_nerr)
-	       sprintf(tmsgstr, " (%s)", t_errlist[t_errno]);
+	       snprintf(tmsgstr, sizeof(tmsgstr), " (%s)", t_errlist[t_errno]);
 	  else
-	       sprintf(tmsgstr, ", (t_errno = %d)", t_errno);
+	       snprintf(tmsgstr, sizeof(tmsgstr), ", (t_errno = %d)", t_errno);
 	  
 	  strcat(msgstr, tmsgstr);
      }

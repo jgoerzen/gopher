@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2000/12/20 01:19:20 $
+ * $Revision: 1.3 $
+ * $Date: 2001/01/17 19:30:25 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/AUTH.c,v $
  *
  * Paul Lindner, University of Minnesota DCS.
@@ -14,6 +14,9 @@
  *********************************************************************
  * Revision History:
  * $Log: AUTH.c,v $
+ * Revision 1.3  2001/01/17 19:30:25  jgoerzen
+ * Change many sprintf -> snprintf
+ *
  * Revision 1.2  2000/12/20 01:19:20  jgoerzen
  * Added patches from David Allen <s2mdalle@titan.vcu.edu>
  *
@@ -344,18 +347,22 @@ AUTHvalidate(AUTH *auth, char *username, char *password, char *hostname,
 	  envstr = (char*) malloc(sizeof(char) * (16+strlen(username)));
 	  sprintf(envstr, "GOPHER_USER=%s", username);
 	  putenv(envstr);
+	  free(envstr);
 	  
 	  envstr = (char*) malloc(sizeof(char) * (16+strlen(password)));
 	  sprintf(envstr, "GOPHER_PW=%s", password);
 	  putenv(envstr);
+	  free(envstr);
 	  
 	  envstr = (char*) malloc(sizeof(char) * (16+strlen(hostname)));
 	  sprintf(envstr, "GOPHER_HOST=%s", hostname);
 	  putenv(envstr);
+	  free(envstr);
 	  
 	  envstr = (char*) malloc(sizeof(char) * (16+strlen(hostip)));
 	  sprintf(envstr, "GOPHER_IP=%s", hostip);
 	  putenv(envstr);
+	  free(envstr);
 	  
 	  
 	  result = FIOsystem(AUTHgetScriptName(auth));

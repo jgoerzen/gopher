@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2000/12/20 01:19:20 $
+ * $Revision: 1.3 $
+ * $Date: 2001/01/17 19:30:25 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/authenticate.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: authenticate.c,v $
+ * Revision 1.3  2001/01/17 19:30:25  jgoerzen
+ * Change many sprintf -> snprintf
+ *
  * Revision 1.2  2000/12/20 01:19:20  jgoerzen
  * Added patches from David Allen <s2mdalle@titan.vcu.edu>
  *
@@ -609,7 +612,7 @@ GDESencrypt(char *user, char *ip, char *key, char *cleartext)
 
 	  endes(temp);
 
-	  sprintf(temptext, "%.8X%.8X", temp[0] , temp[1]);
+	  snprintf(temptext, sizeof(temptext), "%.8X%.8X", temp[0] , temp[1]);
 	  strcat(encoded, temptext);
 	  Debug("Encoded: %s\n", temptext);
      }

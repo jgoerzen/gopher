@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.18 $
- * $Date: 2001/01/17 18:38:40 $
+ * $Revision: 1.20 $
+ * $Date: 2001/01/17 19:33:59 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,12 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.20  2001/01/17 19:33:59  jgoerzen
+ * Applied patch from Aaron Lehman to fix debugging mode.
+ *
+ * Revision 1.19  2001/01/17 19:30:25  jgoerzen
+ * Change many sprintf -> snprintf
+ *
  * Revision 1.18  2001/01/17 18:38:40  jgoerzen
  * Oops, called LOGGopher wrongly.
  *
@@ -686,7 +692,9 @@ gopherd_usage(char *progname)
 {
      fprintf(stderr, "Usage: %s [-mCDIc] [-u username] [-s securityfile] [-l logfile] [ -L loadavg ] <datadirectory> <port>\n", progname);
      fprintf(stderr, "   -C  turns caching off\n");
+#ifdef DEBUGGING
      fprintf(stderr, "   -D  enables copious debugging info\n");
+#endif
      fprintf(stderr, "   -I  enable \"inetd\" mode\n");
      fprintf(stderr, "   -c  disable chroot(), use secure open routines instead\n");
      fprintf(stderr, "   -u  specifies the username for use with -c\n");
@@ -1118,14 +1126,15 @@ SetInitialScriptEnvironment(void)
      /* Stuff that doesn't change over the life of the server... */
      char tmpstr[256];
 
-     sprintf(tmpstr, "UofMNgopherd/%s.%spl%d", GOPHER_MAJOR_VERSION,
-	     GOPHER_MINOR_VERSION, PATCHLEVEL);
+     snprintf(tmpstr, sizeof(tmpstr),
+	      "UofMNgopherd/%s.%spl%d", GOPHER_MAJOR_VERSION,
+	      GOPHER_MINOR_VERSION, PATCHLEVEL);
 
      SetEnvironmentVariable("SERVER_SOFTWARE", tmpstr);
 
      SetEnvironmentVariable("SERVER_NAME", Zehostname);
 
-     sprintf(tmpstr, "%d", GopherPort);
+     snprintf(tmpstr, sizeof(tmpstr), "%d", GopherPort);
      SetEnvironmentVariable("SERVER_PORT", tmpstr);
      SetEnvironmentVariable("SERVER_PROTOCOL", "gopher/1.0");
      SetEnvironmentVariable("GATEWAY_INTERFACE", "CGI/1.0");
@@ -1181,11 +1190,11 @@ OutputAuthForm(int sockfd, char *pathname, char *host, int port, CMDprotocol p)
      if (p == HTTP1_0) 
 	  OkHTTPresponse(sockfd);
 
-     sprintf(tmpbuf,
+     snprintf(tmpbuf, sizeof(tmpbuf),
 	 "<HTML>\r\n<HEAD><TITLE>Authentication...</TITLE></HEAD><BODY>\r\n");
      writestring(sockfd, tmpbuf);
 
-     sprintf(tmpbuf, 
+     snprintf(tmpbuf, sizeof(tmpbuf),
 	     "<FORM METHOD=\"GET\" ACTION=\"http://%s:%d/halidate%%20%s\">\r\n",
 	     host, port, pathname);
      writestring(sockfd, tmpbuf);
@@ -1343,7 +1352,7 @@ do_command(int sockfd)
 	       Gticket = (char*) malloc(sizeof(char*) *
 					(strlen(CMDgetUser(cmd)) +
 					 strlen(tix) + 4));
-	       sprintf(Gticket, "*%s %s ", CMDgetUser(cmd), tix);
+	       sprintf(Gticket, "*%s %s ", CMDgetUser(cmd), tix); /* SAFE */
 
 	  } else {
 	       GplusError(sockfd, 1, "Your ticket is invalid", NULL);
@@ -1425,7 +1434,10 @@ do_command(int sockfd)
 		    crypted = GDESencrypt(authuser, CurrentPeerIP, 
 					  GDCgetPW(Config), cleartext);
 
-		    sprintf(Gticket, "*%s %s ", authuser, crypted);
+		    snprintf(Gticket, (sizeof(char*) *
+				      strlen(authuser) +
+				      strlen(authpw)+5),
+				      "*%s %s ", authuser, crypted);
 
 
 		    CMDremoveAsk(cmd);
@@ -1767,7 +1779,8 @@ do_command(int sockfd)
 	  if (CMDgetSearch(cmd) == NULL || strlen(CMDgetSearch(cmd)) == 0) {
 	       char tmpbuf[256];
 	       /** output HTML gunk here... **/
-	       sprintf(tmpbuf, "<HTML><TITLE>Gopher Index</TITLE>\r\n<ISINDEX>\r\n");
+	       snprintf(tmpbuf, sizeof(tmpbuf),
+			"<HTML><TITLE>Gopher Index</TITLE>\r\n<ISINDEX>\r\n");
 	  }
 	       
 	  Do_IndexTrans(sockfd, Selstr+1, cmd, TRUE);
@@ -2608,7 +2621,7 @@ GDfromUFS(char *pathname, int sockfd, boolean isGplus)
 	       
 	       /*** Add admin, abstract entries, etal ***/
 	       if (!GSgetAdmin(gs)) {
-		    sprintf(tmpstr, "%s <%s>", 
+		    snprintf(tmpstr, sizeof(tmpstr), "%s <%s>", 
 			    GDCgetAdmin(Config), GDCgetAdminEmail(Config));
 		    GSsetAdmin(gs, tmpstr);
 	       }
@@ -2617,7 +2630,8 @@ GDfromUFS(char *pathname, int sockfd, boolean isGplus)
 		    /** Set mod date entry **/
 		    tmthing = localtime(&(statbuf.st_mtime));
 		    strftime(timeval,sizeof(timeval), "%Y%m%d%H%M%S", tmthing);
-		    sprintf(tmpstr,"%s<%s>", asctime(tmthing),timeval);
+		    snprintf(tmpstr, sizeof(tmpstr), 
+			     "%s<%s>", asctime(tmthing),timeval);
 		    cp = strchr(tmpstr, '\n');
 		    if (cp != NULL)
 			 *cp = ' ';
@@ -2759,9 +2773,10 @@ item_info(CMDobj *cmd, int sockfd)
 	  writestring(sockfd, "+INFO ");
 	  GStoNet(gs,sockfd, GSFORM_G0, Gticket);
 
-	  sprintf(tmpstr, "+ADMIN:\r\n Admin: %s <%s>\r\n", 
-                  GDCgetAdmin(Config),
-		  GDCgetAdminEmail(Config));
+	  snprintf(tmpstr, sizeof(tmpstr),
+		   "+ADMIN:\r\n Admin: %s <%s>\r\n", 
+		   GDCgetAdmin(Config),
+		   GDCgetAdminEmail(Config));
 	  writestring(sockfd, tmpstr);
 
 	  if (GSgetModDate(gs) == NULL) {
@@ -2771,7 +2786,8 @@ item_info(CMDobj *cmd, int sockfd)
 
 		    tmthing = localtime(&(statbuf.st_mtime));
 		    strftime(timeval,sizeof(timeval), "%Y%m%d%H%M%S", tmthing);
-		    sprintf(tmpstr," Mod-Date: %s<%s>\r\n",
+		    snprintf(tmpstr, sizeof(tmpstr),
+			     " Mod-Date: %s<%s>\r\n",
 			    asctime(tmthing),timeval);
 		    cp = strchr(tmpstr, '\n');
 		    if (cp != NULL)
@@ -2779,27 +2795,34 @@ item_info(CMDobj *cmd, int sockfd)
 		    writestring(sockfd, tmpstr);
 	       }
 	  } else {
-	       sprintf(tmpstr, " Mod-Date: %s\r\n", GSgetModDate(gs));
+	       snprintf(tmpstr, sizeof(tmpstr),
+			" Mod-Date: %s\r\n", GSgetModDate(gs));
 	       writestring(sockfd, tmpstr);
 	  }
 
 	  if (GSgetTTL(gs) > -1) {
-	       sprintf(tmpstr, " TTL: %d\r\n", GSgetTTL(gs));
+	       snprintf(tmpstr, sizeof(tmpstr), " TTL: %d\r\n", GSgetTTL(gs));
 	  } else {
-	       sprintf(tmpstr, " TTL: %d\r\n", GDCgetCachetime(Config));
+	       snprintf(tmpstr, sizeof(tmpstr), 
+			" TTL: %d\r\n", GDCgetCachetime(Config));
 	  }
 
 	  writestring(sockfd, tmpstr);
 
-	  sprintf(tmpstr, " Site: %s\r\n", GDCgetSite(Config));
+	  snprintf(tmpstr, sizeof(tmpstr), 
+		   " Site: %s\r\n", GDCgetSite(Config));
 	  writestring(sockfd, tmpstr);
-	  sprintf(tmpstr, " Org: %s\r\n", GDCgetOrg(Config));
+	  snprintf(tmpstr, sizeof(tmpstr),
+		   " Org: %s\r\n", GDCgetOrg(Config));
 	  writestring(sockfd, tmpstr);
-	  sprintf(tmpstr, " Loc: %s\r\n", GDCgetLoc(Config));
+	  snprintf(tmpstr, sizeof(tmpstr),
+		   " Loc: %s\r\n", GDCgetLoc(Config));
 	  writestring(sockfd, tmpstr);
-	  sprintf(tmpstr, " Geog: %s\r\n", GDCgetGeog(Config));
+	  snprintf(tmpstr, sizeof(tmpstr),
+		   " Geog: %s\r\n", GDCgetGeog(Config));
 	  writestring(sockfd, tmpstr);
-	  sprintf(tmpstr, " Version: U of Minnesota Unix %s.%s pl%d\r\n",
+	  snprintf(tmpstr, sizeof(tmpstr),
+		  " Version: U of Minnesota Unix %s.%s pl%d\r\n",
 		  GOPHER_MAJOR_VERSION, GOPHER_MINOR_VERSION, PATCHLEVEL);
 	  writestring(sockfd, tmpstr);
 
@@ -2809,7 +2832,8 @@ item_info(CMDobj *cmd, int sockfd)
 	       char *started = ctime(&ServerStarted);
 	       
 	       *(started+24) = '\0';
-	       sprintf(tmpstr, "+STATISTICS:\r\n Total Connections: %ld\r\n Server Started: %s\r\n Connections per Hour: %d\r\n Concurrent Sessions: %d\r\n", 
+	       snprintf(tmpstr, sizeof(tmpstr),
+			"+STATISTICS:\r\n Total Connections: %ld\r\n Server Started: %s\r\n Connections per Hour: %d\r\n Concurrent Sessions: %d\r\n", 
 		       Connections, started, connperhour, ActiveSessions);
 	       writestring(sockfd, tmpstr);
 	       
@@ -2847,7 +2871,8 @@ item_info(CMDobj *cmd, int sockfd)
 	  writestring(sockfd, "\r\n+VIEWS:\r\n");
 	  if (GDCgetCaching(Config)) {
 	       if (rstat("/.cache", &statbuf) == 0) {
-		    sprintf(tmpstr, " application/gopher-menu %s: <%ldk>\r\n",
+		    snprintf(tmpstr, sizeof(tmpstr),
+			     " application/gopher-menu %s: <%ldk>\r\n",
 			    GDCgetLang(Config), (statbuf.st_size + 512)/1024);
 		    writestring(sockfd, tmpstr);
 	       } else {
@@ -2855,7 +2880,8 @@ item_info(CMDobj *cmd, int sockfd)
 	       }
 
 	       if (rstat("/.cache+", &statbuf) == 0) {
-		    sprintf(tmpstr, " application/gopher+-menu %s: <%ldk>\r\n",
+		    snprintf(tmpstr, sizeof(tmpstr),
+			     " application/gopher+-menu %s: <%ldk>\r\n",
 			    GDCgetLang(Config), (statbuf.st_size + 512)/1024);
 		    writestring(sockfd, tmpstr);
 	       } else {
@@ -2988,7 +3014,7 @@ GSicontoNet(GopherObj *gs, int  sockfd)
      if (gs==NULL)
 	  return;
 
-     sprintf(iconfile, "/lib/htmlicon.%c", GSgetType(gs));
+     snprintf(iconfile, sizeof(iconfile), "/lib/htmlicon.%c", GSgetType(gs));
 
      switch (GSgetType(gs)) {
      case A_FILE: 
@@ -3021,10 +3047,14 @@ GSicontoNet(GopherObj *gs, int  sockfd)
 	  strcpy(imgline, "<IMG ALIGN=bottom BORDER=0 ");
 
 	  if (img) {
-	       sprintf(imgline + strlen(imgline), "ALT=\"[%-6s]\" ", img);
+	       snprintf(imgline + strlen(imgline), 
+			sizeof(imgline) - strlen(imgline) - 1,
+			"ALT=\"[%-6s]\" ", img);
 	  }
-	  sprintf(imgline + strlen(imgline), "SRC=\"gopher://%s:%d/I9%s\">",
-		  Zehostname, GopherPort, iconfile);
+	  snprintf(imgline + strlen(imgline),
+		   sizeof(imgline) - strlen(imgline) - 1,
+		   "SRC=\"gopher://%s:%d/I9%s\">",
+		   Zehostname, GopherPort, iconfile);
 	  writestring(sockfd, imgline);
 	  close(fd);
      }
@@ -3398,7 +3428,8 @@ printfile(int sockfd, char *pathname, int startbyte, int endbyte, boolean Gplus)
 	       char errmsg[256];
 	       if (!ASKfile) {
 		    ;;;; /*** HTMLize form here... ****/
-		    sprintf(errmsg," Missing input data to ASK form\t\t\t\r\n");
+		    snprintf(errmsg, sizeof(errmsg),
+			     " Missing input data to ASK form\t\t\t\r\n");
 	       }
 	       else
 		    Die(sockfd, 400, " This ASK form needs a gopher+ client\t\t\t\r\n");
@@ -3425,6 +3456,7 @@ printfile(int sockfd, char *pathname, int startbyte, int endbyte, boolean Gplus)
      /* CHANGEME:  Isn't reopening this file a bit silly? */
      if ((pp = Specialfile(sockfd, ZeFile, pathname))!=NULL) {
 	  fclose(ZeFile);
+	  Debugmsg("This is a special file\n");
           /* This may be a pipe or something, we don't know how much data
            * is going to come of it, so make sure we tell the client so.
            */

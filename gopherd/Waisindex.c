@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2001/01/17 19:30:25 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/Waisindex.c,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: Waisindex.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2001/01/17 19:30:25  jgoerzen
+ * Change many sprintf -> snprintf
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.37  1995/09/28  21:11:28  lindner
  * More fixes...
@@ -448,7 +451,8 @@ parameters.max_hit_retrieved = 256;
 			 Selstrout += strlen(INDEXPath);
 		    
 
-                    sprintf(score,"%3d ",best_hit.weight);
+                    snprintf(score, sizeof(score),
+			     "%3d ",best_hit.weight);
 
 		    /*  Causes freewais to core dump... 
                     waislog(0,99,"%s: Score %3d:%s",SearchWords,best_hit.weight,Selstrout);*/
@@ -482,9 +486,10 @@ parameters.max_hit_retrieved = 256;
 			    Was getting double slash at least with w8b5bio; 
 			    mtm 11-23-92 */
 
-		    sprintf(ReturnLine, "R%d-%d-%s",
-			    best_hit.start_character, best_hit.end_character,
-			    Selstrout);
+		    snprintf(ReturnLine, sizeof(ReturnLine),
+			     "R%d-%d-%s",
+			     best_hit.start_character, best_hit.end_character,
+			     Selstrout);
 		    
 		    GSsetPath(gs, ReturnLine);
 		    GSsetWeight(gs, best_hit.weight);
@@ -616,7 +621,8 @@ EveryWAISdocument(sockfd, db, INDEXHost, INDEXPort, INDEXPath)
 		    
 	       EXdestroy(ext);
 
-	       sprintf(tmppath, "R%d-%d-%s", StartByte, EndByte, STRget(Filename));
+	       snprintf(tmppath, sizeof(tmppath),
+			"R%d-%d-%s", StartByte, EndByte, STRget(Filename));
 
 	       GSsetTitle(gs, STRget(Headline));
 	       GSsetHost(gs, INDEXHost);

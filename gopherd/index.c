@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2000/12/20 01:19:20 $
+ * $Revision: 1.3 $
+ * $Date: 2001/01/17 19:30:25 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/index.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: index.c,v $
+ * Revision 1.3  2001/01/17 19:30:25  jgoerzen
+ * Change many sprintf -> snprintf
+ *
  * Revision 1.2  2000/12/20 01:19:20  jgoerzen
  * Added patches from David Allen <s2mdalle@titan.vcu.edu>
  *
@@ -344,7 +347,8 @@ Read_hostdata(char *IndexDirectory, char *INDEXHost, char *INDEXPath,
 
      rchdir(IndexDirectory);  /** Change into the index directory **/
 
-     sprintf(hostdataName, "%s.hostdata", dbName);  /* try idx.hostdata */
+     snprintf(hostdataName, sizeof(hostdataName),
+	      "%s.hostdata", dbName);  /* try idx.hostdata */
      if ((Hostfile = ufopen(hostdataName, "r")) == NULL)
 	  Hostfile = ufopen("hostdata", "r");
 
@@ -405,7 +409,8 @@ GrepIndexQuery(int sockfd, char *Indexdir, char *Searchstr, char *INDEXHost,
 	  cp++;
      }
 
-     sprintf(command, "egrep \"%s\" \"%s\"/*", Searchstr, Indexdir);
+     snprintf(command, sizeof(command),
+	      "egrep \"%s\" \"%s\"/*", Searchstr, Indexdir);
      Debug("Grep command is %s\n", command);
 
      moocow = Gpopen(sockfd, command, "r");
@@ -458,7 +463,7 @@ ShellIndexQuery(int sockfd, char *Script, char *Searchstring, boolean isgplus)
 
      gd = GDnew(32);
 
-     sprintf(Command, "\"%s\" %s", Script, Searchstring);
+     snprintf(Command, sizeof(Command), "\"%s\" %s", Script, Searchstring);
 
      Searchf = FIOopenCmdline(Command, "r");
 

@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.4 $
- * $Date: 2001/01/17 18:17:16 $
+ * $Revision: 1.5 $
+ * $Date: 2001/01/17 19:30:25 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/serverutil.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: serverutil.c,v $
+ * Revision 1.5  2001/01/17 19:30:25  jgoerzen
+ * Change many sprintf -> snprintf
+ *
  * Revision 1.4  2001/01/17 18:17:16  jgoerzen
  * More vsprintf fixes.
  *
@@ -331,11 +334,13 @@ GplusError(int sockfd, int errclass, char *text, char **moretext)
 
 
      if (!IsGplus)
-	  sprintf(outputline, "0%s\t\terror.host\t1\r\n", text);
+	  snprintf(outputline, sizeof(outputline),
+		   "0%s\t\terror.host\t1\r\n", text);
      else
-	  sprintf(outputline, "--1\r\n%d %s <%s>\r\n%s\r\n", 
-	     errclass, GDCgetAdmin(Config),
-	     GDCgetAdminEmail(Config), text);
+	  snprintf(outputline, sizeof(outputline),
+		   "--1\r\n%d %s <%s>\r\n%s\r\n", 
+		   errclass, GDCgetAdmin(Config),
+		   GDCgetAdminEmail(Config), text);
 
      (void) alarm(WRITETIMEOUT);
      if (writestring(sockfd, outputline)<0) {
@@ -347,8 +352,9 @@ GplusError(int sockfd, int errclass, char *text, char **moretext)
      if (moretext != NULL)
 	  for (i=0; moretext[i] != NULL; i++) {
 	       if (!IsGplus) {
-		    sprintf(outputline, "0%s\t\terror.host\t1\r\n", 
-			    moretext[i]);
+		    snprintf(outputline, sizeof(outputline),
+			     "0%s\t\terror.host\t1\r\n", 
+			     moretext[i]);
 		    writestring(sockfd, outputline);
 	       } else  {
 		    (void) alarm(WRITETIMEOUT);
@@ -599,9 +605,10 @@ process_mailfile(int sockfd, char *Mailfname)
 	       foundtitle = FALSE;
 
 	       if (Endbyte != 0) {
-		    sprintf(outputline, "0%s\tR%ld-%ld-%s\t%s\t%d\r\n", 
-			    Title, Startbyte, Bytecount, Mailfname,
-			    Zehostname, GopherPort);
+		    snprintf(outputline, sizeof(outputline),
+			     "0%s\tR%ld-%ld-%s\t%s\t%d\r\n", 
+			     Title, Startbyte, Bytecount, Mailfname,
+			     Zehostname, GopherPort);
 		    if (writestring(sockfd, outputline) < 0)
 			 gopherd_exit(-1);
 		    Startbyte=Bytecount;
@@ -613,11 +620,12 @@ process_mailfile(int sockfd, char *Mailfname)
      }
 
      if (*Title != '\0') {
-	  sprintf(outputline, "0%s\tR%ld-%ld-%s\t%s\t%d\r\n", 
-		  Title, Startbyte, Bytecount, Mailfname, 
-		  Zehostname, GopherPort);
+	  snprintf(outputline, sizeof(outputline),
+		   "0%s\tR%ld-%ld-%s\t%s\t%d\r\n", 
+		   Title, Startbyte, Bytecount, Mailfname, 
+		   Zehostname, GopherPort);
 	  if (writestring(sockfd, outputline)<0)
-	       gopherd_exit(-1);
+	    gopherd_exit(-1);
      }	  
 
 }
@@ -830,8 +838,12 @@ SetEnvironmentVariable(char *variable, char *value)
      if (!tmpputenv)
 	  return;
 
-     sprintf(tmpputenv, "%s=%s", variable, value);
+     /* SAFE as sprintf, but what the heck. -- jgoerzen */
+
+     snprintf(tmpputenv, (strlen(variable) + strlen(value) + 2), 
+	      "%s=%s", variable, value);
      putenv(tmpputenv);
+     free(tmpputenv);
 }
 
 #ifndef NO_AUTHENTICATION

@@ -39,8 +39,11 @@ AC_CHECK_LIB(m, main)
 
 ######################################################################
 AC_SUBST(DEBUGGING)
-DEBUGGING="-DDEBUGGING"
-AC_ARG_ENABLE(debug, [  --disable-debug         controls whether debug text is compilied in], DEBUGGING="", DEBUGGING="-DEBUGGING")
+AC_ARG_ENABLE(debug, [  --disable-debug         controls whether debug text is compilied in], DEBUGGING=$enableval, DEBUGGING="")
+
+if test "$DEBUGGING" = yes; then
+	DEBUGGING="-DDEBUGGING"
+fi
 
 ######################################################################
 AC_SUBST(SOCKSLIBS)

@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2001/01/17 19:30:25 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/pid.c,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: pid.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2001/01/17 19:30:25  jgoerzen
+ * Change many sprintf -> snprintf
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.7  1995/02/11  06:19:49  lindner
  * don't use crummy pid routines..
@@ -82,7 +85,7 @@ va_dcl
 #else
      va_start(args);
 #endif
-     (void) vsprintf(buf, fmt, args);
+     (void) vsnprintf(buf, sizeof(buf), fmt, args);
      va_end(args);
 
      PIDwrite(piddir, buf);
@@ -106,7 +109,7 @@ PIDwrite(piddir, msg)
 	  if (chdir(piddir) == -1)
 	       return;
      
-	  sprintf(pidstr, "%d", (int)getpid());
+	  snprintf(pidstr, sizeof(pidstr), "%d", (int)getpid());
 
 	  fd = open(pidstr, O_WRONLY|O_CREAT|O_TRUNC,0644);
      }     
@@ -175,7 +178,7 @@ PIDdone(piddir, pid)
 
      chdir(piddir);
 
-     sprintf(pidstr, "%d", (int)pid);
+     snprintf(pidstr, sizeof(pidstr), "%d", (int)pid);
      
      unlink(pidstr);
 

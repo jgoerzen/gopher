@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2001/01/17 19:30:25 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/NeXTindex.c,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: NeXTindex.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2001/01/17 19:30:25  jgoerzen
+ * Change many sprintf -> snprintf
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.14  1995/09/26  04:59:43  lindner
  * Fix abort routines, change to Die/Warn hash over access routines..
@@ -162,9 +165,9 @@ NeXTIndexQuery(int sockfd,
 
 	       cp = strstr(f->file, INDEXPath);
 	       if (cp == NULL)
-		    sprintf(outputline, "0/%s", f->file);
+		    snprintf(outputline, sizeof(outputline), "0/%s", f->file);
 	       else
-		    sprintf(outputline, "0/%s", cp);
+		    snprintf(outputline, sizeof(outputline), "0/%s", cp);
 
 	       GSsetPath(gs, outputline);
 	       GSsetWeight(gs, (int)(MyReference->weight * 1000.0));
