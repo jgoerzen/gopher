@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: s2mdalle $
- * $Revision: 1.10 $
- * $Date: 2000/12/27 21:07:06 $
+ * $Revision: 1.11 $
+ * $Date: 2000/12/27 21:39:25 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,10 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.11  2000/12/27 21:39:25  s2mdalle
+ * Added logging for info requests.
+ * (i.e. client sends "locator     !")
+ *
  * Revision 1.10  2000/12/27 21:07:06  s2mdalle
  * Fixed logging.  Previously the daemon tried to open the log file each
  * time a request came through (inside do_command()).  It now opens the
@@ -2673,8 +2677,6 @@ GDfromSelstr(CMDobj *cmd, int sockfd)
      return(gd);
 } /* End GDfromSelstr */
 
-
-
 /*
  * Send item information to client
  */
@@ -2706,6 +2708,7 @@ item_info(CMDobj *cmd, int sockfd)
      /** For now, strip off first character and find the directory above **/
 
      Debug("Item info for %s\n", cp);
+     LOGGopher(sockfd, "Item info requested for %s\n", cp);
 
      if ((*cp == '/') || (*cp == '\0') || (*(cp+1) == '\0')) {
 	  gs = GSnew();
@@ -2719,10 +2722,10 @@ item_info(CMDobj *cmd, int sockfd)
 	  writestring(sockfd, "+INFO ");
 	  GStoNet(gs,sockfd, GSFORM_G0, Gticket);
 
-	  sprintf(tmpstr, "+ADMIN:\r\n Admin: %s <%s>\r\n", GDCgetAdmin(Config),
+	  sprintf(tmpstr, "+ADMIN:\r\n Admin: %s <%s>\r\n", 
+                  GDCgetAdmin(Config),
 		  GDCgetAdminEmail(Config));
 	  writestring(sockfd, tmpstr);
-
 
 	  if (GSgetModDate(gs) == NULL) {
 	       if (rstat("/", &statbuf) == 0) {
@@ -2748,6 +2751,7 @@ item_info(CMDobj *cmd, int sockfd)
 	  } else {
 	       sprintf(tmpstr, " TTL: %d\r\n", GDCgetCachetime(Config));
 	  }
+
 	  writestring(sockfd, tmpstr);
 
 	  sprintf(tmpstr, " Site: %s\r\n", GDCgetSite(Config));
