@@ -1,4 +1,4 @@
-$Id: PLATFORMS,v 1.9 2002/02/12 21:30:03 jgoerzen Exp $
+$Id: PLATFORMS,v 1.10 2002/03/19 14:26:09 jgoerzen Exp $
 
 These are the platforms on which gopher is known to work.
 
@@ -54,6 +54,6 @@ instead of make.
 Now here's the kicker -- If you are building on a HFS+ partition rather than
 a UFS one, the case-insensitivity in the operating system can cause
 problems.  Build instead on a UFS partition.  You can try this by using the
-Disk Copy tool to create a UFS playground within your HFS partition.  I have
-not had reports of whether or not this works; I can only confirm that it
-works to build from a UFS-only setup.  -- jgoerzen, 2/12/2002
+Disk Copy tool to create a UFS playground within your HFS partition.  Untar
+the gopher source tree on this UFS volume and build it there.  Clint Paden
+<clint.paden@vanderbilt.edu> reports that this will work.
