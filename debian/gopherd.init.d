@@ -14,7 +14,7 @@
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 DAEMON=/usr/sbin/gopherd
 NAME=gopherd
-DESC=gopherd
+DESC="Gopher server"
 
 . /etc/gopherd/startopts
 
@@ -33,9 +33,12 @@ case "$1" in
 	;;
   stop)
 	echo -n "Stopping $DESC: "
-	start-stop-daemon --stop --quiet --pidfile /var/run/$NAME.pid \
-		--exec $DAEMON
-	echo "$NAME."
+	if start-stop-daemon --stop --quiet \
+		--exec $DAEMON; then
+		echo "done."
+	else
+		 echo "not running."
+	fi
 	;;
   #reload)
 	#

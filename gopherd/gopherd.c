@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.3 $
+ * $Date: 2000/08/23 01:19:26 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,8 +15,14 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.3  2000/08/23 01:19:26  jgoerzen
+ * Fix chroot patch.
+ *
+ * Revision 1.2  2000/08/23 01:14:33  jgoerzen
+ * Fixed chroot and setuid change position.
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.171  1996/01/04  18:30:12  lindner
  * Fix for Ustat on Linux, autoconf changes
@@ -893,6 +899,25 @@ main(int argc, char *argv[], char *envp[])
 	  listen(httpsockfd, 5);
      }
 
+     /* Move (well, copy) the setuid and chroot code to here.  This way,
+	the server process runs chroot and setuid'd much sooner.  Much
+	more secure that way.  I like it a lot better this way than the
+	other. */
+
+     /** Change our root directory **/
+     if ( dochroot && didchroot == FALSE) {
+	  if (chroot(Data_Dir))
+	       Die(sockfd, 500, "Data_Dir dissappeared!");
+	  
+	  uchdir("/");	/* needed after chroot */
+	  didchroot = TRUE;
+     }
+
+     if (Gdefusername && (getuid() == 0)) {
+         setregid(Ggid, Ggid);
+         setreuid(Guid, Guid);
+     }
+
      numready = 0; 
 
      while (1) {
@@ -1172,7 +1197,6 @@ do_command(int sockfd)
      CMDobj  *cmd;
      char    *filter   = NULL;
      char    *cp;
-     static int didchroot = FALSE;
 
 
      cmd = CMDnew();
