@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.16 $
- * $Date: 2002/03/19 20:37:28 $
+ * $Revision: 1.17 $
+ * $Date: 2002/03/19 20:57:55 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/Regex.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: Regex.h,v $
+ * Revision 1.17  2002/03/19 20:57:55  jgoerzen
+ * Modified #warn -> #warning to use correct syntax.
+ *
  * Revision 1.16  2002/03/19 20:37:28  jgoerzen
  * Updated configure stuff with regcomp and regfree checks.
  * Made Regex.h more robust with regcomp stuff.
@@ -165,7 +168,7 @@
 #endif
 
 #ifndef REG_EXTENDED
-#warn "REGEX_POSIX defined but REG_EXTENDED not found."
+#warning REGEX_POSIX defined but REG_EXTENDED not found.
 #endif
 
 /* These are named posix_re_comp and then #defined to the original names
