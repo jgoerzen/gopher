@@ -1,1 +1,24 @@
--c -u gopher -o /etc/gopherd/gopherd.conf /var/gopher
+# Put options for gopherd in here.  Set options to "" to not set
+# or follow the comments.
+
+# Set DONTCHROOT to -c if you don't want to use chroot.
+
+# DONTCHROOT="-c"
+DONTCHROOT=""
+
+# The username that you run gopher as.  Leave blank to run as root.
+
+# USEUID=""
+USEUID="-u gopher"
+
+# The option file for gopher.
+
+OPTIONFILE="-o /etc/gopherd/gopherd.conf"
+
+# The home for gopher.
+
+GOPHERHOME="/var/gopher"
+
+# Any other options to pass along.
+
+OTHEROPTS=""

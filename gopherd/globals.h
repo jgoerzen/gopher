@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2000/08/22 23:39:29 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/globals.h,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: globals.h,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/08/22 23:39:29  jgoerzen
+ * Minor mods
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.15  1995/09/25  22:06:57  lindner
  * Ansification bugs
@@ -106,6 +109,7 @@ EXTERN char      *Data_Dir INIT(NULL);
 EXTERN char      *pname INIT(NULL);
 
 EXTERN int       dochroot INIT(TRUE);   /*** Should we use chroot?? ***/
+EXTERN int       didchroot INIT(FALSE);	/* Have we already chrooted? */
 EXTERN char      *Zehostname INIT(NULL);      /** Holds name and domain **/
 EXTERN int       GopherPort INIT(GOPHER_PORT);
 EXTERN char      *EXECargs INIT(NULL);   /** used with exec type **/

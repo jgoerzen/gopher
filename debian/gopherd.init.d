@@ -15,7 +15,10 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 DAEMON=/usr/sbin/gopherd
 NAME=gopherd
 DESC=gopherd
-STARTOPTS=`cat /etc/gopherd/startopts`
+
+. /etc/gopherd/startopts
+
+DAEMONOPTS="$DONTCHROOT $USEUID $OPTIONFILE $OTHEROPTS $GOPHERHOME"
 
 test -f $DAEMON || exit 0
 
@@ -23,9 +26,9 @@ set -e
 
 case "$1" in
   start)
-	echo -n "Starting $DESC: "
+	echo -n "Starting $DESC $DAEMONOPTS: "
 	start-stop-daemon --start --quiet --pidfile /var/run/$NAME.pid \
-		--exec $DAEMON $STARTOPTS
+		--exec $DAEMON $DAEMONOPTS
 	echo "$NAME."
 	;;
   stop)
