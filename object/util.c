@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2000/12/20 01:19:20 $
+ * $Revision: 1.3 $
+ * $Date: 2002/01/28 03:38:58 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/util.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,13 @@
  *********************************************************************
  * Revision History:
  * $Log: util.c,v $
+ * Revision 1.3  2002/01/28 03:38:58  jgoerzen
+ * Patches for FreeBSD:
+ *  * Test in configure for stdlib.h
+ *  * Include stdlib.h if it's available in Malloc.h
+ *  * Don't include malloc.h if it's missing in Malloc.h
+ *  * Don't include strcasestr if it's present in util.c and util.h
+ *
  * Revision 1.2  2000/12/20 01:19:20  jgoerzen
  * Added patches from David Allen <s2mdalle@titan.vcu.edu>
  *
@@ -587,6 +594,8 @@ Hexall(char *input, char *output)
  * String insensitive strstr
  */
 
+#ifndef HAVE_STRCASESTR
+
 char *
 strcasestr(char *inputline, char *match)
 {
@@ -604,6 +613,7 @@ strcasestr(char *inputline, char *match)
      return(NULL);
 }
 
+#endif
 
 /*
  * Iterate over a string, return a pointer to the next character

@@ -130,6 +130,9 @@
 /* Define if you have the strcasecmp function.  */
 #undef HAVE_STRCASECMP
 
+/* Define if you have the strcasestr function.  */
+#undef HAVE_STRCASESTR
+
 /* Define if you have the strcspn function.  */
 #undef HAVE_STRCSPN
 
@@ -198,6 +201,9 @@
 
 /* Define if you have the <regex.h> header file.  */
 #undef HAVE_REGEX_H
+
+/* Define if you have the <stdlib.h> header file.  */
+#undef HAVE_STDLIB_H
 
 /* Define if you have the <string.h> header file.  */
 #undef HAVE_STRING_H

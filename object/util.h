@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2002/01/28 03:38:58 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/util.h,v $
  * $State: Exp $
  *
@@ -15,8 +15,15 @@
  *********************************************************************
  * Revision History:
  * $Log: util.h,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2002/01/28 03:38:58  jgoerzen
+ * Patches for FreeBSD:
+ *  * Test in configure for stdlib.h
+ *  * Include stdlib.h if it's available in Malloc.h
+ *  * Don't include malloc.h if it's missing in Malloc.h
+ *  * Don't include strcasestr if it's present in util.c and util.h
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.5  1995/09/25  22:07:26  lindner
  * Ansification
@@ -42,6 +49,8 @@
  *
  *********************************************************************/
 
+#include "config.h"
+
 
 /*
  * Definitions of stuff in util.c
@@ -57,7 +66,9 @@ void   ZapCRLF(char * );
 void   Fromhexstr(char * , char *);
 void   Tohexstr(char *input, char *output);
 void   Hexall(char *input, char *output);
+#ifndef HAVE_STRCASESTR
 char   *strcasestr(char *inputline, char *match);
+#endif
 char   *skip_whitespace(char *);
 
 /* 

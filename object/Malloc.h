@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2000/08/23 00:03:59 $
+ * $Revision: 1.3 $
+ * $Date: 2002/01/28 03:38:58 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/Malloc.h,v $
  * $Status: $
  *
@@ -15,6 +15,13 @@
  *********************************************************************
  * Revision History:
  * $Log: Malloc.h,v $
+ * Revision 1.3  2002/01/28 03:38:58  jgoerzen
+ * Patches for FreeBSD:
+ *  * Test in configure for stdlib.h
+ *  * Include stdlib.h if it's available in Malloc.h
+ *  * Don't include malloc.h if it's missing in Malloc.h
+ *  * Don't include strcasestr if it's present in util.c and util.h
+ *
  * Revision 1.2  2000/08/23 00:03:59  jgoerzen
  * Updates
  *
@@ -64,7 +71,13 @@
  */
 
 #include "Stdlib.h"
+#ifdef HAVE_MALLOC_H
 #include <malloc.h>
+#endif
+
+#ifdef HAVE_STDLIB_H
+#include <stdlib.h>
+#endif
 
 /* Usually can get NULL from stdio.h */
 #ifndef NULL

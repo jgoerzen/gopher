@@ -1,7 +1,7 @@
 #********************************************************************
 # $Author: jgoerzen $
-# $Revision: 1.7 $
-# $Date: 2002/01/09 02:56:09 $
+# $Revision: 1.8 $
+# $Date: 2002/01/28 03:38:58 $
 # $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/Makefile.in,v $
 # $State: Exp $
 #
@@ -15,6 +15,13 @@
 #*********************************************************************
 # Revision History:
 # $Log: Makefile.in,v $
+# Revision 1.8  2002/01/28 03:38:58  jgoerzen
+# Patches for FreeBSD:
+#  * Test in configure for stdlib.h
+#  * Include stdlib.h if it's available in Malloc.h
+#  * Don't include malloc.h if it's missing in Malloc.h
+#  * Don't include strcasestr if it's present in util.c and util.h
+#
 # Revision 1.7  2002/01/09 02:56:09  jgoerzen
 # Updated archive target again
 #
@@ -140,20 +147,20 @@ gopherfilter: gophfilt/gophfilt
 objects: object/libgopher.a
 
 gopherd/gopherd: object/libgopher.a $(srcdir)/gopherd/*.c $(srcdir)/gopherd/*.h $(srcdir)/conf.h
-	(cd gopherd; $(MAKE) $(MFLAGS))
+	(cd gopherd; $(MAKE) $(MFLAGS) all)
 
 # gopher is dependant on conf.h - (as are other things)
 gopher/gopher: object/libgopher.a conf.h $(srcdir)/gopher/*c $(srcdir)/gopher/*h
 	@echo "Making client"
-	(cd gopher; $(MAKE) $(MFLAGS))
+	(cd gopher; $(MAKE) $(MFLAGS) all)
 
 gophfilt/gophfilt: object/libgopher.a conf.h $(srcdir)/gophfilt/*c
 	@echo "Making gophfilt"
-	(cd gophfilt; $(MAKE) $(MFLAGS))
+	(cd gophfilt; $(MAKE) $(MFLAGS) all)
 
 object/libgopher.a: $(srcdir)/object/*c $(srcdir)/object/*h
 	@echo "Making Objects"
-	(cd object; $(MAKE) $(MFLAGS))
+	(cd object; $(MAKE) $(MFLAGS) all)
 
 install:
 	(cd object;   $(MAKE) $(MFLAGS) install);
