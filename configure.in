@@ -13,7 +13,7 @@ if test "$$1" = "" ; then
 fi])dnl
 
 
-dnl AC_INIT(gopherd/gopherd.c)
+AC_INIT(gopher/gopher.c)
 echo "----------------------------------------------------------------------"
 echo "You are about to build the Gopher system for Unix"
 echo "Please read the file doc/INSTALL for full information on"

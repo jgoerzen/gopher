@@ -111,7 +111,7 @@
 SHELL = /bin/sh
 @SET_MAKE@
 
-all: objects server client gopherfilter
+all: objects client gopherfilter
 	@echo "Welcome to Gopher"
 
 
