@@ -1,3 +1,9 @@
+gopher (2.3.1-11) unstable; urgency=low
+
+  * Many sprintf -> snprintf changes.
+
+ -- John Goerzen <jgoerzen@complete.org>  Wed, 17 Jan 2001 15:22:09 -0500
+
 gopher (2.3.1-10) unstable; urgency=low
 
   * Added mp3 MIME type.  Closes: #81529.
