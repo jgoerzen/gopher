@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.14 $
- * $Date: 2001/01/17 17:12:52 $
+ * $Revision: 1.15 $
+ * $Date: 2001/01/17 17:19:07 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.15  2001/01/17 17:19:07  jgoerzen
+ * Oops.
+ *
  * Revision 1.14  2001/01/17 17:12:52  jgoerzen
  * More buffer size fixes.
  *
@@ -1943,8 +1946,8 @@ GSfindHTMLtitle(GopherObj *gs, char *filename)
 	  titlep += 7;
 	  if ((endtitle = strcasestr(titlep, "</TITLE>")) != NULL) {
 	       int maxcpysize;
-	       maxcpysize = ((endtitle-titlep) > titletemp) ? titletep :
-		 (endtitle-titlep);
+	       maxcpysize = ((endtitle-titlep) > sizeof(titletemp)) ? 
+		 sizeof(titletemp) : (endtitle-titlep);
 	       strncpy(titletemp, titlep, maxcpysize);
 	       titletemp[maxcpysize] = '\0';
 
