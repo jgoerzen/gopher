@@ -1,20 +1,14 @@
 include ../Makefile.config
 
-TARGET = gopherd.conf.5 gopherd.8 gopherindex.8 gopher.1 \
+TARGET = gopher.1 \
 	 gophfilt.1 gopherrc.5
 
 install: $(TARGET)
-	@INSTALL@ -m 0644 gopherd.conf.5 $(MAN5DIR)
-	@INSTALL@ -m 0644 gopherd.8 $(MAN8DIR)
-	@INSTALL@ -m 0644 gopherindex.8 $(MAN8DIR)
 	@INSTALL@ -m 0644 gopher.1 $(MAN1DIR)
 	@INSTALL@ -m 0644 gophfilt.1 $(MAN1DIR)
 	@INSTALL@ -m 0644 gopherrc.5 $(MAN5DIR)
 
 all:
-	$(NROFF)    gopherd.conf.5 >gopherd.conf.cat
-	$(NROFF)    gopherd.8      >gopherd.cat
-	$(NROFF)    gopherindex.8  >gopherindex.cat
 	$(NROFF)    gopher.1       >gopher.cat
 	$(NROFF)    gophfilt.1     >gophfilt.cat
 	$(NROFF)    gopherrc.5     >gopherrc.cat
