@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.5 $
- * $Date: 2002/01/08 17:36:14 $
+ * $Revision: 1.6 $
+ * $Date: 2002/01/08 18:28:02 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/Regex.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: Regex.h,v $
+ * Revision 1.6  2002/01/08 18:28:02  jgoerzen
+ *   * object/Regex.h: now conditionally includes sys/types.h for regex.h
+ *
  * Revision 1.5  2002/01/08 17:36:14  jgoerzen
  * Finally builds!
  *
@@ -78,6 +81,12 @@
  *********************************************************************/
 
 #include "config.h"
+
+#ifdef HAVE_SYS_TYPES_H
+/* regex.h on Linux needs sys/types.h */
+#include <sys/types.h>
+#endif
+
 #ifdef HAVE_REGEX_H
 /* The following define tells glibc in Linux to pull in headers
    for BSD compatibility regex support. */
