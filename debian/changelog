@@ -1,3 +1,9 @@
+gopher (3.0.1) unstable; urgency=low
+
+  * Installation routines modified -- pass -d to install to create
+    config dirs.
+  * Use sysconfigdir rather that $(DESTDIR)/etc for config files.
+
 gopher (3.0.0-1) unstable; urgency=low
 
   * Patched to work with Hurd.  Closes: #115511.  Uses

@@ -19,8 +19,10 @@ configure: configure-stamp
 configure-stamp:
 	dh_testdir
 	# Add here commands to configure the package.
-	autoconf
-	./configure --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info --disable-auth
+	# autoconf
+	./configure --prefix=/usr --mandir=\$${prefix}/share/man \
+		--infodir=\$${prefix}/share/info --disable-auth \
+		--sysconfdir=/etc
 
 	touch configure-stamp
 

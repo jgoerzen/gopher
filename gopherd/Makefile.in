@@ -1,7 +1,7 @@
 #********************************************************************
 # $Author: jgoerzen $
-# $Revision: 1.3 $
-# $Date: 2002/01/08 17:36:14 $
+# $Revision: 1.4 $
+# $Date: 2002/01/09 15:54:48 $
 # $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/Makefile.in,v $
 # $State: Exp $
 #
@@ -15,6 +15,9 @@
 #*********************************************************************
 # Revision History:
 # $Log: Makefile.in,v $
+# Revision 1.4  2002/01/09 15:54:48  jgoerzen
+# Modifications to assist with installations
+#
 # Revision 1.3  2002/01/08 17:36:14  jgoerzen
 # Finally builds!
 #
@@ -229,7 +232,7 @@ install : all
 	fi
 
 	@INSTALL@  $(TARGET) $(SERVERDIR)
-	@INSTALL@  gopherd.conf $(SERVERCONFDIR)
+	@INSTALL@  -d gopherd.conf $(SERVERCONFDIR)
 	if [ ! -f $(SERVERCONFDIR)/gopherdlocal.conf ]; then \
 		@INSTALL@ gopherdlocal.conf $(SERVERCONFDIR)/gopherdlocal.conf; \
 	fi
