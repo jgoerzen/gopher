@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.34 $
- * $Date: 2002/04/26 13:33:33 $
+ * $Revision: 1.35 $
+ * $Date: 2002/04/26 14:59:54 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.35  2002/04/26 14:59:54  jgoerzen
+ * Preparations for 3.0.5.
+ *
  * Revision 1.34  2002/04/26 13:33:33  jgoerzen
  * Removed glib MIME stuff.  We'll move to Pygopherd first.
  *
@@ -2824,7 +2827,7 @@ item_info(CMDobj *cmd, int sockfd)
 	  GSplusnew(gs);
 
 	  GSsendHeader(sockfd, -1);
-	  writestring(sockfd, "+INFO ");
+	  writestring(sockfd, "+INFO: ");
 	  GStoNet(gs,sockfd, GSFORM_G0, Gticket);
 
 	  snprintf(tmpstr, sizeof(tmpstr),

@@ -1,3 +1,14 @@
+gopher (3.0.5) unstable; urgency=low
+
+  * Integrated my patch to 3.0.4 for Solaris compilation.
+  * Logging with chroot has long since been fixed; added a note to
+    startopts about other chroot stuff.  Closes: #82590, #82591.
+  * Gopherd sometimes sent "+INFO " instead of "+INFO: ".  Fixed.
+    Closes: #142912.
+  * doc/Makefile.in: Install manpages 0644 instead of 0755.
+
+ -- John Goerzen <jgoerzen@complete.org>  Fri, 26 Apr 2002 09:09:55 -0500
+
 gopher (3.0.4) unstable; urgency=low
   * MAJOR rewrite of regex support.  This should make gopher
     compile and work better on several platforms.

@@ -1,5 +1,8 @@
 # Put options for gopherd in here.  Set options to "" to not set
-# or follow the comments.
+# or follow the comments.  If chroot is enabled, you wiill not be able
+# to use decoders unless you copy them under your gopher root.  The
+# same goes for calling other scripts, and there may be logging
+# difficulties.
 
 # Set DONTCHROOT to -c if you don't want to use chroot.
 

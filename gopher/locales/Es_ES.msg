@@ -132,7 +132,7 @@ $
 78 "Fallo en la conexión: %s."
 79 "Fallo en la conexión al ordenador remoto."
 80 "No he podido crear '%s'"
-81 "No he podido ejecutar %s\n"
+81 "No he podido ejecutar %s"
 82 "No he podido encontrar el texto"
 83 "¡No he podido crear un fichero temporal!\n" 
 84 "Lo siento, ha habido un problema al imprimir..."

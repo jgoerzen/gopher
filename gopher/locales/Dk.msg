@@ -130,7 +130,7 @@ $
 78 "Forbindelse mislykkedes: %s."
 79 "Forbindelse til vært mislykkedes."
 80 "Kunde ikke kreere '%s'"
-81 "Kunde ikke eksekvere %s\n"
+81 "Kunde ikke eksekvere %s"
 82 "Kunde ikke finde text"
 83 "Kunde ikke kreere en temporær fil!\n"
 84 "Det var fejl ved udskrift, beklager..."

@@ -134,7 +134,7 @@ $
 78 "Uppkoppling misslyckades: %s."
 79 "Uppkoppling mot datorvärd misslyckades."
 80 "Kunde inte skapa '%s'"
-81 "Kunde inte exekvera %s\n"
+81 "Kunde inte exekvera %s"
 82 "Kunde inte hitta text"
 83 "Kunde inte skapa en temporär fil!\n"
 84 "Det blev fel vid utskrift, ledsen..."

@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.9 $
- * $Date: 2002/01/11 04:29:30 $
+ * $Revision: 1.10 $
+ * $Date: 2002/04/26 14:59:54 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/gopher.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: gopher.c,v $
+ * Revision 1.10  2002/04/26 14:59:54  jgoerzen
+ * Preparations for 3.0.5.
+ *
  * Revision 1.9  2002/01/11 04:29:30  jgoerzen
  * Another attempt at the strerror fix -- maybe #elsif isn't so hot an idea...
  *
@@ -1085,9 +1088,13 @@ showfile(GopherObj *ZeGopher)
 	       CursesErrorMsg(Gtxt("Unix piping requested.  Check your configuration!",176));
 	       return;
 #endif
-	       if ((tmpfile = popen(inputline+1, "w")) == NULL)
-		    fprintf(stderr, Gtxt("Couldn't execute %s\n",81)
-			    ,inputline), CleanupandExit(-1);
+	       if ((tmpfile = popen(inputline+1, "w")) == NULL) {
+                   char buf[75];
+                   snprintf(buf, sizeof(buf) - 1,
+                            Gtxt("Coultn't execute %s", 81), inputline);
+                   CursesErrorMsg(buf);
+                   return;
+               }
 	       WritePipe = TRUE;
 	       CURexit(CursesScreen);
 	  } else {

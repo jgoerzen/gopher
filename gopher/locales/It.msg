@@ -147,7 +147,7 @@ $
 78 "Connessione fallita: %s."
 79 "Connessione a sistema remoto fallita."
 80 "Non posso creare '%s'"
-81 "Non posso eseguire %s\n"
+81 "Non posso eseguire %s"
 82 "Non riesco a trovare il testo"
 83 "Non riesco a creare un file temporaneo!\n"
 84 "C'e` un problema di stampa, spiacente..."

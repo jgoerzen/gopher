@@ -127,7 +127,7 @@ $
 78 "Connection failed: %s."
 79 "Connection to remote host failed."
 80 "Couldn't create '%s'"
-81 "Couldn't execute %s\n"
+81 "Couldn't execute %s"
 82 "Couldn't find text"
 83 "Couldn't make a tmp file!\n"
 84 "Encountered printing problem, sorry..."

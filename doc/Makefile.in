@@ -4,12 +4,12 @@ TARGET = gopherd.conf.5 gopherd.8 gopherindex.8 gopher.1 \
 	 gophfilt.1 gopherrc.5
 
 install: $(TARGET)
-	@INSTALL@  gopherd.conf.5 $(MAN5DIR)
-	@INSTALL@  gopherd.8 $(MAN8DIR)
-	@INSTALL@  gopherindex.8 $(MAN8DIR)
-	@INSTALL@  gopher.1 $(MAN1DIR)
-	@INSTALL@  gophfilt.1 $(MAN1DIR)
-	@INSTALL@  gopherrc.5 $(MAN5DIR)
+	@INSTALL@ -m 0644 gopherd.conf.5 $(MAN5DIR)
+	@INSTALL@ -m 0644 gopherd.8 $(MAN8DIR)
+	@INSTALL@ -m 0644 gopherindex.8 $(MAN8DIR)
+	@INSTALL@ -m 0644 gopher.1 $(MAN1DIR)
+	@INSTALL@ -m 0644 gophfilt.1 $(MAN1DIR)
+	@INSTALL@ -m 0644 gopherrc.5 $(MAN5DIR)
 
 all:
 	$(NROFF)    gopherd.conf.5 >gopherd.conf.cat

@@ -131,7 +131,7 @@ $
 78 "Problème de connexion: %s."
 79 "Problème de connexion avec l'autre ordinateur."
 80 "Impossible de créer '%s'"
-81 "Impossible d'exécuter %s\n"
+81 "Impossible d'exécuter %s"
 82 "Recherche infructueuse"
 83 "Impossible de créer le fichier tmp!\n"
 84 "Désolé! Problème d'impression..."

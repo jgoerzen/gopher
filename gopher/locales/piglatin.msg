@@ -127,7 +127,7 @@ $
 78 "onnection-Cay ailed-fay: %s."
 79 "onnection-Cay o-tay emote-ray ost-hay ailed-fay."
 80 "ouldn't-Cay eate-cray '%s'"
-81 "ouldn't-Cay execute-ay %s\n"
+81 "ouldn't-Cay execute-ay %s"
 82 "ouldn't-Cay ind-fay ext-tay"
 83 "ouldn't-Cay ake-may a tmp ile-fay!\n"
 84 "Encountered-ay inting-pray oblem-pray, orry-say..."
