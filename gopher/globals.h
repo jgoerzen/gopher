@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.1 $
- * $Date: 2000/08/19 00:28:56 $
+ * $Revision: 1.2 $
+ * $Date: 2000/08/19 00:43:59 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/globals.h,v $
  * $State: Exp $
  *
@@ -15,8 +15,11 @@
  *********************************************************************
  * Revision History:
  * $Log: globals.h,v $
- * Revision 1.1  2000/08/19 00:28:56  jgoerzen
- * Initial revision
+ * Revision 1.2  2000/08/19 00:43:59  jgoerzen
+ * Fix to use linux standard sys_errlist
+ *
+ * Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+ * Import from UMN Gopher 2.3.1 after GPLization
  *
  * Revision 3.20  1995/11/03  21:18:17  lindner
  * ANSIfication
@@ -135,7 +138,9 @@ extern char **environ;                  /* User environment array */
 #ifdef __NetBSD__
 extern const char *const sys_errlist[];
 #else
+#ifndef linux
 extern char *sys_errlist[];
+#endif
 #endif
 #endif
 
