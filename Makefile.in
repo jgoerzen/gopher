@@ -1,7 +1,7 @@
 #********************************************************************
 # $Author: jgoerzen $
-# $Revision: 1.5 $
-# $Date: 2002/01/09 00:47:05 $
+# $Revision: 1.7 $
+# $Date: 2002/01/09 02:56:09 $
 # $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/Makefile.in,v $
 # $State: Exp $
 #
@@ -15,6 +15,12 @@
 #*********************************************************************
 # Revision History:
 # $Log: Makefile.in,v $
+# Revision 1.7  2002/01/09 02:56:09  jgoerzen
+# Updated archive target again
+#
+# Revision 1.6  2002/01/09 02:53:12  jgoerzen
+# Fixed over-zealous Makefile.in problem.
+#
 # Revision 1.5  2002/01/09 00:47:05  jgoerzen
 # Fixed archive target in Makefile.in
 # MANIFEST updated by make archive
@@ -165,24 +171,27 @@ clean:
 	-rm -f "examples/Sample Directory/wais-index/index."*
 
 distclean: spotless
-	-rm -f config.log config.cache config.h config.status
-	-rm -f gopherd/Makefile object/Makefile gopher/Makefile
-	-rm -f gopher/locales/Makefile doc/Makefile gophfilt/Makefile
 	-rm -f Makefile Makefile.config
 
 spotless: clean
+	-rm -f config.log config.cache config.h config.status
+	-rm -f gopherd/Makefile object/Makefile gopher/Makefile
+	-rm -f gopher/locales/Makefile doc/Makefile gophfilt/Makefile
+	-rm -rf debian/stamp*
+	-rm -rf debian/tmp debian/gopherd
 	-rm -f *~
 
-archive: spotless
+archive: distclean
 	-rm  -f ir ui bin MANIFEST
 	touch MANIFEST
 	HERE=`basename $$PWD`; \
 	echo $$HERE ; \
         cd .. ; \
-	find $$HERE -type f -print |grep -v '.o$$' |grep -v '~$$' |grep -v 'CVS' >$$HERE/MANIFEST ; \
+	find $$HERE -type f -print |grep -v '\.o$$' |grep -v '~$$' |grep -v 'CVS' >$$HERE/MANIFEST ; \
 	tar  -T $$HERE/MANIFEST -czvf $$HERE.tar.gz ;\
 	rm -f $$HERE.zip ; \
-	egrep -v '^test' <$$HERE/MANIFEST | zip -@ $$HERE.zip;\
+	egrep -v '^test' <$$HERE/MANIFEST | zip -@ $$HERE.zip
+	@echo Built $$HERE.tar.gz and $$HERE.zip
 	@echo "Did you remember to update the patchlevel.h Paul?..."
 	@echo "Hmmm...  Hmmmm...."
 
