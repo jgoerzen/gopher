@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: s2mdalle $
- * $Revision: 1.13 $
- * $Date: 2001/01/08 08:19:15 $
+ * $Author: jgoerzen $
+ * $Revision: 1.14 $
+ * $Date: 2001/01/17 17:12:52 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.14  2001/01/17 17:12:52  jgoerzen
+ * More buffer size fixes.
+ *
  * Revision 1.13  2001/01/08 08:19:15  s2mdalle
  * Fixed spelling error on one error message, code cleanup, removal of
  * old useless #if 0'd code.  FIXME: writing ASK data to a file named by
@@ -1935,12 +1938,15 @@ GSfindHTMLtitle(GopherObj *gs, char *filename)
 
      if ((titlep = strcasestr(buf, "<TITLE>")) != NULL) {
 	  char *endtitle;
-	  char titletemp[256];
+	  char titletemp[200];
 
 	  titlep += 7;
 	  if ((endtitle = strcasestr(titlep, "</TITLE>")) != NULL) {
-	       strncpy(titletemp, titlep, (endtitle-titlep));
-	       titletemp[endtitle-titlep] = '\0';
+	       int maxcpysize;
+	       maxcpysize = ((endtitle-titlep) > titletemp) ? titletep :
+		 (endtitle-titlep);
+	       strncpy(titletemp, titlep, maxcpysize);
+	       titletemp[maxcpysize] = '\0';
 
 	       titlep = titletemp;
 	       ZapCRLF(titlep);
@@ -2198,7 +2204,8 @@ GSaddDateNsize(GopherObj *gs, struct stat statbuf)
 
 	       cdate= ctime( &statbuf.st_mtime); /* last mod time */
 	       cdate[ 7]= 0; cdate[10]= 0; cdate[24]= 0;
-	       sprintf( longname, "%s  [%s%s%s, %ukb]", stitle,
+	       snprintf( longname, sizeof(longname),
+			 "%s  [%s%s%s, %ukb]", stitle,
 		      cdate+8,cdate+4,cdate+22, (statbuf.st_size+1023) / 1024);
 	       GSsetTitle(gs,longname);
 	  }
@@ -2268,7 +2275,7 @@ void
 GSrunScripts(GopherObj *gs, char *filename)
 {
      FileIO *fio;
-     char tmpstr[256];
+     char tmpstr[4096];
      char *bname, *sname;
      int i, blocks;
      
@@ -2281,7 +2288,7 @@ GSrunScripts(GopherObj *gs, char *filename)
 	  if (GSfindBlock(gs, bname) == NULL) {
 	       *tmpstr = '\0';
 	       if (!dochroot)
-		    strcpy(tmpstr, Data_Dir);
+		 snprintf(tmpstr, 256, "%s", Data_Dir);
 		    
 	       strcat(tmpstr, sname);
 	       strcat(tmpstr, " ");

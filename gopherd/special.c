@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2001/01/17 16:59:51 $
+ * $Revision: 1.3 $
+ * $Date: 2001/01/17 17:12:52 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/special.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: special.c,v $
+ * Revision 1.3  2001/01/17 17:12:52  jgoerzen
+ * More buffer size fixes.
+ *
  * Revision 1.2  2001/01/17 16:59:51  jgoerzen
  * Reduce buffer size on read from network to 200 bytes to help prevent
  * attacks.
@@ -157,9 +160,9 @@ Specialfile(int sockfd, FILE *fp, char *pathname)
      if ((decoder = iscompressed(pathname)) != NULL) {
 	  dequote1(pathname);
 	  if (dochroot)
-	       sprintf(buf, "%s '%s'", decoder, pathname);
+	       snprintf(buf, sizeof(buf), "%s '%s'", decoder, pathname);
 	  else
-	       sprintf(buf, "%s '%s/%s'", decoder, Data_Dir, pathname);
+	       snprintf(buf, sizeof(buf), "%s '%s/%s'", decoder, Data_Dir, pathname);
 
 	  Debug("Executing decoder %s\n",buf);
 

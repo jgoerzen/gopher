@@ -1,3 +1,9 @@
+gopher (2.3.1-9) unstable; urgency=low
+
+  * Fixed potential buffer overflows.  Closes: #82602.
+
+ -- John Goerzen <jgoerzen@complete.org>  Wed, 17 Jan 2001 12:12:51 -0500
+
 gopher (2.3.1-8) unstable; urgency=low
 
   * Update to latest code in CVS, much from
