@@ -1,5 +1,5 @@
 #moooooooo
-# $Id: gopherd.conf,v 1.5 2001/01/17 18:13:21 jgoerzen Exp $
+# $Id: gopherd.conf.in,v 1.2 2002/01/11 15:04:19 jgoerzen Exp $
 #
 
 #
@@ -123,6 +123,8 @@ viewext: .bin 9 9 application/x-bin
 viewext: .deb 9 9 application/x-debian-package
 viewext: .rpm 9 9 application/octet-stream
 viewext: .mp3 s s audio/x-mpeg
+viewext: .ogg s s audio/x-ogg
+viewext: .mp2 s s audio/x-mpeg
 
 viewext: .ps 0 9 application/postscript
 viewext: .tex 0 0 application/x-tex
@@ -232,7 +234,7 @@ filesep: ^----------------------------------------------
 # If the filename doesn't begin with a slash then the system will look
 # in the default SERVERDIR  
 #
-include: /etc/gopherd/gopherdlocal.conf
+include: @sysconfdir@/gopherd/gopherdlocal.conf
 
 
 #

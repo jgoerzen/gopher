@@ -1,7 +1,7 @@
 #********************************************************************
 # $Author: jgoerzen $
-# $Revision: 1.6 $
-# $Date: 2002/01/09 16:35:25 $
+# $Revision: 1.7 $
+# $Date: 2002/01/11 15:00:52 $
 # $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/Makefile.in,v $
 # $State: Exp $
 #
@@ -15,6 +15,12 @@
 #*********************************************************************
 # Revision History:
 # $Log: Makefile.in,v $
+# Revision 1.7  2002/01/11 15:00:52  jgoerzen
+#   * gopherd.conf's include of gopherdlocal.conf was hardcoded to /etc.
+#     Now use configure's sysconfdir to generate it.  Moved gopherd.conf
+#     to gopherd.conf.in, modified Makefile.in to support this, removed
+#     gopherd.conf from source tree.
+#
 # Revision 1.6  2002/01/09 16:35:25  jgoerzen
 # More bugfixing.
 #
@@ -197,8 +203,10 @@ OBJS	= error.o globals.o gopherd.o daemon.o special.o \
 
 TARGET	= gopherd
 
+gopherd.conf: gopherd.conf.in
+	sed 's,@sysconfdir\@,$(SYSCONFDIR),g' $< > $@
 
-all: $(OBJS) @NEXTOBJS@
+all: $(OBJS) @NEXTOBJS@ gopherd.conf
 	$(CC) @LDFLAGS@ -o $(TARGET) $(OBJS) $(DLOBJS) ../object/libgopher.a  @NEXTOBJS@ @GOPHERDLIBS@ @REGEXLIBS@ @LIBS@
 
 #
@@ -254,6 +262,8 @@ install : all
 	(cd icons; $(MAKE) $(MFLAGS) install)
 
 clean:
-	-rm -f $(TARGET) $(OBJS) $(NEXTOBJ) *.out *~ core gopherindex
+	-rm -f $(TARGET) $(OBJS) $(NEXTOBJ) *.out *~ core gopherindex \
+		gopherd.conf
+
 
 
