@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.3 $
- * $Date: 2001/01/17 21:48:05 $
+ * $Revision: 1.4 $
+ * $Date: 2001/02/26 21:22:08 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/Regex.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: Regex.h,v $
+ * Revision 1.4  2001/02/26 21:22:08  jgoerzen
+ * Updated
+ *
  * Revision 1.3  2001/01/17 21:48:05  jgoerzen
  * Many fixes and tune-ups.  Now compiles cleanly with -Wall -Werror!
  *
@@ -88,9 +91,8 @@
 
 #else
   /** BSD regex.. **/
-/* #  ifdef NeXT */
+ #  ifdef NeXT
 #    include <regex.h>
-/* #  endif */
-#include <regex.h>
+ #  endif 
 
 #endif /* defined(....) */
