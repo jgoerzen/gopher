@@ -5,8 +5,8 @@
 
 #********************************************************************
 # $Author: jgoerzen $
-# $Revision: 1.4 $
-# $Date: 2002/01/09 15:54:48 $
+# $Revision: 1.6 $
+# $Date: 2002/01/09 16:29:26 $
 # $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/Makefile.config.in,v $
 # $State: Exp $
 #
@@ -20,6 +20,12 @@
 #*********************************************************************
 # Revision History:
 # $Log: Makefile.config.in,v $
+# Revision 1.6  2002/01/09 16:29:26  jgoerzen
+# More tweaks.
+#
+# Revision 1.5  2002/01/09 16:25:35  jgoerzen
+# Updated.
+#
 # Revision 1.4  2002/01/09 15:54:48  jgoerzen
 # Modifications to assist with installations
 #
@@ -156,6 +162,7 @@ INSTALL = @INSTALL@
 # Where shall we install stuff?
 #
 PREFIX          = @prefix@
+prefix		= @prefix@
 SYSCONFDIR	= @sysconfdir@
 CLIENTDIR	= $(PREFIX)/bin
 CLIENTLIB       = $(DESTDIR)/$(SYSCONFDIR)/gopher
@@ -164,9 +171,9 @@ SERVERCONFDIR   = $(DESTDIR)/$(SYSCONFDIR)/gopherd
 
 # On SCO manuals are in /usr/man but its easiest to do a 
 # symbolic link from /usr/local/man to /usr/man for this and other packages
-MAN1DIR		= $(PREFIX)/share/man/man1
-MAN5DIR         = $(PREFIX)/share/man/man5
-MAN8DIR		= $(PREFIX)/share/man/man8
+MAN1DIR		= @mandir@/man1
+MAN5DIR         = @mandir@/man5
+MAN8DIR		= @mandir@/man8
 
 
 #-----------------------------------------------------------------
