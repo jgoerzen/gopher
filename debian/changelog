@@ -33,6 +33,9 @@ gopher (3.0.2) unstable; urgency=low
     by Don Fike <fike@cs.utk.edu> on Solaris 2.6. 
   * Updated our copy of install-sh with the one from
     a current automake.
+  * Updated patchlevel.h for release of 3.0.2.
+
+ -- John Goerzen <jgoerzen@complete.org>  Fri, 11 Jan 2002 07:45:00 -0500
 
 gopher (3.0.1) unstable; urgency=low
 

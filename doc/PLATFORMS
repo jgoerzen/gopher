@@ -1,10 +1,13 @@
-$Id: PLATFORMS,v 1.5 2002/01/11 15:55:59 jgoerzen Exp $
+$Id: PLATFORMS,v 1.6 2002/01/11 16:23:32 jgoerzen Exp $
 
 These are the platforms on which gopher is known to work.
 
 Gopher should also work on any Unix/Posix platform (Solaris, SunOS, *BSD,
 Linux, MacOS X, etc).  Please let us know if you have troubles compiling or
 running gopher on your platform by e-mailing gopher@complete.org.
+
+The second column in the list below indicates the latest version of gopher
+that someone has reported about.
 
 Thanks!
 
@@ -17,7 +20,7 @@ FreeBSD/i386 ?.?             3.0.1  requires gmake
 
 FreeBSD/i386 4.4             3.0.1  OK -- Kevin Griffin <vertov@artstar.com>
 
-Linux/alpha 2.2 (Debian sid) 3.0.1  verified for each release by jgoerzen
+Linux/alpha 2.2 (Debian sid) 3.0.2  verified for each release by jgoerzen
 
 Linux/i386 2.2 (Debian sid)  3.0.1  OK -- John Goerzen <jgoerzen@complete.org>
 
@@ -25,10 +28,10 @@ Linux/ppc 2.4 (Debian sid)   3.0.1  OK -- John Goerzen <jgoerzen@complete.org>
 
 Linux/i386 ?.? (Slackware)   3.0.1  
 
-NetBSD/i386 1.5ZA (-current) 3.0.1  verified for each release by jgoerzen
+NetBSD/i386 1.5ZA (-current) 3.0.2  verified for each release by jgoerzen
                                     requires gmake  
 
-Solaris/? 2.6                3.0.1  3.0.1 won't build, try CVS version
+Solaris/i386 2.              3.0.2  OK -- Don Fike <fike@cs.utk.edu>
 
 -----------
 
