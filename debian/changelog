@@ -1,3 +1,9 @@
+gopher (3.0.7) unstable; urgency=low
+
+  * Use Autoconf 2.13 on Debian systems.  Closes: #206183.
+
+ -- John Goerzen <jgoerzen@complete.org>  Mon, 25 Aug 2003 12:59:02 -0500
+
 gopher (3.0.6) unstable; urgency=low
 
   * Deprecated gopherd in favor of PyGopherd.
