@@ -135,6 +135,7 @@ with_wais=1
 AC_ARG_WITH(wais,[  --without-wais          Don't try using WAIS (default: try)], with_wais=1, with_wais=0)
 
 AC_SUBST(GOPHERDLIBS)
+AC_SUBST(REGEXLIBS)
 AC_SUBST(WAISTYPE)
 AC_SUBST(SEARCH)
 
@@ -168,6 +169,8 @@ else
 fi
 LDFLAGS=$OLDLDFLAGS
 
+AC_CHECK_LIB(compat, re_comp, REGEXLIBS="$REGEXLIBS -lcompat")
+
 ######################################################################
 AC_MSG_CHECKING("for NeXT indexing...");
 if test -f /sdmach; then
@@ -189,7 +192,7 @@ dnl Checks for header files.
 AC_HEADER_DIRENT
 AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
-AC_CHECK_HEADERS(crypt.h fcntl.h time.h ctype.h limits.h locale.h sys/types.h sys/stat.h sys/file.h sys/ioctl.h sys/time.h syslog.h unistd.h malloc.h)
+AC_CHECK_HEADERS(term.h re_comp.h regex.h crypt.h fcntl.h time.h ctype.h limits.h locale.h sys/types.h sys/stat.h sys/file.h sys/ioctl.h sys/time.h syslog.h unistd.h malloc.h)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST

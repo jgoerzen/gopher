@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.3 $
- * $Date: 2001/01/17 21:48:05 $
+ * $Revision: 1.4 $
+ * $Date: 2002/01/08 17:36:14 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/globals.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,32 @@
  *********************************************************************
  * Revision History:
  * $Log: globals.h,v $
+ * Revision 1.4  2002/01/08 17:36:14  jgoerzen
+ * Finally builds!
+ *
+ * Changes:
+ *
+ *   * config.h.in: rebuilt by autoheader
+ *
+ *   * configure: rebuilt by autoconf
+ *
+ *   * configure.in:
+ *     * Added REGEXLIBS test for NetBSD -- look for re_comp in -lcompat
+ *     * Added checkes for term.h, re_comp.h, regex.h
+ *
+ *   * gopher/ourutils.c, gopher/CURcurses.c: Use term.h check
+ *
+ *   * gopher/Makefile.in, gopherd/Makefile.in, gophfilt/Makefile.in:
+ *     * Use REGEXLIBS
+ *
+ *   * gopher/globals.h, gopher/gopher.c: Remove sys_errlist
+ *
+ *   * object/GSgopherobj.c: Removed <regex.h> #include, now use
+ *     "Regex.h" that has proper regex determining logic
+ *
+ *   * object/Regex.h: Moved regex.h include to here.  Make it conditional
+ *     based on configure test.  Add conditional re_comp.h include.
+ *
  * Revision 1.3  2001/01/17 21:48:05  jgoerzen
  * Many fixes and tune-ups.  Now compiles cleanly with -Wall -Werror!
  *
@@ -138,13 +164,6 @@ extern int errno;
 
 #ifndef VMS
 extern char **environ;                  /* User environment array */
-#ifdef __NetBSD__
-extern const char *const sys_errlist[];
-#else
-#ifndef linux
-extern char *sys_errlist[];
-#endif
-#endif
 #endif
 
 /*** VMS needs special interrupt and subprocess handling ***/

@@ -1,7 +1,7 @@
 #********************************************************************
 # $Author: jgoerzen $
-# $Revision: 1.1 $
-# $Date: 2000/08/19 00:28:56 $
+# $Revision: 1.2 $
+# $Date: 2002/01/08 17:36:14 $
 # $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gophfilt/Makefile.in,v $
 # $State: Exp $
 #
@@ -15,8 +15,34 @@
 #*********************************************************************
 # Revision History:
 # $Log: Makefile.in,v $
-# Revision 1.1  2000/08/19 00:28:56  jgoerzen
-# Initial revision
+# Revision 1.2  2002/01/08 17:36:14  jgoerzen
+# Finally builds!
+#
+# Changes:
+#
+#   * config.h.in: rebuilt by autoheader
+#
+#   * configure: rebuilt by autoconf
+#
+#   * configure.in:
+#     * Added REGEXLIBS test for NetBSD -- look for re_comp in -lcompat
+#     * Added checkes for term.h, re_comp.h, regex.h
+#
+#   * gopher/ourutils.c, gopher/CURcurses.c: Use term.h check
+#
+#   * gopher/Makefile.in, gopherd/Makefile.in, gophfilt/Makefile.in:
+#     * Use REGEXLIBS
+#
+#   * gopher/globals.h, gopher/gopher.c: Remove sys_errlist
+#
+#   * object/GSgopherobj.c: Removed <regex.h> #include, now use
+#     "Regex.h" that has proper regex determining logic
+#
+#   * object/Regex.h: Moved regex.h include to here.  Make it conditional
+#     based on configure test.  Add conditional re_comp.h include.
+#
+# Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
+# Import from UMN Gopher 2.3.1 after GPLization
 #
 # Revision 1.1  1996/01/06  00:33:31  lindner
 # rel 2.3
@@ -44,7 +70,7 @@ all:	$(TARGET)
 	(cd ..; $(MAKE) $(MFLAGS) objects)
 
 $(TARGET) : $(OBJS) ../object/libgopher.a
-	$(CC) $(LDFLAGS) -o $@ $(OBJS) ../object/libgopher.a @LIBS@ 
+	$(CC) $(LDFLAGS) -o $@ $(OBJS) ../object/libgopher.a @REGEXLIBS@ @LIBS@ 
 
 install : all
 	-mv $(CLIENTDIR)/$(TARGET) $(CLIENTDIR)/$(TARGET).old

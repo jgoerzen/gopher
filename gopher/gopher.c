@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: s2mdalle $
- * $Revision: 1.3 $
- * $Date: 2000/12/27 21:22:46 $
+ * $Author: jgoerzen $
+ * $Revision: 1.4 $
+ * $Date: 2002/01/08 17:36:14 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/gopher.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,32 @@
  *********************************************************************
  * Revision History:
  * $Log: gopher.c,v $
+ * Revision 1.4  2002/01/08 17:36:14  jgoerzen
+ * Finally builds!
+ *
+ * Changes:
+ *
+ *   * config.h.in: rebuilt by autoheader
+ *
+ *   * configure: rebuilt by autoconf
+ *
+ *   * configure.in:
+ *     * Added REGEXLIBS test for NetBSD -- look for re_comp in -lcompat
+ *     * Added checkes for term.h, re_comp.h, regex.h
+ *
+ *   * gopher/ourutils.c, gopher/CURcurses.c: Use term.h check
+ *
+ *   * gopher/Makefile.in, gopherd/Makefile.in, gophfilt/Makefile.in:
+ *     * Use REGEXLIBS
+ *
+ *   * gopher/globals.h, gopher/gopher.c: Remove sys_errlist
+ *
+ *   * object/GSgopherobj.c: Removed <regex.h> #include, now use
+ *     "Regex.h" that has proper regex determining logic
+ *
+ *   * object/Regex.h: Moved regex.h include to here.  Make it conditional
+ *     based on configure test.  Add conditional re_comp.h include.
+ *
  * Revision 1.3  2000/12/27 21:22:46  s2mdalle
  * Added a few #include's to get at prototypes for implicitly defined
  * functions
@@ -1196,9 +1222,6 @@ popgopher(GopherDirObj **ZeDir)
 #else
 extern int h_errno;
 extern int sys_nerr;
-#ifndef linux
-extern char *sys_errlist[];
-#endif
 extern int  errno;
 #endif
 

@@ -190,6 +190,12 @@
 /* Define if you have the <ndir.h> header file.  */
 #undef HAVE_NDIR_H
 
+/* Define if you have the <re_comp.h> header file.  */
+#undef HAVE_RE_COMP_H
+
+/* Define if you have the <regex.h> header file.  */
+#undef HAVE_REGEX_H
+
 /* Define if you have the <sys/dir.h> header file.  */
 #undef HAVE_SYS_DIR_H
 
@@ -213,6 +219,9 @@
 
 /* Define if you have the <syslog.h> header file.  */
 #undef HAVE_SYSLOG_H
+
+/* Define if you have the <term.h> header file.  */
+#undef HAVE_TERM_H
 
 /* Define if you have the <time.h> header file.  */
 #undef HAVE_TIME_H

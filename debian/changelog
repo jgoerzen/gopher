@@ -6,6 +6,19 @@ gopher (2.3.1-15) NOTVALIDFORBUILDING
     and to include unistd.h if it's available.  (NetBSD)
   * Integrated patches from David Allen <s2mdalle@titan.vcu.edu>
     (may have been done earlier anyway)
+  * config.h.in: rebuilt by autoheader
+  * configure: rebuilt by autoconf
+  * configure.in:
+    * Added REGEXLIBS test for NetBSD -- look for re_comp in -lcompat
+    * Added checkes for term.h, re_comp.h, regex.h
+  * gopher/ourutils.c, gopher/CURcurses.c: Use term.h check
+  * gopher/Makefile.in, gopherd/Makefile.in, gophfilt/Makefile.in:
+    * Use REGEXLIBS
+  * gopher/globals.h, gopher/gopher.c: Remove sys_errlist
+  * object/GSgopherobj.c: Removed <regex.h> #include, now use
+    "Regex.h" that has proper regex determining logic
+  * object/Regex.h: Moved regex.h include to here.  Make it conditional
+    based on configure test.  Add conditional re_comp.h include.
 
  -- John Goerzen <jgoerzen@complete.org>
 

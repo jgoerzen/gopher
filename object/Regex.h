@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.4 $
- * $Date: 2001/02/26 21:22:08 $
+ * $Revision: 1.5 $
+ * $Date: 2002/01/08 17:36:14 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/object/Regex.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,32 @@
  *********************************************************************
  * Revision History:
  * $Log: Regex.h,v $
+ * Revision 1.5  2002/01/08 17:36:14  jgoerzen
+ * Finally builds!
+ *
+ * Changes:
+ *
+ *   * config.h.in: rebuilt by autoheader
+ *
+ *   * configure: rebuilt by autoconf
+ *
+ *   * configure.in:
+ *     * Added REGEXLIBS test for NetBSD -- look for re_comp in -lcompat
+ *     * Added checkes for term.h, re_comp.h, regex.h
+ *
+ *   * gopher/ourutils.c, gopher/CURcurses.c: Use term.h check
+ *
+ *   * gopher/Makefile.in, gopherd/Makefile.in, gophfilt/Makefile.in:
+ *     * Use REGEXLIBS
+ *
+ *   * gopher/globals.h, gopher/gopher.c: Remove sys_errlist
+ *
+ *   * object/GSgopherobj.c: Removed <regex.h> #include, now use
+ *     "Regex.h" that has proper regex determining logic
+ *
+ *   * object/Regex.h: Moved regex.h include to here.  Make it conditional
+ *     based on configure test.  Add conditional re_comp.h include.
+ *
  * Revision 1.4  2001/02/26 21:22:08  jgoerzen
  * Updated
  *
@@ -50,6 +76,17 @@
  *
  *
  *********************************************************************/
+
+#include "config.h"
+#ifdef HAVE_REGEX_H
+/* The following define tells glibc in Linux to pull in headers
+   for BSD compatibility regex support. */
+#define _REGEX_RE_COMP
+#include <regex.h>
+#endif
+#ifdef HAVE_RE_COMP_H
+#include <re_comp.h>
+#endif
 
 /*
  * Posix Regular expressions routines
@@ -91,8 +128,6 @@
 
 #else
   /** BSD regex.. **/
- #  ifdef NeXT
-#    include <regex.h>
- #  endif 
+  /* Or Linux... taken care of in the headers. */
 
 #endif /* defined(....) */
