@@ -63,7 +63,7 @@ case "$1" in
 		--exec $DAEMON
 	sleep 1
 	start-stop-daemon --start --quiet --pidfile \
-		/var/run/$NAME.pid --exec $DAEMON
+		/var/run/$NAME.pid --exec $DAEMON -- $DAEMONOPTS
 	echo "$NAME."
 	;;
   *)
