@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2000/12/20 01:19:20 $
+ * $Author: s2mdalle $
+ * $Revision: 1.3 $
+ * $Date: 2000/12/21 05:35:16 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/ftp.h,v $
  * $State: Exp $
  *
@@ -15,6 +15,10 @@
  *********************************************************************
  * Revision History:
  * $Log: ftp.h,v $
+ * Revision 1.3  2000/12/21 05:35:16  s2mdalle
+ * Function prototype argument type change to ParseUnixList from char
+ * **ftppass to char *ftppass
+ *
  * Revision 1.2  2000/12/20 01:19:20  jgoerzen
  * Added patches from David Allen <s2mdalle@titan.vcu.edu>
  *
@@ -112,7 +116,7 @@ int GopherFTPgw(int sockfd, char *ftpstr, CMDobj *cmd);
 int GopherList(FTP *ftp, char *bufptr, char *theName, GopherObj *gs,  
                char *ftpuser, char *ftppass);
 int ParseUnixList(FTP *ftp, char *bufptr, char *IntName, char *theName,
-                  int cols, GopherObj *gs, char *ftpuser, char **ftppass);
+                  int cols, GopherObj *gs, char *ftpuser, char *ftppass);
 int ParseVMSList(FTP  *ftp, char *bufptr, char *IntName, char *theName,
                  GopherObj *gs, char *ftpuser, char *ftppass);         
 int ParseOS2List(FTP *ftp, char *bufptr, char *IntName, char *theName,

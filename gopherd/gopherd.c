@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: s2mdalle $
- * $Revision: 1.6 $
- * $Date: 2000/12/20 18:31:14 $
+ * $Revision: 1.7 $
+ * $Date: 2000/12/21 05:33:20 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/gopherd.c,v $
  * $State: Exp $
  *
@@ -15,7 +15,12 @@
  *********************************************************************
  * Revision History:
  * $Log: gopherd.c,v $
+ * Revision 1.7  2000/12/21 05:33:20  s2mdalle
+ * Miscellaneous code cleanups
+ *
  * Revision 1.6  2000/12/20 18:31:14  s2mdalle
+ *
+ *
  * Just a test-commit.  The only change was in code formatting.
  *
  * Revision 1.5  2000/12/20 01:19:20  jgoerzen
@@ -678,6 +683,7 @@ main(int argc, char *argv[], char *envp[])
      extern int optind;
      int errflag =0;
 
+     void (*fptr_sigabnormalexit)() = sigabnormalexit;
 
      Gtxtlocale(LC_ALL, "");
 
@@ -870,8 +876,8 @@ main(int argc, char *argv[], char *envp[])
      /** We ignore SIGUSR2, so the PID routines can "ping" us **/
      (void) signal(SIGUSR2, SIG_IGN);
      (void) signal(SIGPIPE, SIG_IGN);
-     (void) signal(SIGINT, sigabnormalexit);
-     (void) signal(SIGSEGV, sigabnormalexit);
+     (void) signal(SIGINT,  fptr_sigabnormalexit);
+     (void) signal(SIGSEGV, fptr_sigabnormalexit);
 
      /*** Hmmm, does this look familiar? :-) ***/
      err_init();

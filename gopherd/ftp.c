@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2000/12/20 01:19:20 $
+ * $Author: s2mdalle $
+ * $Revision: 1.3 $
+ * $Date: 2000/12/21 05:33:20 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/ftp.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: ftp.c,v $
+ * Revision 1.3  2000/12/21 05:33:20  s2mdalle
+ * Miscellaneous code cleanups
+ *
  * Revision 1.2  2000/12/20 01:19:20  jgoerzen
  * Added patches from David Allen <s2mdalle@titan.vcu.edu>
  *
@@ -200,7 +203,6 @@
  *
  *********************************************************************/
 
-
 /* -------------------------------------------------
  *     g2fd.c          Gopher to FTP gateway daemon.
  *     Version 0.3 Hacked up: April 1992.  Farhad Anklesaria.
@@ -226,8 +228,6 @@
 #include "command.h"
 
 #include "Debug.h"
-
-
 
 /** Global socket value **/
 static int Gsockfd = -1;  
@@ -301,11 +301,12 @@ FTPconnect(FTP *ftp, char *host)
 {
      int newcontrol;
      char message[256];
-     
+     void (*fptr_FTPcleanup)() = FTPcleanup;
+
      /** Get ready for some cleanup action **/
-     signal(SIGPIPE, FTPcleanup);
-     signal(SIGINT, FTPcleanup);
-     signal(SIGALRM, FTPcleanup);
+     signal(SIGPIPE, fptr_FTPcleanup);
+     signal(SIGINT, fptr_FTPcleanup);
+     signal(SIGALRM, fptr_FTPcleanup);
      
      newcontrol = SOCKconnect(host,21);
 
@@ -1262,10 +1263,14 @@ GopherList(FTP *ftp, char *bufptr, char *theName, GopherObj *gs,
      return(Gzerotype);
 }
 
-
+/* NOTE: 
+ * arg 8 has been changed from char **ftppass to char *ftppass given its
+ * similarity to ParseVMSList and ParseOS2List.  But what gives?  It isn't
+ * even used in the function body.  
+ */
 int
 ParseUnixList(FTP *ftp, char *bufptr, char *IntName, char *theName,
-	      int cols, GopherObj *gs, char *ftpuser, char **ftppass)
+	      int cols, GopherObj *gs, char *ftpuser, char *ftppass)
 {
      int i=0, end=0;
      int gap=0, objsize=0;

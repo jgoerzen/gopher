@@ -1,7 +1,7 @@
 /********************************************************************
- * $Author: jgoerzen $
- * $Revision: 1.2 $
- * $Date: 2000/12/20 01:19:20 $
+ * $Author: s2mdalle $
+ * $Revision: 1.3 $
+ * $Date: 2000/12/21 05:33:20 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/mindexd.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: mindexd.c,v $
+ * Revision 1.3  2000/12/21 05:33:20  s2mdalle
+ * Miscellaneous code cleanups
+ *
  * Revision 1.2  2000/12/20 01:19:20  jgoerzen
  * Added patches from David Allen <s2mdalle@titan.vcu.edu>
  *
@@ -222,9 +225,9 @@ static void
 HandleQuery(int sockfd, char *queryline )
 {
      char      answerline[512];
-     int       length_answer;
-     int       i;
-     int       childpid;
+     int       length_answer=0;
+     int       i=0;
+     int       childpid=0;
      Portawait status;
 
      GopherObj *gs;
