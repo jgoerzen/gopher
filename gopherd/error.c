@@ -1,7 +1,7 @@
 /********************************************************************
  * $Author: jgoerzen $
- * $Revision: 1.4 $
- * $Date: 2001/01/17 19:30:25 $
+ * $Revision: 1.5 $
+ * $Date: 2002/01/08 17:27:39 $
  * $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/error.c,v $
  * $State: Exp $
  *
@@ -15,6 +15,9 @@
  *********************************************************************
  * Revision History:
  * $Log: error.c,v $
+ * Revision 1.5  2002/01/08 17:27:39  jgoerzen
+ * Removed sys_errlist definition; it seems to be prevalent in modern OSs.
+ *
  * Revision 1.4  2001/01/17 19:30:25  jgoerzen
  * Change many sprintf -> snprintf
  *
@@ -269,13 +272,6 @@ void my_perror(void)
 
 extern int errno;		/* UNIX error number */
 extern int sys_nerr;		/* # of error message strings in sys table */
-#ifdef __NetBSD__
-extern const char *const sys_errlist[];	/* the system error message table */
-#else
-#ifndef linux
-extern char *sys_errlist[];	/* the system error message table */
-#endif
-#endif
 
 #ifdef SYS5
 int t_errno;
