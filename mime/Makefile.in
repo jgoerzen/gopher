@@ -5,14 +5,9 @@ VPATH = @srcdir@
 include ../Makefile.config
 
 
-CCFLAGS	= $(OPT) @CFLAGS@ $(INTLOPTS) $(DEBUGGING) $(WAISTYPE) $(SOCKSFLAGS) -I.. -I$(srcdir)  -I$(top_srcdir) 
+CCFLAGS	= $(OPT) @CFLAGS@ $(INTLOPTS) $(DEBUGGING) $(WAISTYPE) $(SOCKSFLAGS) -I$(top_srcdir) $(GLIB_CFLAGS)
 
-OBJS	= STRstring.o GDgopherdir.o GSgopherobj.o \
-	  DAarray.o   VIews.o       BLblock.o \
-	  Sockets.o   util.o        compatible.o \
-	  url.o       Debug.o       Regex.o \
-	  fileio.o    Locale.o      RBTree.o
-
+OBJS	= mimetypes.o
 
 TARGET	= libgophmime.a libgophmime.so.0.1
 
@@ -40,7 +35,7 @@ shared:
 # Stuff for shared libraries
 #
 
-libgopher.so.0.1: $(OBJS)
+libgophmime.so.0.1: $(OBJS)
 	@-if [ -d shared-sun ]; then \
 		echo "Building shared library $@"; \
 		cd shared-sun; \
@@ -49,14 +44,14 @@ libgopher.so.0.1: $(OBJS)
 		mv $@ ..; \
 	fi
 
-libgopher.sa.0.1: $(OBJS)
+libgophmime.sa.0.1: $(OBJS)
 	;
 
 
-libgopher.a: $(OBJS)
-	rm -f libgopher.a
-	ar rcv libgopher.a $(OBJS)
-	@RANLIB@ libgopher.a || true
+libgophmime.a: $(OBJS)
+	rm -f libgophmime.a
+	ar rcv libgophmime.a $(OBJS)
+	@RANLIB@ libgophmime.a || true
 
 clean:
 	-rm -f $(TARGET) $(OBJS) *.out *~ core TAGS \
@@ -80,7 +75,7 @@ Locale.o: $(srcdir)/Locale.h $(srcdir)/Locale.c
 install:
 	@-if [ -f *.so.* ]; then \
 	  echo "Installing Sun shared gopher library" ;\
-	  @INSTALL@ libgopher.so.0.1 $(CLIENTLIB); \
-	  @INSTALL@ libgopher.a $(CLIENTLIB); \
+	  @INSTALL@ libgophmime.so.0.1 $(CLIENTLIB); \
+	  @INSTALL@ libgophmime.a $(CLIENTLIB); \
 	fi
 

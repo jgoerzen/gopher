@@ -1,186 +1,22 @@
 #********************************************************************
 # $Author: jgoerzen $
-# $Revision: 1.9 $
-# $Date: 2002/03/19 20:42:48 $
+# $Revision: 1.11 $
+# $Date: 2002/03/20 20:47:29 $
 # $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/Makefile.in,v $
 # $State: Exp $
 #
-# Paul Lindner, University of Minnesota CIS.
-#
-# Copyright 1991, 1992 by the Regents of the University of Minnesota
-# see the file "Copyright" in the distribution for conditions of use.
+# 
+##COPYRIGHT##
+# Copyright (C) 1991-2000  University of Minnesota
+# Copyright (C) 2000-2002  John Goerzen and other developers
+# See the file "Copyright" in the distribution for conditions of use.
+##COPYRIGHT##
+
 #********************************************************************
 # MODULE: Makefile
 # Makefile for gopher server
-#*********************************************************************
-# Revision History:
-# $Log: Makefile.in,v $
-# Revision 1.9  2002/03/19 20:42:48  jgoerzen
-#   * Removed the DOMAIN configure support, DOMAIN_NAME in gopherd,
-#     backupdomain in Socket.c, etc.  This should prevent the no.domain.name
-#     problem that people have been seeing.  Regenerated configure stuff.
-#
-# Revision 1.8  2002/01/11 15:55:59  jgoerzen
-#   * Using $(INSTALL) from subdirectories broke on systems
-#     where install-sh was used because $(INSTALL) would always
-#     resolve to ./install-sh.  Replaced all instances of
-#     $(INSTALL) with @INSTALL@ (autoconf would provide the correct
-#     path) and removed INSTALL from Makefile.config.  Reported
-#     by Don Fike <fike@cs.utk.edu> on Solaris 2.6.
-#   * Updated our copy of install-sh with the one from
-#     a current automake.
-#
-# Revision 1.7  2002/01/11 15:00:52  jgoerzen
-#   * gopherd.conf's include of gopherdlocal.conf was hardcoded to /etc.
-#     Now use configure's sysconfdir to generate it.  Moved gopherd.conf
-#     to gopherd.conf.in, modified Makefile.in to support this, removed
-#     gopherd.conf from source tree.
-#
-# Revision 1.6  2002/01/09 16:35:25  jgoerzen
-# More bugfixing.
-#
-# Revision 1.5  2002/01/09 16:19:40  jgoerzen
-# Updated (bugfix)
-#
-# Revision 1.4  2002/01/09 15:54:48  jgoerzen
-# Modifications to assist with installations
-#
-# Revision 1.3  2002/01/08 17:36:14  jgoerzen
-# Finally builds!
-#
-# Changes:
-#
-#   * config.h.in: rebuilt by autoheader
-#
-#   * configure: rebuilt by autoconf
-#
-#   * configure.in:
-#     * Added REGEXLIBS test for NetBSD -- look for re_comp in -lcompat
-#     * Added checkes for term.h, re_comp.h, regex.h
-#
-#   * gopher/ourutils.c, gopher/CURcurses.c: Use term.h check
-#
-#   * gopher/Makefile.in, gopherd/Makefile.in, gophfilt/Makefile.in:
-#     * Use REGEXLIBS
-#
-#   * gopher/globals.h, gopher/gopher.c: Remove sys_errlist
-#
-#   * object/GSgopherobj.c: Removed <regex.h> #include, now use
-#     "Regex.h" that has proper regex determining logic
-#
-#   * object/Regex.h: Moved regex.h include to here.  Make it conditional
-#     based on configure test.  Add conditional re_comp.h include.
-#
-# Revision 1.2  2000/08/19 01:32:56  jgoerzen
-# Fixed to use separate conf dir
-#
-# Revision 1.1.1.1  2000/08/19 00:28:56  jgoerzen
-# Import from UMN Gopher 2.3.1 after GPLization
-#
-# Revision 3.1  1996/01/04  18:30:50  lindner
-# Updates for autoconf
-#
-# Revision 3.28  1995/11/06  20:53:59  lindner
-# Fixed install prob
-#
-# Revision 3.27  1995/09/28  21:11:27  lindner
-# More fixes...
-#
-# Revision 3.26  1995/09/25  22:14:43  lindner
-# Blobbo
-#
-# Revision 3.25  1995/09/25  05:02:29  lindner
-# Convert to ANSI C
-#
-# Revision 3.24  1995/06/30  20:50:29  lindner
-# Add group support
-#
-# Revision 3.23  1995/06/14  18:43:53  lindner
-# Add install for icons
-#
-# Revision 3.22  1994/12/11  18:44:30  lindner
-# Add installation of gopherd scripts
-#
-# Revision 3.21  1994/12/10  06:11:18  lindner
-# Remove the regexp.a library..
-#
-# Revision 3.20  1994/12/09  18:46:34  lindner
-# re-add libftw.a
-#
-# Revision 3.19  1994/11/29  05:08:41  lindner
-# Use make macros so gmake works
-#
-# Revision 3.18  1994/11/24  08:08:58  lindner
-# Install gopherdlocal.conf file the first time only...
-#
-# Revision 3.17  1994/11/18  22:26:01  lindner
-# Fix for sf on NeXT machines
-#
-# Revision 3.16  1994/11/18  22:06:57  lindner
-# Better sf wais stuff
-#
-# Revision 3.15  1994/11/18  21:40:49  lindner
-# Simplification for FreeWAIS-sf
-#
-# Revision 3.14  1994/11/07  19:55:48  lindner
-# Modifications to use FreeWAIS-sf package (see Makefile.config)
-#
-# Revision 3.13  1994/08/03  03:35:20  lindner
-# One bug
-#
-# Revision 3.12  1994/08/03  03:33:24  lindner
-# Include files in SERVERDIR
-#
-# Revision 3.11  1994/07/19  20:28:45  lindner
-# Add INTLOPTS
-#
-# Revision 3.10  1994/06/29  05:43:37  lindner
-# Remove tix.o, add AUTH.o
-#
-# Revision 3.9  1994/03/17  04:29:13  lindner
-# Add pid.o
-#
-# Revision 3.8  1993/08/10  20:26:21  lindner
-# Added fi for gopherindex install
-#
-# Revision 3.7  1993/08/05  22:20:19  lindner
-# Only install gopherindex if built
-#
-# Revision 3.6  1993/08/04  22:12:01  lindner
-# Rebuild server if patchlevel.h changes
-#
-# Revision 3.5  1993/07/27  05:27:34  lindner
-# Mondo Debug overhaul from Mitra
-#
-# Revision 3.4  1993/07/07  19:41:00  lindner
-# removed popen stuff
-#
-# Revision 3.3  1993/03/26  19:45:38  lindner
-# Fix for parameters to makegopherindex script
-#
-# Revision 3.2  1993/03/24  20:17:00  lindner
-# Additions for gopherindex
-#
-# Revision 3.1.1.1  1993/02/11  18:02:50  lindner
-# Gopher+1.2beta release
-#
-# Revision 1.5  1993/02/09  21:35:55  lindner
-# Fixed install target, save old gopherd.conf file
-#
-# Revision 1.4  1992/12/29  23:28:31  lindner
-# Added mindexd.o to OBJS for fan-out integration.
-#
-# Revision 1.3  1992/12/21  20:44:37  lindner
-# Added kernutils.o to OBJS (from mtm)
-#
-# Revision 1.2  1992/12/21  20:21:49  lindner
-# Added ../bin/libftw.a to WAISGATEOBJS..
-#
-# Revision 1.1  1992/12/10  23:15:15  lindner
-# gopher 1.1 release
-#
-#
-#********************************************************************/
+#********************************************************************
+
 include ../Makefile.config
 
 srcdir = @srcdir@

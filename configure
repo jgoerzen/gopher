@@ -2254,7 +2254,7 @@ rm -f conftest*
 
 if test ${no_glib}x = yesx
 then
-  { echo "configure: error: Cannot find glib.  Check config.log and see doc/PLATFORMS" 1>&2; exit 1; }
+  { echo "configure: error: Cannot find glib.  Check config.log and see doc/INSTALL" 1>&2; exit 1; }
 fi
 
 
@@ -4419,7 +4419,7 @@ done
 ac_given_srcdir=$srcdir
 ac_given_INSTALL="$INSTALL"
 
-trap 'rm -fr `echo "Makefile Makefile.config gopherd/Makefile object/Makefile gopher/Makefile gopher/locales/Makefile doc/Makefile gophfilt/Makefile config.h" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
+trap 'rm -fr `echo "Makefile Makefile.config gopherd/Makefile mime/Makefile object/Makefile gopher/Makefile gopher/locales/Makefile doc/Makefile gophfilt/Makefile config.h" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
 EOF
 cat >> $CONFIG_STATUS <<EOF
 
@@ -4522,7 +4522,7 @@ EOF
 
 cat >> $CONFIG_STATUS <<EOF
 
-CONFIG_FILES=\${CONFIG_FILES-"Makefile Makefile.config gopherd/Makefile object/Makefile gopher/Makefile gopher/locales/Makefile doc/Makefile gophfilt/Makefile"}
+CONFIG_FILES=\${CONFIG_FILES-"Makefile Makefile.config gopherd/Makefile mime/Makefile object/Makefile gopher/Makefile gopher/locales/Makefile doc/Makefile gophfilt/Makefile"}
 EOF
 cat >> $CONFIG_STATUS <<\EOF
 for ac_file in .. $CONFIG_FILES; do if test "x$ac_file" != x..; then
