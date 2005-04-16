@@ -1,0 +1,298 @@
+!********************************************************************
+! wilkinson/macrides
+! 1.2
+! 1994/12/18
+!
+! J.Lance Wilkinson, Penn State University C&IS - LCS.
+! F. Macrides, Worcester Foundation for Expermimental Biology
+!********************************************************************
+! MODULE: message.tpu
+! conversion editor for VMS "internationalized" messages
+! converts *.msg file to *.vms$msg source code
+!*********************************************************************
+! Revision History:
+! message.tpu,v
+! Revision 1.2  1994/12/18 macrides
+! Added initstring_to_platform() and initstring_to_facility() procedures
+!   as replacements for language_to_facility().  The latter would go out
+!   of range after two letters, and did not guarantee unique facility
+!   values.  The new initstring procedures accept both the platform (VAX
+!   or AXP) and facility value (0 - 2047) as a concatenated string passed
+!   via the /init qualifer.  The MAKE.COM procedure increments the facility
+!   value by 1 for each successive call to MESSAGE.TPU.
+!
+! Revision 1.1  1994/6/1  wilkinson
+! Initial revision
+!
+!********************************************************************/
+
+Procedure merge_text(xxx)
+
+	position(end_of(vms_msgs));
+	copy_text(xxx);
+	update(ALL);
+
+endprocedure !merge_text
+
+Procedure process_line(ln)
+!
+!	Process a line of the format <num><whitespace><qchar><text><qchar>
+!
+  LOCAL work, work_rng, whitespace, mcode, x, y, z, i, j;
+
+  On_Error
+	delete(work);
+	return(false);
+  EndOn_Error;
+
+  work := create_buffer("process_line_buffer");
+  position(beginning_of(work));
+  copy_text(ln);
+  position(beginning_of(work));
+  whitespace := search_quietly(any(" "+ASCII(9)), FORWARD, EXACT, work);
+  if whitespace = 0 then
+    delete(work);
+    return(false);
+    endif;
+  position(beginning_of(whitespace));
+  split_line;
+  position(beginning_of(work));
+  mcode_txt := erase_line;
+  edit(mcode_txt,TRIM);
+  mcode := int(mcode_txt);
+  if mcode = 0 then
+    delete(work);
+    return(false);
+    endif;
+  whitespace := search_quietly(qchar, FORWARD, EXACT, work);
+  if whitespace = 0 then
+    delete(work);
+    return(false);
+    endif;
+  position(end_of(whitespace));
+  move_horizontal(1);
+  split_line;
+  position(beginning_of(work));
+  erase_line;
+  position(end_of(work));
+  whitespace := search_quietly(qchar, REVERSE, EXACT, work);
+  if whitespace = 0 then
+     delete(work);
+     return(false);
+     endif;
+  position(beginning_of(whitespace));
+  split_line;
+  erase_line;
+!
+!	The buffer work now has the text of the message.  It might contain
+!	C language character constants like '\n' and '\"' which must be
+!	converted to the single character.
+!
+  position(beginning_of(work));
+  work_rng := create_range(beginning_of(work),end_of(work),none);
+  whitespace := create_range(beginning_of(work),beginning_of(work),none);
+loop;
+  work_rng := create_range(mark(free_cursor),end_of(work_rng),none);
+  whitespace := search_quietly("\", FORWARD, EXACT, work_rng);
+  exitif whitespace = 0;
+  position(end_of(whitespace));
+  move_horizontal(1);
+  x := CURRENT_CHARACTER;
+  i := 0;
+  j := 0;
+  case x
+    ['n']:		j := 2;	i := 10;
+    ['t']:		j := 2;	i := 9;
+    ['b']:		j := 2;	i := 8;
+    ['r']:		j := 2;	i := 13;
+    ['f']:		j := 2;	i := 12;
+    ['\']:		j := 1;
+    ['"']:		j := 1;
+    ["'"]:		j := 1;
+['0','1','2','3',
+    '4','5','6','7']:	j := 2;	i := int(x);
+			move_horizontal(1);
+			case CURRENT_CHARACTER from '0' to '7'
+			[inrange]:  j := 3;
+				    i := (i * 8) + int(CURRENT_CHARACTER);
+				    move_horizontal(1);
+				    case CURRENT_CHARACTER from '0' to '7'
+				[inrange]:  j := 4;
+					    i := (i * 8) + 
+						int(CURRENT_CHARACTER);
+				    endcase;
+			endcase;
+    [outrange]:		j := 0;
+  endcase;
+  position(end_of(whitespace));
+  if j <> 0 then
+	x := erase_character(j);
+	if j > 1 then
+	    copy_text(ascii(i));
+        else
+	    move_horizontal(1);
+	endif;
+      else
+            move_horizontal(1);
+      endif;
+  position(mark(free_cursor));
+  endloop;
+
+  i := 1;
+loop;
+  x := substr(">""'*",i,1);
+  exitif x = "*";
+  position(beginning_of(work));
+  whitespace := search_quietly(x, FORWARD, EXACT, work);
+  exitif whitespace = 0;
+  i := i + 1;
+  endloop;
+  if x = "*" then
+     z := "!>>> Error; can't build a message text from this:  ";
+  else
+     z := "";
+     endif;
+  y := x;
+  if x = ">" then
+     x := "<";
+  endif;
+ 
+!
+!  At this point, mcode contains an integer message number, while
+!	the buffer work contains the message text.  x, y and z contain
+!	delimiter texts.
+
+  if hiwater <> mcode then
+     merge_text(fao(" .BASE         !ZL",mcode));
+     endif;
+
+  position(beginning_of(work));
+  merge_text(fao("!AS!AS!ZL     !AS!AS!AS",z,language,mcode,x,CURRENT_LINE,y));
+  hiwater := mcode + 1;
+  delete(work);
+  return(false);
+     
+endprocedure !process_line
+
+procedure initstring_to_platform(i)
+	Local x, platform, work;
+	x := i;
+	edit(x, COLLAPSE, UPPER, OFF);
+	work := create_buffer("initstring_to_platform_buffer");
+	position(beginning_of(work));
+	copy_text(x);
+	position(beginning_of(work));
+	platform := erase_character(3);
+	delete(work);
+	return platform;
+
+endProcedure;	!initstring_to_platform
+
+procedure initstring_to_facility(i)
+	Local x, work;
+	x := i;
+	edit(x, COLLAPSE, UPPER, OFF);
+	work := create_buffer("initstring_to_facility_buffer");
+	position(beginning_of(work));
+	copy_text(x);
+	position(beginning_of(work));
+	x := erase_character(3);
+	position(beginning_of(work));
+	facility := erase_character(4);
+	delete(work);
+	return facility;
+
+endProcedure;	!initstring_to_facility
+
+Procedure process_messages
+	Local ln, architecture;
+!
+!  Process the the input file
+!
+  qchar := '"';
+  hiwater := 0;
+
+  w0 := create_window(1,get_info(SCREEN,"visible_length"),off);
+  w1 := create_window(1,get_info(w0,"original_length")/2,on);
+  set(status_line,w1,special_graphics,fao("!80*q"));
+
+  infile := get_info(COMMAND_LINE,"file_name");
+  if infile = "" then
+    message("ABORT! No input file specified...");
+    abort;
+    endif;
+  language := file_parse(infile,"","",NAME);
+  if (get_info(command_line,"initialization")) then
+    initstring := get_info(command_line,"initialization_file");
+  else
+    message("ABORT! No init string specified...");
+    abort;
+    endif;
+  facility := initstring_to_facility(initstring);
+  outfile := get_info(COMMAND_LINE,"output_file");
+  unix_msgs := create_buffer("unix", infile);
+  map(w0,unix_msgs);
+  vms_msgs := create_buffer("vms");
+  map(w1,vms_msgs);
+  set(OUTPUT_FILE,vms_msgs,outfile);
+  update(ALL);
+
+!
+! Prime the pump
+!
+  position(end_of(unix_msgs));
+  split_line;
+  copy_text("$end_of_msgs ");
+  position(beginning_of(unix_msgs));
+  update(ALL);
+  merge_text(fao(" .TITLE        Gopher Messages from !AS",infile));
+  merge_text(" .IDENT        'GOPHER 2.1'");
+  merge_text(fao(" .FACILITY     GOPHER,!AS/PREFIX=GOPHER_",facility));
+  merge_text(fao(" .LITERAL      GOPHER_LANG_!AS=!AS",language,facility));
+  merge_text(" .SEVERITY     INFORMATIONAL");
+
+loop;
+  position(beginning_of(unix_msgs));
+  ln := erase_line;
+  update(ALL);
+  exitif ln = "$end_of_msgs ";		! $end_of_msgs pseudo-directive...
+  if substr(ln,1,1) = "$" then
+     merge_text(fao("!! !AS",ln));
+     endif;
+  if substr(ln,1,7) = "$quote " then	! $quote Directive ?
+       edit(ln,COMPRESS,OFF);
+       qchar := substr(ln,8,1);
+  else
+    edit(ln,TRIM);
+    if substr(ln,1,1) <> "$" then
+       if substr(ln,1,1) <> "" then
+          process_line(ln);
+	  endif;
+       endif;
+    endif;
+  endloop;
+
+  delete(unix_msgs);
+  merge_text(" .END");
+  erase_line;
+  write_file(vms_msgs);
+  delete(vms_msgs);
+  vms_msgs := create_buffer("vms");
+  map(w1,vms_msgs);
+  outfile := file_parse(outfile,"","",NAME) + ".opt";
+  set(OUTPUT_FILE,vms_msgs,outfile);
+  merge_text("GSMATCH=ALWAYS,0,0");
+  architecture := "UNIVERSAL=GOPHER_LANG_!AS";
+  ln := initstring_to_platform(initstring);
+  edit(ln,collapse,upper);
+  if (ln<>"VAX") then
+     architecture := "SYMBOL_VECTOR=(GOPHER_LANG_!AS=DATA)";
+     endif;
+  merge_text(fao(architecture,language));
+  write_file(vms_msgs);
+  delete(vms_msgs);
+  quit;
+
+endProcedure;	!process_messages
+
+process_messages;

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo "This is a test of a shell script"
+echo "You could put all sorts of cool stuff here"

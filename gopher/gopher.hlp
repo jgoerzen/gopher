@@ -1,0 +1,68 @@
+                       Quick Gopher Help
+                       -----------------
+
+Moving around Gopherspace
+-------------------------
+Use the arrow keys or vi/emacs equivalent to move around.
+
+Right, Return .......:  "Enter"/Display current item.
+Left, u .............:  "Exit" current item/Go up a level.
+Down ................:  Move to next line.
+Up ..................:  Move to previous line.
+>, +, Pgdwn, Space ..:  View next page.
+<, -, Pgup, b .......:  View previous page.
+0-9 .................:  Go to a specific line.
+m ...................:  Go back to the main menu.
+
+Bookmarks
+---------
+a : Add current item to the bookmark list.
+A : Add current directory/search to bookmark list.
+v : View bookmark list.
+d : Delete a bookmark/directory entry.
+
+Other commands
+--------------
+q : Quit with prompt.
+Q : Quit unconditionally.
+s : Save current item to a file.
+S : Save current menu listing to a file.
+D : Download a file.
+r : goto root menu of current item.
+R : goto root menu of current menu.
+= : Display technical information about current item.
+^ : Display technical information about current directory.
+o : Open a new gopher server.
+O : Change options.
+f : Connect to an anonymous FTP server.
+w : Connect to an http, gopher, FTP, telnet or tn3270 URL
+/ : Search for an item in the menu.
+n : Find next search item.
+g : "Gripe" via email to administrator of current item.
+L : Change language of messages (VMS).
+!, $ : Shell Escape (Unix) or Spawn subprocess (VMS).
+Ctrl-L, Ctrl-R, Ctrl-W : Redraw (Wipe) the screen.
+Ctrl-T : Show host's local date and time.
+
+Gopher objects:
+Item tag    Type      Description
+--------------------------------------------
+(none)        0       file
+/             1       directory
+<)            s       sound file
+<Picture>    I,g      image file
+<Movie>       ;       movie file
+<HQX>         4       BinHexed Macintosh file
+<Bin>         9       binary file
+<PC Bin>      5       DOS binary file
+<CSO>         2       CSO (ph/qi) phone-book server
+<TEL>         8       telnet connection
+<3270>        T       telnet connection (IBM 3270 emulation)
+<MIME>        M       Multi-purpose Internet Mail Extensions file
+<HTML>        h       HyperText Markup Language file
+<?>           7       index-search item
+<??>        (none)    ASK form
+
+The Gopher development team hopes that you find this software useful.
+If you find what you think is a bug, please report it to us by sending
+e-mail to "gopher@boombox.micro.umn.edu".

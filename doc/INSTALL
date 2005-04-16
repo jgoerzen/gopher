@@ -1,0 +1,211 @@
+$Id: INSTALL,v 1.1 2000/08/19 00:28:56 jgoerzen Exp $
+
+Installation Instructions for Unix Gopher.
+------------------------------------------
+
+Almost all configuration is now done using the 'configure' shell
+script at the top level of the distribution.  To get a list of options
+that configure supports, type the following command
+
+  configure --help
+
+Parameters that used to be hand edited into Makefile.config can now be
+set with command line switches.  For full text indexing consult the
+section at the end of this document.
+
+
+
+Basic Installation
+==================
+
+   The `configure' shell script attempts to guess correct values for
+various system-dependent variables used during compilation.  It uses
+those values to create a `Makefile' in each directory of the package.
+It may also create one or more `.h' files containing system-dependent
+definitions.  Finally, it creates a shell script `config.status' that
+you can run in the future to recreate the current configuration, a file
+`config.cache' that saves the results of its tests to speed up
+reconfiguring, and a file `config.log' containing compiler output
+(useful mainly for debugging `configure').
+
+   If you need to do unusual things to compile the package, please try
+to figure out how `configure' could check whether to do them, and mail
+diffs or instructions to the address given in the `README' so they can
+be considered for the next release.  If at some point `config.cache'
+contains results you don't want to keep, you may remove or edit it.
+
+   The file `configure.in' is used to create `configure' by a program
+called `autoconf'.  You only need `configure.in' if you want to change
+it or regenerate `configure' using a newer version of `autoconf'.
+
+The simplest way to compile this package is:
+
+  1. `cd' to the directory containing the package's source code and type
+     `./configure' to configure the package for your system.  If you're
+     using `csh' on an old version of System V, you might need to type
+     `sh ./configure' instead to prevent `csh' from trying to execute
+     `configure' itself.
+
+     Running `configure' takes awhile.  While running, it prints some
+     messages telling which features it is checking for.
+
+  2. Type `make' to compile the package.
+
+  3. Optionally, type `make check' to run any self-tests that come with
+     the package.
+
+  4. Type `make install' to install the programs and any data files and
+     documentation.
+
+  5. You can remove the program binaries and object files from the
+     source code directory by typing `make clean'.  To also remove the
+     files that `configure' created (so you can compile the package for
+     a different kind of computer), type `make distclean'.  There is
+     also a `make maintainer-clean' target, but that is intended mainly
+     for the package's developers.  If you use it, you may have to get
+     all sorts of other programs in order to regenerate files that came
+     with the distribution.
+
+Compilers and Options
+=====================
+
+   Some systems require unusual options for compilation or linking that
+the `configure' script does not know about.  You can give `configure'
+initial values for variables by setting them in the environment.  Using
+a Bourne-compatible shell, you can do that on the command line like
+this:
+     CC=c89 CFLAGS=-O2 LIBS=-lposix ./configure
+
+Or on systems that have the `env' program, you can do it like this:
+     env CPPFLAGS=-I/usr/local/include LDFLAGS=-s ./configure
+
+
+Compiling For Multiple Architectures
+====================================
+
+   You can compile the package for more than one kind of computer at the
+same time, by placing the object files for each architecture in their
+own directory.  To do this, you must use a version of `make' that
+supports the `VPATH' variable, such as GNU `make'.  `cd' to the
+directory where you want the object files and executables to go and run
+the `configure' script.  `configure' automatically checks for the
+source code in the directory that `configure' is in and in `..'.
+
+   If you have to use a `make' that does not supports the `VPATH'
+variable, you have to compile the package for one architecture at a time
+in the source code directory.  After you have installed the package for
+one architecture, use `make distclean' before reconfiguring for another
+architecture.
+
+Installation Names
+==================
+
+   By default, `make install' will install the package's files in
+`/usr/local/bin', `/usr/local/man', etc.  You can specify an
+installation prefix other than `/usr/local' by giving `configure' the
+option `--prefix=PATH'.
+
+   You can specify separate installation prefixes for
+architecture-specific files and architecture-independent files.  If you
+give `configure' the option `--exec-prefix=PATH', the package will use
+PATH as the prefix for installing programs and libraries.
+Documentation and other data files will still use the regular prefix.
+
+   In addition, if you use an unusual directory layout you can give
+options like `--bindir=PATH' to specify different values for particular
+kinds of files.  Run `configure --help' for a list of the directories
+you can set and what kinds of files go in them.
+
+   If the package supports it, you can cause programs to be installed
+with an extra prefix or suffix on their names by giving `configure' the
+option `--program-prefix=PREFIX' or `--program-suffix=SUFFIX'.
+
+
+Optional Features
+=================
+
+   Some packages pay attention to `--enable-FEATURE' options to
+`configure', where FEATURE indicates an optional part of the package.
+They may also pay attention to `--with-PACKAGE' options, where PACKAGE
+is something like `gnu-as' or `x' (for the X Window System).  The
+`README' should mention any `--enable-' and `--with-' options that the
+package recognizes.
+
+   For packages that use the X Window System, `configure' can usually
+find the X include and library files automatically, but if it doesn't,
+you can use the `configure' options `--x-includes=DIR' and
+`--x-libraries=DIR' to specify their locations.
+
+
+
+----------------------------------------------------------------------
+
+
+Setting up a multi-lingual gopher client
+----------------------------------------
+
+If you have any users who don't speak English fluently, you may want to
+check out the gopher client's multiple language support.  To do this you
+need to turn on the -DGINTERNATIONAL option in the Makefile.config before
+compiling, and then follow the directions in the gopher/locales/README to
+install the language data files for the client.
+
+
+Installing external programs for the gopher client
+--------------------------------------------------
+
+The gopher client depends on certain external programs for some
+functionality.  Most of these will be present on any good unix system.
+However you may need to install the following:
+
+  For tn3270 connections you'll need tn3270 or a version of telnet
+that understands tn3270 control streams.
+
+  For downloading in the client you'll need two distributions, kermit
+and zmodem.  The binaries are "kermit", "sz", "sb", and "sx".
+
+  To view metamail documents you'll need mm.tar.Z available from
+thumper.bellcore.com.
+
+  To view graphics you'll X windows and xloadimage or xv or any other
+generic graphics program.
+
+  To listen to sounds you can use the "play" command on SunOS or the
+play command in the misc directory for the NeXT
+
+
+Full Text Indexing Setup for NeXTs (NeXTos 2.0, 2.1, 2.2)
+---------------------------------------------------------
+
+First get the libtext and btree libraries.  (Available as a separate
+tar file called NeXTtext.tar.Z).  The files libbtree.a and libtext.a
+are in this tar file, along with two directories "btree" and "text".
+Copy the library (.a) files to /usr/local/lib and type 
+
+   ranlib /usr/local/lib/libbtree.a
+   ranlib /usr/local/lib/libtext.a
+
+Then copy the directories btree and text into /usr/include
+
+
+Full Text Indexing Setup for WAIS
+---------------------------------
+
+First get the wais distribution.  If you don't have wais, ftp to
+"gopher.boombox.micro.umn.edu" and get
+/pub/gopher/Unix/freeWAIS-sf-2.0.tar.gz 
+
+Untar this and edit the makefiles appropriate for your system.
+
+After you untar the distribution, go into the top level WAIS directory
+and make the distribution.  Refer to the instructions in the WAIS
+distribution.
+
+Now go to the top level of the gopher distribution and do the following:
+
+% cd {GopherSrc}
+% ln -s {WaisTop} wais
+
+If you've compiled an older version of gopherd, make sure to type
+"make clean" first.
+

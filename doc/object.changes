@@ -1,0 +1,63 @@
+Changes from 1.2b2 to 1.2b5
+---------------------------
+
+* libgopher can now be built as Sun Shared Libraries.
+
+Changes from 1.2b1 to 1.2b2
+---------------------------
+
+* Fixed problems with tmpnam() and warning for VIprettyLang()
+
+Changes from 1.03 to 1.1
+------------------------
+
+* Made a new object DynArray.  It's a neato dynamic array.  I'll be
+  using it more in other objects soon.  Right now it's used in
+  GopherDirObjs and the new site and ext code.
+
+* Fixed GDfromLink()  It wasn't re-initializing after each GSfromLink().
+
+* GDsort() now does the comparisions for numbered entries.  Much faster
+  and cleaner looking code.
+
+* #undef boolean first in case we're building with WAIS (which has
+  already #defined it).
+
+* Filenames are now less than 14 characters for those sysvr3 people.
+
+* Really revamped the way compatible.h and compatible.c work.
+
+
+Changes from 1.01 to 1.03
+-------------------------
+
+In accordance with the new Gopher+ the server doesn't tack scores on
+the end of directory listings resulting from searches.
+
+Changes from 1.0 to 1.01
+------------------------
+
+Fixed problem with GDfromNet not returning the right number of items.
+
+
+Changes to 1.0
+--------------
+
+Fixed problem in GDfromNet() and GSfromNet() that didn't deal with
+directories that don't have objects of any known type.  Fix from David
+Woodgate.
+
+Fixed problem in STRset() that could potentially cause crashes. The
+stored length was one greater than the actual length.  Fix from Alan
+Tuchman.
+
+Fixed problem in sreadword() that compared a character with NULL,
+naughty naughty, it should have been '\0'.
+
+GDfromNet now takes an optional function parameter.  Used by the nifty
+twirl code.
+
+Fixed problem in STRset() freeing blocks leftover from realloc is bad
+bongos.
+
+Removed most, if not all memory leaks.  Yeah to support@purify.com!!

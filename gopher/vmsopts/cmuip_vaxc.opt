@@ -1,0 +1,3 @@
+identification="CMUIP-2.0x"
+sys$library:neterror
+sys$share:vaxcrtl.exe/share

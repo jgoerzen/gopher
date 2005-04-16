@@ -1,0 +1,105 @@
+.TH GOPHERRC 5
+.SH NAME
+gopherrc \- configuration file for gopher(1)
+.SH DESCRIPTION
+.LP
+The
+.B gopherrc
+file contains a list of directives that alter the behaviour of the
+.BR gopher(1)
+client.  It is composed of lines of the form:
+.IP
+.I
+Token:\ Value
+.LP
+Tokens are case insensitive and the value field will change, depending on the
+token.  A pound sign ("#") at the beginning of a line signifies a
+comment line.
+
+Gopherrc files are used in a number of places.  There is a global
+gopherrc file (called gopherrc).  This is usually placed in a
+systemwide directory.  A file with the same format called
+remotegopher.rc is also used by the gopher client when using the -r
+switch. 
+
+Also, an individual has their own customized version of this file in
+their home directory in the file .gopherrc. On VMS this file is called
+GOPHERRC.
+
+All of these files use the format described below.
+
+Most people will set the values in this file by pressing the 'O' key
+to set options in the curses gopher client, rather than editing this
+file directly.  People considering editing this file on VMS should
+make sure their editor preserves the Stream_LF format of the file.
+
+.I
+Quick pseudo grammar
+
+.IP
+.nf
+map: <content type>,<display command>,<print command>
+SearchBolding: <yes|no>
+Bookmarks:
+<bookmarks>
+
+.fi
+.LP
+
+The following tokens are recognized
+.TP 12
+.I map:
+.LP
+maps a content type (such as text/plain, or image/gif) to commands to
+execute for displaying the document or printing the document, i.e.
+'more -d %s' or 'lpr %s'.
+
+The content type, display command, and printing command are separated
+by commas.
+
+The sequence of %s is replaced with the filename of a temporary file
+containing the document to be printed or viewed.
+
+If the command starts with the vertical bar (|) the command will be
+executed immediately and the document will be sent to the commands
+standard input.  Note this feature does not work on VMS.
+
+If the display command is set to 'builtin', then the text file pager
+inside the gopher client will be used to display the item.
+
+.TP 12
+.I SearchBolding:
+.LP
+
+controls the clients display of search terms.  If the value is 'yes',
+then search words will be bolded.  Otherwise they'll be left alone.
+
+.TP 12
+.I Bookmarks:
+.LP
+The bookmarks in .link format follow.  For more information on the
+format of a .link file, consult the gopherd(8) manual page.
+
+
+.I
+Sample gopherrc file:
+  
+ map: text/plain,builtin,lpr %s
+ map: image/gif,xv %s,
+ Bookmarks:
+ Type=1
+ Name=Bookmark #1
+ Host=gopher.tc.umn.edu
+ Port=70
+ Path=
+ #
+ Type=0+
+ Name=textfile
+ Host=foo.com
+ Path=0/readme
+ Port=70
+.
+
+.SH "SEE ALSO"
+.IR "Media Type Registration Procedure" ", March 1994, RFC 1590"
+.IR gopher(1), gopherd(8)

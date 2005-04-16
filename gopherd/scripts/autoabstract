@@ -1,0 +1,225 @@
+#!/usr/local/bin/perl
+#######################################################################
+# $Author: jgoerzen $
+# $Revision: 1.1 $
+# $Date: 2000/08/19 00:28:56 $
+# $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopherd/scripts/autoabstract,v $
+# $State: Exp $
+#
+# Paul Lindner, University of Minnesota.
+#
+# Copyright 1994 by the Regents of the University of Minnesota
+# see the file "Copyright" in the distribution for conditions of use.
+#######################################################################
+# MODULE: autoabstract
+# 
+# A script to automatically generate a gopher+ ABSTRACT for an item
+# It can be set up to build .abstract files too..
+# 
+#######################################################################
+# Revision History:
+# $Log: autoabstract,v $
+# Revision 1.1  2000/08/19 00:28:56  jgoerzen
+# Initial revision
+#
+# Revision 1.3  1995/02/06  22:27:56  lindner
+# Use dynamic space for Data_Dir, remove RunLS
+#
+# Revision 1.2  1994/12/15  17:34:25  lindner
+# Fix for .txt files
+#
+# Revision 1.1  1994/12/14  19:14:28  lindner
+# New scripts for Automatic Gopher Blocks
+#
+#
+#######################################################################
+
+
+#######################################################################
+# Parameters you might want to set..
+#
+# %txtconvert specifies programs that take non-text output and
+#             output a text version.
+#
+# $cacheit    specifies that this script should automatically generate
+#             .abstract files for us.  eats disk space like a pig
+#######################################################################
+#
+
+$txtconvert{'.ps'}    = "ps2ascii \"%s\"";
+$txtconvert{'.html'}  = "lynx -dump \"%s\"";
+$txtconvert{'.tar.Z'} = "zcat \"%s\" | tar tvf -";
+$txtconvert{'.zip'}   = "unzip -l \"%s\"";
+$txtconvert{'.tex'}   = "detex %s";
+
+$cacheit = 0;
+
+#
+#######################################################################
+
+
+$filenamebase = shift || die "Need a filename...";
+$fname = $filenamebase;
+
+$ENV{'PATH'} = $ENV{'PATH'} . ':/usr/local/bin:/usr/gnu/bin';
+#
+# First, find out what filenames there are..
+#
+
+exit if (-f "$fname.abstract");
+exit if (-d "$fname");
+$fname = &FindFiletoAbstract($fname);
+
+($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size, $atime,
+ $mtime,$ctime,$blksize,$blocks) = stat($fname);
+exit if ($size < 512);
+
+
+exit if ($fname =~ /gif$/i);
+
+open(f, "<$fname");
+
+foreach $e (keys(%txtconvert)) {
+    if ($fname =~ /$e$/i) {
+	$cmd = sprintf($txtconvert{"$e"}, $fname);
+	close(f);
+	open(f, "$cmd |");
+	done;
+    }
+}
+
+
+
+
+#
+# Slurp file a paragraph at a time..
+#
+$/ = "";
+
+#
+# Read the first paragraph, lots of interesting stuff here..
+#
+
+$_ = <f>;
+while (! (/^[\s]*/)) {
+    $_ = <f>;
+}
+
+$firstpara = $_;
+
+if (/^From [\S]+[\s]+\S\S\S[\s]+\S\S\S[\s]+[\d]+ [\d]+:[\d]+:[\d]+ \d\d\d\d/ ||
+    /^Newsgroups: / || /^Article[\s]+[\d]+[\s]+of/ || /^Path: /) {
+    # News or mail thingie...
+    
+    @lines = split(/\n/);
+
+    foreach $i (@lines) {
+	if ($i =~ /^Subject: (.*)$/) {
+	    $abstract .= $1 . "\n";
+	}
+	if ($i =~ /^Newsgroups: (.*)$/) {
+	    $abstract .= $i . "\n";
+	}
+	if ($i =~ /^Organization: (.*)$/) {
+	    $abstract .= $i . "\n";
+	}
+	if ($i =~ /^Summary: (.*)$/) {
+	    $abstract .= $1 . "\n";
+	}
+
+	if ($i =~ /^From: (.*)$/) {
+	    $abstract .= $i . "\n";
+	}
+	
+	if ($i =~ /^Keywords: (.*)$/) {
+	    $abstract .= $1 . "\n";
+	}
+    }
+
+}
+elsif (/^\#!\/.*perl/ || /^\#!\/.*sh/) {
+    @lines = split(/\n/);
+
+    shift(@lines);
+    foreach $i (@lines) {
+	if (/\#/) {
+	    $abstract .= "$i\n";
+	}
+    }
+}
+
+else {
+
+    while (<f>) {
+	if (length($firstpara) < 300) {
+	    $firstpara .= "\n$_";
+	}
+	if (/^[\s]+Abstract/i) {
+	    $abstract .= $_;
+	}
+	if ($lastpara =~ /Abstract[\s]+$/i) {
+	    $abstract .= $_;
+	}
+
+	if (/^[\s]+Summary/i) {
+	    $abstract .= $_;
+	}
+	if ($lastpara =~ /Summary[\s]+$/i) {
+	    $abstract .= $_;
+	}
+
+	$lastpara = $_;
+    }
+}
+$len = length($abstract);
+
+
+exit if ($len == $size);
+
+$abstract = $firstpara if ($len == 0);
+
+print "$abstract\n";
+
+if ($cacheit) {
+    open(abstractout, ">$filenamebase.abstract");
+    print abstractout "$abstract\n";
+    close(abstractout);
+}
+
+
+sub FindFiletoAbstract {
+    local($fname) = @_;
+    local($base, $f);
+
+    return($fname) if ( -f $fname);
+
+    #
+    # Probably not a text file...
+    #
+
+    $fname =~ m/^(.*)\/([^\/]+)$/;
+    $base = $1;
+    $f = $2;
+
+    
+    if (!($fname =~ /\//)) { 
+	$base = ".";
+	$f = $fname;
+    }
+
+
+    opendir(thedir, $base);
+    @files = readdir(thedir);
+    foreach $i (@files) {
+	if ($i =~ /^$f/) {
+	    foreach $t (keys(%txtconvert)) {
+		return("$base/$i") if ($i =~ /$t$/i);
+	    }
+	    return("$base/$i") if ($i =~ /txt$/i);
+	    push(@ourfiles, $i) 
+	}
+    }
+    closedir(thedir);
+
+    return($ourfiles[1]);
+}

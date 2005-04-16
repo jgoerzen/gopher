@@ -1,0 +1,2 @@
+This is a gateway script that searches a WHOIS server, it
+parses output from a number of different whois servers.

@@ -1,0 +1,11 @@
+#
+# List of users allowed to use admit1 authentication
+#
+# Note! This file is used for storing tickets, editing this file
+# could cause some tickets to be lost, which isn't a big deal...
+#
+# Format is:
+# username : cleartext pw:uneditable number
+#
+admit1:admit1:1526
+another:moocow:168909

@@ -1,0 +1,3 @@
+Ask: Word to search for	
+Choose: Type of Archie Search	Exact	Substring	Regular Expression
+Ask: Maximum number of documents to retrieve	75

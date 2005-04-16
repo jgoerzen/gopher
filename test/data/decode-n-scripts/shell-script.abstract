@@ -1,0 +1,5 @@
+This is an example of a shell script.  All you need to do to execute a shell
+script is put it on the server.  Fairly simple really..
+
+To get a different type for your script you can use the extension processing
+capabilities of gopherd.conf or use a .names file.

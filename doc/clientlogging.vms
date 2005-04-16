@@ -1,0 +1,193 @@
+README for VMS Client Logging using Multinet                        16 July 1994
+VMS Gopher Client 2.016 - J.Lance Wilkinson <jlw@psulias.psu.edu>
+
+TGV's MULTINET_SERVER internally implements a syslogd daemon, but the multinet
+user runtime library does not include the syslog(), openlog() closelog() and
+setlogmask() functions normally used by applications to communicate with it.
+
+Discussion with TGV technical support yielded the functions provided in the
+[.GOPHER]OURUTILS.C source file which are compiled when either CLIENT_LOGGING
+or TELNET_TRACE are defined in CONF.H.  These functions are not currently
+supported by TGV and you should *NOT* request support from TGV for their use. 
+There did seem to be an intent to make the syslog()/syslogd facility a
+supported part of the product, but not in the immediate future.
+
+Inclusion of this facility for Multinet is intended to allow TGV customers
+using the VMS version of the Gopher Client to make use of the CLIENT logging
+facilities.  It is also intended to be a guide for users of other TCP/IP
+agents in making use of the CLIENT logging facilities.
+
+
+Pre-Compilation SYSLOG setup
+----------------------------  
+
+At compilation time you must decide if you're going to want to use either the
+standard Unix-style client logging or telnet/tn3270 connection tracing or both.
+The standard logging tends to be a debugging tool more than anything else,
+while telnet/tn3270 connection tracing is more a management/security tool.
+
+In CONF.H, define CLIENT_LOGGER to activate the standard Unix-style logging;
+define TELNET_TRACE to activate telnet/tn3270 connection tracing.  Edit CONF.H
+to remove the prefixing comment tokens as appropriate:
+
+
+    /*
+    * Client logging via syslog() code has been ported to VMS systems
+    * with MULTINET.  See [.doc]clientlogging.vms for more information.
+    * Check out the code in [.gopher]ourutils.c if you think you might
+    * be able to port it to other TCPIP packages.
+    *
+    * Define CLIENT_LOGGER to log client requests issued to servers.
+    * Define TELNET_TRACE to trace and log telnet connections by the client.
+    */
+    /* #define CLIENT_LOGGER  /* */
+    /* #define TELNET_TRACE   /* */
+
+If either definition is un-commented, and your compilation is for Multinet,
+the syslog() code in OURUTILS.C will be compiled, as well as code appropriate
+to the feature(s) selected which will use the syslog() code.
+
+
+TGV Multinet SYSLOG configuration
+---------------------------------
+
+If you define CLIENT_LOGGER, then calls to logrequest() throughout the gopher
+client will cause messages to be sent to syslogd under the facility DAEMON. 
+If you define TELNET_TRACE, then *actual attempts* to connect to *specific*
+telnet/tn3270 hosts will cause messages to be sent to syslogd under the
+facility LOCAL7.  All use the keyword INFO.  For example:
+
+	local7.*		/gopher$root:[log]_telnet.log
+	daemon.info		/gopher$root:[log]_client_debug.log
+
+Understand that other applications which use syslog at your site may already
+have these specific items directed to other files.  At present it is not
+possible to define new facilities within the TGV Multinet implementation of
+syslog()/syslogd, or it would be fairly simple to code other values and
+select other facilities and/or keywords.
+
+Read the documentation for SYSLOG in the TGV Multinet Administrator's Guide
+(section 4.6 in the version for Multinet v3.3).  First provide entries in your
+system's MULTINET:SYSLOG.CONFIGURATION file for the selectors "daemon.info"
+and/or "local7.info" to direct the log entries to appropriate destinations.
+Define a logical on the system where you'll be running the client that will
+be subject to logging, as follows:
+
+	$ DEFINE/SYSTEM/EXEC/NOLOG MULTINET_SYSLOG_DESTINATION 1
+
+This may or may not appear in the version of the TGV documentation for v3.3. 
+It *does not* appear in the bookreader version of the TGV documentation for
+v3.3, but was provided through a tech service call and indeed seems to be
+required.
+
+Finally, enable the syslog service using the Multinet SCU:
+
+   $ MULTINET CONFIGURE /SERVER
+   SERVER-CONFIG> ENABLE SYSLOG
+   SERVER-CONFIG> RESTART
+   SERVER-CONFIG> EXIT
+
+If you change the content of your MULTINET:SYSLOG.CONFIGURATION file, make
+sure you restart your MULTINET_SERVER to have the changes take effect.
+
+
+CLIENT_LOGGER to the daemon.info selector
+------------------------------------------
+
+If the CLIENT_LOGGER definition is provided in CONF.H, the logrequest()
+function calls throughout the client will include code which write an event
+log.  This is useful for debugging purposes.
+
+The output log entries for daemon.info will appear as individual lines
+containing a date/time stamp, the host of the client's user, the text "gopher"
+and the PID of the user, and the event being logged.  Some events will include
+a URL for the relevant item.  For example:
+
+Jul 14 16:44:41 PONGO.PSU.EDU gopher[Pid 0x40a00269]: EXIT
+Jul 14 18:20:00 psulias.psu.edu gopher[Pid 0x2060f10d]:  ARRIVED AT <url>
+
+
+TELNET_TRACE to the local7.info selector
+----------------------------------------
+
+If the TELNET_TRACE definition is provided in CONF.H, the Telnet_Trace()
+function will be called immediately prior to attempting any telnet/tn3270
+connection.  The Telnet_Trace() function, compiled only if TELNET_TRACE is
+defined, tests the host string in the link tuple being used for the telnet or
+tn3270 connection to see if it appears in the logical GOPHER_TELNET_LOG.  If,
+and only if, the string appears (there is no IP number/host name translation
+attempted) in the logical, the URL for the telnet/tn3270 connection is logged,
+and then the chain of current entries in the current gopher directory, back
+through to the root directory, is displayed as well.  This allows the path
+used by the user, through GopherSpace, which culminated in the telnet/tn3270
+offering they are now attempting, to be recorded.
+
+The output log entries for local7.info will appear as sets of lines as
+follows; the intent is to provide a list representation of the path used
+through GopherSpace to reach the telnet/tn3270 host in question.  Each line
+contains the same timestamp, client host, "gopher" text and PID fields as the
+standard Unix CLIENT_LOGGER entries discussed above, followed by a
+"GopherSpace depth indicator" (the length of the arrow indicates how deep
+within the gopher menus the user was), the URL for the telnet/tn3270 link, and
+the title by which the host where that link was found named the link: 
+
+*----------> telnet://any name not in use@marble.bu.edu:2010 "Foothills"
++---------> gopher://spinaltap.micro.umn.edu:70/11/fun/Games/MUDs/Links/Talker
+  "Talker"
++--------> gopher://spinaltap.micro.umn.edu:70/11/fun/Games/MUDs/Links
+  "Links to MUDs via Telnet"
++------->gopher://spinaltap.micro.umn.edu:70/11/fun/Games/MUDs "MUDs"
++------>gopher://spinaltap.micro.umn.edu:70/11/fun/Games
+  "Games - University of Minnesota"
++-----> gopher://cwis.usc.edu.:70/11/Other_Gophers_and_Information_Resources
+  /Gophers_by_Subject/Gopher_Jewels/Fun_Stuff_Multimedia
+  "Fun stuff and multimedia"
++----> gopher://gopher.princeton.edu:70/11/.explore
+  "Explore the Internet (from Princeton Gopher)"
++---> gopher://genesis.ait.psu.edu:70/11/netinfo/internet
+  "Information about the Internet"
++--> gopher://genesis.ait.psu.edu:70/11/netinfo
+  "About Gophers and the Internet"
++-> gopher://info.psu.edu:70/1
+  "Penn State University Gopher (The University's Gateway Gopher)"
+
+Define the GOPHER_TELNET_LOG logical with the host names and/or ip numbers
+(since no translation is done, if you know both you should probably include
+both) of the telnet/tn3270 hosts to which you wish to track Gopher client
+access:
+
+	$ DEFINE/SYSTEM/EXEC/NOLOG GOPHER_TLENT_LOG "marble.bu.edu",-
+		"muscle.rai.kcl.ac.uk", "freenet.hsc.colorado.edu",-
+		...
+
+The logical is consulted dynamically whenever a telnet/tn3270 connection is
+about to be attempted, so you can change it as new hosts become of interest
+and old hosts are no longer of any concern.
+
+Why trace Telnet/TN3270 connections?
+------------------------------------
+
+This facility was developed to allow us to determine which hosts were of
+legitimate use to our library patrons here @psulias.psu.edu, and which hosts
+were simply play areas (MUDDs, etc.) to which we should block telnet access
+from our host.  We identify the hosts we'll add to the logical by consulting
+our monthly telnet connection logs (generated by MULTINET using a USER_ACCESS
+sharable image).
+
+Hosts we aren't yet familiar with, which have significant connection levels,
+are added to the logical in the belief that users may be finding them in their
+travels through GopherSpace.  Once the resource is understood, those which the
+Libraries deem beneficial are discarded from the list; those which the
+Libraries do not deem beneficial may be added to the list of hosts to which
+our USER_ACCESS sharable image denies outgoing access.
+
+        [A note to the more "open" sites reading this -- our specific host,
+        psulias.psu.edu, is for LIBRARY patrons requiring LIBRARY resources. 
+        Denying access to MUDDs from our host is not considered a serious
+        hampering of the open nature of the network; there are other,
+        unrestricted hosts (even a laboratory within our walls) where users
+        who are so inclined may access these resources via gopher and/or
+        telnet subject to no restrictions except those imposed by the owners
+        of those facilities.  We have people waiting in line to find books at
+        our terminals, so we frown on people tying them up for recreational
+        usage.]

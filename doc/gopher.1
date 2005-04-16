@@ -1,0 +1,244 @@
+.TH GOPHER 1
+.SH NAME
+gopher \- connect to gopher document server
+.SH SYNOPSIS
+.B gopher
+.RI [ -sSbDr ]
+.RI [ "-t title" ]
+.RI [ "-p path" ]
+.RI [ "-T type" ]
+.RI [ "-i search term" ]
+.RI [ hostname or url ]
+.RI [ port ]
+.SH DESCRIPTION
+The gopher client is used to talk to gopher servers.  Once you have started
+the gopher client, help on using it is available by pressing the 
+.B "?"
+key.
+.PP
+The Internet Gopher is a distributed document delivery service.  It
+allows a neophyte user to access various types of data residing on
+multiple hosts in a seamless fashion.  This is accomplished by
+presenting the user a hierarchical arrangement of documents and by
+using a client-server communications model.  The Internet Gopher
+Server accepts simple queries, and responds by sending the client a
+document.
+.PP
+The [hostname] of a gopher server may be specified at startup; if
+omitted, the default server for your site is used.  You may also
+specify a URL (Uniform Resource Locator) for this argument.
+.PP 
+The  [Port_number] of the server host may be specified at startup; if
+omitted you will use the default port specified at your site.  The
+more or less standard and accepted Gopher port number on the
+Internet is 70.
+.PP
+.SH OPTIONS
+.TP
+-b
+starts the client on the bookmark page.
+.PP
+The next few options are for more advanced users who want to start at
+a location other than the default, or to set up special aliases or
+shell-scripts to point the gopher client to seperate places.
+.TP
+.BI -p " path"
+specify a specific selector string to send to the gopher server on startup.
+.TP
+.BI -T " type"
+let the client know what type of object the
+.I -p
+option is pointing at.
+.TP
+.BI -i " search term"
+tell the client what to search for in the object defined by the
+.IR "-p " and " -T 7"
+options.
+.TP
+.BI -t " title"
+set the title of the initial screen for the gopher client.
+
+.PP
+The last few options aren't really of interest to regular users, but are
+provided for system administrators who waht to provide a secure client, or
+who need to debug a client.
+
+.TP
+.BR -s " or " -S
+"secure mode" which means that you can't save or print the files that you
+browse.  -s is for users without an account, while -S assumes 
+the user has an account on this machine.  One security feature is
+forced on, regardless of the state of these options, if the name of
+the user's shell ends in rsh; the 'O' (options) command is disabled so
+the user cannot select a shell as an application.
+.TP
+.B -r
+tells the client that its user is remote.
+.TP
+.B -D 
+turns on the copius debugging output
+
+.SH In-Session Options
+
+.PP
+Press return or the right arrow key on the mini keypad to view a
+document or enter a directory.
+
+.PP
+Press  Control/W, Control/R, or Control/L to repaint your menu at any
+time.
+
+.PP
+At  any  time,  you  may  press  ?  to  see  a  help file of commands
+available.
+
+.SH BOOKMARKS
+Bookmarks allow users to create their own personallized menus from
+those available on the variety of Gopher servers available
+worldwide.  The following list of keystrokes aids in developing and
+maintaining the bookmarks.
+
+.IP
+ a : Add current item to the bookmark list.
+ A : Add current directory/search to bookmark list.
+ v : View bookmark list.
+ d : Delete a bookmark/directory entry.
+.EP
+
+.SH MOVING AROUND
+.PP
+Use the arrow keys to move around.
+
+.IP
+ Use the Arrow Keys to move around.
+
+ Up, k ...............:  Move to previous line.
+ Down, j .............:  Move to next line.
+ Right, Return .......:  "Enter"/Display current item.
+ Left, u  ............:  "Exit" current item/Go up a level.
+
+ >, +, Pgdwn, space ..:  View next page.
+ <, -, Pgup, b .......:  View previous page.
+
+ 0-9 .................:  Go to a specific line.
+ m   .................:  Go back to the main menu.
+.EP
+
+.SH OTHER COMMANDS
+.IP
+ s : Save current item to a file.
+ S : Save current list of items to a file.
+ D : Download a file.
+ q : Quit with prompt.
+ Q : Quit unconditionally (also Control/Z).
+ r : goto root menu of current item.
+ R : goto root menu of current menu.
+ = : Display Technical information about current item.
+ ^ : Display technical information about current directory.
+ o : Open a new gopher server
+ w : Open a new gopher server or item by URL
+ O : Change options.
+ f : Connect to an anonymous FTP host
+ / : Search for an item in the menu.
+ g : "Gripe" via email to administrator of current item.
+ n : Find next search item.
+ $, !   : Spawn to subprocess (use "logout" to return to session)
+ Ctrl-T : Show host's local date and time.
+.EP
+
+.SH GOPHER OBJECTS
+
+.PP
+Menu entries ending with "/" are directories; additional
+characteristics for files (such as binary, sound, image, and others)
+are identified within angle brackets. 
+
+.IP
+ Item tag    Type      Description
+ --------------------------------------------
+ (none)        0       file
+ /             1       directory
+ <)            s       sound file
+ <Picture>    I,g      image file
+ <Movie>       ;       movie file
+ <HQX>         4       BinHexed Macintosh file
+ <Bin>         9       binary file
+ <PC Bin>      5       DOS binary file
+ <CSO>         2       CSO (ph/qi) phone-book server
+ <TEL>         8       telnet connection
+ <3270>        T       telnet connection (IBM 3270 emulation)
+ <MIME>        M       Multi-purpose Internet Mail Extensions file
+ <HTML>        h       HyperText Markup Language file
+ <?>           7       index-search item
+ <??>        (none)    ASK form
+.EP
+
+.SH EXAMPLES
+
+.TP
+gopher gopher.tc.umn.edu
+Connect to the gopher server running on the computer 
+.I gopher.tc.umn.edu
+
+.TP
+gopher -p "1/Information About Gopher" gopher.tc.umn.edu 70
+Connect to the gopher server running on port 70 of the computer 
+.I gopher.tc.umn.edu
+and start at the menu retrieved with the selector string
+.I "1/Information About Gopher"
+
+.TP
+gopher -p 7/indexes/Gopher-index/index -T 7 -i FAQ mudhoney.micro.umn.edu
+Connect to the gopher server running on the computer
+.I mudhoney.micro.umn.edu                                           
+and start at the menu of items matching the string
+.I FAQ
+in the index specified by the selector string
+.I "7/indexes/Gopher-index/index"
+
+.SH CONFIGURATION FILE FORMAT
+The client gets configuration data from the system gopher.rc file and the
+user's .gopherrc files.  The options in these files may be set by using the
+.B O
+key in the client.
+
+.PP
+See the manual page for gopherrc for more information about these
+options. 
+
+.SH ENVIRONMENT VARIABLES
+The client also checks for environment variables for its configuration
+information.  The following variables can be used:
+.TP
+GOPHER_TELNET:
+The program used to connect to telnet services
+.TP
+GOPHER_TN3270:
+The program used to connect to TN3270 services
+.TP
+GOPHER_HTML:
+The program used to read HyperText Markup Language documents.
+.TP
+GOPHER_PRINTER:
+The program used to print from a pipe.
+
+.SH FILES
+.TP
+$HOME/.gopherrc
+user bookmarks and configuration information
+.TP
+/usr/local/lib/gopher.rc
+system default configuration information (default location - may be
+somewhere else on your system)
+.TP
+/usr/local/lib/gopher.hlp
+client help file displayed by the '?' command (default location - may be
+somewhere else on your system)
+ 
+.SH COPYRIGHT
+.PP
+The Internet Gopher(tm) software and documentation is copyright (c) 1991,
+1992, 1993, 1994 by the University of Minnesota.  Gopher has limitations on
+its use and comes without a warranty.  Please refer to the file 'Copyright'
+included in the distribution.
+

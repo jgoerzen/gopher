@@ -1,0 +1,10 @@
++-1
++INFO: 1views	1/views	localhost	9999	+
++ADMIN:
+ Admin: Test Administrator <gopher@localhost>
+ Mod-Date: Wed Nov  3 19:56:24 1993 <19931103195624>
+ TTL: 0
++VIEWS:
+ application/gopher-menu En_US: <.5k>
+ application/gopher+-menu En_US: <.5k>
+ text/html En_US: <.5k>

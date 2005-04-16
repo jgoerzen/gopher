@@ -1,0 +1,22 @@
++-1
++INFO 1Gopher Testing Labs		localhost	9999	+
++ADMIN:
+ Admin: Test Administrator <gopher@localhost>
+ Mod-Date: Thu Apr 21 16:23:20 1994 <19940421162320>
+ TTL: 0
+ Site: Gopher Testing Labs
+ Org: Gopher International Ltd.
+ Loc: Minneapolis, MN, USA
+ Geog: 44 58 48 N 93 15 49 W
+ Version: U of Minnesota Unix 2.1 pl1
++ABSTRACT:
+ This is a test server.  It doesn't do very much, ignore
+ it and use another.
++VERONICA:
+ treewalk: yes
++VIEWS:
+ application/gopher-menu: <0k>
+ application/gopher+-menu: <0k>
+ text/html: <0k>
+ Directory/recursive: <0k>
+ Directory+/recursive: <0k>

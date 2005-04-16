@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo "Making gopherindex for data directory $2, $1 style"
+echo " "
+
+sed -e "s.GHOME.$2." -e "s/ITYPE/$1/" gopherindex.raw >gopherindex
+
+chmod +x gopherindex
+
+

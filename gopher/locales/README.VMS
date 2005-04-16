@@ -1,0 +1,64 @@
+$Id: README.VMS,v 1.1 2000/08/19 00:28:56 jgoerzen Exp $
+
+README for VMS internationalization                               18 Dec 1994
+VMS Gopher Client 2.1   - F. Macrides <macrides@sci.wfeb.edu>,
+			  J.Lance Wilkinson <jlw@psulias.psu.edu>
+
+The MAKE.COM file contained here invokes a TPU procedure to convert the 
+various [.GOPHER.LOCALES]*.MSG Unix message files to a source code format
+compatible with VMS MESSAGE, then compiles and links sharable image files for
+these message files.  The MAKE.COM and MESSAGE.TPU files coordinate to
+generate an appropriate linkage options file to define a specific symbol as
+either UNIVERSAL for the VAX environment, or as a SYMBOL_VECTOR DATA entry for
+the AXP environment.  The MAKE.COM file detects whether it is being executed
+in a VAX or AXP environment, and passes MESSAGE.TPU an initialization string
+beginning with the characters "VAX" or "AXP" followed by a facility code value
+in the range of 0 to 2047.  The value is incremented by 1 for each successive
+call to MESSAGE.TPU together with the file name for the input .MSG file (e.g.,
+DE_DE, EN_US, ES_ES, ES_MX, FR, etc.) to develop a unique facility code for
+each language.  MAKE.COM stops calling MESSAGE.TPU if the value would exceed
+the MESSAGE utility's limit of 2047 (Are there more than 2048 languages?).
+
+Note that the sharable image files are architecture-specific, VAX or AXP, so
+caution in a mixed cluster is advised.  The symbol constant GOPHERMSGS_DEV
+can be defined in conf.h such that the appropriate sharable image files are
+sought in differnt locations for clients built on VAX versus AXP (see comments
+in conf.h).  The default location is the GopherP_Dir referenced directory.
+
+If a DCL logical or symbol for LC_MESSAGES is detected when the client starts,
+it is evaluated and inserted into the string for filenames replacing the %s
+below:
+
+		GopherP_Dir:Gopher_Msg_%s.EXE
+
+or with "GopherP_Dir" replaced by another device logical if GOPHERMSGS_DEV
+was changed from the default in conf.h.  If the logical or symbol (getenv()
+is used to detect it) is not found, a VMS call to LIB$GET_USERS_LANGUAGE(),
+which uses the SYS$LANGUAGE logical, is tried.  Again, if successful here,
+the resultant string replaces the %s in the above filespec.  LC_MESSAGES can
+be defined with DCL wildcarding to reference more than one sharable image
+file.
+
+A scan is then performed for one or more matching files.  If one or more is
+found to contain a message number 232, the image  is activated and becomes
+part of the executable in memory (note: size of the image increases as more
+message files are associated), and the messages present in the file are used. 
+If none are found, the hardcoded messages in the client are used.  If more
+than one is found (e.g., if LC_MESSAGES was defined as "*"), a menu is built
+of all the located files, using message number 232 as the menu title.
+
+This message number 232 should be an invitation to use the language specific
+to the file, such as "Do you speak English?" in the English message file. 
+Absence of this message will cause the language to be ignored and not included
+in the menu.
+
+Once the menu is built, it can be offered to the user for choosing a
+language.  If the constant symbol GOPHERMSGS_DEFAULT has been defined in
+conf.h so that it points to a found sharable image file, its language will
+be establish at startup of the client.  Later, during client usage, an L
+(uppercase) keystroke will cause the menu to be raised again and allow a
+choice of another language.  If no default language has been established via
+GOPHERMSGS_DEFAULT, the menu will be displayed at startup of the client and
+the user must make a choice.  The initial choice can be changed at any time
+via an L keystroke to reinvoke the menu.
+

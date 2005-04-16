@@ -1,0 +1,75 @@
+
+                  Pro-Memoria per l'uso di Gopher
+                 ---------------------------------
+
+Come navigare nello spazio Gopher
+---------------------------------
+Per postarsi usare i tasti-cursore o i comandi equivalenti di vi/emacs.
+
+<DESTRA>, Return ......:  "Entra"/Visualizza l'elemento corrente
+<SINISTRA>, u .........:  "Esce" dall'elemento corrente/Va al livello superiore<GIU`>  ...............:  Per spostarsi alla prossima linea.
+<SU`> .................:  Per spostarsi alla prossima linea.
+>, +, <NEXT>, <SPAZIO>.:  Per visualizzare la pagina successiva
+<, -, <PREV>, b .......:  Per visualizzare la pagina precedenre
+0-9 ...................:  Per andare ad una specifica linea
+m .....................:  Per tornare indietro al menu principale
+
+<Bookmarks>
+-----------
+a : Per aggiungere l'elemento corrente alla lista dei <bookmark>
+A : Per aggiungere il menu corrente alla lista dei <bookmark>
+v : Per visualizzare la lista dei <bookmark>
+d : Per cancellare un elemento dal menu o dalla lista dei <bookmark>
+
+Altri comandi
+--------------
+q : Chiusura di Gopher, con richiesta di cofnerma
+Q : Chiusura incondizionata di Gopher
+s : Salva l'elemento corrente in un file
+S : Salva il menu corrente in un file 
+D : Scarica un file (via Modem)
+r : Va al menu principale associato al  corrente elemento
+R : Va al menu principale associato al  corrente menu
+= : Visualizza informazioni tecniche sul currente elemento
+^ : Visualizza informazioni techiche sul coddente menu
+o : Apre un nuovo Server Gopher
+O : Modifica le opzioni
+f : Connessione ad un Server FTP remoto
+w : Connessione a URL http, gopher, FTP, telnet o tn3270
+/ : Ricerca un elemento del menu+
+n : Trova il successivo elemento ricercato.
+g : Invia un commento via posta elettronica all'amministratore
+    dell'elemento  corrente
+L : Cambia il linguaggio dei messaggi (VMS)
+!, $ : Accesso alla Shell (Unix) o attivazione sottoprocesso DCL (VMS).
+Ctrl-L, Ctrl-R, Ctrl-W : Rivisualizzazione della videata
+Ctrl-T : Visualizza Data e Orario corrente
+
+Oggetti Gopher:
+Descrittore Tipo      Descrizione
+--------------------------------------------
+(none)        0       File 
+              1       Direttorio
+<)            s       Suono
+<Picture>    I,g      Immagine 
+<Movie>       ;       Animazione.
+<HQX>         4       File BinHexed Macintosh 
+<Bin>         9       File binario
+<PC Bin>      5       File binario DOS
+<CSO>         2       Elenco Telefonico CSO (ph/qi)
+<TEL>         8       Connessione Telnet
+<3270>        T       Connessione Telnet (con emulazione IBM 3270)
+<MIME>        M       File "Multi-purpose Internet Mail Extensions"
+<HTML>        h       File HyperText Markup Language (Ipertesto)
+<?>           7       Ricerca di un testo
+<??>        (none)    Modulo "ASK"
+
+Il Gruppo  di  Sviluppo  del  software  Gopher si augura che possiate
+trovare utile questo software. Se trovate quello che  pensate  sia  un
+errore,  per  cortesia  segnalatecelo  inviando  un messaggio di Posta-
+Elettronica a "gopher@boombox.micro.umn.edu".
+
+
+
+
+

@@ -1,0 +1,93 @@
+# either MULTINET, UCX, or WOLLONGONG
+#TCPVERSION=UCX
+#TCPVERSION=MULTINET
+TCPVERSION=WOLLONGONG
+
+OBJINCLUDES 	= 
+OTHERINCLUDES	= /inc=([-.object],[-])
+INCLUDES	= $(OBJINCLUDES) $(OTHERINCLUDES)
+
+# --- the above was from ../Makefile.config
+
+OBJS	= gopher.obj manager.obj globals.obj ourutils.obj cso.obj \
+	subprocs.obj html.obj HTML2.obj CURcurses.obj hymoo.obj gopherrc.obj \
+	download.obj
+OBJLIST	= gopher.obj,manager.obj,globals.obj,ourutils.obj,cso.obj,subprocs.obj,html.obj,HTML2.obj,CURcurses.obj,hymoo.obj,gopherrc.obj,download.obj
+
+OPT	=
+#OPT	= /noopt/debug/list
+CC	= cc
+CCFLAGS = $(OPT) $(INCLUDES) /def=($(TCPVERSION)=1)
+LDFLAGS	= 
+#LDFLAGS	= /trace/debug/map
+
+TARGET	= gopher
+
+all:	$(TARGET)
+
+manager.obj: manager.c gopher.h [-]conf.h
+	write sys$output "Compiling manager.c"
+	$(CC) $(CCFLAGS) manager.c
+
+gopher.obj: gopher.c gopher.h [-]conf.h
+	write sys$output "Compiling gopher.c"
+	$(CC) $(CCFLAGS) gopher.c
+
+globals.obj: globals.h version.h globals.c gopher.h [-]conf.h
+	write sys$output "Compiling globals.c"
+	$(CC) $(CCFLAGS) globals.c
+
+ourutils.obj: ourutils.c gopher.h [-]conf.h
+	write sys$output "Compiling ourutils.c"
+	$(CC) $(CCFLAGS) ourutils.c
+
+cso.obj: cso.c gopher.h [-]conf.h
+	write sys$output "Compiling cso.c"
+	$(CC) $(CCFLAGS) cso.c
+
+subprocs.obj: subprocs.c gopher.h [-]conf.h
+	write sys$output "Compiling subprocs.c"
+	$(CC) $(CCFLAGS) subprocs.c
+
+html.obj: html.c gopher.h [-]conf.h
+	write sys$output "Compiling html.c"
+	$(CC) $(CCFLAGS) html.c
+
+HTML2.obj: HTML2.c gopher.h [-]conf.h
+	write sys$output "Compiling HTML2.c"
+	$(CC) $(CCFLAGS) HTML2.c
+
+CURcurses.obj: CURcurses.c gopher.h [-]conf.h
+	write sys$output "Compiling CURcurses.c"
+	$(CC) $(CCFLAGS) CURcurses.c
+
+hymoo.obj: hymoo.c gopher.h [-]conf.h
+	write sys$output "Compiling hymoo.c"
+	$(CC) $(CCFLAGS) hymoo.c
+
+gopherrc.obj: gopherrc.c gopher.h [-]conf.h
+	write sys$output "Compiling gopherrc.c"
+	$(CC) $(CCFLAGS) gopherrc.c
+
+download.obj: download.c gopher.h [-]conf.h
+	write sys$output "Compiling download.c"
+	$(CC) $(CCFLAGS) download.c
+
+[-.object]gopher.olb:
+	set default [-.object]
+	make gopher.olb
+	set default [-.gopher]
+
+$(TARGET) : $(OBJS) [-.object]gopher.olb
+	write sys$output "Linking $(TARGET) for $(TCPVERSION)"
+	link$(LDFLAGS)/exe=$(TARGET) $(OBJLIST), -
+		[-.object]gopher.olb/lib, -
+		sys$library:vaxccurse.olb/lib, -
+		sys$disk:[]$(TCPVERSION).opt/opt
+
+clean:
+	delete *.obj;*, $(TARGET).exe;* *.lis;*
+	
+install : all
+	copy $(TARGET) $(CLIENTDIR)
+	copy gopher.hlp sys$help:

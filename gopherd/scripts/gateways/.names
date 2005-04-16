@@ -1,0 +1,65 @@
+Path=./NEWSGROUPS
+Type=X
+
+Path=./g2webster
+Name=Search English Language Dictionary
+
+Path=./g2archie
+Name=Search FTP sites using Archie
+
+Path=./g2whois
+Name=Search WHOIS server
+
+Path=./g2netfind
+Name=Search for email addresses using Netfind
+
+Path=./g2areacode
+Name=Search for U.S.A Telephone Area Codes
+
+Path=./g2ftphack
+Name=Connect to a specific FTP site
+
+Path=./g2nntp
+Name=Access USENET news
+
+Path=./g2finger
+Name='Finger' users at other machines
+
+Path=./g2geo
+Name=Search USA Geographic locations
+
+Type=7
+Name=Search WHOIS server (non-gopher+)
+Host=+
+Port=+
+Path=7/bin/gateways/g2whois.gd
+Numb=-1
+
+Type=7
+Name='Finger' users at other machines (non-gopher+)
+Host=+
+Port=+
+Path=7/bin/gateways/g2finger.gd
+Numb=-1
+
+Type=7
+Name=Search FTP sites using Archie (non-gopher+)
+Host=+
+Port=+
+Path=7/bin/gateways/g2archie.gd
+Numb=-1
+
+Type=7
+Name=Search for email addresses using Netfind
+Host=+
+Port=+
+Path=7/bin/gateways/g2netfind.gd
+Numb=-1
+
+Type=7
+Name=Search USA Geographic locations (non-gopher+)
+Host=+
+Port=+
+Path=7/bin/gateways/g2geo.gd
+Numb=-1
+

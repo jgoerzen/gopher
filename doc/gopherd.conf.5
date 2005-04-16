@@ -1,0 +1,456 @@
+.TH GOPHERD.CONF 5
+.SH NAME
+gopherd.conf \- configuration file for gopherd(8)
+.SH DESCRIPTION
+.LP
+The
+.B gopherd.conf
+file contains a list of directives that alter the behaviour of the
+.BR gopherd (8)
+server.  It is composed of lines of the form:
+.IP
+.I
+Token:\ Value
+.LP
+Tokens are case insensitive and the value field will change, depending on the
+token.  A pound sign ("#") at the beginning of a line signifies a comment line.
+
+.I
+Quick pseudo grammar
+
+.IP
+.nf
+Abstract: <Abstract Information>
+Admin: <Administrator Name/Info>
+AdminEmail: <Email address of Administrator of the server>
+Hostalias: <DNS alias name>
+Site: <Name of site>
+Org: <Organization or group owning the site>
+Loc: <city, state, country>
+Logfile:  <filename>
+Geog: <latitude> <longitude>
+Language: <default language>
+ViewExt: <extension> <Gophertype> <Prefix> <Gopher+Type> [Langauge]
+BlockExt: <extension> <Blockname>
+BlockRefExt: <extension> <Blockname>
+Ignore: <extension>
+Ignore_patt: <regular expression>
+Decoder: <extension> <decoderprogram>
+SecureUsers: <tix-filename>
+Access: <domain name|ip fragment|"default"> <[!](browse|read|search)+> <maxsessions>
+Bummermsg: <message>
+VeronicaIndex: <yes/no>
+Cachetime: <time in seconds>
+auxconf: <gopher-selector> <auxilliary-config-file>
+Authitem: <authentication method> <regexp> [<password file> <list of groups>] 
+FileSep: <separation regular expression>
+Include: <another gopherd.conf file>
+MaxConnections: <max concurrent sessions>
+GroupDir: <directory containing group files>
+.fi
+.LP
+
+The following tokens are recognized
+.TP 12
+.I hostalias:
+changes the hostname that is returned by the server.  This is useful
+when the gopher server is defined by a CNAME record in the DNS system.
+.TP
+.I Abstract:
+sets an abstract for the server as a whole.  If you want to have a
+multiline abstract put a backslash character (\\) at the end of the
+line you wish to continue.
+.TP
+.I Admin:
+The name of the administrator.  It may contain a name, a phone number,
+etc.
+.TP
+.I AdminEmail:
+An email address where the administrator can be reached.
+.TP
+.I Site:
+The name of the site, such as
+.B Turnip Research and Development Labs
+.TP
+.I Loc:
+The physical location of the site, put stuff like the City, State, and
+country in this field.
+.TP
+.I Geog:
+The lattitude and longitude of the server location.  For instance, the
+entry for Minneapolis, MN, USA would be:
+.B 44 58 48 N 93 15 49 W
+.TP
+.I Language:
+The ANSI language of the site, as used by setlocale().  Here are some
+sample settings:
+.IP
+ Danish                  Da_DK
+ Dutch (Belgium)         Nl_BE
+ Dutch                   Nl_NL
+ English (Great Britian) En_GB
+ English (US)            En_US
+ Finnish                 Fi_FI
+ French (Belgium)        Fr_BE
+ French (Canada)         Fr_CA
+ French (Switzerland)    Fr_CH
+ French                  Fr_FR
+ German (Switzerland)    De_CH
+ German                  De_DE
+ Greek                   El_GR
+ Icelandic               Is_IS
+ Italian                 It_IT
+ Japanese                Jp_JP
+ Norwegian               No_NO
+ Portuguese              Pt_PT
+ Spanish                 Es_ES
+ Swedish                 Sv_SE
+ Turkish                 Tr_TR
+.TP
+.I Cachetime:
+sets the time (in seconds) to cache gopher directory listings into the files
+named
+.B .cache
+and 
+.B .cache+
+.TP
+.I ViewExt:
+maps a filename extension onto a particular gopher type.  The first
+parameter is a case insensitive extension like
+.B .gif.
+The next parameter is the single character gopher type (1,0,I,etc...)
+The third parameter is a prefix that will be appended to the normal
+filename path.  The fourth parameter is the gopher+ view attribute or
+Internet Media Type (formerly called MIME Content Types), such as
+.B image/gif
+The optional fifth parameter is a language to use for the file instead
+of the default language.
+.TP
+.I Ignore:
+specifies a filename extension to ignore completely.  Files matching
+the ignore criteria are never presented to the gopher user.  However,
+ignoring files does not protect them from prying eyes.
+.TP
+.I Ignore_patt:
+specifies a regular expression for filenames to not include in directory
+listings presented to clients. Ignoring files does not protect them
+from prying eyes.
+.TP
+.I BlockExt:
+specifies that a file with a particular extension is to be mapped to a
+specific gopher+ attribute block.  For instance the line:
+.B BlockExt: .abstract ABSTRACT 
+would map all files with the extension .abstract into an abstract for
+the file without the abstract extension.
+.TP
+.I BlockExtRef:
+Alias of
+.IR BlockExt .
+.TP
+.I Decoder:
+specifies that the given program will be run on the given extension when
+the file is retrieved.  This is most often used for compressed files.
+.TP
+.I SecureUsers:
+specifies account file for AUTH1 access protocol.
+.TP
+.I VeronicaIndex:
+defines a crude control of whether or not
+.I Veronica
+servers should index this tree.
+Valid values: "no" to forbid, anything else to allow.
+.TP
+.I BummerMsg: 
+specifies a message that will be presented to the client when access
+is denied.
+.TP
+.I MaxConnections:
+allows you to control access to your server by limiting access to a
+maximum number of concurrent sessions.  When this maximum is reached
+connections will be refused.  You can gain a finer level of control by
+using the access: keywords.
+
+.TP
+.I Access:
+allows you to set who can browse directories, read files, and search
+your system.  The first parameter is a domain name component (
+like .micro.umn.edu), a fragment of an IP address (like 129.42.172), or the
+special key "default"  The second parameter is a list of comma
+separated words defining the access for the particular match,
+optionally beginning with a negation character (!).  The four words
+that define access levels are "browse", "read", "search", and "ftp".
+For instance, to allow reading and browsing, and usage of local gopher/ftp
+gateway, but not searching specify "read,browse,!search,ftp" for the second
+parameter.
+
+If you're using the site access system, you'll want to set the default
+access level *first*.  All following entries inherit the default that
+you set.  For instance, if your default is "!read,!browse,!search,!ftp" and
+you want to turn on browse access for a certain machine you can just
+specify "browse", not "!read,browse,!search,!ftp"
+
+You can also limit access based on the amount of concurrent
+transactions.  An error message is returned once the maximum number of
+connections have been reached..
+
+.TP
+.I Authscript:
+allows you to specify an authentication script that will be run for a
+specific access method.  The script will be run with the user
+environment set as follows:
+
+  GOPHER_USER    The username typed in the form.
+  GOPHER_PW      The password typed in the form.
+  GOPHER_HOST    The full dns name of the client.
+  GOPHER_IP      The ip# of the client.
+
+The script should return the following result values:
+
+  0   User is okay.
+  1   The password is bad.
+  2   The password is expired.
+  3   The user does not exist.
+  >4  Other error.
+
+.TP
+.I Authitem:
+allows you to specify username and password authentication for a given
+item.  The first parameter is the authentication method.  This will be
+'unix' to use the default unix password file, 'unixfile' to use the
+etc/passwd file in the gopher-data directory or a script method that was
+previously defined with an
+.B Authscript: 
+line in gopherd.conf.
+
+The second parameter is the item to authenticate.  This can be a
+directory name, a file or a regular expression.
+
+Two optional parameters are available when using the unixfile
+authentication method.
+
+You can specify a third parameter for a specific password file to use.
+An optional fourth parameter specifies a group access list.  Multiple
+groups are separated by commas.  See the section on GroupDir: for more
+information on managing groups.
+
+
+ Here are some examples:
+
+ Authitem: unix /documents/secure
+ Authitem: unixfile /README etc/mypasswd staff,admin
+ Authitem: myscript .*/Protected
+
+
+The first example protects the directory /docuemnts/secure and it's
+contents by asking for a valid username and password combination from
+the system's default passwd file. 
+
+The second protects the file /README in the same fashion, except it
+looks in the {gopher-data}/etc/mypasswd file for a valid username and
+password, and only allows users in the staff and admin group access.
+
+The third protects all items named 'Protected' by asking for a valid
+username and password that gets passed to the script defined for the
+myscript authentication method.  A line like the following must
+precede this line.
+
+  Authscript: myscript /bin/authenticate-me
+
+To actually generate the form for authentication you will need to put
+a link on your server that has the same path as the authenticated
+item with the word 'validate ' prepended to it.  Here is a sample
+link: 
+
+ Type=1?
+ Name=Secure Documents
+ Path=validate 1/documents/secure
+ Host=+
+ Port=+
+
+.TP
+.I Serverpw:
+allows you to specify the internal server password used to encode
+tickets for 
+.B Authitem:
+items.
+
+.TP
+.I Filesep:
+allows you to split files into a gopher directory.  The single
+argument is a regular expression that denotes the lines that separate
+the sections of the file.  (i.e. a row of dashes)  You can specify any
+legal regular expression here.
+
+Note that the first line of the file to be split must match this
+expression to be a canidate for splitting.
+
+.TP
+.I Include:
+allows you to process the contents of another configuration file.  You
+could separate out options into different files with this option.
+
+The single argument is the name of a file that contains the options
+you wish to load.  If the filename does not begin with a slash (/) the
+server tries to open the file in the SERVERDIR directory defined in
+Makefile.config.
+
+Currently you can next include directives ten levels deep.  Further
+includes will generate an error message after 10 levels.
+
+.TP
+.I GroupDir:
+allows you to specify a directory that contains one or more group
+files.  The format of a group file is very simple.  To create a new
+group, you create a new file with the name of the group.  For
+instance, to create the group staff, you would create a new text file
+called 'staff' inside your specific GroupDir.
+
+To add a user to a group you simply add the user to the appropriate
+file.  List each username on a line by itself.
+
+To actually use these groups you should refer to the documentation on
+the Authitem: line.
+
+.LP
+.I
+Sample gopherd.conf file
+
+.IP
+ #
+ # The name we want to be known as
+ #
+ hostalias: gopher.turnip.com
+
+ # How long a .cache or .cache+ file is valid (in seconds)
+ Cachetime: 180
+
+ # Administrator
+
+ Admin: Bob Bagel, Turnip Postmaster and Gopher support 1-800-555-1212 
+ AdminEmail: gopher@turnip.com
+
+ #
+ # Site description
+ #
+
+ Site: Turnip Research and Development labs
+ Org: Turnip Incorporated
+ Loc: Minneapolis, MN, USA
+ Geog: 44 58 48 N 93 15 49 W
+ Language: En_US
+
+ #
+ # Extension mapping
+ #
+
+ # Files the server needs to decode before sending
+ decoder: .Z /usr/ucb/zcat
+ decoder: .gz /usr/gnu/bin/zcat
+
+ # Different Languages
+ viewext: .txt.spanish 0 0 Text/plain Es_ES
+ viewext: .txt.german 0 0 Text/plain De_DE
+ viewext: .txt.french 0 0 Text/plain Fr_FR
+
+ viewext: .hqx 4 0 application/mac-binhex40
+
+ #
+ # Graphics file formats
+ #
+ viewext: .gif I 9 image/gif
+ viewext: .tiff I 9 image/TIFF
+ viewext: .jpg I 9 image/JPEG
+
+ #
+ # Sounds
+ #
+ viewext: .au s s audio/basic
+ viewext: .snd s s audio/basic
+ viewext: .wav s s audio/microsoft-wave
+
+ #
+ # Movies
+ #
+ viewext: .mov ; 9 video/quicktime
+ viewext: .mpg ; 9 video/mpeg
+
+ #
+ # Binary files
+ #
+ viewext: .zip 5 9 application/zip
+ viewext: .arj 5 9 application/x-arj
+
+
+ #
+ # Various forms of text
+ #
+ viewext: .ps 0 0 application/postscript
+ viewext: .tex 0 0 application/x-tex
+ viewext: .dvi 0 9 application/x-dvi
+ viewext: .troff 0 0 Text/x-troff
+
+ #
+ # These are defined by IANA..
+ #
+ viewext: .rtf 0 0 application/rtf
+ viewext: .word 0 0 application/MSWord
+ viewext: .mw 0 0 application/MacWriteII
+ viewext: .wp 0 0 application/dca-rft
+ viewext: .rch 0 0 Text/richtext
+ viewext: .wri 9 9 application/Microsoft-write
+
+
+ viewext: .smell 9 9 smell/funky
+
+ #
+ #
+ viewext: .mindex 7 mindex: application/gopher-menu
+ viewext: .src 7 waissrc: Directory
+ viewext: .html h 0 text/html
+
+ #
+ # Map files to certain blocks
+ # 
+
+ blockext: .abstract ABSTRACT
+ blockext: .ask ASK
+
+
+ #
+ # Error message generated for non local hosts
+ #
+ Bummermsg: Sorry no access for non turnipheads.
+
+ # scratch directory for concurrent session load limiting.
+ # Needs to be inside your gopher-data directory if running chrooted.
+ #
+ PIDS_Directory: /pids
+
+ # Don't allow anyone to read or browse, nor ftp via us, 
+ # anyone can search though.
+ access: default         !browse,!read,!ftp,search
+ #
+ # allow any hostname that ends with 
+ # turnip.com to browse, read, and ftp
+ #
+ access: .turnip.com 	browse,read,ftp
+ #
+ # Allow anyone on a class C network 
+ # (starting with 192) to browse
+ #
+ access: 192.		browse
+ #
+ # Allow anyone on the 128.101.193 network 
+ # to read from us.
+ #
+ access: 128.101.193  	read
+ #
+ # Turn off searching for these bozos
+ # they can't do anything
+ #
+ access: bozo.org	!search
+
+.
+
+.SH "SEE ALSO"
+.IR "Media Type Registration Procedure" ", March 1994, RFC 1590"

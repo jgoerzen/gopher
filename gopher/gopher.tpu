@@ -1,0 +1,48 @@
+!!
+!!  Procedure for using TPU with EDT keypad functions as gopher pager on VMS.
+!!  Adapted from procedure by:  Eric Gallagher EGALLAGHER@nimue.hood.edu
+!!
+procedure eve$set_status_line (this_window)
+
+local this_buffer,         !  The current buffer.
+      mode_string,         !  String version of current mode.
+      direction_string;    !  String version of current direction.
+     
+this_buffer := get_info (this_window, eve$kt_buffer);
+
+!!  Below, a brief statement to prevent adding a status line to those
+!!  windows that don't need one.
+
+if (this_buffer = 0) or (get_info (this_window, "status_line") = 0) then
+   return;
+endif;
+
+!!  Below is a section straight from the original procedure.  It may be
+!!  marginally useful, so it may as well be kept.
+
+if get_info (this_buffer, eve$kt_mode) = insert then
+   mode_string := "Insert    ";
+else
+   mode_string := "Overstrike";
+endif;
+
+if get_info (this_buffer, "direction") = reverse then
+   direction_string := "Reverse";
+else
+   direction_string := "Forward";
+endif;
+
+!!  Set the status line
+
+set (status_line, this_window, reverse,
+   " Exit from this Reader: Ctrl-Z  |  Find Keyword: Home  |  Direction: " 
+     + direction_string);
+endprocedure;
+
+eve$set_status_line(current_window);
+
+set (no_write,current_buffer);
+
+!! Set EDT-style keypad functions
+
+eve$set_edt_keypad;

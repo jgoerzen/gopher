@@ -1,0 +1,3 @@
+identification = "NETLIB-2.0x"
+netlib_shrxfr/shareable
+sys$share:vaxcrtl/shareable

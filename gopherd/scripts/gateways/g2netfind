@@ -1,0 +1,74 @@
+#!/usr/local/bin/perl
+
+#----------------------------------------------------------------------
+# variables you should change:
+
+$dblookupcmd   = "/home/mudhoney/netfind/nf/dblookup";
+$netfindcmd    = "/home/mudhoney/netfind/nf/netfind";
+
+#----------------------------------------------------------------------
+# gateway from gopher to netfind, requires netfind 3.46 or above
+
+if ($0 =~ /.gpd/) {
+    # We have gopher+ directory...
+    $gplus = 1;
+}
+
+if ($#ARGV > 0) {
+    $name = shift;
+    $domain = join(" ",  @ARGV);
+} else {
+    $name = <>; chop($query);
+    $domain = <>; chop($domains);
+}
+
+if ((length($name) < 1) || (length($domain) < 1) ) {
+    print "+INFO: " if ($gplus);
+    print "0Please fill in both fields...\tmoo\tmoo\t70\n";
+}
+print "$name, $domain\n";
+if ($name =~ /^\@\@/) {
+    $cmd = "netfind";
+    $name = substr($name, 2);
+} else {
+    $cmd = "dblookup";
+}
+
+print "$name, $domain\n";
+
+# Filter out naughtyness that might subvert security
+
+
+if ($cmd =~ /^dblookup/) {
+    $name  =~ s/([^A-Za-z0-9])//g;
+    $domain =~ s/([^A-Za-z0-9 ])//g;
+    
+    $dbcmd = "$dblookupcmd \"$domain\"";
+    open(Dbfd, "$dbcmd |");
+    while (<Dbfd>) {
+	chop;
+	$title = $_;
+	/^([^ ]+) .*/;
+	$domain = $1;
+	print "+INFO: " if ($gplus);
+	print "0$title\texec:@@@$name $domain:/bin/gateways/g2netfind.gd\t$Ghost\t$Gport\n";
+    }
+    close(Dbfd);
+} 
+
+if ($cmd =~ /^netfind/) {
+    
+    $brokendomain = $domain;
+    $brokendomain =~ s/\./ /g;
+    
+    print "Domain is $domain.., user is $name\n";
+    $nfcmd = "$netfindcmd -L $domain $name $brokendomain </dev/null 2>&1";
+    open(nffd, "$nfcmd|");
+    while (<nffd>) {
+	chop;
+	print "$_\r\n";
+    }
+    print "\r\n";
+    close(nffd);
+}
+

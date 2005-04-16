@@ -1,0 +1,5 @@
+#!/bin/sh
+echo "Hmmm, looks like your system doesn't have ranlib.."
+echo "or you have dot in your path before ranlib"
+echo " "
+echo "Delete the file object/ranlib if the latter"

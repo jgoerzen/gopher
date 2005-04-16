@@ -1,0 +1,8 @@
+Path=./links
+Name=Dot Link file tests..
+#
+Path=./auxconf
+Name=Alternate Configuration File tests
+#
+Path=./ftp-horrors
+Name=Hall of FTP Horrors

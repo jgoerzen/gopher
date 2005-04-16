@@ -1,0 +1,1275 @@
+$Id: client.changes,v 1.1 2000/08/19 00:28:56 jgoerzen Exp $
+
+Gopher 2.3 patchlevel 0
+-----------------------
+
+ * Entire source tree modified to use GNU autoconf.
+
+
+Gopher 2.2 patchlevel 0
+-----------------------
+
+ * Entire source tree converted to ANSI C.
+
+ * New interrupt routines.
+
+ * Prevent sending "gripe" messages that might have just been accidental
+   typing of 'g', by requiring a minimum size message
+
+ * Added an environment variable GOPHERMENUSTYLE for sites that might
+   want to display the menu differently than as "[%d] title..."
+
+ * Klingon messages, for folks who get into that sort of thing..
+
+
+Gopher 2.1 Client patchlevel 3
+------------------------------
+
+ * Replaced Gopher Object Initializer routines. This fixes some problems
+   on some systems (VMS in particular)
+
+
+Gopher 2.1 Client patchlevel 2
+------------------------------
+
+ * *IMPORTANT* Fix for binary file retrievals on certain machines.
+
+ * Word wrapping now works in ASK forms.  Thanks go to Pacific Bell
+   Knowledge Network for these patches.
+
+ * Client can now use SOCKS for sites behind firewalls.  See
+   Makefile.config for more configuration information
+
+ * Added Danish Gopher Messages and Help file.
+
+ * New Espanol Help file
+
+ * Added Danish as a default choice for VMS clients, more hlp and
+   hlp_secure comments for folks customizing their message files.
+
+ * Use VARIABLE length records for text on VMS
+
+ * Don't add the default gopher server when using the -b option.
+
+ * Fixes for jpeg, tiff display in the default gopher.rc file.
+
+ * Remove hard limit of 5 AskL items per form.  Patch provided by
+   Pacific Bell Knowledge Network.
+
+ * Dynamic screen position code, long title fix from Allan L. Bazinet
+
+ * Fix for VMS language build procedures.
+
+ * Fix memory leaks.
+
+ * Fix for UCX menu ordering
+
+
+
+Gopher 2.1 Client patchlevel 1
+------------------------------
+
+ * Fixed a major problem with launching telnet in the fileio routines.
+   Some operating systems would get hung in FIOwaitpid forever.
+
+ * Added VMS code from F. Macrides for specifying the default language
+   via the GOPHERMSGS_DEFAULT definition in conf.h, for when a series of
+   languages have been made available by setting the DCL logical
+   LC_MESSAGES to the * wildcard.
+
+ * Added code for specifying the device where shared images of message
+   files will be found, via the GOPHERMSGS_DEV definition in conf.h.
+
+ * Better VMS TPU language build script.
+
+ * Indicate 'D'ownload as an option on exit from the pager in SecureMode
+   and NoShellMode.
+
+ * Don't auto exit paging at the end of the file
+
+ * Fixes for French messages from Eddy Beliveau
+
+ * JL Wilkinson 16-Jul-1994 Merged in TGV's syslog() functions to allow
+   the CLIENT_LOGGER and TELNET_TRACE functionality to work with
+   Multinet.
+
+ * Fix for folks with non gopher port of 70 in conf.h
+
+ * DEBUG compile option for VMS
+
+ * Fix prototype for DCLspawn_exception
+
+ * Better VMS make, compile and link com files.
+
+Gopher 2.1 Client patchlevel 0
+------------------------------
+
+ * New Language files for Italian, German and piglatin.
+
+ * Added support for Adobe Portable Document Format, PDF.
+
+ * Bug fix: adding a text file to the bookmark list doesn't make the
+   file inaccessable.
+
+ * Start to support the IETF URL format partially.
+
+ * Client can now print to ANSI attached printers in the built in
+   pager. 
+
+ * Features from Alan and JL for Language Definitions and Gripes
+   F.Macrides 27-May-1994 Added option to allow 'd'elete only for
+   bookmarks via a DELETE_BOOKMARKS_ONLY compilation symbol.
+
+ * Add INTLOPTS, add locales dir target for clean
+
+ * Add parenenthesis to illegal chars
+
+ * Add internal upload and download options to code (no docs yet..)
+
+ * Skip over type 'i' items.
+
+ * Added code from J. Lance and Alan C. to do better internationalization
+
+ * Pause after telnet/tn3270 to permit reading of any error messages.
+
+ * Added telnet and tn3270 to prompt for a URL via the 'w' command.
+
+ * Gopher can use some URLs on the command line (without the -w flag..)
+
+ * NEVERSETOPTIONS compilation symbol disables ability to set options via
+   SetOptions() and issues an appropriate message.
+
+ * NEVERSPAWN compilation symbol disables the spawn command and issues an
+   appropriate message.
+
+ * On VMS, the NEVERSETOPTIONS and NEVERSPAWN symbols can be used to
+   create a gopher image for CAPTIVE accounts which still permits
+   functions that would be disabled by the -s or -S switch, but issues an
+   appropriate message (rather than a DCL error message) on spawn attempt
+   and precludes "creative" modifications of the display software and
+   print command mappings.
+
+ * make searchbolding the default, add note for vms admins
+
+ * Fix problem with NO_MAPS.. define, add code to check for new config file
+
+ * Allow 'home' gopher server in gopherrc files.
+
+ * Define, add code to check for new config file in the global
+   gopher.rc.  The user can choose whether to merge the new definitions
+   in.
+
+ * Define Gopher type '!' as an application.  Applications are
+   launched based on the gopher+ view type.  Documents aren't
+   tranferred and there isn't any prompting.
+
+ * (F.Macrides) Fixed PagerNextPage() and PagerSearch() to not add extra
+   blank lines following lines that are exactly equal to the screen width
+   on VMS.  Added code to disallow 'm'ail if SecureMode or NoShellMode
+   and the NOMAIL symbol was defined on compilation.
+
+ * New message base for Latin American Spanish.
+
+ * French Gopher Help file
+
+Gopher+2.0 patchlevel 16
+------------------------
+
+ * F.Macrides 27-May-1994 Added option to allow 'd'elete only for
+   bookmarks via a DELETE_BOOKMARKS_ONLY compilation symbol.
+
+ * Added option to not read maps from the user rc file (i.e., only from
+   the system rc file) in SecureMode or NoShellMode, via the compilation
+   symbol SECURE_MAPS_GLOBALRC_ONLY.
+
+ * Put back -force_html %s for the lynx command in the VMS section
+   (really *is* needed with the current text/html code when foo.html
+   files are supplied by a gopher+ server from it's own data tree; other
+   Web browsers don't have that switch, and won't work right with gopher+
+   servers until they can use the gopher+ extra stuff to determine the
+   mime type.
+
+ * Better Man pages
+
+ * Remove hymoo.c from VMS compilation script
+
+ * Added option to allow 'd'elete only for bookmarks via a
+   DELETE_BOOKMARKS_ONLY compilation symbol.
+
+ * Fix for SetOptions() on VMS
+
+ * better gopher help file
+
+ * make searchbolding the default, add note for vms admins
+
+ * (F.Macrides) Added option for not reading maps from a
+   Bookmark file when the client is running in SecureMode or NoShellMode,
+   implemenented via the compilation symbol SECURE_MAPS_GLOBALRC_ONLY
+
+ * Fix for VMS linking problem
+
+ * Added Gerd.Boehm@physik.uni-regensburg.de patch for off-by-one line
+   counts in AskL blocks.
+
+ * Fix for CSO dashes mania..
+
+ * (F.Macrides) Fixed PagerNextPage() and PagerSearch() to not add extra
+   blank lines following lines that are exactly equal to the screen width
+   on VMS.  Added code to disallow 'm'ail if SecureMode or NoShellMode
+   and the NOMAIL symbol was defined on compilation.
+   Fix for redisplay after using help
+
+ * Add Swedish messages from Johan Svensson
+
+ * Fix for NO_FREEWAIS switch
+
+
+Gopher+2.0 patchlevel 15
+------------------------
+
+ * Many modifications for internationalization.  Gopher can now use
+   message catalogs for French and Spanish.  Adding other languages is
+   fairly easy.
+
+ * Fix for Forms with multiple AskL items, or AskL items not as the
+   last item.
+
+ * Don't allow users with rsh to specify a shell as an display or
+   print application.
+
+ * Added documentation on the new URL= option in .link file from Alan
+   Coopersmith
+
+ * New manual page for gopherrc.
+
+ * Fix for bad free() in CURrequest()
+
+ * Fixed ^_ mislabel of the ^- help command.
+
+ * Added prompt for RETURN in VMSExit(), to enable reading of ACCVIO
+   tracebacks
+
+ * Changed return values of DCLSystem() to be compatible with the
+   for-Unix code.
+
+ * Fixed spawns to work with OpenVMS/AXP v6.1 (still doesn't have the
+   TRUSTED flag).
+
+ * Modifications for Debug() and mismatched NULL arguments, added
+   Debugmsg
+
+ * Fix for last line without newline
+
+ * Mods for TCPWARE on VMS
+
+ * Use fast malloc routines on VMS VAXC.
+
+ * Fix for binhex downloads on vms and use dump command for binary files
+
+ * Fix for bad free() in SetOptions()
+
+ * Added code for mapping telnet and/or tn3270 commands to "- none -" for
+   disabling them and having the client issue "Sorry, not implemented"
+   messages on efforts to use Type 8 or T tuples.
+
+ * Added FIOsystem() failure messages for both VMS and Unix. (all from
+   F.Macrides)
+
+ * Allow VMS environment variable reading routines to be used on Unix
+   systems.
+
+ * eliminate redefinition of open to open_vmsopt() for ALPHA (Macrides)
+
+ * Fixed break of open() for Alpha.  (all From F.Macrides)
+
+
+Gopher+2.0 patchlevel 14
+------------------------
+
+ * Fix for the problem of vanishing bookmarks
+
+Gopher+2.0 patchlevel 13
+------------------------
+
+ * Fix for bug when mailing items that caused a most certain crash..
+
+ * Fixed definitions for HTML browsers.
+
+ * Added support for AskL: items in ASK forms.  Currently you're
+   limited to a maximum of ten lines.
+
+ * All remaining dangerous system calls were replaced with FIOsystem()
+   calls. (i.e. the secure system call)
+
+ * Fixed a few rare bugs with ASK blocks where whatever you typed was
+   wiped out.
+
+ * Should compile on more systems probably pyramids..
+
+
+Gopher+2.0 patchlevel 12
+------------------------
+
+ * Fix for big bad telnet security whole, plus many more additions for
+   secure process i/o
+
+ * Forms now use new screen management functions.  Any size form can
+   be scrolled through, this includes other forms, like the CSO search
+   screen.
+
+ * Boxes and alternate character sets are used in a much more sane
+   manner.  The problem of garbage on OSF/1 systems and others should be
+   remedied
+
+ * The Help file has been improved.
+
+ * Improved Gripe command, improved signal handling
+
+ * Client now compiles correctly for Data General
+
+ * text/html viewer support for lynx 2.1 &  CERN's www-linemode client
+
+ * Added anonymous ftp type 'f' option
+
+ * Better sanity checks for box drawing characters
+
+ * Fix bug in gcc for Solaris 2.x for curses routines
+
+ * New memory management routines for strings improves performance
+   quite a bit for large directories
+
+ * More robust routines that deal with malformed VIEWS blocks 
+
+ * Better GDdeleteGS method, allow ignoring of items by doing a Type=X
+   in a .names file
+
+ * Allow bangs in Domain= lines, to negate classes of hosts
+
+ * Portions of the code now use the new non sh routines for starting
+   processes.  More will follow.
+
+ * Much better URL handling from Alan Coopersmith
+
+
+
+Gopher+2.0 patchlevel 11
+------------------------
+
+ * Better method of drawing box characters dependent on terminal type.
+   Terminal types supported: vt100, z29, others.
+
+ * Don't allow downloads of type 'i' items.
+
+ * 'v' no longer does anything if user is already viewing bookmarks.
+
+ * Fix the 'm' command so that it deletes the current menu's cache files.
+   Also prevent 'm' from destroying bookmarks. (Beckett)
+
+ * In describe_gopher(), add TRUE argument to GStoLink() so that the Admin
+   and ModDate information are displayed ('=' and '^').  (Macrides)
+
+ * Prevent describe_gopher() from destroying the cache file for the current
+   item.  (Beckett, Wolfe)
+
+ * More stable file caching, subject line chopping in Gripe
+
+ * Fix improper include of sys/fcntl.h in gopherrc.c
+
+ * Prettier Info items in gopher directories, removed dot from the end of files
+   In DisplayTitle(), <Movie> menu items now fit properly when the line is
+   too long for the screen.  (Beckett)
+
+ * filter out more characters when saving files for VMS
+
+ * In Save_file(), disallow saving of <CSO> type since this is fetched as a
+   set of indexed fields instead of as a savable file.  Also disallow
+   saving of info and error types since there's nothing to save.  (Wolfe,
+   Beckett, Macrides)
+
+ * Clarified help/messages, mods for box display
+   In PagerInitGlobal(), initialize 'currentpage' to 0 in order to correct
+   problems with the page-up command ('b') that are due to the static
+   nature of 'currentpage' and 'positions[]'.  Remove static initialization
+   of 'currentpage' since it may be misleading.  (Wolfe)
+
+ * In PagerBuiltin(), fix page-up ('b') command to not execute if the
+   currently displayed page is the first page of the text.  (Wolfe)
+
+ * In PagerBuiltin(), fix search command ('/') to begin searching at the
+   top of the currently displayed page.  This allows search to successfully
+   find and highlight text on this page.  (Wolfe)
+
+ * In PagerBuiltin(), modify search command ('/') to not search for a null
+   string.  (Wolfe)
+
+ * In PagerBuiltin(), modify repeat search ('n') to display an error
+   message when attempted without a defined search string.  This is
+   consistent with the behavior of 'n' at the menu level.  (Wolfe)
+
+ * In PagerBuiltin(), clean up deleted subwindows when doing searches.
+   This affects AIX, Ultrix, and perhaps others.  (Beckett)
+
+ * Add q to exit out of pager for completeness
+
+
+Gopher+2.0 patchlevel 10
+------------------------
+ 
+ * Fix for segmentation fault when saving or downloading
+ 
+ * Fix for osf curses line drawing characters
+
+ * Fix for people trying to download the help file
+
+ * Move screen refresh stuff to CURwgetch()
+
+ * Add optional client logging
+
+ * Cleanup on a SIGHUP signal
+
+ * Use $HOME instead of password routines to read .gopherrc
+
+ * Allow saving to variable length record VMS files (see conf.h)
+
+ * Add Movie (;) and Info (i) type support
+
+ * Add q to exit out of pager for completeness
+
+ * Now possible to print via builtin pager.
+
+
+
+Gopher+2.0 patchlevel 9
+-----------------------
+
+ * Add early searching.. tag for CSO, better ui
+
+ * Fixed spawned process error checking on Unix, add third arg to Save_File
+
+ * Cleanup on a SIGHUP signal
+
+ * Fixes for empty bookmark addition problem
+
+ * Fix for segvs when exiting early
+
+ * In the 'o' command, allocate memory for the form based on screen width.
+
+ * Don't redraw the screen if we attempt to go up a directory level from
+   the root level.
+
+ * In Gripe(), allocate memory for the form based on screen width.  Fix
+   email parsing under VMS.  Fix problem where gopher did not delete mail
+   temp files under VMS. (Becket)
+
+ * In process_request(), make the status "Receiving xxxx..." a bit more
+   descriptive for images, MIME files, and other files. (Becket)
+
+ * In Save_file(), choose a view BEFORE opening the file -- user may
+   change mind and cancel, which left a zero-length file previously.
+  
+ * In Save_file(), check to see if a view has already been chosen. 
+
+ * Redraw the screen after e-mailing a document.  User may be emailing to
+   himself or get an error message.
+
+ * Backing past the top of document no longer brings up help.  Text screen
+   no longer redraws after the help screen disappears.
+
+ * The gopher: url shouldn't have that extra slash
+
+
+Gopher+2.0 patchlevel 8
+-----------------------
+
+ * The built in pager can now mail/save/download.
+
+ * Add [space to cycle] prompt *before* you entered a choice item in
+   an ask block.
+
+ * Bolding of searched words in the pager is now a changeable option.
+
+ * Pressing the DEC HELP key/KEY_HELP will get help
+
+ * Fixed lots of memory allocation errors in AskBlocks code.
+   Shouldn't dump core no more..
+
+ * Client will clean up transfered files on more abnormal occasions.
+
+ * Last bookmark can now be deleted.
+
+
+Gopher+2.0 patchlevel 7
+-----------------------
+
+ * Make sun shared libraries optional
+
+ * Add support for DEC HELP key/KEY_HELP
+
+ * Exit on error reading from terminal (kills spinning processes)
+
+ * Implement all remaining ASK block items (Select, Choose).
+
+ * Some Spelling corrections
+
+ * Modified CURGetOneOption() to have a Title field.  Serveral other
+   routines modified for improved line editing and to show all available
+   commands while answering prompts.  If dialog box has only one prompt,
+   as for search query entries, start user entry on new line so more of
+   the screen is available for the entry (useful for search terms with
+   booleans).
+
+ * Add Funky cool builtin pager (also changed defaults to use builtin pager.)
+
+ * Fix core dumps when exiting from bookmark screen.
+
+ * Add support for tn3270 on oddball ports..
+
+ * Add command-line searching
+
+ * Fix for caching of alternate view items.
+
+ * Don't allow null applications to be added with the options code.
+
+ * Getting info displays the URL of the item.
+
+ * Inform user about mal-configuration if view has Unix piping on VMS.
+
+ * Added code for mailing gripes from VMS systems, and fixed memory leak
+   in the Unix code.
+
+ * Added v1.12b 'S' command for saving titles in a directory.
+
+ * Added titles to CURGetOneOption() calls.
+
+ * Don't connect if nothing typed in 'o'
+
+ * Add a sample TPU file/pager for VMS
+
+ * Add Environment variable processing for VMS, plus add support for HTML
+
+ * Moved GLOBALRC definition to conf.h for VMS
+
+ * Use and external browser for html
+
+ * Add support for HTML and MIME on the menu displays
+
+ * Fix for compiler error on Alpha
+
+
+Gopher+2.0 patchlevel 6
+-----------------------
+
+ * Fix for problems when retrieving empty directories.
+
+ * Fix for arrow updating.
+
+ * Don't connect if nothing typed in 'o'
+
+ * Selecting an Ask item more than once doesn't crash the client.
+
+ * Many fixes for DEC Alpha AXPs running OpenVMS from F.Macrides:
+
+   Added temporary code to work around DECC/AXP's problems with screen
+   clearing and cursor homing (we'll get rid of that code if the problem
+   goes away in the next version of DECC/AXP).  It's bolding via
+   standout() or wstandout(win) still doesn't work, but that's not a
+   serious functional problem for gopher users on Alphas.
+ 
+   Added exit block to ensure that the terminal characteristics are
+   retored and cleanups are done on VMS.
+   
+   Added code for getting terminal characteristics
+   from the terminal table on VMS.
+ 
+   Replaced/modified Cruft for VMS with routines which handle both
+   Control C and Control Y, enable use of ReallyQuit(), and restore all
+   original terminal characteristics for spawns and intentional or
+   unintentional exits.  Did it in a way that should stay transparent to
+   the otherwise "for-Unix" code, and should hold up with future mods or
+   enhancements of that code.  Standout() doesn't work at all and
+   endwin() and delwin() are unreliable on Alphas (due to bugs in the
+   Alpha's Curses library).  Andrew Heyler is looking into workarounds,
+   should DEC not fix the bugs soon.  Code compiles with DECC on Alphas
+   without warnings or error messages, but still get lots of
+   "informational" messages due to incomplete prototyping (no problems or
+   compiler messages with VAXC).
+
+ * REMOTEUSER is now compiled in by default..
+
+ * More debugging output from Mitra.
+
+ * secure patch from mitra.
+
+ * Moved vms opt files into their own directory.
+   
+
+Gopher+2.0 patchlevel 5
+-----------------------
+ * Fix for really long strings in some menus
+
+ * Get rid of the beep during a ^G in CURwgetstr().
+
+ * Make CURChoice() delete its window when it exits.
+
+ * Fixes for CMULIB and NETLIB for VMS
+
+ * Mods for VMS for telnet dialog, argv[0]
+
+ * use x-troff instead of troff in gopher.rc
+
+Gopher+2.0 patchlevel 3
+-----------------------
+
+ * Additional checking for mail address syntax from Wolfgang Ley.
+
+
+Gopher+2.0 patchlevel 3
+-----------------------
+
+ * Should compile for CMUIP and NETLIB on VMS (not tested)
+
+ * Fix for control-c on startup
+
+ * Added warning comments in mail_file()
+
+
+Gopher+2.0 patchlevel 2
+-----------------------
+
+ * Use /bin/mail instead of ucbmail
+
+ * Rebuild client if patchlevel.h changes
+
+ * Fix for problems with '=' and '?' and /bin/mail Gripe mods
+
+
+Gopher+2.0 patchlevel 1
+-----------------------
+
+ * Bigger Better Badder Options, inspired by jqj
+
+ * Audio file fix from jqj
+
+ * Don't allow securemode types to use o
+
+ * Bigger Better Badder Options, inspired by jqj
+
+ * Fix for VMS unresolved variables
+
+ * Change audio/mulaw to audio/basic for MIME
+
+
+Gopher+2.0
+----------
+
+* Client supports AskL: and AskP:
+
+* Mitra mods..
+
+  More secure downloads.
+
+  Optional Autoexit feature.
+
+* Mods from Dirk Herr-Hoyman:
+
+  Add default to gopher client view selection.  This includes making
+  Text/plain the default view.  
+
+  Make view types "pretty" in view selection.
+
+  Fixed a nasty bug view selection.  When you choose an item that does
+  not have a viewer, a previous view type was used.  Don't EVER use
+  static again :-)
+
+  Various error checks.  Mostly adding error checking.
+
+* Interrupts are now handled cleanly.  Pressing control-c and then
+  selecting "n' for no will leave you back where you started..
+
+* Client now compiles on VMS cleanly.
+
+* ASK blocks now work for all Gopher items, not just documents..
+
+* Fixed problems with CSO caching of search results.  Also changed the
+  way CSO searches are done, you return to the search dialog after each
+  search instead of returning to the directory view.
+
+* Kermit binary downloads now work.
+
+* Fixed problem in gripe with messed displays..
+
+* Fixed VMS telnet's using Multinet so they work correctly for ports
+  other than 23.
+
+* CleanupandExit() now works better with some signal() implementations.
+
+* Added ^R and ^W as aliases for redraw for VMS
+
+* Added the 'o' command to open a new gopher session to any host/port
+
+* Fixed problem with 'A' command, it was adding the wrong directory.
+
+* Added '!' to do a shell escape. (or '$' on VMS..)
+
+* Ctrl-Z does an unconditional quit on VMS.
+
+* Fixed bug with '=' on systems without a tempnam() (i.e. NeXTs etc.)
+
+
+Changes from 1.2b3 to 1.2b4
+---------------------------
+
+* Fixed problem with signals in subprocs.c
+
+* Fixed bug in Ask routines
+
+* Made having m to mail an option for CLIENTOPTS
+
+* Removed extraneous wattron/wattroff in CURBox()
+
+* Added mods for REMOTEUSER from Mitra.
+
+* Added better error messages for non-connecting sockets (jqj).
+
+* Added client option for not including MAILing for a secure client.
+
+Changes from 1.2b2 to 1.2b3
+---------------------------
+
+* Added support for Note: block in ASK blocks.
+
+* Default ASK values now appear in the ASK form.
+
+* Removed many memory leaks.  Thanks purify!
+
+* Enhanced caching of retrieved files.  The client saves any file that
+  is viewed just in case you want to see it later.  Destroys them when
+  you're finished with a directory.
+
+* Mail Save and print are now available again, but bolding is being
+  reworked.
+
+* Screen doesn't blink when you choose an item by number (Mitra).
+
+* Memory leaks are gone, plus many more bug fixes.
+
+
+Changes from 1.12 to 1.2b2
+--------------------------
+
+* Client now works with Gopher+ servers.
+
+* Fixed problems with freeing memory on NeXT systems (and any systems
+  that have tmpnam() instead of tempnam()
+
+* Fixed problems with Gopher+ bookmarks.
+
+* Options screen is still broken, in the process of replacing it with
+  something much better.
+
+* Can now directly pipe into commands.  Can even set the pager to
+  "|more" for instantaneous viewing of big files.
+
+* Global gopher.rc file installed in CLIENTLIB
+
+* Long filenames are now truncated.
+
+
+Changes from 1.11b to 1.12
+--------------------------
+
+* Added ^R to redisplay keys for those VMS types.
+
+* Fixed window-memory leak in CURChoice();
+
+* Fixed problem with pagers that don't leave the cursor at the beginning of
+  the line.
+
+* Now compiles cleanly under UCX.
+
+* Save_file now generates "pretty" VMS default file names.
+
+* Fixed bug with one item directories not showing up correctly.
+
+Changes from 1.11 to 1.11b
+--------------------------
+
+* Save_file now filters for directories and searches.
+
+* Removed \n from system() calls for VMS.
+
+* Reverted to old behavior in readfield() This is especially important
+  for sites that stuff \n's in their titles/paths.
+
+* Bugs!!!  Fixed problem with 's' for saving at a menu.  Also fixed
+  function calling to Save_file.
+
+* Secure mode now actually lets people view documents.
+
+* VMS users can now see the bytes per second on their transfers.
+
+
+Changes from 1.1 to 1.11
+------------------------
+
+* Added file downloading command 'D'.  Right now it's hard coded for
+  kermit, sz, sb, and sx download commands.  This can be customized
+  easily by editing download.c.
+
+* Client no longer trys to display images when in secure mode.  An
+  error message is displayed instead.
+
+* Added command line option -T to set the initial type of object being
+  displayed.
+
+* Improved behaviour when executing an item by typing it's number
+  The arrow and screen are updated to reflect the item being
+  retrieved.
+
+* Fixed display problems with directory title searching.
+
+* Client now compiles underneath VMS.  See README.VMS in the top level
+  for more information. (Thanks Earl and JQ!)
+
+* Should compile on UNICOS now.  (Hal Peterson, hrp@cray.com)
+
+* CSO searches now gather fields that have the "Lookup" attribute
+  instead of the "Indexed" attribute.
+
+* Name of the CSO popup is now the name of the gopher item being
+  searched.
+
+* CSO dialog cancels automatically if no search data is entered.
+
+* Saving a file after a search doesn't save the highlighting codes
+  now at the expense of retransferring the file.
+
+* Fixed initial display message to "Press RETURN to continue".
+  Initial gopherrc file now has sane file permissions.
+
+
+Changes from 1.03 to 1.1
+------------------------
+
+* Processing of overly long titles is now better dealt with.
+
+* By popular demand, typing a number "enter's" the item, instead of
+  just moving you there.
+
+* Copyright notice is displayed when you enter gopher for the first time.
+
+* Added support for GIF files.
+
+* Fixed bug where you can't change the Mail command.
+
+* Now can save direct from the menu, press 's', doesn't put icky
+  bolding characters into your data...
+
+* You can now save into pipes, i.e. "| uncompress| xloadimage -" will
+  do the right thing... Can't do it in securemode though..
+
+* Can now save in ~/ and ~username.
+
+* Removed dead code, blew away error.c.
+
+* Fixed error processing for cso queries. (JQ Johnson)
+  jqj@ns.uoregon.edu
+
+* Changed prompt for mailing a document to "Mail current document to:"
+  Mod from dhgo@midway.uchicago.edu (donald goldhamer)
+
+* Some of the error messages are more descriptive (unknown host etc.)
+
+* Client distinguishes between 3270 and Telnet types. Marie-Christine
+  <gophadmi@gopher.yale.edu>
+
+* Fixed problem with line positioning when a failure to connect occurs.
+ <snewton@oac.hsc.uth.tmc.edu>
+
+* Fixed bug when deleting last bookmark in a directory.  Also fixed
+  screen updating problem when deleting last bookmark in a list.
+
+* Added additional input processing, ^u now kills the entire line.
+  Cursor keys can move within any entry dialog.
+
+* Fixed problem with backspace key on certain system V systems.
+
+* Cursor keys now wrap around the main gopher menu.
+
+* Added snazzy dialog boxes everywhere.  Experimented with Character
+  graphics.  Should be much easier to use.
+
+* File/socket I/O is greatly improved.  read() system calls reduced 1000
+  times or more.
+
+* Fixed problems with leftover files in /tmp.
+
+* The client now allows you to specify more than one server on the
+  command line.  Do it like this:
+
+     gopher gopher 70 gopher2 70
+
+  It will randomly choose either server, this is useful for duplicated
+  servers.
+
+
+
+Changes from v1.02 to v1.03
+---------------------------
+
+The client can now interrupt searches using Control-c.  However this
+can be buggy.  The current position on the screen isn't quite updated
+properly, and things will probably break if you're reading a long
+directory....
+
+Gopher now looks in the "Name" instead of the "path" to find a default
+name to save in..  Works for WAIS docid things.
+
+Client can now view images.  There is a new environment variable
+GOPHER_IMAGE.  It's a little different than the patch that's already
+out there.
+
+Searches in a menu (the / command) are now case insensitive.
+
+PagerCommand is now saved.  PAGER still takes precedence, though.
+
+Fixed bogus out of memory error when mailing a file.
+
+Added casts to each and every malloc();
+
+Changed name of PC binary files to PCBIN instead of HQX, confusing at
+best...
+
+Changes from v1.01 to v1.02
+---------------------------
+
+Fixed problems with input handling and core dumps on Ultrix machines.
+
+Added a new option -b, it starts the client on the bookmark page.
+
+Fixed problem with 'm' key.  It didn't update the current cursor line.
+Caused core dumps too.
+
+Fixed problem with getting moved to the first item of a directory when
+choosing not to search a search type.
+
+Fixed problem with cbreak redefinition on some Sequent systems. (Sellens)
+
+Changed o to O in the gopher help file.
+
+Fixed problems with input handling in Ultrix.  keypad() was the culprit.
+
+Client now deals with MIME stuff correctly. (Mark Whidby)
+
+Client now deals with window size change signals and suspend signals
+better.  Client now also doesn't update screen size if it receives a
+window size change signal and the screen size hasn't actually changed.
+(which can happen in a Sun cmdtool window) (jqj@duff.uoregon.edu)
+
+Added searching functionality in menus, press '/' to search for a string,
+'n' afterwards will search for more items of that name.  (David Datta)
+
+
+Changes from v1.0 to v1.01
+--------------------------
+
+Fixed problem with compilation on NeXTs.
+
+Fixed problem with telnet and port 0 error messages.
+
+
+Changes from v0.9 to v1.0
+-------------------------
+
+Experimental MIME type is now supported. (Type 'M').
+
+TN3270 type is now supported (Type 'T').
+
+User can now escape from the Telnet/TN3270 connection screen.
+
+Ctrl-g will abort you out of all prompts, ala emacs.
+
+Added bookmark support and gopherrc file support.  Bookmarks can be
+defined with the 'a' or 'A' key.  The first marks the item under the
+cursor, the other marks the current directory.  Bookmarks are stored
+in ~/.gopherrc, along with other configuration parameters.
+
+Client now does nifty twirl output to let you know it's up to
+something.  It currently does this for directorys (one twirl per
+entry) and textfiles/cso searches (one twirl per 25 lines)  This
+stuff is adapted from the panda code.
+
+Added more information on connections.  It displays "connecting..."
+before it displays "retrieving directory..."
+
+Client beeps at you if you press the wrong keys now.
+
+The client doesn't redisplay the menu when an invalid key is pressed.
+Nice for people dialing in on 2400 bps lines.
+
+Now linking in the new swanky gopher library.  I got tired of having
+many different versions of the same code lying around.
+
+Added fix from John Sellens that allows the user to escape from a CSO
+query.
+
+Fixed problem with titles not being updated when moving back a level.
+
+The client checks for environment variables for its configuration
+information.  The following variables can be used:
+    GOPHER_MAIL    The program to send mail with (must understad -s option)
+    GOPHER_TELNET  The program to contact telnet services with.
+    GOPHER_PLAY    The program to play sound from a pipe.
+    GOPHER_PRINTER The program to print from a pipe.
+This was all suggested and coded by Timothy M. Sigmon.
+
+Fixed typos in error.c relating to vprintf and err_init, patch from
+Jim Meyering.
+
+Cleaned up the SYSVCURSES stuff.  You no longer need to specify
+whether or not you're using System V curses.  Also fixed a problem
+relating to Newline and KEY_ENTER confusion.  All in all the curses
+code is cleaned up quite a bit.
+
+Made the interface more consistent.  Pressing 'l' will let you enter
+into and item (just like return and the right arrow..)  (Glenn F.
+Leavell)
+
+
+Changes from v0.8 to v0.9
+-------------------------
+
+Gopher the Cache!!  This version of the client caches the previous
+directories indefinitely....  Perhaps should add timeouts.
+
+Reduced memory usage ~4 times.  Implemented data structures in pseudo
+C++ fashion.  All memory for character strings is dynamically
+allocated.  No more hard limits!  Directories can be as large as your
+available memory!  Cool!
+
+Removed bogus calls to strstr in gopher.c relating to bolding of
+output words. (Pointed out by Tim Perala)
+
+Fixed conf.h so that it doesn't bogusly set IS_BSD for an Encore
+Multimax. (Pointed out by Tim Perala)
+
+Bug: The prompt when viewing a file allows for mailing in secure mode.
+The actual code however doesn't let you do this.  Fixed it.  (Pointed
+out by Ed Symanzik)
+
+Fixed security hole.  Don't allow people to change options using the O
+command when secure mode is active. (Fix from Rickard Schoultz) Also
+disabled saving hqxs and binaries..
+
+Fixed annoyance.  If you selected a directory and it couldn't connect,
+the cursor would jump to the first item.  (Fix from Edward Symanzik)
+
+Fixed -t option parsing.  Pointed out by Andreas Haug & John Sellens. 
+
+Added Binhex and PChex compatibility. (Tweaks from John Sellens)
+
+Fixed problem with page up, it didn't go up all the way.  It was 12
+lines off.  (Fix from Edward Symanzik)
+
+
+Changes from v0.7 to v0.8
+-------------------------
+
+Added fix from John Sellens:  The client was opening a connection at
+the beginning of every session and not doing anything with it.  A
+simple fix was all that was needed.
+
+Added enhancement from John Sellens: client now supports "Type 9"
+binary files.
+
+Fixed typo in help file, thanks to Nelson Beebe.
+
+The client can now send files using mail, in addition to printing and
+saving.  (This was originally suggested by Julio Perez)
+
+Added the -p option (for "path").  This will let you point the gopher
+Client at a specific selector string on the server.  Suggested by
+Prentiss Riddle.  Also added -t option to override the "Root
+Directory" title that's normally displayed.  (These flags will mostly
+be used for special purpose uses of gopher).
+
+Added key bindings for left and right arrow keys.  The Left arrow key
+moves you "up" a directory (just like 'u'), the right arrow key moves
+you "into" an item (just like <return>). (from William Roberts).
+
+Fixed problem with char definitions/SYSVCURSES in manager.c. (from
+William Roberts.)
+
+Allowed ESC 0 [abcd] as well as ESC [ [abcd] when VTKEYS are defined.
+(Also from William Roberts).
+
+Changed default pager from more to more -d.  (Suggested by Julio Perez) 
+
+Upped the sizes of the structures for the selector string, title, etc.
+Should work better with those nasty WAIS docids...
+
+Changed almost all of the code to the GS{set,get}Type calls.  Look in
+gopherstruct.[hc] if you plan on modifying the client...
+
+
+Changes from v0.6 to v0.7
+-------------------------
+
+Fixed problem with mysterious 2s appearing when bolding words.  I did
+things the correct way with tputs() instead of the hackish method.
+
+Fixed problems with phonebook database searches that return more than
+ten hits.  Dash insertion will now work correctly in this case.
+
+Fixed problems with large directories causing core dumps.
+
+Added fixes from John Sellens <jmsellen@watmath.waterloo.edu>
+
+  Fix for race condition when trying to retrieve a non-existant item.
+
+Added fixes from Craig Rice <cdr@stolaf.edu>
+
+  Client checks to see if the root server is up before starting.  If
+  it's down it exits and prints an error message.
+
+  Fixed improper prompting when saving files.
+
+Added fix from Mic ...
+
+  Removed the EOF that gets written out to files when you save them.
+
+
+Changes from v0.5 to v0.6
+-------------------------
+
+Fixes for the undocumented + next_page command.  I changed the
+keystrokes to ">" for page down and "<" for pageup.  Thanks go to
+Pekka Kytolaakso <Pekka.Kytolaakso@convex.csc.fi> for the patch.
+
+Client now cleans up files in /tmp when control-c is typed, patch
+courtesy of Craig Rice <cdr@stolaf.edu>.
+
+A whole slew of changes from Mic Kaczmarczik:
+
+   Some versions of make have a predefined macro called ``MACHINE'',
+   changed it to ``MACHDEFS'' to avoid conflicts.
+
+   Provide a way to override the default host in the Makefile.
+
+   Make clean deletes the executable program as well as object files.
+
+   Allow definitions of DEFAULT_HOST & GOPHER_PORT in the Makefile.
+
+   Try to guess the IS_A_ Machine type automatically.
+
+   Added the '=' command to show information about the current item
+   in the .Link format.
+
+   Fixed #include file ordering problem in gopher.h.
+
+   Don't include <stlib.h> if on a NeXT system.
+
+   Disabled the keypad call for Ultrix machines. (Fails under Ultrix 4.0)
+
+
+Changes from v0.4 to v0.5
+-------------------------
+
+The client now remembers the path you took through the menus.  It
+sticks the pointer of the directory you were in when you move up a
+level or when you view a file.
+
+Fixed problem with the getopt variables in being in the wrong place.
+This caused problems with strict C compilers.
+
+Fixed type problem with getopt() (c should have been an int) Thanks go
+to BugStomper Russell Fulton <rj_fulton@aukuni.ac.nz>.
+
+Spiffed up the makefile.  Typing "make install" now installs the
+helpfile in the right place.
+
+Added changes from Craig Rice <cdr@stolaf.edu>
+
+  The key 'm' or 'M' now takes you back to the root level.
+
+  A lowercase 'q' now quits the program too.
+
+  A "Searching Text..." Message is displayed when searching text.
+
+  I modified his idea of stripping off long titles.  Instead of
+  removing all directory information I strip off just enough
+  directories to fit the tile the screen.  (This really isn't very
+  portable though, not all long titles will have slashes
+  necessarily...)
+
+
+
+Changes from v0.32 to v0.4
+--------------------------
+
+Client now handles control-c gracefully (no more raw terminals.)
+
+Added signal handler for window size changes.  (Thanks to Rick Watson 
+r.watson@utexas.edu for the hints and tips)
+
+Option setup no longer uses full paths for commands.  conf.h is now
+much simpler
+
+VT100 cursor keys now work on all platforms, not just System V curses
+machines. (Thanks go to Pekka Kytolaakso <Pekka.Kytolaakso@venus.csc.fi>)
+
+Now compiles on Convex OS 9.1 using -DIS_BSD (Pekka again...)
+
+Now compiles using System V curses on Ultrix machines. (Thanks go to
+Earl Fogel <fogel@sask.usask.ca>)
+
+Now using getopt() command line parsing.
+
+Added option -s that disables saving and printing, very useful for
+public access terminals.
+
+
+Changes from v0.31 to v0.32
+---------------------------
+
+Fixed stupid refrest() typo.  (That'll teach me to do hack and burn jobs!)
+
+
+Changes from v0.3 to v0.31
+--------------------------
+Added more messages that tell you when the client is doing stuff.
+(receiving directory, receiving sound, etc...)
+
+Fixed definition problem of SIGCLD/SIGCHLD.
+
+Changes from v0.2 to v0.3
+-------------------------
+
+Fixed undefined PLAY_COMMAND on machines that don't have a sound player.
+
+Added an option for compiling gopher for people that are using ANET
+from a VM/CMS system (STUPID_TERM).
+
+Niggly Makefile changes.
+
+Fixed problems with long lines.  The client shows the end part of the
+title (which is probably the most interesting) instead of the first
+part.  The titles are also lined up properly now.
+
+
+Changes from v0.1 (original unversioned release) to v0.2
+--------------------------------------------------------------
+
+Added highlighting of text in index retrievals.
+
+Fixed strange memory allocation problems.
+
+Added support for sounds on Sun Sparcstations and Nexts.
+
+Fixed problem with really long lines.
+
+Client prompts the user with an error message if an empty directory is
+found.
+
+Screen title is now intact when the user scrolls up a page.
+

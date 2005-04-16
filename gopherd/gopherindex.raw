@@ -1,0 +1,230 @@
+#!/bin/sh
+
+export PATH || (echo "OOPS, this isn't sh.  Desperation time.  I will feed myself to sh."; sh $0; kill $$)
+
+#
+#Set up variables
+#
+USAGE="$0: usage: $0 -wais waisargs -gd gopher-datadir -t next|wais -N 'long link name' datadir"
+gopherhome=GHOME
+indextype=ITYPE
+verbose=0
+indexname="Index of files in this directory"
+waisargs=""
+useinplaceindex=0
+Indexdir="moo"
+PATH=${PATH}:/usr/local/bin
+
+# Parse args.
+while true ; do
+    case "$1" in
+        -t )
+	shift
+	if [ ! ${1-""} ] ; then	
+		echo $USAGE 1>&2
+		exit 1
+	fi
+       	indextype="$1"
+        shift
+        ;;
+
+	-a )
+	useinplaceindex=1
+	shift
+	;;
+
+	-N )
+	shift
+	if [ ! "${1}" ] ; then	
+		echo $USAGE 1>&2
+		exit 1
+	fi
+       	indexname="$1"
+	shift
+	;;
+
+	-i )
+	shift
+	if [ ! "${1}" ] ; then	
+		echo $USAGE 1>&2
+		exit 1
+	fi
+       	Indexdir="$1"
+	shift
+	;;
+
+	-wais )
+	shift
+	if [ ! "${1}" ] ; then	
+		echo $USAGE 1>&2
+		exit 1
+	fi
+	waisargs="$1"
+	shift
+	;;
+
+	-gd )
+	shift
+	if [ ! "${1}" ] ; then	
+		echo $USAGE 1>&2
+		exit 1
+	fi
+	gopherhome="$1"
+	shift
+	;;
+
+	-v )
+	verbose=1
+	shift
+	;;
+
+	-D )
+	set -x
+	shift
+	;;
+        -* )
+        echo "$USAGE" 1>&2
+        exit 1
+        ;;
+        * )
+        break
+        ;;
+    esac
+done
+
+#
+# Now we have the directory
+#
+
+#
+# Find out if it's a relative path
+#
+
+if (cd /;cd "$1") ; then
+	Datadir="$1"
+else
+	Datadir="$PWD/$1"
+fi
+
+
+#
+# Set the indexdir if it isn't set
+#
+
+if [ $Indexdir = "moo" ]; then
+	Indexdir=$Datadir
+fi
+
+
+#
+# Find the path relative to the gopher-root (for Path= line)
+#
+
+Pathdir=`echo "$Indexdir" | sed "s.$gopherhome.."`
+
+if test "$verbose" = "1" ; then
+	echo "Gopher Home directory is $gopherhome"
+	echo "Indexes are hidden in $Indexdir"
+	echo "Indexing files in $Datadir"
+fi
+
+
+################################################################
+
+nextindex() {	
+	#
+	# See if it's writable
+	#
+	if test ! -w "$gopherhome" ;  then
+		echo "Sorry, can't write to $gopherhome"
+		exit 1;
+	fi
+
+	if test -h "$gopherhome/.index" ; then
+		echo "Another indexing job is probably running"
+		echo "Check the link $gopherhome/.index"
+		exit 1
+	fi
+
+	mkdir /tmp/gopherindex$$
+	mkdir /tmp/gopherindex$$/.index
+	mkdir "$Datadir/.index"
+	ln -s /tmp/gopherindex$$/.index "$gopherhome/.index"
+
+
+	if [ $useinplaceindex = 1 ]; then
+		cp "$Datadir/.index/index.ixif" "/tmp/gopherindex$$/.index"
+	fi
+
+	if test $verbose = 1 ; then
+		ixargs="-Vv"
+	else
+		ixargs=""
+	fi
+	
+	ixargs="$ixargs -f ascii -i $gopherhome/.index/index.ixif"
+
+	cd $gopherhome
+	ixBuild $ixargs "$Datadir"
+
+	mv /tmp/gopherindex$$/.index/index.ixif "$Datadir/.index"
+	rm -rf  "/tmp/gopherindex$$"
+	rm "$gopherhome/.index"
+
+	#
+	# Make the link
+	#
+	echo "Name=$indexname" >  "$Datadir/.IndexLink"
+	echo "Numb=1"	       >> "$Datadir/.IndexLink"
+	echo "Type=7"          >> "$Datadir/.IndexLink"
+	echo "Host=+"          >> "$Datadir/.IndexLink"
+	echo "Port=+" 	       >> "$Datadir/.IndexLink"
+	echo "Path=7$Pathdir"   >> "$Datadir/.IndexLink"
+}
+
+
+waisindexer() {
+	mkdir "$Indexdir/.waisindex$$"
+
+	if [ $useinplaceindex = 1 ]; then
+		cp "$Indexdir/.waisindex/"* "$Indexdir/.waisindex$$"
+	fi
+
+	if test $verbose = 1 ; then
+		waisargs="$waisargs"
+	else
+		waisargs="$waisargs -l 2"
+	fi
+
+	
+	cd "$Indexdir/.waisindex$$"
+	find "$Datadir" -type f -print | \
+		grep -v '/\.' |waisindex -stdin $waisargs
+
+	#
+	# Make the link
+	#
+	echo "Name=$indexname"                  >  "$Datadir/.IndexLink"
+	echo "Numb=1"                           >> "$Datadir/.IndexLink"
+	echo "Type=7"                           >> "$Datadir/.IndexLink"
+	echo "Host=+"                           >> "$Datadir/.IndexLink"
+	echo "Port=+" 	                        >> "$Datadir/.IndexLink"
+	echo "Path=7$Pathdir/.waisindex/index"  >> "$Datadir/.IndexLink"
+
+	rm -rf	"$Indexdir/.waisindex"
+	mv "$Indexdir/.waisindex$$" "$Indexdir/.waisindex"
+}
+
+
+
+
+if [ "$indextype" = "next" ]; then 
+	nextindex
+else
+	#
+	#Must be WAIS instead
+	#
+	waisindexer
+fi
+
+exit 0

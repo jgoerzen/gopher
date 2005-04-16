@@ -1,0 +1,1207 @@
+$Id: server.changes,v 1.1 2000/08/19 00:28:56 jgoerzen Exp $
+
+Gopher 2.2 patchlevel 0
+-----------------------
+
+ * Entire source tree modified to use GNU autoconf
+
+
+Gopher 2.2 patchlevel 0
+-----------------------
+
+ * It's now possible to authenticate based on groups.
+
+ * Added the ability to specify alternate password files for unix file
+   authentication mechanism
+
+ * Authentication based on groups is now possible.
+
+ * It's now possible to not compile in any authentication for a leaner
+   server.
+
+ * HTML version supports headers and footers for each directory, plus
+   a globalheader and globalfooter.  Create the following files to try it 
+   out:
+
+     <gopher-data>/lib/globalfooter.html
+     <gopher-data>/lib/globalheader.html
+
+     <dir>/.header.html
+     <dir>/.footer.html
+
+   Note that the .about.html file still works..
+
+ * Totally rewrote the Exit/Die routines.
+
+ * Server can now accept HTTP posts.  Most CGI scripts will work..
+   The server also now can accept HTTP 1.0 requests.
+
+ * The ftp gateway now supports username/password links (by using ftp
+   URLs for the gopher path..)
+
+ * The server automatically sets the title for HTML documents from the
+   <TITLE> tag, if it appears in the first 512 bytes of the document.
+
+ * Gopher style authentication works with HTTP/HTML.
+
+ * Little icons support ALT= for text based browsers.
+
+ * Server automatically changes a gopher info item with a row of dashes
+   into a HTML <HR> tag.
+
+ * Gopher support for virtual worlds (the 'v' type.)
+
+
+
+Gopher 2.1 Server patchlevel 3
+------------------------------
+
+ * Added a 3 minute timeout writing data in some operations 
+
+ * Fix for WAIS searches that return the whole document
+
+ * New .names file for integrated gateways.
+
+ * New g2netfind, g2areacode scripts.
+
+ * Fixed calling parameters for searching, could cause a core dump.
+
+
+Gopher 2.1 Server patchlevel 2
+------------------------------
+
+ * The server now keeps track of the number of connections it's
+   gotten.  There's a new STATISTICS block on the top level
+   meta-information.  
+
+ * The server can now efficiently limit the number of Maximum
+   connections.  The server now uses signal handling routines to keep
+   track of the number of running child processes.
+
+ * Fixed bugs in Mailfile, multifile processing.
+
+ * More efficient, more understandable, less buggy directory parser..
+
+ * Shell scripts are line buffered, in case the script is really slow..
+
+ * Lots of little performance improvements.
+
+ * The gopherd.conf file has been reworked.  The .gd extension denotes
+   a Gopher0 directory, a .gpd extension denotes a Gopher+ directory.
+
+ * All the functionality of go4gw is now included as scripts that run
+   on your gopher server
+ 
+ * The server comes ready to use Freewais-0.4 or Freewais-sf.
+   Added field searching support for FreeWAIS-sf
+
+ * The server now can automatically add Icons for the automatic
+   HTML menus that it generates.  Just create /lib/htmlicon.X, where X
+   is the Gopher0 type.
+
+ * Automatic HTML pages include the abstract if present.
+
+ * Fix problem with compilation on AIX 3.2.5
+
+ * Allocate proper amount of space for des routines, fix potential
+   bug.
+
+ * Added a method to automatically generate Abstracts and other
+   Gopher+ meta-information via the BlockScript: line in gopherd.conf.
+
+ * Allow multi-line abstracts in link files, Fix for ftp URL generation
+
+ * Fix for systems without waitpid and wait3
+
+ * Add ultrix to machines that don't have fgetpwent
+
+
+Gopher 2.1 Server patchlevel 1
+------------------------------
+
+ * New authentication method 'unixfile' This method uses passwords and
+   usernames from {gopher-data}/etc/passwd instead of the unix
+   /etc/passwd file.
+
+   A new scripts directory holds an add-account script for sites who
+   want to ask people to register a username and password before
+   using restricted parts of a server.
+
+   This will only work on systems that support the fgetpwent() call
+   though.
+
+ * Start towards CGI compliance for script execution.
+
+ * Allow script paths with spaces, better error messages
+
+ * Fix for multi-line bummer messages
+
+ * Fix wording problem in integrity check
+
+ * Fix for command routines with authentication
+
+ * Allow username to be passed to the environment when using password
+   authentication
+
+ * Fix prespecified searches
+
+
+Gopher 2.1 Server patchlevel 0
+------------------------------
+
+ * Add URL for gophfilt
+
+ * Add logging, add period output to wais-gopher gateway
+
+ * Make Grep Index queries work
+
+ * Mindex timeouts, mindex gindexd support from Steve Hsieh
+
+ * Added a NO_INDEXING server option to slim down executable size.
+
+ * Auxconf: lines in gopherd.conf can now use regular expressions.
+
+ * You can now set a top-level Abstract for your server.  Many items
+   in the gopherd.conf file can now be multi-lined by using
+   backslashes at the end of lines.
+ 
+ * Eliminate extra hostname lookups in the FTP gateway.
+
+ * Removed lots of static allocation, executable size is now smaller.
+
+ * Bug-fix: Close file descriptors when searching .cap files during WAIS
+   searches (symptom was a limit of 60 files returned...)
+
+ * Modifications to use FreeWAIS-sf package available from 
+   ftp://ls6-www.informatik.uni-dortmund.de/pub/wais/freeWAIS-sf-1.0.tgz
+
+ * Added support for Adobe Portable Document Format, PDF.
+
+ * Add new method of username/password authentication documented in
+   the gopherd.conf.  This authentication works with any client that
+   supports ask forms.
+
+ * New Gopher+ FTP routines from Brian Coen.  Also support for OS/2
+   ftp servers and more.
+
+ * NO_AUTHENTICATION can be defined in Makefile.config, to make a
+   smaller executable
+
+ * LOG_IP_ONLY option for heavily used sites that don't want to hit
+   the DNS for every connection.
+
+ * Added many environment variables for shell script writers.
+
+ * Search strings can be pre-specified, ala URLs.  Make a link as follows:
+    Path=7/foo/bar/index?words
+    Type=1
+    ...
+
+ * Gopherd.conf now has an optional 'include' directive to include the
+   contents of another file inside the gopherd.conf file.
+
+ * Documents can now be split on arbitrary regular expressions.  See
+   the gopherd.conf manual page for examples.
+
+ * Fix bug in HP-UX load avg. calculations
+
+ * Use strcoll to sort directories if present.
+
+ * A first (non-working) crack at POSIX regular expression code.
+
+
+Gopher+2.0 patchlevel 16
+------------------------
+
+ * Another fix for Hgopher method of alt views
+
+ * Better manual pages.
+
+
+Gopher+2.0 patchlevel 15
+------------------------
+
+ * Add NO_FREEWAIS option for older WAIS libraries to Makefile.config
+
+ * Fix for spinning ftp processes from R.S. Jones, plus many other
+   fixes for the ftp gateway from Jonzy.
+
+ * Add port# to waiting for connection message that 'ps' generates.
+
+ * Fix for sending text files with really long lines.
+
+ * Default gopherd.conf has been reorganized, Added soundtracker type
+
+ * Fix for mindex file processing..
+
+ * Modifications for Debug() and mismatched NULL arguments, added Debugmsg
+
+ * Fix from Robert Beckett for binhex files
+
+ * Fix for url problems
+
+ * Fix for svr4.2 on unisys
+
+ * Automagically define NO_VFORK for SCO
+
+
+Gopher+2.0 patchlevel 14
+------------------------
+
+ * Put back pseudo veronica Wais item, fix for number of arguments
+
+ * Fix for spinning gopherd processes trying to get directories with a
+   quote in them.
+
+ * Domaindef= modifications for rp.
+
+
+Gopher+2.0 patchlevel 13
+------------------------
+
+ * A new experimental method of access control is now implemented.
+   Instead of limiting based on load average it limits based on the
+   number of simultaneous concurrent connections.  Docs are scant and
+   there are bound to be some bugs in it.
+
+ * Code should now link with freeWAIS 0.3 and 0.202
+
+ * Fix for maximum hits from Don Gilbert.
+
+ * Binary ASK implementation from Don Gilbert.
+
+ * Fixes for the SCO compiler.
+
+ * Fix for weird bug links processing bug in STRstring.c
+
+ * Recognize more Unix ftp sites as Unix
+
+ * Other FTP gateway fixes for skipping permissions bits with large
+   file sizes, Prettier continuation lines.
+
+ * Generate gopher0 error messages for gopher0 clients.
+
+ * Fix for date and time for multiple view items.
+
+ * Another fix for Type 1 ask forms.
+
+ * Massive reworking of access limits, much, much cleaner code.
+
+ * Allow whitespace in gopherd.conf file before tokens (Don Gilbert)
+
+ * Various mindex bug fixes.
+
+ * Fix for files with single quotes in them..
+
+
+Gopher+2.0 patchlevel 12
+------------------------
+
+ * An improved implementation of the dedot routines for people who use
+   the -c option.
+
+ * When trying to match an extension to a file type, the server prefers
+   exact matches of type & language, but will now fall back to matching
+   the type in any language (acf).
+
+ * Add capability to compile out ftp routines, making a smaller executable.
+
+ * Skip . and .. files in ftp lisitngs.
+
+ * Fix for unset variable i in main() Causes crash on NextStep486
+
+ * Add support for timezone variables in gopherd.conf
+
+ * recursive directories should now work.
+
+ * Various fixes for HP-UX 8.0 systems.
+
+ * Slightly faster isadir() routine
+
+ * Add support for flock(), fix LOGGopher() function declaration
+
+
+
+Gopher+2.0 patchlevel 11
+------------------------
+
+ * FTP gateway now understands Plan 9 ftp servers
+
+ * FTP gateway now understands most VM ftp servers
+
+ * More robust FTP Implementation
+
+ * Fix for vms version numbers, don't strip any numbers..
+
+ * removed extra fclose in Side_File, fixes certain Linux distributions
+
+ * Since a gopher server is supposed to have a Fully Qualified Domain
+   name, append a period to the end of the hostname to speed up DNS
+   lookups.
+
+ * kernutils.c doesn't barf on HP-UX 8.0 anymore..
+
+ * Allow Type=1? in .links file for ask blocks..
+
+ * Fix bug where no defined language in gopherd.conf would crash the
+   server.
+
+ * translate telnet URL correctly.
+
+
+Gopher+2.0 patchlevel 10
+------------------------
+
+ * Speedup gopher0 requests for WAIS searches.
+
+ * Added HTML alternate views for gopher+ directories.
+
+ * Plug many, many memory leaks.
+
+ * Test shell scripts for exec bit, i.e. you can now have shell scripts
+   on your server and not have them executed.
+
+ * Allow Type=1? etc.. in .link files to make a link to an ASK item.
+
+ * Added Domain_pat= line to check for a regexp domains
+
+ * Allow multiple Domain= and Domain_pat= lines in .link files to be
+   boolean or'ed
+
+
+Gopher+2.0 patchlevel 9
+-----------------------
+
+ * Fix for Signal handling on RS/6000s
+
+ * server can now log to syslog daemon.info facility by specifying
+   'syslog' as the logfile name
+
+ * Fixed erratic problems with extension adding.  Note that the problems
+   with directories not working with Gopher0 clients is due to a missing
+   parameter in a strncasecmp() call..  Makes one wish ANSI C was more
+   widespread...
+
+ * Additions to allow ignoring files by a regular expression in
+   gopherd.conf (ignore_patt:)
+
+ * Better error messages in places.
+
+ * Eliminate bad forward prototyping
+
+ * Allow specification of auxilliary configuration files.
+
+ * Fix for mindex being stashed in the actual search terms.
+
+ * Hack out SETPROCTITLE on systems that can't hack it
+
+
+
+Gopher+2.0 patchlevel 8
+-----------------------
+
+ * Fix for WAIS indexes that are marked as gopher+ search items (7+)
+
+ * FTP gateway now works for Unix sites correctly..
+
+ * gopherd.conf file now works for sending HTML files. 
+
+ * Removed unnecessary logging of bummer error messages.
+
+
+Gopher+2.0 patchlevel 7
+-----------------------
+ * Some documentation fixes..
+
+ * Moved GLOBALRC definition to conf.h for VMS
+
+ * Add option to conf.h for Max WAIS documents
+
+ * Mindex searches can now use "localhost" as the hostname.  Searching
+   doesn't fork off then.. See gopherd(8)
+
+ * Fix for wait() probs on NeXT
+
+ * Fix for sgi SIGCHLD code.
+
+ * Server now adds extensions in a case insensitive manner (foo.gif ==
+   foo.GIF == foo.GiF, etc.
+
+ * Totally rewritten ftp gateway..  Much more robust, no temp files!
+   Added support for MACOS, WinNT ftp servers.
+
+ * Speedups for gopher0 and big directories.
+
+ * Fix for sites that don't do _POSIX_SAVED_IDS (AIX, others...)
+
+ * Mod for ignoring files, and more efficient binary transfers
+
+ * Move cache settings into gopherd.conf (Cachetime can be controlled
+   in gopherd.conf)
+
+ * Fixes so that load ave works on command line
+
+ * Load ave code for hp-ux and apollo domain
+
+ * Updates for multibyte wais docids from ses
+
+ * Fix problem with g0 client for wais gateway searches
+
+ * Make sun shared libraries optional
+
+ * Better VMS tempnam() implementation
+
+ * Fixes for NETLIB
+
+
+Gopher+2.0 patchlevel 6
+-----------------------
+ * Fix botched protocol in top-level item info.
+
+ * Mindexd should be really fixed now :-)
+
+ * Optional date and time on items.
+
+ * Shell indexes should work again.
+
+ * Crude top-level veronica block.
+
+ * Many ftp fixes from Matti Aarnio
+
+ * Fix off by one error in dedot2()
+
+ * Patch that allows you to set the number of arguments returned for
+   a WAIS search.
+
+ * Fix for the error 'wait error (No children)' known to strike Ultrix
+   and AIX systems..
+
+ * Mods to allow gopherd.conf files control ftp gateway access.
+
+p * Fixes for Sequent Dynix
+
+
+Gopher+2.0 patchlevel 5
+-----------------------
+
+ * Added fi for gopherindex install
+
+ * Fix for error logging and uninitialized gs in ftp.c
+
+ * Fix for hanging ftp gateway connections, die instead of spinning
+
+ * Get rid of errant message when using inetd (-u warning)
+
+ * Fix for text/plain files for gopher0 clients.
+
+ * Remove extensions from titles for files with multiple views.
+
+ * Move CMDfromNet() to *after* the chroot() and setuid()
+
+ * Fix for send_binary bug (not enough params in specialfile()
+
+ * Fix for wais gateway and Unix client
+
+ * Fixed bogus reading of .cache+ files
+
+ * return true for non-existant cache file in Cachetimedout(), not -1
+
+ * Don't let the security stuff trap ask blocks
+
+
+Gopher+2.0 patchlevel 4
+-----------------------
+
+ * Enhanced Security logging from Wolfgang Ley
+
+ * Fix for mindexd for Gopher+ clients.
+
+ * dedot2 now skips over single quotes.
+
+
+Gopher 2.0 patchlevel 3
+-----------------------
+
+ * Only install gopherindex if built
+
+ * Added fix for dedot to remove quotes for when using system or popen
+
+ * Log execution of programs
+
+ * Add one more call to Gpopen for shellindexquery
+
+
+Gopher 2.0 patchlevel 2
+-----------------------
+
+ * Rebuild server if patchlevel.h changes
+
+ * Mods to use secure popen
+
+
+Gopher 2.0 patchlevel 1
+-----------------------
+
+ * Fix for VMS unresolved variables
+
+ * Fix for core dumps on HPUX 8.0
+
+ * Ignored files are now ignored again
+
+ * Fix for sites that have @ -> for symbolic links
+
+ * Fix for extra slashes in FTP gateway
+
+ * Fix for Debug syntax error when using DL
+
+ * Compatibility fix for hpux and seteguid
+
+Changes from 1.2b4 to 2.0
+-------------------------
+
+* Debugging can be compiled out, resulting in a smaller executable.
+  (Mitra)
+
+* Fixed dissapearing directories related to 0 length .cache files.
+  (Guyton)
+
+* .cache files are sent at a much faster rate, with less translation.
+
+* The WAIS gateway doesn't put in spurious periods anymore (Trier). 
+
+* .names files can contain Abstract and Admin information. (Cody)
+
+* You can now define a "decoder" for a certain file extension in the
+  gopherd.conf file.  Typical decoders include compress and gzip.
+  Weirder decoders might be stuff like adpcm (for those pesky ITR
+  files!) Lines in gopherd.conf look like this:
+
+    decoder: .gz /usr/gnu/bin/zcat
+
+  Note that there is currently a limit of one decoder per file.
+
+* Zombies should no longer hang around...  Fixed signal handling quite a bit.
+
+  Zombie Killer
+  Qu'est Que C'est
+  fa fa fa fa fa fa fa fa fa far better
+
+* Server can be built using Sun shared libraries.
+
+* Server modifies its argv string so that informative messages appear
+  when you us the "ps" command on systems that support this.
+
+* The multiple indexes feature now definitely works!  (I promise!)
+
+* The FTP gateway now works with machines that don't know about PASV.
+  Also it understands the directory listings that VMS and Novell FTP
+  servers generate. (Bob Alberti)
+
+* Changed mail-file processing so that:
+
+  removes whitespace from the beginning of Subject: lines
+
+  adds <no subject> for articles that don't have a subject line or
+  have a blank subject line. (John Martin)
+
+* Numb= entries can now have negative numbers.  Files that are
+  numbered negative will appear at the *end* of the gopher directory
+  listing.
+
+* Compiles using freeWAIS without dumping core..
+
+* Fixed WAIS indexer to correctly interpret Gopher+ requests.
+
+* Added VMS load restriction code.  (The server doesn't compile on VMS
+  yet though..)
+
+* More efficent logging, server does less ip-->hostname lookups
+
+* Fixed the CAPFILES code.  (It's now the default when compiling too..)
+
+
+
+Changes from 1.2b3 to 1.2b4
+----------------------------
+
+* .cap files are back if you want them...  Look in Makefile.config
+
+* Fixed problems with Data directories with a space in them in gopherindex
+
+* Fixed problems with seteuid() on hpux
+
+* Fixed link processing, code is much easier to read and less buggy.
+
+* Added DEBUG mods from Mitra (you really get a lot of debug stuff
+  now!)
+
+* Fixes for ask shell scripts, ensure that they're run in the current
+  directory of the script.
+
+* Better error checking on getpeername() calls.
+
+* Fixed dreaded .mindex things on certain searches, including super bogus
+  code in AddExtension()
+
+* Fixed bug where links might not be sent out.
+
+* First public Admit1 server, supports partitioning the server into
+  public/private areas.  Funky.....  Minimal docs on this so far.
+
+* Group id gets set in addition to the UID of the given username.
+
+
+Changes from 1.2b2 to 1.2b3
+---------------------------
+
+* Fixed wais->gopher gateway.
+
+* Minimal gopher+ support for Index queries, supports '$' command.
+
+* Support for recursive directory listings from the top-level.
+  Should be much better for fetching veronica data.
+
+* More fixes for behavior that depends on the order of files inside of
+  a directory.  (Shows up most often as a path with a space in it)
+
+* Socket REUSE and LINGER ought to work much better now. (Pekka
+  Kyt|laakso)
+
+* ftp gateway works again, it now also gets filetypes from gopherd.conf
+
+* Cleaned up parsing of client commands, much easier to read.
+
+* Added an simple shell script "gopherindex" that automagically makes
+  full text indexes.
+
+* Filtering as per gopher+ spec now implemented partially.
+
+* Gopherd now deals with compressed files more effectively. (Mitra)
+
+* Better replacement for tempnam(), no more crashes on NeXTs with "bad zone".
+ (John Ladwig)
+
+* FTP gateway now uses the filename extensions defined in gopherd.conf
+  to do translation of ftp listings.
+
+
+Changes from 1.2b1 to 1.2b2
+--------------------------
+
+* Fixed some signal problems with Crays (Hal Peterson)
+
+* Changed the -I behavior to use stdout.
+
+* Fixed error in gethostbyaddr() call (Hal Peterson)
+
+* Fixed inconsistent behavior that caused GDfromUFS to be dependent on
+  the order of the files on the disk.
+
+* Fixed problems with compilation of HP-UX and others that died on the
+  use of signal() is gopherd.h
+
+* Fixed problems with not using -c and the infamous '//' directory.
+
+* Server now deals with compressed files much more effectively (Mitra)
+
+
+Changes from 1.12 to 1.2b1
+---------------------------
+
+* Added support for gopher+ to the server. It's not everywhere... yet.
+
+* Changed the format of the gopherd.conf file.
+
+Changes from 1.11 to 1.12
+-------------------------
+* No changes.
+
+Changes from 1.1 to 1.11
+------------------------
+
+* FTP gateway transactions are now logged.  Also, the password sent
+  by the gateway to the remote ftp site now contains the hostname of
+  the remote gopher client.
+
+* Fixed problem with files that contain a period on a line all by
+  itself.
+
+* Using the -u flag and not using -c actually works now.
+
+* mindexd is gone, long live gopherd :-) Place your mindexd
+  configuration files inside your gopher-data directory with the
+  extension ".mindex".
+
+* Moved all kernel specific code into kernutils.c
+
+* .cap files are ignored by the WAIS searching engine.
+
+* Fixed endless loop bug with shell-script index queries.  Added more
+  special character filtering to GrepIndexQuery()
+
+
+Changes from 1.03 to 1.1
+------------------------
+
+* Fixed error processing results when using ANSI varargs.
+  <asc@uci.edu>
+
+ * WAIS search results will now get the name from a "Sidefile" (i.e.
+  .cap entry)  if it exists.  Note that the indexes and the files
+  must reside on the same host if this is to work.
+  <Mike_Macgirvin@MED.Stanford.EDU>
+
+* The security file has been replaced with a gopherd.conf file.
+  For info on configuration see the example gopherd.conf file, or
+  the soon to be written gopherd.conf man page.  Use the -o option to
+  gopherd to specify an option file
+
+* Object type mapping from filename extensions is now implemented
+  in the gopherd.conf file as well.
+
+* exec:args:/scriptname may now contain an empty argument list, so
+  this is now valid:
+
+        Path=exec::finger @moocow
+
+* Changed the way the WAIS code is linked in.  You'll have to make a
+  symbolic link for the WAIS bin directory now. (Read the updated
+  INSTALL documentation.
+
+* Fixed problem with mail spool files with addresses longer than 64
+  characters.  (Greg Smith smith@bucknell.edu)
+
+* WSRC objects found through the WAIS gateway are interpreted as gopher
+  search items instead of text files.
+
+* Logging when using chroot() will no longer give GMT times.  It will give
+  the local time instead. (Rob.Montjoy@uc.edu)
+
+* Reverted to old cache method that doesn't fail when you change the
+  name of a parent directory.
+
+* Turned off linger option on sockets.  The server shouldn't leave
+  sockets in the CLOSING state anymore (well we can hope :-)
+  (edmoy@violet.berkeley.edu)
+
+  Also added SOREUSEADDR option on the socket.
+
+* Logfile now gets created with mode 644 permissions.
+  (mark@sarek.plk.af.mil)
+
+* Fixed core dump problems with core dumps inside of waisgopher.c.
+  The problem was with an incorrect AbortOutput() call that had the
+  wrong parameters [buchali@sun8.ruf.uni-freiburg.de (Christine
+  Buchali)] 
+
+* Fixed all known problems with numbering.  Numbering directories is
+  different now. Instead of putting an item in the nth place, it sorts
+  the directory as follows:
+  -    All numbered entries are first, sorted by number.  If two items
+       have the smme number, then sorting is done alphabetically
+  -    All remaining entries are then added at the end, sorted in
+       alphabetical order.
+ 
+* Fixed problem with Wais gateway and munged characters.  The wais
+  gateway now obeys the protocol and transmits CR-LF pairs at the end of
+  lines like it's supposed to.
+
+* Fixed problem with tmp files from ftp gateway..  Also, rewrote the
+  ftp-gateway to talk ftp-protocol directly instead of relying on the
+  ftp executable.
+
+* Directory listings are now generated with NLST -LF instead of -F, this
+  should fix some problems with symbolicly linked directories. 
+  (valke@cca.vu.nl (Peter Valkenburg))
+
+* Audio files should transer across the ftp gateway properly now.
+  (valke@cca.vu.nl (Peter Valkenburg))
+
+
+Changes from v1.02 to v1.03
+---------------------------
+
+Added lost+found and lib to the list of directories mapped out.
+Eventually this will be replaced by a gopherd.conf file.
+
+gopherls will now list out the correct host, instead of NULL.
+
+Binary files now work for the ftp-gateway in the server.
+(mahilata@vogon.mathi.uni-heidelberg.de) Added Image and sound support
+to the gateway as well.
+
+You no longer have to play with the Path= portion in a .cap entry if
+you want something to be treated as a binary (9) or Search (7).
+The server does it right.
+
+Server recognizes gifs as Type I irregardless of extension.
+
+WAIS searches can now return binary type data.  For now it's just
+returned as Type 9.  However Type I and s can be hacked in pretty
+easily.
+
+
+Changes from v1.01 to v1.02
+---------------------------
+
+Tweaked error.c so that it will work with ANSI varargs.  (Pekka
+Kyt|laakso)
+
+Fixed problem with gopherls.  Output was being sent to stdin, ugh!
+
+Fixed problem in server when returning error messages.  Should get rid
+of a few more core files :-) (Doug Shales)
+
+Fixed problem with the Path=exec server type. Added a missing break..
+(Doug Schales)
+
+Fixed compilation problems of waisgopher.c underneath Ultrix.
+
+Changed Waisindex.c so that long pathnames of the type:
+
+    ACT III  /home/mudhoney/gopher-data/Gutenberg/shake/Henry III
+
+are emitted as:
+
+   ACT III /Gutenberg/shake/Henry III
+
+
+Removed statements that could never be reached.
+
+special.c doesn't recognize compressed files correctly. This fix
+should work on all machines regardless of their bit size.  (David
+Datta) datta@cs.uwp.edu
+
+Fixed problem with extra output from stdout/stderr. This is most 
+frequently seen as server messages appearing on NeXT clients. 
+(Steven Jones) noyd@cac.washington.edu
+
+Fixed problem with client truncating directories with types it doesn't
+understand. (Dennis Boone) 
+
+Removed extra period at the end of http transactions.
+
+Fixed bug in parsing WWW ids.
+
+Fixed bug in sending cached html pages.
+
+
+Changes from v1.0 to v1.01
+--------------------------
+
+Fixed problem with load limiting code.  It didn't work as advertised.
+<mtm>
+
+Added test to filter out unreadable directories. <mtm>
+
+The exec: type path now can have arguments with a colon in them. <mtm>
+
+Allow whitespace in command names in ShellIndexQuery.  Also fixed
+error in calling GDfromNet() and added a missing pclose() <mtm>
+
+Fixed Makefile so that installation works correctly.
+
+Fixed ftp.c so that it now puts out the proper paths. <gilbertd>,<Lange>
+
+
+Changes from v0.9 to v1.0
+-------------------------
+
+Gopherd now moonlights as gindexd as well.  Usage is slightly
+different though.  Instead of a -d flag, just add the database name to
+the index_directory.
+
+.cache files are ignored by the search engine routines.
+
+Added utility "gopherls".  It's really just a link to gopherd.  But it
+easily allows you to see what all the .Links, .caps, etc. will look
+like, without constantly running a client.
+
+Added the wais gateway functionality directly into the server.
+To add a wais database put a link like this:
+
+  Name=Whatever
+  Path=waissrc:/the/path/here
+  Type=7
+  Host=+
+  Port=+
+
+The server will automagically turn files ending in .src into
+wais databases...  Mondo cool.
+
+Made the server more agressive wrt caching. It will check the
+modification times on the files in the directory and the .cap
+directory before remaking the .cache file.  Mods from Earl Fogel.
+
+Now linking in the swanky gopher library.  Now we can really have
+shared code!
+
+Added HTML support.  A gopher server can be now queried with a WWW
+(World wide Web) client.  The server also understands html files and
+can serve them up to WWW clients.  Note that this is different from
+the built in support that WWW has for gopher servers, in that you can
+add descriptive text to a directory listing by putting a .about.html
+file in the directory.
+
+Added an ftp gateway to the server.  Make a link with a path like
+ftp:hostname@pathname.  This may not work on all systems...
+
+When retrieving ranges of files the server outputs from which file
+it's getting the data from..
+
+Fixed bug with the variable inline in index.c
+
+Changed behavior of logfiling...  When running non-inetd, the server
+would hold the logfile open.  Deleting the logfile wouldn't free the
+space.  The server now reopens the logfile for every request..
+
+Added better hostdata support.  The server will now look for
+<dbname>.hostdata before just the plain vanilla "hostdata".  Thus it
+is now possible to have multiple indices in the same directory. (mic)
+
+
+Changes from v0.8 to v0.9
+-------------------------
+
+Added code from Mike MacGavrin that restricts access based on load
+average.  Right now it works on SunOS 4.1.1.  It may work on others
+too.  To use this option look in the conf.h file and define
+LOADRESTRICT.
+
+Added server directory caching!!  I took the digest idea of John
+Sellens and incorporated it into the server.  When a directory is
+transmitted a .cache file is created.  This file contains the raw
+gopher directory information.  You can set the cache timeout value in
+conf.h (Currently it's set to three minutes)
+
+Added dynamic data structure allocation.  No more limits to the size
+of directories or lengths of strings!
+
+Bolstered the builtin mailfile processing with code taken from nn.
+Mail articles are now strictly sorted by legal from lines instead of
+just checking the first five characters.
+
+Changed index searches so that they use the built in headlines that
+the indexes provide.  Much prettier looking and less code grokking for
+me :-)
+
+Changed the getcommand readline() error call to not dump core.  This
+happens fairly regularly with the 0.7 client.  (0.8 doesn't cause this
+problem)
+
+Changed Makefile so that install depends on $(TARGET), not all.
+(Pointed out by Edward Symanzik)
+
+Changed daemon.c so that HPs use setsid() to disassociate from the
+controlling tty. (fix from Jim Garlick)
+
+Added -lm to the LIBS in the Makefile.  Some systems don't have ceil()
+and floor() in libc.  Pointed out by Jim McCoy
+
+Updated conf.h with instructions on defining NOSTRSTR for machines
+that don't have strstr().  Suggested by Benjamin Littman.
+
+Removed duplicate period that was being transmitted at the end of each
+directory...
+
+Added patch from Edward Symanzik that fixes GDaddGS for once and all.
+Some strange sorting behavior was still being seen.
+
+Fixed problems with subject lines in mailfiles being set incorrectly.
+(Fix from Mike Macgirvin)
+
+Fixed problems logging Ranges.  Filename wasn't being appended correctly. 
+
+Fixed problem with munged logfiles with many simultaneous gopher
+connections.  The server uses fcntl to do its locking.  Patch
+submitted by Edward Symanzik.
+
+The Waterloo'isms for setting the UID to a "safe" person are only in
+place for the spawned server. The code to setuid comes after the inet
+server runs, and in fact, a "-u" or "-U" option is ignored for inet
+operation. Sure it's an inet config option, but the man page says that
+"-u" sets it, and it doesn't in this case. This might lead people to a
+false sense of security... (Fix from Mike Macgirvin)
+
+Fixed problems with compressed files under the -c option.  Now works
+correct. Fix from Billy Barron.
+
+Fixed logging of built in search requests.  The query wasn't logged
+before.
+
+Added small feature from John Sellens that allows you to use a plus
+(+) in the Host= and Port= lines of a link file.  When the server
+comes across these it substitutes the current hostname and port of the
+current server.
+
+
+Changes from v0.7 to v0.8
+-------------------------
+
+Added patches from John Sellens to make it possible to run gopherd in
+a non-chroot() fashion.  Look in the modified gopherd man page for
+more information.
+
+Fixed problems with -I option and improper port numbers.  Fix from
+many people.
+
+Fixed problems with Titles and sidefiles.  Should work properly now.
+
+Fixed problems with domain names not being properly appended when DNS
+routines don't seem to return the proper hostname.  (Fix from John
+Ladwig).
+
+Fixed small problem with mailfile processing from Mike Macgirvin
+<mtm@SUMEX-AIM.Stanford.EDU>
+
+Fixed another problem with mailfile processing, the last letter had
+the same startbyte and endbyte.  Fix from Ed Symanzik.
+<zik@convex.cl.msu.edu>
+
+Added new protocol change/extension for multiple indexes on a single
+daemon.  Gopherd can now serve up full text indexes!  The Makefile is
+quite a bit different now.  Look in the man page for info on setting
+up indexes.
+
+Added support for type 9 binary files.
+
+Added support for type 4 macintosh hqx files.
+
+Everything is now logged, previously ranges and mailfiles weren't logged.
+
+
+Changes from v0.6 to v0.7
+-------------------------
+
+Fixed bug that causes server to core dump when reading in directories
+with more than 256 entries.
+
+Fixed bug which caused core dumps on non-sparc machines.  (Man are
+those Sparcs forgiving!)
+
+Added fixes from Craig Rice <cdr@stolaf.edu>
+
+   Shell scripts with spaces in them would not work.
+
+   Fixed strange problem with user defined numbering appearing in
+   the wrong place.
+
+
+Added fixes from John Sellens <jmsellen@watmath.waterloo.edu>
+
+   Fixed problem with error handling, and improper argument passing in
+   Getfiletypes();  
+
+   Fixed problem with error handling when dealing with older paths.
+   The server now handles abnormal conditions better.
+
+Added fix from Mic 
+
+   It's no longer necessary to specify the port number when running
+   from inetd.  The server will figure it out automatically.
+
+   Also, when running from inetd the message "Starting Gopher Daemon"
+   is no longer logged
+
+
+Changes from v0.5 to v0.6
+-------------------------
+
+There's now a man page!  Yeah!
+
+The server can now be started from inetd.  Use the -I switch.
+
+Alphabetizing/Ordering of items within a directory now works.  I took
+the ideas of Craig Rice and modified the heck out of them.
+
+Added enhancements from Craig Rice to allow shell scripts to be
+placed inside of a gopher-data directory.  
+
+The server now recognizes mail spool files.  It makes them into
+directories that the user can browse.
+
+Added code cleanups from William Roberts <liam@dcs.qmw.ac.uk>.
+   Eliminated multiple gethostbyname() calls.
+   Item Names can be put in the .cap/ files.
+
+Added changes from Mic Kaczmarczik <mic@emx.utexas.edu>
+   Allow the Data Directory and Domain Name to be changed in the Makefile.
+   Automagically define __STRICT_BSD__ on NeXTs
+   Automagically define BROKENDIRS on the Next and Umax
+   Include <ctype.h>  for systems that need it.
+
+
+Changes from v0.4 to v0.5
+-------------------------
+
+The server can automatically determine the types of certain files.  It
+now recognizes sounds and uuencoded files.  (It actually looks at the
+file, not the extension.)
+
+Improved logging.  All transactions are now logged with the name of
+the file/directory that was retrieved.  Logging now gets done *after* the 
+transaction takes place.  This will speed things up a little bit.
+
+Portability fixes.  Now compiles cleanly on HPUX 7.0 (and others too
+perhaps...)
+
+Added directory mask for /etc.  (Forgot about that one!)
+
+Gopherd can now serve ranges of files.  This is especially useful if
+you have big mail spools and are using the wais indexer.  The format
+for a range in the selector string is "R<startbyte>-<endbyte>-<Filename>". 
+Look in the shell-scripts directory for utilities to make link trees
+out of these big files.
+
+Made sure that the server always returns a line with a dot.  (to
+successfully terminate the connection).
+
+Added change from Craig Rice (cdr@stolaf.edu) that fixes the problem
+with compressed files.  (The zcat was opened for writing...  oops!)
+
+Gopherd now checks to see if it's being run by root before it starts
+(suggested by Russell Fulton <russell@ccu1.ak.nz>)
+
+Fixed type problem with getopt().  (c should have been an int not a
+char) Thanks go to BugStomper Russell Fulton <rj_fulton@aukuni.ac.nz>.
+
+
+Changes from v0.32 to v0.4
+--------------------------
+
+Changed argument processing over to getopt() Phew, what a relief.  Of
+course this means that arguments must have single letters now, so -sec
+becomes -s, -log becomes -l and -DEBUG becomes -D.
+
+
+Changes from v0.31 to v0.32
+---------------------------
+Added a chdir("/") so that relative paths (i.e. paths that don't have a "/"
+in front of them) work.
+
+
+Changes from v0.3 to v0.31
+--------------------------
+
+Fixed bug where -sec was always required.
+
+
+Changes from v0.2 to v0.3
+-------------------------
+
+Added logging for the server along with a new command line switch -l <logfile>.
+
+Added option to filter connections based on hostname/internet
+addresses.   The new command line switch is -sec <secfile>.
+
+Changes from v0.1 (The original unversioned release) to v0.2
+-------------------------------------------------------------------
+
+Added support for sound types.
+
+Changed the types of paths generated so we can save a directory lookup
+in a couple of places
+
+Added the .cap/ method of changing object types and making links.
+
+Changed Makefile around a bit

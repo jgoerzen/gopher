@@ -1,0 +1,68 @@
+                      Hurtig Gopher Hjælp
+                      -------------------
+
+Flytte rundt i Gopherspace
+--------------------------
+Brug pile-tasterne eller vi/emacs ekvivalenter til at flytte rundt.
+
+Højre, Return .............:  "Enter"/vis nuværende punkt.
+Venstre, u ................:  "Exit" nuværende punkt/Gå et niveau op.
+Ned .......................:  Flyt til næste linie.
+Op ........................:  Flyt til forrige linie.
+>, +, SideNed, Mellemrum ..:  Vis næste side.
+<, -, SideOp, b ...........:  Vis forrige side.
+0-9 .......................:  Gå til en specifik linie.
+m .........................:  Gå tilbage til hovedmenuen.
+
+Bogmærker
+---------
+a : Tilføj nuværende punkt til bogmærke listen.
+A : Tilføj nuværende bibliotek/søgning til bogmærke listen.
+v : Vis bogmærke liste.
+d : Slet et bogmærke/biblioteks punkt.
+
+Other commands
+--------------
+q : Afslut med prompt.
+Q : Afslut betingelsesløst.
+s : Gem nuværende punkt til en fil.
+S : Gem nuværende menu listning til en fil.
+D : Download en fil.
+r : gå til rod menu af nuværende punkt.
+R : gå til rod menu af nuværende menu.
+= : Vis teknisk information om nuværende punkt.
+^ : Vis teknisk information om nuværende bibliotek.
+o : Åbn en ny gopher server.
+O : Skift optioner.
+f : Forbind til en anonymous FTP server.
+w : Forbind til en http, gopher, FTP, telnet eller tn3270 URL
+/ : Søgning for et punkt in en menu.
+n : Find næste søgnings punkt.
+g : "Gripe" via email til administrator af nuværende punkt.
+L : Skift sprog af tekster (VMS).
+!, $ : Shell Escape (Unix) eller Spawn subprocess (VMS).
+Ctrl-L, Ctrl-R, Ctrl-W : Genskriv (Visk ud) skærmen.
+Ctrl-T : Vis værts lokale dato og tid.
+
+Gopher objekter:
+Punkt symbol  Type    Beskrivelse
+--------------------------------------------
+(none)        0       fil
+/             1       bibliotek
+<)            s       lyd fil
+<Picture>    I,g      billede fil
+<Movie>       ;       video fil
+<HQX>         4       BinHexed Macintosh fil
+<Bin>         9       binær fil
+<PC Bin>      5       DOS binær fil
+<CSO>         2       CSO (ph/qi) phone-book server
+<TEL>         8       telnet forbindelse
+<3270>        T       telnet forbindelse (IBM 3270 emulation)
+<MIME>        M       Multi-purpose Internet Mail Extensions fil
+<HTML>        h       HyperText Markop Language fil
+<?>           7       index-søgning punkt
+<??>        (none)    ASK form
+
+Gopher udviklings teamet håber, at du finder dette program nyttigt.
+Hvis du finder noget, som du tror er en fejl, så rapporter venligst til os
+ved at sende e-mail til "gopher@boombox.micro.umn.edu".

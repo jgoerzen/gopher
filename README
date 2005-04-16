@@ -1,0 +1,46 @@
+$Id: README,v 1.1 2000/08/19 00:28:56 jgoerzen Exp $
+
+This is the University of Minnesota's Internet Gopher+ distribution
+for UNIX machines.  A client for VMS is also included.  Here's a
+breakdown by directory:
+
+doc:          The documentation for all parts of the distribution.
+              Look here *first*.  Important files:
+                   INSTALL   -- Installation instructions
+                   *.changes -- Stuff that's changed from version to version
+                   man pages, etc.
+
+gopher:       The Internet Gopher+ Curses client.
+
+gopherd:      The Internet Gopher+ data/directory/index/sound Server.
+
+gophfilt:     A Gopher "filter" program.
+
+test:         A regression testing package, include sample data.
+
+Please look in the directory "doc" for more information about installing
+the various portions of the Internet Gopher.  Specifically refer to
+the file INSTALL.
+
+This software is Copyright 1991/96 by the Regents of the University of
+Minnesota.  Please refer to the file "Copyright" for more information
+on restrictions of use.  Bug reports, patches and comments may be sent
+to gopher@boombox.micro.umn.edu.
+
+We recognize the help and code from the following people:
+
+   UNIX network Programming   W. Richard Stevens
+                              (For socket functions and error
+                               routines, now unrecognizeable :-) )
+
+   elm                        Copyrighted by the USENET trust.
+                              (For UI cloning)
+
+   WAIS	                      Brewster and co. at Thinking Machines
+                              (er, now WAIS Inc.)
+                              (For our UNIX generic indexing stuff)
+
+and all of our users for their great suggestions and patches!
+
+See the files doc/*.changes for a long list of people who have
+submitted patches and code.

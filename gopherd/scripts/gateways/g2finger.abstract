@@ -1,0 +1,3 @@
+This gateways provides a way for gopher users to access finger.  It's pretty
+easy and understands many common finger formats including Unix, VMS and
+CSO output.

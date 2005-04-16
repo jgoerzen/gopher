@@ -1,0 +1,10 @@
++-1
++INFO: 1Alternate Configuration File tests	1/auxconf	localhost	9999	+
++ADMIN:
+ Admin: Another Administrator <fred@localhost>
+ Mod-Date: Wed Nov  3 19:56:09 1993 <19931103195609>
+ TTL: 0
++VIEWS:
+ application/gopher-menu En_US: <.5k>
+ application/gopher+-menu En_US: <.5k>
+ text/html En_US: <.5k>

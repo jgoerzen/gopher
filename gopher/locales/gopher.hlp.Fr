@@ -1,0 +1,72 @@
+
+                           AIDE pour Gopher 
+                           ----------------
+
+Déplacements dans Gopher
+------------------------
+
+Pour les déplacements, utiliser les flèches ou
+les commandes vi/emacs équivalentes 
+
+Flèche à droite, Retour: Exécute/Affiche l'élément sélectionné
+Flèche à gauche, u ....: Quitte/Retourne au niveau précédent
+Flèche vers le bas ....: Déplace le curseur à la ligne suivante
+Flèche vers le haut ...: Déplace le curseur à la ligne précédente
+>, +, Pgdwn, Espace ...: Affiche la page suivante
+<, -, Pgup, b .........: Affiche la page précédente
+0-9 ...................: Déplace le curseur à la ligne de menu désirée
+m .....................: Retourne au menu principal
+
+Signets
+-------
+
+a : Ajoute l'élément sélectionné au menu des signets.
+A : Ajoute le répertoire au menu des signets.
+v : Permet de visualiser le menu des signets.
+d : Efface un signet.
+
+Autres commandes
+----------------
+
+q : Quitte avec confirmation.
+Q : Quitte sans confirmation.
+s : Sauvegarde l'élément sélectionné dans un fichier.
+S : Sauvegarde le menu courant dans un fichier.
+D : Active le téléchargement d'un fichier.
+r : Affiche le menu principal du serveur Gopher de l'élément sélectionné.
+R : Affiche le menu principal du serveur Gopher du répertoire courant.
+= : Affiche l'information technique concernant l'élément sélectionné.
+^ : Affiche l'information technique concernant le répertoire courant.
+o : Ouvre une connexion vers un autre serveur.
+O : Permet de modifier les options.
+/ : Recherche pour un élément du menu.
+n : Poursuit la recherche pour un élément du menu.
+g : Envoie par courrier des commentaires à l'administrateur de
+l'élément sélectionné.
+!, $: Passage au shell.
+
+Objects Gopher:
+Identificateur  Type    Description
+-----------------------------------
+(aucun)         0       fichier
+/               1       répertoire
+<)              s       fichier sonore
+<Picture>       I,g     Fichier graphique
+<Movie>         ;       Fichier d'animation
+<HQX>           4       Fichier Macintosh (Binhex)
+<Bin>           9       Fichier binaire
+<PC Bin>        5       Fichier binaire DOS
+<CSO>           2       Répertoire téléphonique CSO (ph/qi)
+<TEL>           8       Connexion telnet
+<3270>          T       Connexion telnet (émulation IBM 3270)
+<MIME>          M       Fichier MIME (Multi-purpose Internet Mail
+Extensions 
+<HTML>          h       Fichier HTML (HyperText Markup Language)
+<?>             7       Recherche par mot-clé
+<??>            (aucun) Formulaire ASK
+
+L'équipe de développement de Gopher espère que vous trouverez une
+utilité à ce logiciel. Si vous croyez avoir identifié un bogue,
+s'il-vous-plaît, veuillez envoyer vos remarques par courrier
+électronique à "gopher@boombox.micro.umn.edu".
+

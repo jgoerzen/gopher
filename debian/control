@@ -1,0 +1,21 @@
+Source: gopher
+Section: net
+Priority: optional
+Maintainer: John Goerzen <jgoerzen@complete.org>
+Standards-Version: 3.1.1
+
+Package: gopher
+Provides: gopher-client
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: Gopher: Distributed Hypertext Client
+ This package contains the client for the distributed global directory
+ and hypertext system known as gopher.  This is a text-based (ncurses)
+ client from the University of Minnesota.
+
+Package: gopherd
+Architecture: any
+Provides: gopher-server
+Depends: ${shlibs:Depends}
+Description: Gopher server
+ The UMN gopher server

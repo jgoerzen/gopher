@@ -1,0 +1,34 @@
+--docs
+Make better documentation and man pages.
+
+Add docs about the hazards of chroot().
+
+--client
+
+Option for append, rather than overwriting saved files..
+
+Figure out exactly how to get line drawing characters on hpux and Ultrix...
+
+Add support for cursor keys for non vt100 on non System V curses machines
+
+Fix the telnet option so that it says Control-T on the RS/6k.
+
+Add 'L'anguage choice menu to non-VMS versions.
+
+Finish ANSI printing options
+
+
+--server
+Make SIGHUP reread the gopherd.conf file.
+
+Fix problems with .cap for -t para files.
+
+Fix problems with a viewext .doc and WAIS searches.
+
+Add caching and proxy code
+
+
+--index server
+
+Allow search on dates and date ranges.
+

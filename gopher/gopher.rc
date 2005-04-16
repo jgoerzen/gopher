@@ -1,0 +1,107 @@
+#********************************************************************
+# $Author: jgoerzen $
+# $Revision: 1.1 $
+# $Date: 2000/08/19 00:28:56 $
+# $Source: /home/jgoerzen/tmp/gopher-umn/gopher/head/gopher/gopher.rc,v $
+# $State: Exp $
+#
+# Paul Lindner, University of Minnesota CIS.
+#
+# Copyright 1991, 1992 by the Regents of the University of Minnesota
+# see the file "Copyright" in the distribution for conditions of use.
+#********************************************************************
+# MODULE: gopher.rc
+# Global rc file for gopher client
+#*********************************************************************
+# Revision History:
+# $Log: gopher.rc,v $
+# Revision 1.1  2000/08/19 00:28:56  jgoerzen
+# Initial revision
+#
+# Revision 3.12  1995/02/27  17:43:43  lindner
+# Add support for RIP graphics (from PACbell)
+#
+# Revision 3.11  1995/01/20  04:53:19  lindner
+# Fix for jpeg, tiff display..
+#
+# Revision 3.10  1994/09/29  19:24:18  lindner
+# Fix for image/gif xv launcher in default config
+#
+# Revision 3.9  1994/06/09  04:20:32  lindner
+# make searchbolding the default, add note for vms admins
+#
+# Revision 3.8  1994/03/04  23:42:32  lindner
+# Fix for more content types
+#
+# Revision 3.7  1993/08/12  06:32:43  lindner
+# Fix for x-troff
+#
+# Revision 3.6  1993/07/27  05:28:50  lindner
+# Mondo Debug overhaul from Mitra
+#
+# Revision 3.5  1993/07/23  04:36:21  lindner
+# Postscript printing mods
+#
+# Revision 3.4  1993/04/15  21:28:11  lindner
+# Mods for richtext
+#
+# Revision 3.3  1993/02/19  21:08:58  lindner
+# Added audio/mulaw, and changed defs for gif and ppm to use the '|'
+# command.
+#
+# Revision 3.2  1993/02/18  23:37:27  lindner
+# Added header info...
+#
+#
+# Map gopher+ types to local commands
+#
+# format is:
+# map: gplusview,view command,printcommand
+#
+# make sure you eliminate piping and modify the printcommands on VMS
+# comment out maps which don't apply on your system, or set them to ",,"
+#
+map: text/html,lynx -force_html %s,lynx -force_html -dump %s | lpr
+map: text/plain,builtin,lpr %s
+map: text/richtext,richtext %s|Less -f -r,lpr %s
+map: text/rip,showrip %s,lpr %s
+map: text/tab-separated-values,builtin,lpr %s
+map: text/x-dvi,xdvi %s,lpr %s
+map: text/x-tex,,
+map: text/x-troff,nroff %s|more -d,ptroff %s
+map: message/rfc822,builtin,lpr %s
+map: image/gif,|xv -,|giftoppm |pnmtops | lpr
+map: image/ief,,
+map: image/jpeg,,
+map: image/ppm,|xv -,|pnmtops | lpr
+map: image/tiff,tifftopnm|xv -,tifftopnm|pnmtops|lpr
+map: audio/basic,|play -v 40 -&,
+map: video/mpeg,,
+map: video/quicktime,,
+map: application/applefile,,
+map: application/dca-rft,,
+map: application/mac-binhex40,,
+map: application/macwriteii,,
+map: application/msword,,
+map: application/octet-stream,,
+map: application/oda,,
+map: application/pdf,,
+map: application/postscript,gspreview %s,lpr %s
+map: application/rtf,,
+map: application/wordperfect5.1,,
+map: application/zip,,
+#
+# Set the builtin's default for bolding of search terms
+#
+SearchBolding: yes
+
+#
+# Set preference values for each gopher+ type
+#
+# format is
+#
+# prefer: default|gplusview pref value
+#
+#prefer: default 5
+#prefer: image/gif 10
+#prefer: image/ppm 5

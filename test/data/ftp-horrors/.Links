@@ -1,0 +1,29 @@
+Name=Boombox
+Type=1
+Path=ftp:boombox.micro.umn.edu@/pub/
+Host=+
+Port=+
+#
+Name=Multinet VMS
+Type=1
+Path=ftp:vx.cis.umn.edu@/
+Host=+
+Port=+
+#
+Name=Macintosh FTP Server
+Type=1
+Path=ftp:ftp.asante.com@/
+Host=+
+Port=+
+#
+Name=Novell FTP Server
+Type=1
+Path=ftp:novell.macc.wisc.edu@/
+Host=+
+Port=+
+#
+Name=Windows NT FTP Server
+Type=1
+Path=ftp:ftp.microsoft.com@/
+Host=+
+Port=+

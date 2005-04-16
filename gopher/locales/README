@@ -1,0 +1,92 @@
+$Id: README,v 1.1 2000/08/19 00:28:56 jgoerzen Exp $
+
+How to install and use Internationalized message strings.
+=========================================================
+
+For all systems:
+----------------
+  If you changed the top-level Makefile.config to be anything but
+  /usr/local/lib, you will have to edit all the *.msg files.  Search for a
+  line in each starting with 225 (223 for VMS) and if it exists, change the
+  directory path on the next 2 lines appropriately.
+
+
+For X/Open 3 compliant systems:
+-------------------------------
+
+Gopher now uses the catopen/catgets calls to read data from message
+catalogs.  Installing these can be difficult at times.  Here are a few
+hints on getting these message files working.
+
+1) Make the files into binary catalogs using the 'gencat' utility.  If
+   you type 'make' in this directory they should automatically generate
+   themselves.
+
+2) Now, you need to figure out where to install the files.  Different
+   operating systems have different places to put these files.  Some
+   like /usr/lib/locales/, others /usr/lib/nls, etc.
+
+   Look at the manual page for catopen() or intro in section 5 of your 
+   manual pages for more information.  Specifically look for
+   information on the value of the NLSPATH variable.
+
+3) Once you have the files in the correct locations you can use them
+   by changing your LANG or LC_MESSAGES environment variable.
+
+   i.e
+
+     LANG=fr    or
+     setenv LC_MESSAGES Es
+   
+   Note that case is significant.  The catopen() routines will most
+   likely look in the following location for it's cat file in:
+
+    {NLSLIB}/{lang}/LC_MESSAGES/gopher.cat
+
+   NLSLIB is defined as your OS specific languages directory, where
+   {lang} is the value of the LC_MESSAGES environment variable or the
+   LANG variable
+
+   Other systems put these files in different locations.  Consult your
+   manual pages for more information.
+
+
+What to do if it just won't work
+--------------------------------
+
+On some systems you need to have the right files loaded to do NLS
+commands.  The call to setlocale() will fail if you don't have the
+proper files in the /usr/lib/nls directory.  Don't worry though, we
+provide a backup for such a circumstance.
+
+By typing 'make install' you will make a gophernls directory that
+contains all of the message catalogs.  If the gopher client cannot
+find the message catalog the regular way, it will try these backup
+files.   So, if you wanted to use the spanish gopher, do
+  
+  setenv LC_MESSAGES Es
+
+before running the gopher client.  This should work on most other
+systems. 
+
+For non-X/Open 3 compliant systems:
+-----------------------------------
+make install-msgs should install the files properly.
+
+To use them set the environment variables LANG or LC_MESSAGES to
+the name of the message file without the suffix, i.e.
+	setenv LC_MESSAGES Es_ES
+if you want a spanish speaking gopher.
+
+
+Customizing Gopher for your Particular Locale
+=============================================
+
+Basically start with one of the files and convert from it.  You might
+want to start with the En_US.msg, since this is the list of original
+english messages.
+
+Then give it a name (use your iso language code) and send it to the
+gopher team for the next release.
+
+Thanks!

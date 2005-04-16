@@ -1,0 +1,58 @@
++-1
++INFO: 0About	0/About	localhost	9999	+
++ADMIN:
+ Admin: Test Administrator <gopher@localhost>
+ Mod-Date: Wed Nov  3 19:56:02 1993 <19931103195602>
++VIEWS:
+ Text/plain En_US: <.1k>
++INFO: 1Alternate Configuration File tests	1/auxconf	localhost	9999	+
++ADMIN:
+ Admin: Test Administrator <gopher@localhost>
+ Mod-Date: Wed Nov  3 19:56:09 1993 <19931103195609>
+ TTL: 0
++VIEWS:
+ application/gopher-menu En_US: <.5k>
+ application/gopher+-menu En_US: <.5k>
+ text/html En_US: <.5k>
++INFO: 1Dot Link file tests..	1/links	localhost	9999	+
++ADMIN:
+ Admin: Test Administrator <gopher@localhost>
+ Mod-Date: Thu Apr 14 12:46:48 1994 <19940414124648>
+ TTL: 0
++VIEWS:
+ application/gopher-menu En_US: <.5k>
+ application/gopher+-menu En_US: <.5k>
+ text/html En_US: <.5k>
++INFO: 1Hall of FTP Horrors	1/ftp-horrors	localhost	9999	+
++ADMIN:
+ Admin: Test Administrator <gopher@localhost>
+ Mod-Date: Wed Nov  3 20:12:24 1993 <19931103201224>
+ TTL: 0
++VIEWS:
+ application/gopher-menu En_US: <.5k>
+ application/gopher+-menu En_US: <.5k>
+ text/html En_US: <.5k>
++INFO: 0Quote'File	0/Quote'File	localhost	9999	+
++ADMIN:
+ Admin: Test Administrator <gopher@localhost>
+ Mod-Date: Thu Apr 21 16:23:20 1994 <19940421162320>
++VIEWS:
+ Text/plain En_US: <.0k>
++INFO: 1decode-n-scripts	1/decode-n-scripts	localhost	9999	+
++ADMIN:
+ Admin: Test Administrator <gopher@localhost>
+ Mod-Date: Wed Nov  3 20:11:52 1993 <19931103201152>
+ TTL: 0
++VIEWS:
+ application/gopher-menu En_US: <.5k>
+ application/gopher+-menu En_US: <.5k>
+ text/html En_US: <.5k>
++INFO: 1views	1/views	localhost	9999	+
++ADMIN:
+ Admin: Test Administrator <gopher@localhost>
+ Mod-Date: Wed Nov  3 19:56:24 1993 <19931103195624>
+ TTL: 0
++VIEWS:
+ application/gopher-menu En_US: <.5k>
+ application/gopher+-menu En_US: <.5k>
+ text/html En_US: <.5k>

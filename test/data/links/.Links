@@ -1,0 +1,32 @@
+Type=8
+Name=UofMN Lumina System (telnet) #100
+Host=pubinfo.ais.umn.edu
+Port=23
+Numb=100
+Path=
+#
+Type=T
+Name=UofMN Lumina System (tn3270) #200
+Host=pubinfo.ais.umn.edu
+Port=23
+Numb=200
+Path=
+#
+Path=
+Type=2
+Name=Phone Book at the UofMN
+Host=x500.tc.umn.edu
+Port=105
+Abstract=Search for phone numbers at the University of Minnesota
+#
+Name=List of All Gopher Servers
+Type=1
+Host=gopher.tc.umn.edu
+Port=70
+Path=1/Other Gopher and Information Servers
+Abstract=List of all gopher servers from the University of Minnesota #-10
+Numb=-10
+#
+Path=./emptyfile
+Name=Empty file, nothin in it...  #150
+Numb=150
