@@ -11,6 +11,7 @@ gopher (3.0.8) unstable; urgency=low
   * [debian] Removed build-deps on build-essential packages.
     Closes: #262423.
   * [debian] Updated standards-version and to new debhelper.
+  * Fixed a small memory leak in download.c.
 
  -- John Goerzen <jgoerzen@complete.org>  Wed, 20 Jul 2005 05:41:40 -0500
 
