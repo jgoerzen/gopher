@@ -69,10 +69,13 @@
 #define STRstring_H
 
 
-/* Define __USE_GNU for string.h so strcasestr gets included. */
+/* Define __USE_GNU for string.h so strcasestr gets included. 
+   (also _GNU_SOURCE for other systems) */
 #define __USE_GNU
+#define _GNU_SOURCE
 #include <string.h>
 #undef __USE_GNU
+#undef _GNU_SOURCE
 #ifdef HAVE_STDLIB_H
 #include <stdlib.h>
 #endif
