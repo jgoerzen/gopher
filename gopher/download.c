@@ -198,7 +198,7 @@ Download_file(GopherObj *gs)
      int    start, end;
      struct stat buf;
 
-#ifndef HAVE_GET_CURRENT_DIR_NAME
+#if defined(HAVE_GETCWD) || !defined(HAVE_GET_CURRENT_DIR_NAME)
      curcwd = (char *) malloc(MAXPATHLEN + 2);
      if (!curcwd) {
          CursesErrorMsg("Out of memory.");
@@ -343,7 +343,7 @@ Download_file(GopherObj *gs)
      fflush(stdout);
      getchar();
      CURenter(CursesScreen);
-#ifndef HAVE_GET_CURRENT_DIR_NAME
+#if defined(HAVE_GETCWD) || !defined(HAVE_GET_CURRENT_DIR_NAME)
      free(curcwd);
 #endif
      
@@ -364,8 +364,8 @@ BuiltinDownload(char *dirname)
      GopherObj *gs;
 
 
-#ifndef HAVE_GET_CURRENT_DIR_NAME
-    tmppath = (char*)malloc(MAXPATHLEN + 2);
+#if defined(HAVE_GETCWD) || !defined(HAVE_GET_CURRENT_DIR_NAME)
+    tmppath = (char*)malloc(MAXPATHLEN * 3 + 2);
     if ( !tmppath ) {
       CursesErrorMsg("Cannot allocate memory");
       return;
@@ -429,6 +429,9 @@ BuiltinDownload(char *dirname)
      for (fcount = 0; names[fcount] != NULL;) {
 	  free(names[fcount++]);
      }
+#if defined(HAVE_GETCWD) || !defined(HAVE_GET_CURRENT_DIR_NAME)
+     free(tmppath);
+#endif
 }
 #else
 void
