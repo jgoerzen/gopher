@@ -8,6 +8,7 @@
  * Paul Lindner, University of Minnesota CIS.
  *
  * Copyright 1991, 1992 by the Regents of the University of Minnesota
+ * Copyright 2000-2005 by John Goerzen and the Gopehr developers
  * see the file "Copyright" in the distribution for conditions of use.
  *********************************************************************
  * MODULE: gopherrc.c
@@ -672,7 +673,7 @@ RCfromUser(RCobj *rc)
 	       printf(Gtxt("Internet Gopher Information Client %s.%s patch%d (%s)\n",6),
 		      GOPHER_MAJOR_VERSION, GOPHER_MINOR_VERSION, PATCHLEVEL,
 		      GOPHER_NICKNAME);
-	       printf(Gtxt("Copyright (C) 1991-2000 by the Regents of the University of Minnesota\nCopyright (C) 2000-2002 John Goerzen and the gopher developers\n\n",5));
+	       printf(Gtxt("Copyright (C) 1991-2000 by the Regents of the University of Minnesota\nCopyright (C) 2000-2005 John Goerzen and the gopher developers\n\n",5));
 	       printf(Gtxt("Press RETURN to continue\n",7));
 	       while ('\n' != getchar())
 		    ;
