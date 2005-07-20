@@ -75,7 +75,6 @@ install: build
 binary-indep: DH_OPTIONS=-i
 binary-indep: build install
 	# Need this version of debhelper for DH_OPTIONS to work.
-	dh_testversion 2.0.103
 	dh_testdir
 	dh_testroot
 #	dh_installdebconf
@@ -95,7 +94,6 @@ binary-indep: build install
 	dh_compress
 	dh_fixperms
 	# You may want to make some executables suid here.
-	dh_suidregister
 	dh_installdeb
 #	dh_perl
 	dh_gencontrol
@@ -107,7 +105,6 @@ binary-indep: build install
 binary-arch: DH_OPTIONS=-a
 binary-arch: build install
 	# Need this version of debhelper for DH_OPTIONS to work.
-	dh_testversion 1.1.17
 	dh_testdir
 	dh_testroot
 #	dh_installdebconf
@@ -128,7 +125,6 @@ binary-arch: build install
 	dh_compress
 	dh_fixperms
 	# You may want to make some executables suid here.
-	dh_suidregister
 	dh_installdeb
 #	dh_makeshlibs
 #	dh_perl
