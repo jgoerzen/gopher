@@ -106,6 +106,9 @@
 /* Define if you have the mkdir function.  */
 #undef HAVE_MKDIR
 
+/* Define if you have the mkstemp function.  */
+#undef HAVE_MKSTEMP
+
 /* Define if you have the mktime function.  */
 #undef HAVE_MKTIME
 

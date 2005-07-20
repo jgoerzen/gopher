@@ -3713,7 +3713,7 @@ else
   echo "$ac_t""no" 1>&6
 fi
 
-for ac_func in bzero gethostname fgetpwent get_current_dir_name getcwd getwd madvise mkdir mktime putenv re_comp select seteuid setsid socket strcasecmp strcspn strdup strerror strftime strspn strstr strtol sysconf tempnam tzset wait3 waitpid strcasestr regcomp regfree wattron wattroff wstandout wstandend
+for ac_func in bzero gethostname fgetpwent get_current_dir_name getcwd getwd madvise mkdir mkstemp mktime putenv re_comp select seteuid setsid socket strcasecmp strcspn strdup strerror strftime strspn strstr strtol sysconf tempnam tzset wait3 waitpid strcasestr regcomp regfree wattron wattroff wstandout wstandend
 do
 echo $ac_n "checking for $ac_func""... $ac_c" 1>&6
 echo "configure:3720: checking for $ac_func" >&5
