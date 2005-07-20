@@ -118,6 +118,7 @@ BLinit(Blockobj *bl)
 	  STAinit(bl->data.text);
 	  break;
      case BDATA_NONE:
+          break;
      }
 }
 
@@ -141,6 +142,7 @@ BLdatadestroy(Blockobj *bl)
 	  GSdestroy(bl->data.gs);
 	  break;
      case BDATA_NONE:
+          break;
      }
 }
 
@@ -174,6 +176,7 @@ BLcpy(Blockobj *dest, Blockobj *orig)
 	  BLsetText(dest, orig->data.text);
 	  break;
      case BDATA_NONE:
+          break;
      }
 }
 
@@ -209,6 +212,7 @@ BLgetLine(Blockobj *bl, int lineno)
      case BDATA_NONE:
      case BDATA_FILE:
      case BDATA_GREF:
+          break;
      }
      return(NULL);
 }
@@ -343,6 +347,7 @@ BLtoNet(Blockobj *bl, int fd, boolean showheader)
 	  fclose(infile);
 	  break;
      case BDATA_NONE:
+          break;
      }
 }
 

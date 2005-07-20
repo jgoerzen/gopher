@@ -1,3 +1,9 @@
+gopher (3.0.8) unstable; urgency=low
+
+  * Fix compile error with gcc 3.4.  Closes: #258752.
+
+ -- John Goerzen <jgoerzen@complete.org>  Wed, 20 Jul 2005 05:41:40 -0500
+
 gopher (3.0.7) unstable; urgency=low
 
   * Use Autoconf 2.13 on Debian systems.  Closes: #206183.

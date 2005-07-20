@@ -362,6 +362,7 @@ URLparse(Url *url)
           case ftp:
           case unset:
           case unknown:
+               break;
 	  }
 	  URLsetHost(url, cp);
      }

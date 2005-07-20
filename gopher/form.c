@@ -288,6 +288,7 @@ FORMgetAskdata(GopherObj *gs, FORM *form, int Asknum)
                case ITEM_UNINIT: /* Unhandled cases... */
                case ITEM_LABEL:
                case ITEM_FILENAME:
+                 break;
 	       }
 	  }
 	  responses[respnum++] = NULL;

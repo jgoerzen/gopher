@@ -2003,6 +2003,7 @@ GSfromURL(GopherObj *gs, char *urltxt, char *host, int port, int doneflags)
      case news:
      case unset:
      case unknown:
+          break;
      }
 
      if (serviceType == ftp) {
