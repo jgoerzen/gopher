@@ -1106,6 +1106,7 @@ showfile(GopherObj *ZeGopher)
 #else /* !VMS */
 #ifdef HAVE_MKSTEMP
                mkstemp_fd = mkstemp(mkstemp_template);
+               tmpfilename = strdup(mkstemp_template);
                tmpfile = fdopen(mkstemp_fd, "w");
 #else  /* ! HAVE_MKSTEMP */
 	       tmpfilename = tempnam("/tmp","gopher");
@@ -3059,6 +3060,8 @@ describe_gopher(char *banner, GopherStruct *ZeGopher, FILE *gripefile)
                          
 {
      char *tmpfilename;
+     char mkstemp_template[] = "/tmp/gopher-XXXXXX";
+     int  mkstemp_fd = -1;
      FILE *tmpfile;
      Blockobj *bl;
      int i,j, views;
@@ -3081,18 +3084,27 @@ normal_describe:
 #endif
 #ifdef VMS
      Gopenfile = tmpfilename = tempnam(NULL,NULL);
-#else
+     tmpfile = fopen(tmpfilename, "w");
+#else  /* ! VMS */
+#ifdef HAVE_MKSTEMP
+     mkstemp_fd = mkstemp(mkstemp_template);
+     Gopenfile = mkstemp_template;
+     tmpfile = fdopen(mkstemp_fd, "w");
+#else /* ! HAVE_MKSTEMP */
      Gopenfile = tmpfilename = tempnam("/tmp", "gopher");
-#endif
+     tmpfile = fopen(tmpfilename, "w");
+#endif /* HAVE_MKSTEMP */
+#endif /* VMS */
      GSsetLocalFile(infogs, tmpfilename);
      GSsetLocalView(infogs, "text/plain");
-     if ((tmpfile = fopen(tmpfilename, "w")) == NULL) {
+     if (tmpfile == NULL) {
 	  CURexit(CursesScreen);
 	  fprintf(stderr, Gtxt("Couldn't make a tmp file!\n",83)), 
 	  CleanupandExit(-1);
      }
-
+#if defined(VMS) || (!defined(HAVE_MKSTEMP))
      free(tmpfilename);
+#endif
 
 #ifdef DESCRIBE_GOPHER_GRIPE
 format_description:
