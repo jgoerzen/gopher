@@ -217,7 +217,7 @@ SOCKgetPort(int fd)
 {
      struct sockaddr_in serv_addr;
 
-     int length = sizeof(serv_addr);
+     socklen_t length = sizeof(serv_addr);
      
      /** Try to figure out the port we're running on. **/
      
@@ -395,7 +395,7 @@ SOCKlisten(struct sockaddr_in * We)
 {
      int             sockfd = 0;
      struct hostent *HostPtr;
-     int             len = sizeof(struct sockaddr);
+     socklen_t       len = sizeof(struct sockaddr);
      char            name[100];
 
 
@@ -420,7 +420,7 @@ int
 SOCKaccept(int s, struct sockaddr_in we)
 {
      int            sockfd    = 0;
-     int            len       = sizeof(struct sockaddr);
+     socklen_t      len       = sizeof(struct sockaddr);
      unsigned short tem;
 
      tem = ntohs(we.sin_port);
@@ -456,7 +456,7 @@ void
 SOCKnetnames(int  sockfd, char *host_name, char *ipnum)
 {
      struct sockaddr_in      sa;
-     int                     length;
+     socklen_t               length;
      struct hostent          *hp;
 
      length = sizeof(sa);

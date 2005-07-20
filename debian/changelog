@@ -12,6 +12,9 @@ gopher (3.0.8) unstable; urgency=low
     Closes: #262423.
   * [debian] Updated standards-version and to new debhelper.
   * Fixed a small memory leak in download.c.
+  * Fix potential insecure /tmp usage in gopher.c.
+  * Use socklen_t instead of int for socket length operations,
+    avoiding warnings about incorrect signedness.
 
  -- John Goerzen <jgoerzen@complete.org>  Wed, 20 Jul 2005 05:41:40 -0500
 
