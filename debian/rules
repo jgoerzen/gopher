@@ -67,7 +67,7 @@ install: build
 
 	chmod -R a-x debian/gopher/etc
 
-	dh_movefiles
+	#dh_movefiles
 	chmod u+x debian/gopher/etc/gopher debian/gopher/etc 
 
 # Build architecture-independent files here.
