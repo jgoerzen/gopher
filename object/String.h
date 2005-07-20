@@ -85,7 +85,13 @@ Though your milage may vary...
 #endif
 
 #ifdef HAVE_STRING_H
+/* Define __USE_GNU for string.h so strcasestr gets included. 
+   (also _GNU_SOURCE for other systems) */
+#define __USE_GNU
+#define _GNU_SOURCE
 #include <string.h>
+#undef __USE_GNU
+#undef _GNU_SOURCE
 #endif
 
 #ifdef HAVE_STRINGS_H
