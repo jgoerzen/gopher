@@ -7,6 +7,8 @@ gopher (3.0.8) unstable; urgency=low
   * Install makes dirs for manpages if they don't already exist.
     Combined with other fixes in this version and prior versions,
     all bugs in 142913 are resolved.  Closes: #142913.
+  * [debian] Removed build-deps on build-essential packages.
+    Closes: #262423.
 
  -- John Goerzen <jgoerzen@complete.org>  Wed, 20 Jul 2005 05:41:40 -0500
 

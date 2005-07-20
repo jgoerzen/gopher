@@ -3,7 +3,7 @@ Section: net
 Priority: optional
 Maintainer: John Goerzen <jgoerzen@complete.org>
 Standards-Version: 3.1.1
-Build-Depends: debhelper, libc-dev, c-compiler, make, ncurses-dev, autoconf2.13
+Build-Depends: debhelper, ncurses-dev, autoconf2.13
 
 Package: gopher
 Provides: gopher-client
