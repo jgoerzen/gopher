@@ -1512,7 +1512,7 @@ Initialize(void)
 	  perror("signal died:\n"),
 	  CleanupandExit(-1);
 
-     if (signal(SIGPIPE, CleanupandExit) == SIG_ERR)
+     if (signal(SIGPIPE, SIG_IGN) == SIG_ERR)
 	  perror("signal died:\n"), 
 	  CleanupandExit(-1);
 

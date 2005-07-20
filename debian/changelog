@@ -2,6 +2,8 @@ gopher (3.0.8) unstable; urgency=low
 
   * Fix compile error with gcc 3.4.  Closes: #258752.
   * Fixed warnings relating to prototypes.  Closes: #226552.
+  * No longer crash on problems piping to external programs.
+    Thanks, Goeran Weinholt, for the patch.  Closes: #128990.
 
  -- John Goerzen <jgoerzen@complete.org>  Wed, 20 Jul 2005 05:41:40 -0500
 
