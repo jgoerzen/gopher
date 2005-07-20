@@ -4,9 +4,9 @@ TARGET = gopher.1 \
 	 gophfilt.1 gopherrc.5
 
 install: $(TARGET)
-	@INSTALL@ -m 0644 gopher.1 $(MAN1DIR)
-	@INSTALL@ -m 0644 gophfilt.1 $(MAN1DIR)
-	@INSTALL@ -m 0644 gopherrc.5 $(MAN5DIR)
+	@INSTALL@ -d -m 0644 gopher.1 $(MAN1DIR)
+	@INSTALL@ -d -m 0644 gophfilt.1 $(MAN1DIR)
+	@INSTALL@ -d -m 0644 gopherrc.5 $(MAN5DIR)
 
 all:
 	$(NROFF)    gopher.1       >gopher.cat

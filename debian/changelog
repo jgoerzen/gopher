@@ -4,6 +4,9 @@ gopher (3.0.8) unstable; urgency=low
   * Fixed warnings relating to prototypes.  Closes: #226552.
   * No longer crash on problems piping to external programs.
     Thanks, Goeran Weinholt, for the patch.  Closes: #128990.
+  * Install makes dirs for manpages if they don't already exist.
+    Combined with other fixes in this version and prior versions,
+    all bugs in 142913 are resolved.  Closes: #142913.
 
  -- John Goerzen <jgoerzen@complete.org>  Wed, 20 Jul 2005 05:41:40 -0500
 
