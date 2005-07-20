@@ -164,7 +164,7 @@ dnl Do this again so the AC_CHECK_FUNCS works.
 
 AC_CHECK_LIB(curses, main)
 AC_CHECK_LIB(termcap, main)
-AC_CHECK_FUNCS(bzero gethostname fgetpwent get_current_dir_name getcwd getwd madvise mkdir mktime putenv re_comp select seteuid setsid socket strcasecmp strcspn strdup strerror strftime strspn strstr strtol sysconf tempnam tzset wait3 waitpid strcasestr regcomp regfree wattron wattroff wstandout wstandend)
+AC_CHECK_FUNCS(bzero gethostname fgetpwent get_current_dir_name getcwd getwd madvise mkdir mkstemp mktime putenv re_comp select seteuid setsid socket strcasecmp strcspn strdup strerror strftime strspn strstr strtol sysconf tempnam tzset wait3 waitpid strcasestr regcomp regfree wattron wattroff wstandout wstandend)
 
 AC_TRY_LINK([#include <unistd.h>], [getdtablesize();])
 AC_OUTPUT(Makefile Makefile.config object/Makefile gopher/Makefile gopher/locales/Makefile doc/Makefile gophfilt/Makefile)

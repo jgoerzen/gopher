@@ -1056,6 +1056,8 @@ showfile(GopherObj *ZeGopher)
      FILE    *tmpfile;
      char    inputline[512];
      char    *view = NULL;
+     char    mkstemp_template[] = "/tmp/gopher-XXXXXX";
+     int     mkstemp_fd = -1;
      boolean WritePipe = FALSE,
              ForkOff   = FALSE;
      boolean GS2FileSucceeded = TRUE;
@@ -1101,9 +1103,15 @@ showfile(GopherObj *ZeGopher)
 	       /** Open a temporary file **/
 #ifdef VMS
 	       tmpfilename = tempnam(NULL,NULL);
-#else
+#else /* !VMS */
+#ifdef HAVE_MKSTEMP
+               mkstemp_fd = mkstemp(mkstemp_template);
+               tmpfile = fdopen(mkstemp_fd, "w");
+#else  /* ! HAVE_MKSTEMP */
 	       tmpfilename = tempnam("/tmp","gopher");
-#endif
+               tmpfile = fopen(tmpfilename, "w");
+#endif /* HAVE_MKSTEMP */
+#endif /* VMS */
 
 #if defined(VMS)  && defined(VMSRecords)
 	       if (GSisText(ZeGopher, view))
@@ -1112,11 +1120,8 @@ showfile(GopherObj *ZeGopher)
 	       else
 		    /*** Use FIXED 512 records for binaries on VMS ***/
 	            tmpfile = fopen_FIX(tmpfilename, "w");
-
+#endif      /* VMS */
 	       if (tmpfile == NULL) {
-#else
-	       if ((tmpfile = fopen(tmpfilename, "w")) == NULL) {
-#endif
 		    CURexit(CursesScreen);
 		    fprintf(stderr, Gtxt("Couldn't make a tmp file!\n",83)), 
 		    CleanupandExit(-1);
