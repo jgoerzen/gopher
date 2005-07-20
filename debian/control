@@ -2,13 +2,13 @@ Source: gopher
 Section: net
 Priority: optional
 Maintainer: John Goerzen <jgoerzen@complete.org>
-Standards-Version: 3.6.1
+Standards-Version: 3.6.2
 Build-Depends: debhelper (>= 4.0.0), ncurses-dev, autoconf2.13
 
 Package: gopher
 Provides: gopher-client
 Architecture: any
-Depends: ${shlibs:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Distributed Hypertext Client, Gopher protocol
  This package contains the client for the distributed global directory
  and hypertext system known as gopher.  This is a text-based (ncurses)
