@@ -4,5 +4,5 @@
 
 #define GOPHER_MAJOR_VERSION "3"
 #define GOPHER_MINOR_VERSION "0"
-#define PATCHLEVEL 5
+#define PATCHLEVEL 9
 #define GOPHER_NICKNAME "FurryTerror"

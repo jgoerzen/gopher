@@ -1,3 +1,9 @@
+gopher (3.0.9) unstable; urgency=low
+
+  * Updated version number in patchlevel.h.  (Oops, it still says 3.0.5)
+
+ -- John Goerzen <jgoerzen@complete.org>  Wed, 20 Jul 2005 05:55:50 -0500
+
 gopher (3.0.8) unstable; urgency=low
 
   * Fix compile error with gcc 3.4.  Closes: #258752.
