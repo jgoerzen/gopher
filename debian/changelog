@@ -1,7 +1,8 @@
 gopher (3.0.8) unstable; urgency=low
 
   * Fix compile error with gcc 3.4.  Closes: #258752.
-  * Fixed warnings relating to prototypes.  Closes: #226552.
+  * Fixed warnings relating to prototypes.  In download.c,
+    prefer getcwd() to get_current_dir_name().  Closes: #226552.
   * No longer crash on problems piping to external programs.
     Thanks, Goeran Weinholt, for the patch.  Closes: #128990.
   * Install makes dirs for manpages if they don't already exist.

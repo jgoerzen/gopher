@@ -255,11 +255,11 @@ Download_file(GopherObj *gs)
 	  }
      }
 
-#ifdef HAVE_GET_CURRENT_DIR_NAME
-       curcwd = get_current_dir_name();
-#else
 #ifdef HAVE_GETCWD
      getcwd(curcwd, MAXPATHLEN);
+#else
+#ifdef HAVE_GET_CURRENT_DIR_NAME
+       curcwd = get_current_dir_name();
 #else
      getwd(curcwd);
 #endif /* HAVE_GETCWD */
