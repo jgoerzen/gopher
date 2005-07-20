@@ -60,15 +60,15 @@ install: build
 	dh_clean -k
 	dh_installdirs
 
-	# Add here commands to install the package into debian/tmp.
-	$(MAKE) install prefix=`pwd`/debian/tmp/usr \
-		PREFIX=`pwd`/debian/tmp/usr \
-		DESTDIR=`pwd`/debian/tmp
+	# Add here commands to install the package into debian/gopher.
+	$(MAKE) install prefix=`pwd`/debian/gopher/usr \
+		PREFIX=`pwd`/debian/gopher/usr \
+		DESTDIR=`pwd`/debian/gopher
 
-	chmod -R a-x debian/tmp/etc
+	chmod -R a-x debian/gopher/etc
 
 	dh_movefiles
-	chmod u+x debian/tmp/etc/gopher debian/tmp/etc 
+	chmod u+x debian/gopher/etc/gopher debian/gopher/etc 
 
 # Build architecture-independent files here.
 # Pass -i to all debhelper commands in this target to reduce clutter.
