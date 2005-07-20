@@ -3088,7 +3088,8 @@ normal_describe:
 #else  /* ! VMS */
 #ifdef HAVE_MKSTEMP
      mkstemp_fd = mkstemp(mkstemp_template);
-     Gopenfile = mkstemp_template;
+     tmpfilename = strdup(mkstemp_template);
+     Gopenfile = tmpfilename;
      tmpfile = fdopen(mkstemp_fd, "w");
 #else /* ! HAVE_MKSTEMP */
      Gopenfile = tmpfilename = tempnam("/tmp", "gopher");
@@ -3102,9 +3103,7 @@ normal_describe:
 	  fprintf(stderr, Gtxt("Couldn't make a tmp file!\n",83)), 
 	  CleanupandExit(-1);
      }
-#if defined(VMS) || (!defined(HAVE_MKSTEMP))
      free(tmpfilename);
-#endif
 
 #ifdef DESCRIBE_GOPHER_GRIPE
 format_description:
