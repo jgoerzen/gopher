@@ -1,3 +1,12 @@
+gopher (3.0.10) unstable; urgency=low
+
+  * Version 3.0.8 fixed the security bug that was later submitted
+    as CAN-2005-1853 and DSA-770-1.
+  * The upload for this changelog notice was requested by the Debian 
+    testing-security team.
+
+ -- John Goerzen <jgoerzen@complete.org>  Sat, 30 Jul 2005 16:16:07 -0500
+
 gopher (3.0.9) unstable; urgency=low
 
   * Updated version number in patchlevel.h.  (Oops, it still says 3.0.5)
