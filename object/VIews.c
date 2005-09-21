@@ -227,6 +227,11 @@ VIfromLine(VIewobj *vi, char *line)
      char tmpstr[256], *cp;
      int i;
 
+     if (strlen(line) >= 200)
+       /* Security: make sure the incoming data won't exceed the buffer. 
+          Pick 200 since that's already larger than any legit data. */
+       return (FALSE);
+
      /** Okay, read until the next space, put the result in tmpstr **/
      for (cp = line,i=0; (*cp != ' '&&*cp!='\0'&&*cp!=':'); cp++,i++)
 	  tmpstr[i] = *cp;
