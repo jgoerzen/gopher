@@ -1,8 +1,8 @@
-gopher (3.0.11) unstable; urgency=low
+gopher (3.0.11) unstable; urgency=high
 
   * [security] Fix for client buffer overflows [CAN-2005-2772].
 
- -- John Goerzen <jgoerzen@complete.org>  Wed, 21 Sep 2005 06:24:02 -0500
+ -- John Goerzen <jgoerzen@complete.org>  Thu, 22 Sep 2005 05:24:02 -0500
 
 gopher (3.0.10) unstable; urgency=low
 
