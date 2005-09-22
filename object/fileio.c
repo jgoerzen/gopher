@@ -807,12 +807,12 @@ FIOgetargv(char *cmd)
      int           inquote = 0;
      int           insquote = 0;
      int           i;
-     static char  *argv[128];		/* Sufficient for now.. */
+     static char  *argv[256];		/* Sufficient for now.. */
      int           argc = 0;
      char          buf[256];
      char         *cp = buf;
 
-     if (cmd == NULL)
+     if (cmd == NULL || strlen(cmd) >= 245)
 	  return(NULL);
 
      for (i=0; cmd[i] != '\0'; i++) {
