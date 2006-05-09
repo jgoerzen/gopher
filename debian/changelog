@@ -1,3 +1,9 @@
+gopher (3.0.12) unstable; urgency=low
+
+  * Applied patch to make it build for Hurd.  Closes: #346447.
+
+ -- John Goerzen <jgoerzen@complete.org>  Tue,  9 May 2006 10:37:49 -0500
+
 gopher (3.0.11) unstable; urgency=high
 
   * [security] Fix for client buffer overflows [CAN-2005-2772].
