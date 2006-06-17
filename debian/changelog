@@ -1,3 +1,10 @@
+gopher (3.0.13) unstable; urgency=low
+
+  * More changes to download.c to prefer getcwd() to get_current_dir_name().
+    Closes: #366560.
+
+ -- John Goerzen <jgoerzen@complete.org>  Sat, 17 Jun 2006 11:10:31 -0500
+
 gopher (3.0.12) unstable; urgency=low
 
   * Applied patch to make it build for Hurd.  Closes: #346447.
