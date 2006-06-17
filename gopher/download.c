@@ -255,11 +255,11 @@ Download_file(GopherObj *gs)
 	  }
      }
 
-#ifdef HAVE_GET_CURRENT_DIR_NAME
-       curcwd = get_current_dir_name();
-#else
 #ifdef HAVE_GETCWD
      getcwd(curcwd, MAXPATHLEN);
+#else
+#ifdef HAVE_GET_CURRENT_DIR_NAME
+       curcwd = get_current_dir_name();
 #else
      getwd(curcwd);
 #endif 
@@ -401,6 +401,9 @@ BuiltinDownload(char *dirname)
 
      GSsetPath(gs, names[choice]);
      
+#ifdef HAVE_GETCWD
+     getcwd(tmppath,MAXPATHLEN);
+#else
 #ifdef HAVE_GET_CURRENT_DIR_NAME
      tmppath = get_current_dir_name();
      if ( sizeof(tmppath) <= (strlen(tmppath) + strlen(names[choice]) + 1) )
@@ -409,9 +412,6 @@ BuiltinDownload(char *dirname)
          CursesErrorMsg("Out of memory");
 	 return;
      }
-#else
-#ifdef HAVE_GETCWD
-     getcwd(tmppath,MAXPATHLEN);
 #else
      getwd(tmppath);
 #endif
