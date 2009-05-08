@@ -177,11 +177,11 @@ RANLIB = @RANLIB@
 #-------------------------------------------------
 # Where shall we install stuff?
 #
-PREFIX          = @prefix@
-prefix		= @prefix@
-SYSCONFDIR	= @sysconfdir@
+PREFIX          = $(DESTDIR)@prefix@
+prefix		= $(DESTDIR)@prefix@
+SYSCONFDIR	= $(DESTDIR)@sysconfdir@
 CLIENTDIR	= $(PREFIX)/bin
-CLIENTLIB       = $(DESTDIR)/$(SYSCONFDIR)/gopher
+CLIENTLIB       = $(SYSCONFDIR)
 SERVERDIR	= $(PREFIX)/sbin
 
 # On SCO manuals are in /usr/man but its easiest to do a 
