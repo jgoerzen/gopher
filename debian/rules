@@ -19,16 +19,17 @@ configure: configure-stamp
 configure-stamp:
 	dh_testdir
 	# Add here commands to configure the package.
-	autoconf2.13
-	autoheader2.13
+	autoconf
+	autoheader
+	ln -vs /usr/share/gnulib/lib/getloadavg.c .
 	./configure --prefix=/usr --mandir=\$${prefix}/share/man \
 		--infodir=\$${prefix}/share/info --disable-auth \
 		--sysconfdir=/etc
 
 	touch configure-stamp
 
-build: configure-stamp build-stamp
-build-stamp:
+build: build-stamp
+build-stamp: configure-stamp
 	dh_testdir
 
 	# Add here commands to compile the package.
@@ -49,7 +50,7 @@ clean:
 	-rm -f `find . -name "config.log"`
 	-rm -f Makefile.config gopher/Makefile gopher/locales/Makefile \
 		Makefile config.h doc/Makefile \
-		gophfilt/Makefile object/Makefile
+		gophfilt/Makefile object/Makefile getloadavg.c
 
 	dh_clean
 
