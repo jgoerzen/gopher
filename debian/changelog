@@ -1,13 +1,12 @@
-gopher (3.0.13+nmu1) unstable; urgency=medium
+gopher (3.0.1r) unstable; urgency=medium
 
-  * Non-maintainer upload
-  * Fix FTBFS (Closes: #798758)
+  * Fix Debian (Closes: #798758) thanks to patch from Axel Beckert
     + Use autoconf and gnulib instead of autoconf2.13.
     + debian/rules: configure-stamp is a dependency of build-stamp, not build.
     + debian/rules: Add symlink to /usr/share/gnulib/lib/getloadavg.c and
       remove it again in the clean target.
 
- -- Axel Beckert <abe@debian.org>  Sun, 20 Sep 2015 18:04:44 +0200
+ -- John Goerzen <jgoerzen@complete.org>  Sun, 20 Sep 2015 18:04:44 +0200
 
 gopher (3.0.13) unstable; urgency=low
 
