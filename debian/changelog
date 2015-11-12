@@ -1,4 +1,4 @@
-gopher (3.0.1r) unstable; urgency=medium
+gopher (3.0.14) unstable; urgency=medium
 
   * Fix Debian (Closes: #798758) thanks to patch from Axel Beckert
     + Use autoconf and gnulib instead of autoconf2.13.
@@ -6,7 +6,7 @@ gopher (3.0.1r) unstable; urgency=medium
     + debian/rules: Add symlink to /usr/share/gnulib/lib/getloadavg.c and
       remove it again in the clean target.
 
- -- John Goerzen <jgoerzen@complete.org>  Sun, 20 Sep 2015 18:04:44 +0200
+ -- John Goerzen <jgoerzen@complete.org>  Thu, 12 Nov 2015 11:47:19 -0600
 
 gopher (3.0.13) unstable; urgency=low
 
