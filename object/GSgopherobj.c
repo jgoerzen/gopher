@@ -2020,6 +2020,7 @@ GSfromURL(GopherObj *gs, char *urltxt, char *host, int port, int doneflags)
 	       doneflags |= G_PATH;
 	  }
 	  if (! (doneflags & G_TYPE)) {
+            if (URLgetPath(url) != NULL) {
 	       if ((*(URLgetPath(url)) == '\0') ||
 	            *(URLgetPath(url) + strlen(URLgetPath(url))-1) == '/')
 		    GSsetType(gs, A_DIRECTORY);
@@ -2027,6 +2028,7 @@ GSfromURL(GopherObj *gs, char *urltxt, char *host, int port, int doneflags)
 		    GSsetType(gs, A_FILE);
 
 	       doneflags |= G_TYPE;
+            }
 	  }
      } else {
 	  if (! (doneflags & G_HOST)) {
