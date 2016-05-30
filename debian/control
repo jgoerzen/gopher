@@ -3,7 +3,7 @@ Section: net
 Priority: optional
 Maintainer: John Goerzen <jgoerzen@complete.org>
 Standards-Version: 3.6.2
-Build-Depends: debhelper (>= 4.0.0), ncurses-dev, autoconf, gnulib
+Build-Depends: debhelper (>= 9), ncurses-dev, autoconf, gnulib
 
 Package: gopher
 Provides: gopher-client
