@@ -392,9 +392,9 @@ Display_Dir_Page(GopherDirObj *gopherdir,
 	       for (j=0; j <= MenuBytePad; j++)
 		    addch(' ');
 
-	       if (iOffset > 9)
+	       if (iOffset >= 9)
 		    addch(' ');
-	       if (iOffset >99)
+	       if (iOffset >= 99)
 		    addch(' ');
 	  } else {
 	       printw(MenuStyle, iOffset +1);
