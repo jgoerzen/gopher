@@ -1,3 +1,11 @@
+gopher (3.0.17) unstable; urgency=medium
+
+  * dh_clean -k -> dh_prep (debhelper)
+  * Bump standards-version
+  * Fix alignment issue in gopher directories.  Closes: #789892.
+
+ -- John Goerzen <jgoerzen@fastly.com>  Thu, 03 Oct 2019 23:13:11 -0500
+
 gopher (3.0.16) unstable; urgency=low
 
   * Bump compat to 9.  Closes: #817485.
