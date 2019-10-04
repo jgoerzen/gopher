@@ -1,3 +1,9 @@
+gopher (3.0.17.2) unstable; urgency=low
+
+  * Really fix it this time.
+
+ -- John Goerzen <jgoerzen@complete.org>  Fri, 04 Oct 2019 00:27:15 -0500
+
 gopher (3.0.17.1) unstable; urgency=medium
 
   * Correct a mistake in debian/changelog
@@ -10,7 +16,7 @@ gopher (3.0.17) unstable; urgency=medium
   * Bump standards-version
   * Fix alignment issue in gopher directories.  Closes: #789892.
 
- -- John Goerzen <jgoerzen@fastly.com>  Thu, 03 Oct 2019 23:13:11 -0500
+ -- John Goerzen <jgoerzen@complete.org>  Thu, 03 Oct 2019 23:13:11 -0500
 
 gopher (3.0.16) unstable; urgency=low
 
