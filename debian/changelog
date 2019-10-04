@@ -1,3 +1,9 @@
+gopher (3.0.17.1) unstable; urgency=medium
+
+  * Correct a mistake in debian/changelog
+
+ -- John Goerzen <jgoerzen@complete.org>  Fri, 04 Oct 2019 00:24:19 -0500
+
 gopher (3.0.17) unstable; urgency=medium
 
   * dh_clean -k -> dh_prep (debhelper)
