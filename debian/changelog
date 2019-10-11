@@ -1,3 +1,9 @@
+gopher (3.0.17.3) unstable; urgency=medium
+
+  * Remove empty directories.  Closes: #942181.
+
+ -- John Goerzen <jgoerzen@complete.org>  Fri, 11 Oct 2019 11:09:18 -0500
+
 gopher (3.0.17.2) unstable; urgency=low
 
   * Really fix it this time.
