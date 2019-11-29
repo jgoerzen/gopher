@@ -1282,11 +1282,11 @@ Save_file(GopherObj *gs, char *saveto, char *view)
      if (view == NULL || view == "")
 	  return;
 
-     /*** Get the Title ***/
+     /* Get the Path and save the base name
+      * to use as a default filename.
+      */
      strcpy(Title, basename(GSgetPath(gs)));
 
-     /*** Construct a nice default filename ***/
-     
      if (saveto == NULL) {
   	/* It shouldnt ever come here if Secure, but I've noticed calls 
      	to this in the code */
