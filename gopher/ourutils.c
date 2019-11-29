@@ -1283,7 +1283,7 @@ Save_file(GopherObj *gs, char *saveto, char *view)
 	  return;
 
      /*** Get the Title ***/
-     strcpy(Title, GSgetTitle(gs));
+     strcpy(Title, basename(GSgetPath(gs)));
 
      /*** Construct a nice default filename ***/
      
