@@ -173,8 +173,8 @@ PagerTitles(CursesObj *cur, GopherObj *gs, int totalbytes)
      wboldout(stdscr);
 
      fluff_len = 11 + (k_bytes/10);     /* 11 = strlen("_(0k)_100%_"); */
-     if((strlen(GSgetTitle(gs))) <= (COLS-fluff_len)) {
-       waddstr(stdscr, GSgetTitle(gs));
+     if((strlen(basename(GSgetPath(gs)))) <= (COLS-fluff_len)) {
+       waddstr(stdscr, basename(GSgetPath(gs)));
      } else {
        cp = GSgetTitle(gs);
        for(i = 0; i < (COLS-(fluff_len+3)); i++) {
