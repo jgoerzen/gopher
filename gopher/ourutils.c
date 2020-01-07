@@ -1282,13 +1282,13 @@ Save_file(GopherObj *gs, char *saveto, char *view)
      if (view == NULL || view == "")
 	  return;
 
-     /*** Get the Title ***/
-     strcpy(Title, GSgetTitle(gs));
+     /* Get the Path and save the base name
+      * to use as a default filename.
+      */
+     strncpy(Title, basename(GSgetPath(gs)), 127);
 
-     /*** Construct a nice default filename ***/
-     
      if (saveto == NULL) {
-  	/* It shouldnt ever come here if Secure, but I've noticed calls 
+  	/* It shouldnt ever come here if Secure, but I've noticed calls
      	to this in the code */
   	if (NoShellMode || SecureMode) {
 		CursesErrorMsg(Gtxt("Sorry, you are not allowed to do this", 64));
