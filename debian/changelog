@@ -1,3 +1,15 @@
+gopher (3.0.17.3+nmu1) unstable; urgency=high
+
+  * Non-maintainer upload.
+  * debian/source/format: Explicitly use "3.0 (native)" format.
+  * debian/changelog: Remove trailing spaces.
+  * debian/rules: Provide recommended targets: build-arch, build-indep.
+  * debian/rules: Use dh_autoreconf and dh_auto_configure to fix FTBFS
+    with autoconf 2.70+. (Closes: #978822)
+    + Also fixes FTCBFS. (Closes: #950897)
+
+ -- Boyuan Yang <byang@debian.org>  Sat, 18 Sep 2021 01:57:34 -0400
+
 gopher (3.0.17.3) unstable; urgency=medium
 
   * Remove empty directories.  Closes: #942181.
@@ -69,7 +81,7 @@ gopher (3.0.10) unstable; urgency=low
 
   * Version 3.0.8 fixed the security bug that was later submitted
     as CAN-2005-1853 and DSA-770-1.
-  * The upload for this changelog notice was requested by the Debian 
+  * The upload for this changelog notice was requested by the Debian
     testing-security team.
 
  -- John Goerzen <jgoerzen@complete.org>  Sat, 30 Jul 2005 16:16:07 -0500
@@ -198,7 +210,7 @@ gopher (3.0.2) unstable; urgency=low
     resolve to ./install-sh.  Replaced all instances of
     $(INSTALL) with @INSTALL@ (autoconf would provide the correct
     path) and removed INSTALL from Makefile.config.  Reported
-    by Don Fike <fike@cs.utk.edu> on Solaris 2.6. 
+    by Don Fike <fike@cs.utk.edu> on Solaris 2.6.
   * Updated our copy of install-sh with the one from
     a current automake.
   * Updated patchlevel.h for release of 3.0.2.
@@ -228,7 +240,7 @@ gopher (3.0.0-1) unstable; urgency=low
   * Updated copyright files, etc. with current info.
   * Updated the locales with semi-current copyright stuff.
   * Updated greeting in gopher and gopherd.
-  * This is Gopher 3.0.0, the Furry Terror release.  
+  * This is Gopher 3.0.0, the Furry Terror release.
 
  -- John Goerzen <jgoerzen@complete.org>  Tue,  8 Jan 2002 15:31:00 -0500
 

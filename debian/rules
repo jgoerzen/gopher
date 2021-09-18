@@ -16,16 +16,17 @@ configure: configure-stamp
 configure-stamp:
 	dh_testdir
 	# Add here commands to configure the package.
-	autoconf
-	autoheader
+	dh_autoreconf
 	ln -vs /usr/share/gnulib/lib/getloadavg.c .
-	./configure --prefix=/usr --mandir=\$${prefix}/share/man \
-		--infodir=\$${prefix}/share/info --disable-auth \
-		--sysconfdir=/etc
-
+	dh_auto_configure -- --disable-auth
 	touch configure-stamp
 
-build: build-stamp
+build: build-arch build-indep
+
+build-arch: build-stamp
+
+build-indep: build-stamp
+
 build-stamp: configure-stamp
 	dh_testdir
 
@@ -132,4 +133,4 @@ binary-arch: build install
 	dh_builddeb
 
 binary: binary-arch
-.PHONY: build clean binary-arch binary install
+.PHONY: build clean binary-arch binary install build-arch build-indep
