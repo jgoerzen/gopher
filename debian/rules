@@ -64,10 +64,10 @@ install: build
 		PREFIX=`pwd`/debian/gopher/usr \
 		DESTDIR=`pwd`/debian/gopher
 
-	chmod -R a-x debian/gopher/etc
+	#chmod -R a-x debian/gopher/etc
 
 	#dh_movefiles
-	chmod u+x debian/gopher/etc/gopher debian/gopher/etc 
+	#chmod u+x debian/gopher/etc/gopher debian/gopher/etc 
 
 # Build architecture-independent files here.
 # Pass -i to all debhelper commands in this target to reduce clutter.

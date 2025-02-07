@@ -1,3 +1,10 @@
+gopher (3.0.17.4) unstable; urgency=medium
+
+  * Ack NMU.
+  * No longer chmod in debian/rules.  Closes: #1092431.
+
+ -- John Goerzen <jgoerzen@complete.org>  Thu, 06 Feb 2025 19:34:48 -0600
+
 gopher (3.0.17.3+nmu1) unstable; urgency=high
 
   * Non-maintainer upload.
