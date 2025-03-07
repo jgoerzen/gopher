@@ -151,6 +151,9 @@
 #include "manager.h"
 #include "util.h"
 
+static int MenuMargin = 8;
+static int MenuLineMax = 69;
+
 #ifdef NOBANNER
 #  define MENULINE(x)   (x)+1
 #else
@@ -219,9 +222,8 @@ void
 DisplayTitle(GopherObj *gs, int maxlength, boolean dogplus)
 {
      char type;
-     char *c, *d;
+     char *d;
      char *size;
-     int  m,n;
      char temp[1024];
 
      type = GSgetType(gs);
@@ -271,23 +273,13 @@ DisplayTitle(GopherObj *gs, int maxlength, boolean dogplus)
      
      if (d==NULL)
 	  d = "error";
-     
-     if((m = strlen(d)) <= maxlength)
-	  printw(" %s", d);
-     else {
-	  /*** Cut out the middle bits **/
-	  if ((c = strchr(d, '/'))!=NULL && (maxlength > (c-d))) {
-	       n = c - d;
-	       strncpy(temp, d, n);
-	       strcpy(temp + n, "..");
-	       strcat(temp, d + (m + n - maxlength));
-	       printw(" %s", temp);
-	  } else {
-	       /** Trunc it.. **/
-	       strcpy(temp, d);
-	       temp[maxlength] ='\0';
-	       printw(" %s..", temp);
-	  }
+
+     if(strlen(d) <= maxlength)
+      printw("%s", d);
+     else { /** Trunc it.. **/
+      strcpy(temp, d);
+      temp[maxlength-2] ='\0';
+      printw("%s..", temp);
      }
      
      switch(type)
@@ -362,17 +354,17 @@ Display_Dir_Page(GopherDirObj *gopherdir,
      boolean dogplus = FALSE;
      GopherObj *gs;
      static char *MenuStyle = NULL;
-     static int MenuBytePad;
      int j;
 
+     /* Hide the cursor */
+     curs_set(0);
 
      /*** Clear the screen and redraw the top line **/
      clear();
      Draw_Banner();
      if (MenuStyle == NULL) {
 	  if ((MenuStyle = getenv("GOPHERMENUSTYLE")) == NULL)
-	       MenuStyle = "[%d]";
-	  MenuBytePad = strlen(MenuStyle)-2;
+         MenuStyle = " %6d "; /* up to 6 index digits (999999)*/
      }
 
 
@@ -386,24 +378,17 @@ Display_Dir_Page(GopherDirObj *gopherdir,
      for (i= 0, iOffset = (nNewPage-1) * iPageLen; i <iLoop; i++, iOffset++) {
 	  gs = GDgetEntry(gopherdir, iOffset);
 
-	  move(MENULINE(i+1), 6);
+	  move(MENULINE(i+1), 0);
 
 	  if (GSgetType(gs) == A_INFO) {
-	       for (j=0; j <= MenuBytePad; j++)
-		    addch(' ');
-
-	       if (iOffset >= 9)
-		    addch(' ');
-	       if (iOffset >= 99)
+	       for (j=0; j < MenuMargin; j++)
 		    addch(' ');
 	  } else {
 	       printw(MenuStyle, iOffset +1);
 	  }
-	  if (iOffset + 1 < 10)
-	       addch(' ');
 
 	  dogplus = GSisGplus(GDgetEntry(gopherdir, iOffset));
-	  DisplayTitle(GDgetEntry(gopherdir, iOffset), COLS-13, dogplus);
+	  DisplayTitle(GDgetEntry(gopherdir, iOffset), COLS-MenuMargin, dogplus);
      }
 }
 
@@ -485,12 +470,12 @@ scline(int iOldGopher, int iNewGopher, GopherDirObj *gophersdir)
 
      sprintf(sPagenum, Gtxt("  Page: %d/%d",56), nNewPage, nMaxPages);
      Draw_Status(sPagenum);
-     mvaddstr(MENULINE(iOldLine), 1, "   ");
+     mvchgat(MENULINE(iOldLine), MenuMargin, MenuLineMax, A_NORMAL, 1, NULL);
      if ( (GSgetType(GDgetEntry(gophersdir, iNewGopher-1)) == A_INFO) ||
 	  (GSgetType(GDgetEntry(gophersdir, iNewGopher-1)) == A_ERROR) )
-	  mvaddstr(MENULINE(iNewLine), 1, "---");
+      mvaddstr(MENULINE(iNewLine), 1, "X");
      else
-	  mvaddstr(MENULINE(iNewLine), 1, "-->");
+      mvchgat(MENULINE(iNewLine), MenuMargin, MenuLineMax, A_REVERSE, 1, NULL);
      refresh();
 
      return(iNewGopher);
