@@ -198,14 +198,6 @@ Download_file(GopherObj *gs)
      int    start, end;
      struct stat buf;
 
-#if defined(HAVE_GETCWD) && !defined(HAVE_GET_CURRENT_DIR_NAME)
-     curcwd = (char *) malloc(MAXPATHLEN + 2);
-     if (!curcwd) {
-         CursesErrorMsg("Out of memory.");
-         return;
-     }
-#endif
-
      switch (GSgetType(gs)) {
      case A_DIRECTORY:
      case A_CSO:
@@ -256,14 +248,20 @@ Download_file(GopherObj *gs)
      }
 
 #ifdef HAVE_GETCWD
-     getcwd(curcwd, MAXPATHLEN);
+     curcwd = getcwd(NULL, 0);
 #else
 #ifdef HAVE_GET_CURRENT_DIR_NAME
-       curcwd = get_current_dir_name();
+     curcwd = get_current_dir_name();
 #else
+     curcwd = (char *) malloc(MAXPATHLEN + 2);
+     if (!curcwd) {
+         CursesErrorMsg("Out of memory.");
+         return;
+     }
+
      getwd(curcwd);
-#endif 
-#endif /* HAVE_GET_CURRENT_DIR_NAME */
+#endif /* HAVE_GET_CURRENT_DIR_NAME */ 
+#endif
 
 #ifdef VMS
      if (chdir("SYS$SCRATCH")!=0) {
@@ -343,9 +341,7 @@ Download_file(GopherObj *gs)
      fflush(stdout);
      getchar();
      CURenter(CursesScreen);
-#if defined(HAVE_GETCWD) || !defined(HAVE_GET_CURRENT_DIR_NAME)
      free(curcwd);
-#endif
      
 }
 
@@ -362,15 +358,6 @@ BuiltinDownload(char *dirname)
      int fcount=0, choice;
      char *tmppath;
      GopherObj *gs;
-
-
-#if defined(HAVE_GETCWD) && !defined(HAVE_GET_CURRENT_DIR_NAME)
-    tmppath = (char*)malloc(MAXPATHLEN * 3 + 2);
-    if ( !tmppath ) {
-      CursesErrorMsg("Cannot allocate memory");
-      return;
-      }
-#endif
 
      thedir = opendir(dirname);
      chdir(dirname);
@@ -400,22 +387,32 @@ BuiltinDownload(char *dirname)
      GSplusnew(gs);
 
      GSsetPath(gs, names[choice]);
-     
+
 #ifdef HAVE_GETCWD
-     getcwd(tmppath,MAXPATHLEN);
+     tmppath = getcwd(NULL, 0);
 #else
 #ifdef HAVE_GET_CURRENT_DIR_NAME
-     tmppath = get_current_dir_name();
-     if ( sizeof(tmppath) <= (strlen(tmppath) + strlen(names[choice]) + 1) )
-       tmppath = realloc(tmppath,sizeof(tmppath) + strlen(names[choice] + 1));
-     if ( !tmppath ) {
-         CursesErrorMsg("Out of memory");
-	 return;
-     }
+     tmppath = get_current_dir_name(); 
 #else
+     tmppath = (char*)malloc(MAXPATHLEN * 3 + 2);
+     if ( !tmppath ) {
+        CursesErrorMsg("Cannot allocate memory");
+     return;
+     }
+
      getwd(tmppath);
 #endif
-#endif      
+#endif
+
+#if defined(HAVE_GETCWD) || defined(HAVE_GET_CURRENT_DIR_NAME)
+     if ( sizeof(tmppath) <= (strlen(tmppath) + strlen(names[choice]) + 1) )
+        tmppath = realloc(tmppath,sizeof(tmppath) + strlen(names[choice] + 1));
+     if ( !tmppath ) {
+        CursesErrorMsg("Out of memory");
+	return;
+     }
+#endif
+
      strcat(tmppath, "/");
      strcat(tmppath, names[choice]);
 
@@ -429,9 +426,8 @@ BuiltinDownload(char *dirname)
      for (fcount = 0; names[fcount] != NULL;) {
 	  free(names[fcount++]);
      }
-#if defined(HAVE_GETCWD) || !defined(HAVE_GET_CURRENT_DIR_NAME)
+
      free(tmppath);
-#endif
 }
 #else
 void
