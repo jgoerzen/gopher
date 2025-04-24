@@ -1,7 +1,8 @@
 This package was debianized by John Goerzen <jgoerzen@complete.org> on
 Thu, 17 Aug 2000 15:16:07 -0500.
 
-It was downloaded from gopher://quux.org/1/devel/gopher
+It was originally downloaded from gopher://quux.org/1/devel/gopher
+Current versions are at https://github.com/jgoerzen/gopher
 
 Old Upstream Author(s): University of Minnesota
 Current Upstream Authors: John Goerzen and the gopher team
@@ -10,7 +11,7 @@ Copyright:
 
 Gopher software distribution for UNIX
 Copyright (C) 1991-2000  University of Minnesota
-Copyright (C) 2000-2005  John Goerzen and the gopher developers
+Copyright (C) 2000-2025  John Goerzen and the gopher developers
 
 This package (Gopher software distribution for UNIX)
 originally had different copying restrictions.
