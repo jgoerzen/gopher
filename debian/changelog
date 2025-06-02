@@ -1,3 +1,9 @@
+gopher (3.0.19) unstable; urgency=medium
+
+  * Fix GCC 14 compatibility.
+
+ -- John Goerzen <jgoerzen@complete.org>  Mon, 02 Jun 2025 11:53:22 -0500
+
 gopher (3.0.18) unstable; urgency=medium
 
   * Apply Hurd compatibility patch from João Pedro Malhado.
